@@ -25,7 +25,7 @@ namespace ChaosEngine {
 
             hr = D3D12CreateDevice(NULL, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&I_D3D_Device));      if (!SUCCEEDED(hr)) return hr;
 
-            D3D12_COMMAND_QUEUE_DESC _cmd_queue_desc;
+            D3D12_COMMAND_QUEUE_DESC _cmd_queue_desc{};
             _cmd_queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
             _cmd_queue_desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
             _cmd_queue_desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
@@ -35,7 +35,7 @@ namespace ChaosEngine {
 
             // SwapChain //
 
-            DXGI_MODE_DESC _DXGI_Mode_Desc;
+            DXGI_MODE_DESC _DXGI_Mode_Desc{};
             _DXGI_Mode_Desc.Width = (UINT)Property::Window::size.width;
             _DXGI_Mode_Desc.Height = (UINT)Property::Window::size.height;
             _DXGI_Mode_Desc.RefreshRate = { 1,60 }; // { Numerator, Denominator }
@@ -43,7 +43,7 @@ namespace ChaosEngine {
             _DXGI_Mode_Desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
             _DXGI_Mode_Desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-            DXGI_SWAP_CHAIN_DESC _DXGI_SwapChain_Desc;
+            DXGI_SWAP_CHAIN_DESC _DXGI_SwapChain_Desc{};
             _DXGI_SwapChain_Desc.BufferDesc = _DXGI_Mode_Desc;
             _DXGI_SwapChain_Desc.Flags = DXGI_SWAP_CHAIN_FLAG_DISPLAY_ONLY;
             _DXGI_SwapChain_Desc.OutputWindow = hWnd;

@@ -17,10 +17,10 @@ namespace ChaosEngine {
             bool GetWinAttris() {
 
                 // Size //
-                LPRECT lpRect = NULL;
-                if (!GetWindowRect(hWnd, lpRect)) return false;
-                size.width = (float)(lpRect->right - lpRect->left);
-                size.height = (float)(lpRect->bottom - lpRect->top);
+                RECT rect;
+                if (!GetWindowRect(hWnd, &rect)) return false;
+                size.width = (float)(rect.right - rect.left);
+                size.height = (float)(rect.bottom - rect.top);
 
 
                 return true;

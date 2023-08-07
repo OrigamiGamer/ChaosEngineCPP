@@ -9,6 +9,7 @@ namespace ChaosEngine {
         };
         struct Size2D {
             float width, height;
+            Size2D() = default;
         };
         struct Position {
             float x, y, z;

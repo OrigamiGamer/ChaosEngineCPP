@@ -23,6 +23,7 @@ void main() {
 HWND CreateWindowDemo() {
     HWND hWnd;
     HINSTANCE hInst = GetModuleHandleA("114514");
+    LPSTR WindowName = "Window - 114514";
     LPSTR ClassName = "114514";
 
     WNDCLASSEXA WndClassExA;
@@ -42,7 +43,7 @@ HWND CreateWindowDemo() {
     hWnd = CreateWindowExA(
         NULL,
         ClassName,
-        "Window -> 114514",
+        WindowName,
         NULL,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
