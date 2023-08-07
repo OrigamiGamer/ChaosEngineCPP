@@ -1,2 +1,2 @@
 # ChaosEngineCPP
- ChaosEngine for C++, 2D Game Engine
+ A version of ChaosEngine for C++ is developing...
