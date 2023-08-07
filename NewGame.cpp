@@ -6,44 +6,11 @@ using namespace std;
 
 #include "test.cpp"
 
-HWND createWindow() {
-    HWND hWnd;
-
-    WNDCLASSEXA WndClassExA;
-    WndClassExA.cbClsExtra = NULL;
-    WndClassExA.cbWndExtra = NULL;
-    WndClassExA.hbrBackground = NULL;
-    WndClassExA.hCursor = NULL;
-    WndClassExA.hIcon = NULL;
-    WndClassExA.hInstance = NULL;
-    WndClassExA.lpfnWndProc;
-    WndClassExA.lpszClassName = "114514";
-    // WndClassExA.lpszMenuName;
-    // WndClassExA.style;
-
-    ATOM hInstance = RegisterClassExA(&WndClassExA);
-
-    hWnd = CreateWindowA(
-        "114514",
-        "114514aaa",
-        NULL,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        NULL,
-        NULL,
-        NULL,
-        0
-    );
-
-    cout << hWnd << endl << GetLastError() << endl;
-
-    return hWnd;
-}
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+HWND CreateWindowDemo();
 
 void main() {
-    HWND hWnd = createWindow();
+    HWND hWnd = CreateWindowDemo();
 
     Engine* IEngine = new Engine();
     IEngine->Init(hWnd);
@@ -53,3 +20,46 @@ void main() {
     test();
 };
 
+HWND CreateWindowDemo() {
+    HWND hWnd;
+    HINSTANCE hInst = GetModuleHandleA("114514");
+    LPSTR ClassName = "114514";
+
+    WNDCLASSEXA WndClassExA;
+    WndClassExA.cbClsExtra = NULL;
+    WndClassExA.cbWndExtra = NULL;
+    WndClassExA.hbrBackground = NULL;
+    WndClassExA.hCursor = NULL;
+    WndClassExA.hIcon = NULL;
+    WndClassExA.hInstance = hInst;
+    WndClassExA.lpfnWndProc = WndProc;
+    WndClassExA.lpszClassName = ClassName;
+    // WndClassExA.lpszMenuName;
+    // WndClassExA.style;
+
+    RegisterClassExA(&WndClassExA);
+
+    hWnd = CreateWindowExA(
+        NULL,
+        ClassName,
+        "Window -> 114514",
+        NULL,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        NULL,
+        NULL,
+        hInst,
+        0
+    );
+
+    cout << hWnd << endl << GetLastError() << endl;
+
+    return hWnd;
+};
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+
+    return 0;
+};
