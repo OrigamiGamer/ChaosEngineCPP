@@ -1,0 +1,10 @@
+^F:\GITHUB\D2D DOCS\CHAOSENGINE\CHAOSENGINECPP\BUILD\CMAKEFILES\7CD94E66B9172D62F39C972DCB12D874\GENERATE.STAMP.RULE
+setlocal
+"F:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SF:/GitHub/D2D Docs/ChaosEngine/ChaosEngineCPP" "-BF:/GitHub/D2D Docs/ChaosEngine/ChaosEngineCPP/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "F:/GitHub/D2D Docs/ChaosEngine/ChaosEngineCPP/build/ChaosEngine.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
