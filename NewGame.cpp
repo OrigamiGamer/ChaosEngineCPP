@@ -1,66 +1,101 @@
 #pragma once
 #include "ChaosEngine\ChaosEngine.h"
+#include <thread>
 
 using namespace ChaosEngine;
 using namespace std;
 
 #include "test.cpp"
 
+// Define Processes
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-HWND CreateWindowDemo();
+DWORD LoadWindow();
+void Debug(HWND hWnd);
 
-void main() {
-    HWND hWnd = CreateWindowDemo();
 
-    Engine* IEngine = new Engine();
-    IEngine->Init(hWnd);
-
-    cout << "Game runnning!" << endl;
-
-    test();
+// Main
+int main() {
+    return LoadWindow();
 };
 
-HWND CreateWindowDemo() {
+DWORD LoadWindow() {
     HWND hWnd;
-    HINSTANCE hInst = GetModuleHandleA("114514");
-    LPSTR WindowName = "Window - 114514";
-    LPSTR ClassName = "114514";
+    HINSTANCE hInst = GetModuleHandleA(NULL);
+    LPSTR ClassName = "ChaosGameWin";
+    LPSTR WindowName = "114514";
 
-    WNDCLASSEXA WndClassExA;
-    WndClassExA.cbClsExtra = NULL;
-    WndClassExA.cbWndExtra = NULL;
-    WndClassExA.hbrBackground = NULL;
-    WndClassExA.hCursor = NULL;
-    WndClassExA.hIcon = NULL;
+    WNDCLASSEXA WndClassExA{};
+    WndClassExA.cbSize = sizeof(WNDCLASSEX);
     WndClassExA.hInstance = hInst;
-    WndClassExA.lpfnWndProc = WndProc;
     WndClassExA.lpszClassName = ClassName;
-    // WndClassExA.lpszMenuName;
-    // WndClassExA.style;
+    WndClassExA.lpfnWndProc = WndProc;
+    WndClassExA.style = CS_SAVEBITS | CS_DROPSHADOW;
+    WndClassExA.cbClsExtra = 0;
+    WndClassExA.cbWndExtra = 0;
+    WndClassExA.hIcon = NULL;
+    WndClassExA.hCursor = NULL;
+    WndClassExA.hbrBackground = NULL;
+    WndClassExA.lpszMenuName = NULL;
+    WndClassExA.hIconSm = NULL;
 
     RegisterClassExA(&WndClassExA);
+    cout << "RegClass -> " << GetLastError() << endl;
 
     hWnd = CreateWindowExA(
         NULL,
         ClassName,
         WindowName,
-        NULL,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
+        WS_OVERLAPPEDWINDOW,
+        0, 0,
+        1280, 720,
         NULL,
         NULL,
         hInst,
-        0
+        NULL
     );
+    if (hWnd == NULL) return GetLastError();
 
-    cout << hWnd << endl << GetLastError() << endl;
+    ShowWindow(hWnd, SW_SHOW);
+    UpdateWindow(hWnd);
 
-    return hWnd;
+    // Start Message Loop
+    MSG Msg;
+    while (GetMessageA(&Msg, hWnd, 0, 0)) {
+        TranslateMessage(&Msg);
+        DispatchMessageA(&Msg);
+        if (Msg.message == WM_QUIT)
+            return (DWORD)Msg.wParam;
+    };
+    cout << "Process ended" << endl;
+
+    return (DWORD)Msg.wParam;
 };
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg) {
+    case WM_CREATE:
+        cout << "Window -> Created" << endl;
+        Debug(hWnd);
+        
+        break;
+    case WM_CLOSE:
+        DestroyWindow(hWnd);
 
+        break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        
+        break;
+    default:
+        return DefWindowProcA(hWnd, uMsg, wParam, lParam);
+    };
     return 0;
+};
+
+void Debug(HWND hWnd) {
+    Engine* I_Engine = new Engine();
+    I_Engine->Init(hWnd);
+
+
+    test();
 };
