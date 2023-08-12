@@ -1,20 +1,39 @@
 #pragma once
-#include "Engine.h"
+#include "ChaosEngine.h"
 
 namespace ChaosEngine {
 
-    using namespace std;
+    namespace EngineX {
 
 
-    Engine::Engine() {
-        cout << "ChaosEngine run successfully!" << endl;
 
     };
 
-    BOOL Engine::Init(HWND hWnd) {
-        DirectX::Initialize(hWnd);
+    class Engine {
+    public:
+        Engine() {};
 
-        return true;
+        BOOL Start(WindowInitialProperty WndProp, EngineStartupProperty EngineProp) {
+            WindowX::InitWindow(WndProp);
+
+            Property::Engine::GameInit = EngineProp.GameInit;
+            Property::Engine::GameUpdate = EngineProp.GameUpdate;
+            Property::Engine::GameRender = EngineProp.GameRender;
+            Property::Engine::GameExit = EngineProp.GameExit;
+
+            if (Property::Engine::GameInit > NULL) LRESULT lr = Property::Engine::GameInit();
+
+            WindowX::StartMessageLoop();
+
+
+            return true;
+        };
+
+        BOOL Release() {
+
+            return true;
+        };
+
     };
 
 }
