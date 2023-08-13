@@ -119,7 +119,7 @@ namespace ChaosEngine {
                 // Property::Window::GetWinAttris();
                 InitDirectX(hWnd);
 
-                SetTimer(hWnd, 1, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
+                SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
 
                 break;
             case WM_SIZE:
@@ -138,7 +138,7 @@ namespace ChaosEngine {
 
                 break;
             case WM_ENGINE_FRAME:
-                Property::Engine::ProcList.GameUpdate();
+                Property::Engine::ProcList.GameUpdate();    //
 
                 break;
             case WM_CLOSE:
