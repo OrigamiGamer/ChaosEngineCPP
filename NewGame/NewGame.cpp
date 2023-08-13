@@ -1,7 +1,5 @@
 #pragma once
 #include "ChaosEngine.h"
-#include <thread>
-
 using namespace std;
 using namespace ChaosEngine;
 
