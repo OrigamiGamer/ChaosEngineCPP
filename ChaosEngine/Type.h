@@ -19,11 +19,15 @@ namespace ChaosEngine {
 
     typedef LRESULT(CALLBACK ENGINEPROC)();
 
-    struct EngineStartupProperty {
+    struct EngineProcList {
         ENGINEPROC* GameInit = NULL;
         ENGINEPROC* GameUpdate = NULL;
         ENGINEPROC* GameRender = NULL;
         ENGINEPROC* GameExit = NULL;
+    };
+
+    struct EngineStartupProperty {
+        EngineProcList ProcList;
     };
 
 

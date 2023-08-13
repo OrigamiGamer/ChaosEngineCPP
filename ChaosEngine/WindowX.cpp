@@ -61,18 +61,18 @@ namespace ChaosEngine {
         HWND InitWindow(WindowInitialProperty WndProp) {
             HWND hWnd;
             HINSTANCE hInst = GetModuleHandle(NULL);
-            LPSTR ClassName = "ChaosGameWin";
+            LPCSTR ClassName = "ChaosGameWin";
 
             WNDCLASSEX WndClassEx{};
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
-            WndClassEx.lpszClassName = ClassName;
+            WndClassEx.lpszClassName = (LPCWSTR)ClassName;
             WndClassEx.lpfnWndProc = WndProc;
             WndClassEx.style = CS_SAVEBITS | CS_DROPSHADOW;
             WndClassEx.cbClsExtra = 0;
             WndClassEx.cbWndExtra = 0;
             WndClassEx.hIcon = NULL;
-            WndClassEx.hCursor = NULL;
+            WndClassEx.hCursor = (HCURSOR)IDC_ARROW;
             WndClassEx.hbrBackground = NULL;
             WndClassEx.lpszMenuName = NULL;
             WndClassEx.hIconSm = NULL;
@@ -81,8 +81,8 @@ namespace ChaosEngine {
 
             hWnd = CreateWindowEx(
                 (DWORD)NULL,
-                (LPCSTR)ClassName,
-                (LPCSTR)WndProp.WndTitle,
+                (LPCWSTR)ClassName,
+                (LPCWSTR)WndProp.WndTitle,
                 WS_OVERLAPPEDWINDOW,
                 WndProp.x, WndProp.y,
                 WndProp.width, WndProp.height,
@@ -138,7 +138,7 @@ namespace ChaosEngine {
 
                 break;
             case WM_ENGINE_FRAME:
-                Property::Engine::GameUpdate();
+                Property::Engine::ProcList.GameUpdate();
 
                 break;
             case WM_CLOSE:

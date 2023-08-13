@@ -24,9 +24,9 @@
 
  /* Sources */
 
-#include "Memory.cpp"
+#include "Memory.h"
 #include "Type.h"
-#include "Model.cpp"
+#include "Model.h"
 #include "Property.cpp"
 #include "WindowX.cpp"
 #include "Engine.cpp"

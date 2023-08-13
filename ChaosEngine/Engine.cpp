@@ -4,7 +4,7 @@
 namespace ChaosEngine {
 
     namespace EngineX {
-
+        
 
 
     };
@@ -16,12 +16,8 @@ namespace ChaosEngine {
         BOOL Start(WindowInitialProperty WndProp, EngineStartupProperty EngineProp) {
             WindowX::InitWindow(WndProp);
 
-            Property::Engine::GameInit = EngineProp.GameInit;
-            Property::Engine::GameUpdate = EngineProp.GameUpdate;
-            Property::Engine::GameRender = EngineProp.GameRender;
-            Property::Engine::GameExit = EngineProp.GameExit;
-
-            if (Property::Engine::GameInit > NULL) LRESULT lr = Property::Engine::GameInit();
+            Property::Engine::ProcList = EngineProp.ProcList;
+            if (Property::Engine::ProcList.GameInit > NULL) LRESULT lr = Property::Engine::ProcList.GameInit();
 
             WindowX::StartMessageLoop();
 

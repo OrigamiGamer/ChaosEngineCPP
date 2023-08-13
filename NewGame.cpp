@@ -22,21 +22,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     // WndProp.width = 1280;
     // WndProp.height = 720;
 
+    EngineProcList ProcList;
+    ProcList.GameInit = &GameInit;
+    ProcList.GameUpdate = &GameUpdate;
+    ProcList.GameRender = &GameRender;
+    ProcList.GameExit = &GameExit;
     EngineStartupProperty EngineProp;
-    EngineProp.GameInit = &GameInit;
-    EngineProp.GameUpdate = &GameUpdate;
-    EngineProp.GameRender = &GameRender;
-    EngineProp.GameExit = &GameExit;
+    EngineProp.ProcList = ProcList;
 
     I_Engine->Start(WndProp, EngineProp);
     I_Engine->Release();
-
+    
 
     return 0;
 };
 
 LRESULT GameInit() {
-    
+
 
     return 0;
 };

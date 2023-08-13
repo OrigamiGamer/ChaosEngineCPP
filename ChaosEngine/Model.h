@@ -60,8 +60,9 @@ namespace ChaosEngine {
     }
 
     void _debug() {
-        Model::Scene scene = Model::Scene();
-        scene.SetSize(111, empty);
+        Model::Scene* scene = new  Model::Scene();
+        scene->SetSize(111, empty);
+
 
     };
 
