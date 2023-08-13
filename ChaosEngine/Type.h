@@ -14,7 +14,7 @@ namespace ChaosEngine {
         int width = 800, height = 600;
         int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
         LPSTR WndTitle = "New Game";
-        HWND hWndParent = 0;
+        HWND hWndParent = NULL;
     };
 
     typedef LRESULT(CALLBACK ENGINEPROC)();

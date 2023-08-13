@@ -72,7 +72,7 @@ namespace ChaosEngine {
             WndClassEx.cbClsExtra = 0;
             WndClassEx.cbWndExtra = 0;
             WndClassEx.hIcon = NULL;
-            WndClassEx.hCursor = (HCURSOR)IDC_ARROW;
+            WndClassEx.hCursor = NULL;
             WndClassEx.hbrBackground = NULL;
             WndClassEx.lpszMenuName = NULL;
             WndClassEx.hIconSm = NULL;
@@ -91,7 +91,10 @@ namespace ChaosEngine {
                 hInst,
                 (LPVOID)NULL
             );
-            if (hWnd == NULL) return 0;
+            if (hWnd == 0) {
+                OutputDebugString("Initialize Window Failed!");
+                return 0;
+            };
 
             ShowWindow(hWnd, SW_SHOW);
             UpdateWindow(hWnd);

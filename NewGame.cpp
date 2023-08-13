@@ -32,7 +32,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
     I_Engine->Start(WndProp, EngineProp);
     I_Engine->Release();
-    
+
 
     return 0;
 };
@@ -44,7 +44,7 @@ LRESULT GameInit() {
 };
 
 LRESULT GameUpdate() {
-
+    // OutputDebugString("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
     return 0;
 };
