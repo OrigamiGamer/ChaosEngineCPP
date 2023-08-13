@@ -3,11 +3,9 @@
 
 /* Libraries */
 
-//#pragma comment(dll,"d2d1.dll")
 #pragma comment(lib,"DXGI.lib")
-//#pragma comment(lib,"D3D12.lib")
-#pragma comment(lib,"D2D1.lib")
-#pragma comment(lib,"../ChaosEngine/lib/ChakraCore.lib")
+#pragma comment(lib,"D2D1.lib") //#pragma comment(lib,"D3D12.lib")
+#pragma comment(lib,"ChakraCore.lib")   // #pragma comment(lib,"../ChaosEngine/lib/ChakraCore.lib")
 
 
 /* Dependances */
