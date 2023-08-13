@@ -7,8 +7,8 @@
             ],
             "defines": [
                 "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
+                // "UNICODE",
+                // "_UNICODE"
             ],
             "compilerPath": "F:\\Dev\\mingw64\\bin\\gcc.exe",
             "cStandard": "c17",

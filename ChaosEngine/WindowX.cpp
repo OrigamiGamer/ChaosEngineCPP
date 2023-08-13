@@ -61,12 +61,12 @@ namespace ChaosEngine {
         HWND InitWindow(WindowInitialProperty WndProp) {
             HWND hWnd;
             HINSTANCE hInst = GetModuleHandle(NULL);
-            LPCSTR ClassName = "ChaosGameWin";
+            LPSTR ClassName = "ChaosGameWin";
 
             WNDCLASSEX WndClassEx{};
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
-            WndClassEx.lpszClassName = (LPCWSTR)ClassName;
+            WndClassEx.lpszClassName = (LPCSTR)ClassName;
             WndClassEx.lpfnWndProc = WndProc;
             WndClassEx.style = CS_SAVEBITS | CS_DROPSHADOW;
             WndClassEx.cbClsExtra = 0;
@@ -81,8 +81,8 @@ namespace ChaosEngine {
 
             hWnd = CreateWindowEx(
                 (DWORD)NULL,
-                (LPCWSTR)ClassName,
-                (LPCWSTR)WndProp.WndTitle,
+                (LPCSTR)ClassName,
+                (LPCSTR)WndProp.WndTitle,
                 WS_OVERLAPPEDWINDOW,
                 WndProp.x, WndProp.y,
                 WndProp.width, WndProp.height,
