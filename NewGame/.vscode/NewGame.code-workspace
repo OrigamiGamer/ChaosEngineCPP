@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.asm": "assembly",
+			"*.chaos": "csharp",
+			"iostream": "cpp"
+		}
+	}
+}
