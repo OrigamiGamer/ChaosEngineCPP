@@ -1,7 +1,6 @@
 #pragma once
 #include "ChaosEngine.h"
 
-// Predefine
 #define WM_ENGINE_FRAME (WM_USER + 1)
 
 namespace ChaosEngine {
@@ -92,7 +91,7 @@ namespace ChaosEngine {
                 (LPVOID)NULL
             );
             if (hWnd == 0) {
-                OutputDebugString("Initialize Window Failed!");
+                std::cout << "Initialize Window Failed! " << GetLastError() << std::endl;
                 return 0;
             };
 

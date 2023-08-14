@@ -4,9 +4,8 @@
 namespace ChaosEngine {
 
     /* Property */
+    // It's used to store properties of Engine and Window at runtime. // 它用于在运行时储存 Engine 和 Window 的属性(Property)。
     namespace Property {
-
-        using namespace std;
 
         /* Window */
         namespace Window {
