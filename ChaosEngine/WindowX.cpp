@@ -107,6 +107,11 @@ namespace ChaosEngine {
             return (DWORD)Msg.wParam;
         };
 
+        // Callback TimerProc
+        VOID CALLBACK TimerProc_GameFrameUpdate(HWND hWnd, UINT p1, UINT_PTR p2, DWORD p3) {
+            SendMessage(hWnd, WM_ENGINE_FRAME, 0, 0);
+        };
+
         // Callback WndProc
         LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             switch (uMsg) {
@@ -153,10 +158,6 @@ namespace ChaosEngine {
             };
 
             return 0;
-        };
-
-        VOID CALLBACK TimerProc_GameFrameUpdate(HWND hWnd, UINT p1, UINT_PTR p2, DWORD p3) {
-            SendMessage(hWnd, WM_ENGINE_FRAME, 0, 0);
         };
 
     }

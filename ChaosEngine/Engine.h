@@ -13,6 +13,8 @@ namespace ChaosEngine {
 
             void SwitchScene(Model::Scene* pTargetScene);
 
+            void RegScene(Model::Scene* pAnyScene);
+
         }
 
     }

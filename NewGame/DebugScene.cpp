@@ -9,7 +9,7 @@ int DebugScene::Init() {
 int DebugScene::Update() {
     cout << "this is DebugScene" << endl;
 
-    if (GetKeyState('F') > 1) {
+    if (GetKeyState('F') < 0) {
         Engine::Stage::SwitchScene(&main_scene);
     }
 
@@ -24,4 +24,14 @@ int DebugScene::Release() {
 
 
     return 0;
+};
+
+int DebugScene::OnSceneEntered() {
+
+    return 0;
+};
+
+bool DebugScene::OnSceneExiting() {
+
+    return true;
 };

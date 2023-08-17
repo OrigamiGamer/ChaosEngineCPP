@@ -26,7 +26,18 @@ namespace ChaosEngine {
             void SwitchScene(Model::Scene* pTargetScene) {
                 if (pTargetScene != NULL)
                     EngineX::pNextScene = pTargetScene;
-                
+            };
+
+            void RegScene(Model::Scene* pAnyScene) {
+                if (pAnyScene != NULL) {
+                    if (EngineX::pCurrentScene == NULL) {
+                        EngineX::pCurrentScene = pAnyScene;
+                        EngineX::pNextScene = EngineX::pCurrentScene;   // Switch to initial scene directly
+                    }
+
+                    EngineX::pSceneArray.push_back(pAnyScene);  // Register the new scene
+                }
+
             };
 
         }

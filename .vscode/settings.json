@@ -49,4 +49,7 @@
         "xutility": "cpp"
     },
     "files.encoding": "gb2312",
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "clang-diagnostic-error"
+    ],
 }

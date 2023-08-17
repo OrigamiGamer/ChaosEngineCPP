@@ -8,6 +8,9 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 
+    Engine::Stage::RegScene(&main_scene);
+    Engine::Stage::RegScene(&debug_scene);
+
     WindowInitialProperty WndProp;
     WndProp.WndTitle = (LPSTR)"ChaosEngine Game Window Test";
     // WndProp.width = 1280;

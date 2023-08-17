@@ -13,6 +13,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 #include <windows.h>
 #include <windowsx.h>
 #include <wrl.h>

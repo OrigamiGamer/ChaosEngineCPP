@@ -14,6 +14,7 @@
 
 namespace ChaosEngine {
 
+    // Types defined
     namespace Type {
 
         struct WindowInitialProperty {

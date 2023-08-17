@@ -7,23 +7,25 @@ namespace ChaosEngine {
     namespace EngineX {
 
         // Global
+        std::vector<Model::Scene*> pSceneArray;
         Model::Scene* pCurrentScene = NULL;
         Model::Scene* pNextScene = pCurrentScene;
 
         LRESULT EngineInit() {
-            if (pCurrentScene != NULL)
-                pCurrentScene->Init();
+            if (pCurrentScene != NULL) pCurrentScene->Init();
 
             return 0;
         };
 
         LRESULT EngineUpdate() {
-            if (pCurrentScene != pNextScene) {
-                pCurrentScene->Update();
+            if (pCurrentScene != NULL) {
+                if (pCurrentScene == pNextScene) {
+                    pCurrentScene->Update();
 
-            } else if (pCurrentScene->OnClose()) {
-                pCurrentScene = pNextScene;
-                pCurrentScene->Init();
+                } else if (pCurrentScene->OnSceneExiting()) {
+                    pCurrentScene = pNextScene;
+                    pCurrentScene->Init();
+                }
             }
 
             return 0;
@@ -33,7 +35,7 @@ namespace ChaosEngine {
             WindowX::pHwndRenderTarget->BeginDraw();
             WindowX::pHwndRenderTarget->Clear({ 0,0,0,1 });
 
-            pCurrentScene->Render();
+            if (pCurrentScene != NULL) pCurrentScene->Render();
 
             WindowX::pHwndRenderTarget->EndDraw();
             return 0;

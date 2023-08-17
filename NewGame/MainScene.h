@@ -7,5 +7,7 @@ class MainScene : public Scene {
     int Update();
     int Render();
     int Release();
+    int OnSceneEntered();
+    bool OnSceneExiting();
 
 } main_scene;

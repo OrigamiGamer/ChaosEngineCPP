@@ -7,5 +7,7 @@ class DebugScene : public Scene {
     int Update();
     int Render();
     int Release();
+    int OnSceneEntered();
+    bool OnSceneExiting();
 
 } debug_scene;
