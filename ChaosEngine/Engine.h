@@ -12,7 +12,6 @@ namespace ChaosEngine {
         namespace Stage {
 
             void SwitchScene(Model::Scene* pTargetScene);
-
             void RegScene(Model::Scene* pAnyScene);
 
         }

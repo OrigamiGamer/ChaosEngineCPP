@@ -1,6 +1,6 @@
 #pragma once
 
-// All function is for single engine obj in a project.
+// All is function is for single engine obj in a project.
 
 
 /* Libraries */
