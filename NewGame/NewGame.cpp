@@ -1,60 +1,23 @@
 #pragma once
-#include "ChaosEngine.h"
-using namespace std;
-using namespace ChaosEngine;
+#include "NewGame.h"
 
-// Predefine
-ENGINEPROC GameInit;
-ENGINEPROC GameUpdate;
-ENGINEPROC GameRender;
-ENGINEPROC GameExit;
 
-// Global
-Engine* I_Engine = new Engine();
+/* Only support single window */
 
 // Main
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd) {
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 
     WindowInitialProperty WndProp;
-    WndProp.WndTitle = "ChaosEngine Game Window Test";
+    WndProp.WndTitle = (LPSTR)"ChaosEngine Game Window Test";
     // WndProp.width = 1280;
     // WndProp.height = 720;
 
-    EngineProcList ProcList;
-    ProcList.GameInit = &GameInit;
-    ProcList.GameUpdate = &GameUpdate;
-    ProcList.GameRender = &GameRender;
-    ProcList.GameExit = &GameExit;
     EngineStartupProperty EngineProp;
-    EngineProp.ProcList = ProcList;
+    // EngineProp.FPS = 60;
 
-    I_Engine->Start(WndProp, EngineProp);
-    I_Engine->Release();
-
-
-    return 0;
-};
-
-LRESULT GameInit() {
-
+    Engine::Start(&WndProp, &EngineProp);
+    Engine::Release();
 
     return 0;
-};
-
-LRESULT GameUpdate() {
-    // OutputDebugString("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
-    return 0;
-};
-
-LRESULT GameRender() {
-
-
-    return 0;
-};
-
-LRESULT GameExit() {
-
-
-    return true;
 };

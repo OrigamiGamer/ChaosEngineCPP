@@ -1,8 +1,6 @@
 #pragma once
 #include "ChaosEngine.h"
 
-#define WM_ENGINE_FRAME (WM_USER + 1)
-
 namespace ChaosEngine {
 
     namespace WindowX {
@@ -10,16 +8,17 @@ namespace ChaosEngine {
         /* Function about DirectX */
 
         // Global
-        ID2D1Factory* I_D2D_pFactory = NULL;
+        ID2D1Factory* pD2DFactory = NULL;
+        ID2D1HwndRenderTarget* pHwndRenderTarget = NULL;
 
-
+        // Initialize DirectX
         HRESULT InitDirectX(HWND hWnd) {
 
             HRESULT hr = NULL;
 
             /* D2D */
 
-            hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &I_D2D_pFactory);
+            hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
             if (FAILED(hr)) return hr;
 
             D2D1_RENDER_TARGET_PROPERTIES RenderTarget_Properties{};
@@ -34,30 +33,26 @@ namespace ChaosEngine {
             HwndRenderTarget_properties.pixelSize = { (UINT32)Property::Window::Size.width,(UINT32)Property::Window::Size.height };
             HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
 
-            ID2D1HwndRenderTarget* HwndRenderTarget = NULL;
-            hr = I_D2D_pFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &HwndRenderTarget);
+            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
             if (FAILED(hr)) return hr;
 
             return hr;
         };
 
         // Release DirectX
-        bool ReleaseDirectX() {
+        HRESULT ReleaseDirectX() {
             /* D2D */
-            SafeRelease(&I_D2D_pFactory);
+            SafeRelease(&pD2DFactory);
 
-            return true;
+            return 0;
         };
 
 
-        /* Function about WindowX */
 
-        // Predefine
-        LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-        VOID CALLBACK TimerProc_GameFrameUpdate(HWND, UINT, UINT_PTR, DWORD);
+        /* Function about Windows */
 
         // Initialize Window
-        HWND InitWindow(WindowInitialProperty WndProp) {
+        HWND InitWindow(Type::WindowInitialProperty* WndProp) {
             HWND hWnd;
             HINSTANCE hInst = GetModuleHandle(NULL);
             LPSTR ClassName = "ChaosGameWin";
@@ -81,11 +76,11 @@ namespace ChaosEngine {
             hWnd = CreateWindowEx(
                 (DWORD)NULL,
                 (LPCSTR)ClassName,
-                (LPCSTR)WndProp.WndTitle,
+                (LPCSTR)WndProp->WndTitle,
                 WS_OVERLAPPEDWINDOW,
-                WndProp.x, WndProp.y,
-                WndProp.width, WndProp.height,
-                WndProp.hWndParent,
+                WndProp->x, WndProp->y,
+                WndProp->width, WndProp->height,
+                WndProp->hWndParent,
                 (HMENU)NULL,
                 hInst,
                 (LPVOID)NULL
@@ -118,11 +113,11 @@ namespace ChaosEngine {
 
             case WM_CREATE:
                 Property::Window::BindWindow(hWnd);
-                // Property::Window::GetWinAttris();
+
                 InitDirectX(hWnd);
+                EngineX::EngineInit();
 
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
-
                 break;
             case WM_SIZE:
                 Property::Window::Size.width = (float)LOWORD(lParam);
@@ -140,7 +135,8 @@ namespace ChaosEngine {
 
                 break;
             case WM_ENGINE_FRAME:
-                Property::Engine::ProcList.GameUpdate();    //
+                EngineX::EngineUpdate();    // Update
+                EngineX::EngineRender();    // Render
 
                 break;
             case WM_CLOSE:
@@ -148,6 +144,7 @@ namespace ChaosEngine {
 
                 break;
             case WM_DESTROY:
+                EngineX::EngineExit();  // Exit
                 PostQuitMessage(0);
 
                 break;

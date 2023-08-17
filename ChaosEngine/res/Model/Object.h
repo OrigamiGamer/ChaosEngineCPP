@@ -1,5 +1,5 @@
 #pragma once
-#include "ChaosEngine.h"
+#include "ModelList.h"
 
 namespace ChaosEngine {
 
@@ -9,13 +9,14 @@ namespace ChaosEngine {
         private:
             Type::SIZE self_size;
             Type::POS self_pos;
+
         public:
             Object() {};
 
-            virtual void Init() {};
-            virtual void Update() {};
-            virtual void Render() {};
-            virtual void Release() {};
+            virtual int Init() { return -1; };
+            virtual int Update() { return -1; };
+            virtual int Render() { return -1; };
+            virtual int Release() { return -1; };
 
         public:
             void SetSize(Type::SIZE new_size) {
@@ -38,32 +39,8 @@ namespace ChaosEngine {
 
         };
 
-        class Scene : public Object {
-        public:
-            Scene() {};
 
-            void Init() {
-
-            };
-            void Update() {
-
-            };
-            void Render() {
-
-            };
-            void Release() {
-
-            };
-
-        };
 
     }
-
-    void _debug() {
-        Model::Scene* scene = new  Model::Scene();
-        scene->SetSize(111, empty);
-
-
-    };
 
 }

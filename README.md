@@ -9,9 +9,9 @@
 - `https://github.com/OrigamiGamer/ChaosEngineCPP.git`
 
 #### 3. Build Project
-- #### For Console:
+<!-- - #### For Console:
 - 1. \> `cmake --install ..`
-- 2. \> `cmake --build ..`
+- 2. \> `cmake --build ..` -->
 
 - #### For Visual Studio Code IDE:
 - 1. Press `Ctrl+Shift+P` to open Command Palette, and execute `CMake: Install`;

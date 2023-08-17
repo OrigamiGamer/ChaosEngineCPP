@@ -6,6 +6,7 @@ project(NewGame VERSION 0.1.0 LANGUAGES C CXX)
 link_directories(../build/Debug)
 include_directories(../ChaosEngine)
 include_directories(../ChaosEngine/lib)
+include_directories(.)
 
 add_executable(${PROJECT_NAME} WIN32 NewGame.cpp)
 target_link_libraries(${PROJECT_NAME} ChaosEngine.lib)

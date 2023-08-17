@@ -3,33 +3,33 @@
 
 namespace ChaosEngine {
 
-    namespace EngineX {
+    /* Engine */
+    namespace Engine {
 
-
-
-    };
-
-    class Engine {
-    public:
-        Engine() {};
-
-        BOOL Start(WindowInitialProperty WndProp, EngineStartupProperty EngineProp) {
+        BOOL Start(Type::WindowInitialProperty* WndProp, Type::EngineStartupProperty* EngineProp) {
             WindowX::InitWindow(WndProp);
-
-            Property::Engine::ProcList = EngineProp.ProcList;
-            if (Property::Engine::ProcList.GameInit > NULL) LRESULT lr = Property::Engine::ProcList.GameInit();
+            Property::Engine::StartupProp = EngineProp;
 
             WindowX::StartMessageLoop();
-
 
             return true;
         };
 
         BOOL Release() {
+            WindowX::ReleaseDirectX();
 
             return true;
         };
 
-    };
+        namespace Stage {
 
+            void SwitchScene(Model::Scene* pTargetScene) {
+                if (pTargetScene != NULL)
+                    EngineX::pNextScene = pTargetScene;
+                
+            };
+
+        }
+
+    }
 }

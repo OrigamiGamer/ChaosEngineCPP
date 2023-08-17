@@ -7,31 +7,24 @@
 
 #define SET_OPT(var, new_var) if(new_var != empty) var = new_var;   // Set optionally
 
+// Window Message
+#define WM_ENGINE_FRAME (WM_USER + 1)
+
+
 
 namespace ChaosEngine {
 
-    struct WindowInitialProperty {
-        int width = 800, height = 600;
-        int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
-        LPSTR WndTitle = "New Game";
-        HWND hWndParent = NULL;
-    };
-
-    typedef LRESULT(CALLBACK ENGINEPROC)();
-
-    struct EngineProcList {
-        ENGINEPROC* GameInit = NULL;
-        ENGINEPROC* GameUpdate = NULL;
-        ENGINEPROC* GameRender = NULL;
-        ENGINEPROC* GameExit = NULL;
-    };
-
-    struct EngineStartupProperty {
-        EngineProcList ProcList;
-    };
-
-
     namespace Type {
+
+        struct WindowInitialProperty {
+            int width = 800, height = 600;
+            int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
+            LPSTR WndTitle = "New Game";
+            HWND hWndParent = NULL;
+        };
+        struct EngineStartupProperty {
+            int FPS = 60;
+        };
 
         struct SIZE {
             float width, height;
@@ -40,7 +33,6 @@ namespace ChaosEngine {
 
             SIZE(float width, float height) : width(width), height(height) {};
         };
-
         struct SIZE_3D {
             float length, width, height;
 
@@ -56,7 +48,6 @@ namespace ChaosEngine {
 
             POS(float x, float y) : x(x), y(y) {};
         };
-
         struct POS_3D {
             float x, y, z;
 
@@ -64,8 +55,6 @@ namespace ChaosEngine {
 
             POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
         };
-
-        // Engine* engine = new Engine();
 
     }
 
