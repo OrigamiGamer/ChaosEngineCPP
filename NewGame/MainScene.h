@@ -2,6 +2,7 @@
 #include "NewGame.h"
 
 class MainScene : public Scene {
+    // ID2D1SolidColorBrush* brush;
 
     int Init();
     int Update();

@@ -42,9 +42,12 @@ namespace ChaosEngine {
         };
 
         LRESULT EngineExit() {
+            if (!Property::Engine::StartupProp->pEngineExit())
+                return FALSE;
+
             std::cout << "Engine has exited!" << std::endl;
 
-            return 0;
+            return TRUE;
         };
 
     }

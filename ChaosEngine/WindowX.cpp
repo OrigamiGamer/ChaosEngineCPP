@@ -120,7 +120,7 @@ namespace ChaosEngine {
                 Property::Window::BindWindow(hWnd);
 
                 InitDirectX(hWnd);
-                EngineX::EngineInit();
+                EngineX::EngineInit();  // Init
 
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
                 break;
@@ -145,11 +145,11 @@ namespace ChaosEngine {
 
                 break;
             case WM_CLOSE:
-                DestroyWindow(hWnd);
+                if (EngineX::EngineExit() == TRUE)  // Exit
+                    DestroyWindow(hWnd);
 
                 break;
             case WM_DESTROY:
-                EngineX::EngineExit();  // Exit
                 PostQuitMessage(0);
 
                 break;

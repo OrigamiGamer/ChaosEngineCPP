@@ -1,6 +1,8 @@
 #pragma once
 #include "MainScene.h"
 
+// MainScene::brush = new ;
+
 int MainScene::Init() {
 
 
@@ -17,7 +19,7 @@ int MainScene::Update() {
     return 0;
 };
 int MainScene::Render() {
-
+    // WindowX::pHwndRenderTarget->DrawRoundedRectangle({ {50,50,150,150},16,16 }, );
 
     return 0;
 };
@@ -28,11 +30,11 @@ int MainScene::Release() {
 };
 
 int MainScene::OnSceneEntered() {
-    
+
     return 0;
 };
 
 bool MainScene::OnSceneExiting() {
-    
+
     return true;
 };

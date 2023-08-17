@@ -21,6 +21,8 @@ namespace ChaosEngine {
             return true;
         };
 
+
+
         namespace Stage {
 
             void SwitchScene(Model::Scene* pTargetScene) {

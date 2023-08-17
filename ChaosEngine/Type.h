@@ -14,6 +14,11 @@
 
 namespace ChaosEngine {
 
+    // Callback EngineProc
+    typedef bool (CALLBACK* ENGINEPROC)();
+
+
+
     // Types defined
     namespace Type {
 
@@ -24,6 +29,7 @@ namespace ChaosEngine {
             HWND hWndParent = NULL;
         };
         struct EngineStartupProperty {
+            ENGINEPROC pEngineExit;
             int FPS = 60;
         };
 
