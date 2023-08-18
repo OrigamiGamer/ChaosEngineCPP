@@ -21,6 +21,7 @@
 #include <d2d1.h>   //#include <d3d12.h>
 #include "ChakraCore/ChakraCore.h"
 #include "FMOD_Studio/fmod_studio.hpp"
+#include "JSON/json.hpp"
 
 
  /* Sources */

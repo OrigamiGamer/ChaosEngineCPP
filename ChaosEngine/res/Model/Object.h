@@ -5,13 +5,13 @@ namespace ChaosEngine {
 
     namespace Model {
 
-        class Object {
+        class ObjectModel {
         private:
             Type::SIZE self_size;
             Type::POS self_pos;
 
         public:
-            Object() {};
+            ObjectModel() {};
 
             virtual int Init() { return -1; };
             virtual int Update() { return -1; };

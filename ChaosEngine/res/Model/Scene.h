@@ -5,7 +5,7 @@ namespace ChaosEngine {
 
     namespace Model {
 
-        class Scene : public Object {
+        class Scene : public ObjectModel {
         public:
             Scene() {};
 

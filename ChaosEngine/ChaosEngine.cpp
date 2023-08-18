@@ -1,6 +1,15 @@
 #pragma once
 #include "ChaosEngine.h"
 
+// void test() {
+//     JsRuntimeHandle* hRuntime;
+//     JsContextRef pContext;
+//     JsRuntimeAttributes attri;
+//     JsCreateRuntime(attri, NULL, hRuntime);
+//     JsCreateContext(hRuntime, &pContext);
+
+// }
+
 
 
 // /* Define */
