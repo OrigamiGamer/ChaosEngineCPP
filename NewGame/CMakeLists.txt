@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-# Set your Game's Name instead of <NewGame>
+# Set your Game's Name instead of <NewGame> only in parameters of project
 project(NewGame VERSION 0.1.0 LANGUAGES C CXX)
 
 link_directories(../build/Debug)

@@ -44,5 +44,47 @@ namespace ChaosEngine {
 
         }
 
+
+
+        // Basic Interfaces of Graphics
+        namespace IGraphic {
+
+#define Colors D2D1::ColorF;
+
+            ID2D1SolidColorBrush* pBrush = NULL;
+            float StrokeWidth = 1;
+
+            LRESULT Init() {
+                D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
+                brush_properties.opacity = 1;
+                brush_properties.transform = D2D1::IdentityMatrix();
+
+                WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
+
+
+                return 0;
+            };
+
+            LRESULT Release() {
+                LRESULT lr = NULL;
+                lr = pBrush->Release();
+                return lr;
+            };
+
+            void SetColor(Type::Color newColor) {
+                pBrush->SetColor(D2D1::ColorF(newColor.RGB, newColor.Alpha));
+            };
+
+            void SetLineWidth(float newStrokeWidth) {
+                if (newStrokeWidth >= 0) StrokeWidth = newStrokeWidth;
+            };
+
+            void DrawLine(Type::POS pos_1, Type::POS pos_2) {
+                WindowX::pHwndRenderTarget->DrawLine({ pos_1.x,pos_1.y }, { pos_2.x,pos_2.y }, pBrush, StrokeWidth);
+            };
+
+        }
+
     }
+
 }

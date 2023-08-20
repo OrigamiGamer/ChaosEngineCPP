@@ -5,7 +5,7 @@
 
 /* Libraries */
 
-#pragma comment(lib,"DXGI.lib")
+//#pragma comment(lib,"DXGI.lib")
 #pragma comment(lib,"D2D1.lib") //#pragma comment(lib,"D3D12.lib")
 
 
@@ -34,7 +34,10 @@
 #include "res/ObjectList.h"
 #include "Engine.h"
 
+#ifndef GAME_DEV
 #include "Property.cpp"
 #include "WindowX.cpp"
 #include "EngineX.cpp"
 #include "Engine.cpp"
+
+#endif

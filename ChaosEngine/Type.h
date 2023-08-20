@@ -37,14 +37,12 @@ namespace ChaosEngine {
             float width, height;
 
             SIZE() = default;
-
             SIZE(float width, float height) : width(width), height(height) {};
         };
         struct SIZE_3D {
             float length, width, height;
 
             SIZE_3D() = default;
-
             SIZE_3D(float length, float width, float height) : length(length), width(width), height(height) {};
         };
 
@@ -52,15 +50,20 @@ namespace ChaosEngine {
             float x, y;
 
             POS() = default;
-
             POS(float x, float y) : x(x), y(y) {};
         };
         struct POS_3D {
             float x, y, z;
 
             POS_3D() = default;
-
             POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
+        };
+
+        struct Color {
+            BYTE RGB;
+            float Alpha;
+
+            Color() = default;
         };
 
     }

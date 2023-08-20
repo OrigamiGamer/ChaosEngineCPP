@@ -1,4 +1,5 @@
 #pragma once
+//#define GAME_DEV
 
 #include "ChaosEngine.h"
 using namespace std;

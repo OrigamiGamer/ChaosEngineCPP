@@ -33,7 +33,10 @@ namespace ChaosEngine {
             HwndRenderTarget_properties.pixelSize = { (UINT32)Property::Window::Size.width,(UINT32)Property::Window::Size.height };
             HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
 
-            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
+            //hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
+            hr = pD2DFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(
+                hWnd
+            ), &pHwndRenderTarget);
             if (FAILED(hr)) return hr;
 
             return hr;
@@ -119,7 +122,7 @@ namespace ChaosEngine {
             case WM_CREATE:
                 Property::Window::BindWindow(hWnd);
 
-                InitDirectX(hWnd);
+                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, "Initialize Direct2D failed!", "ERROR", 0);
                 EngineX::EngineInit();  // Init
 
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);

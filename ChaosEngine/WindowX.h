@@ -15,8 +15,10 @@ namespace ChaosEngine {
 
         /* Function about Windows */
 
-        HWND InitWindow(Type::WindowInitialProperty WndProp);
+        HWND InitWindow(Type::WindowInitialProperty* WndProp);
         DWORD StartMessageLoop();
+
+
 
         // Callback TimerProc
         VOID CALLBACK TimerProc_GameFrameUpdate(HWND, UINT, UINT_PTR, DWORD);
