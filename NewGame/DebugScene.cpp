@@ -1,17 +1,21 @@
 #pragma once
 #include "DebugScene.h"
 
+DebugScene::DebugScene() {
+
+};
+
 int DebugScene::Init() {
 
 
     return 0;
 };
 int DebugScene::Update() {
-    cout << "this is DebugScene" << endl;
 
     if (GetKeyState('F') < 0) {
         Engine::Stage::SwitchScene(&main_scene);
     }
+
 
     return 0;
 };

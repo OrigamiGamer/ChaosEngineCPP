@@ -3,6 +3,9 @@
 
 class DebugScene : public Scene {
 
+public:
+    DebugScene();
+
     int Init();
     int Update();
     int Render();

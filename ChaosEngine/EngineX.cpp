@@ -6,11 +6,14 @@ namespace ChaosEngine {
     /* EngineX for processing engine logic */
     namespace EngineX {
 
+
         // Global
         std::vector<Model::Scene*> pSceneArray;
         Model::Scene* pCurrentScene = NULL;
         Model::Scene* pNextScene = pCurrentScene;
 
+
+        // Engine Init
         LRESULT EngineInit() {
             Engine::IGraphic::Init();
 
@@ -19,6 +22,8 @@ namespace ChaosEngine {
             return 0;
         };
 
+
+        // Engine Update
         LRESULT EngineUpdate() {
             if (pCurrentScene != NULL) {
                 if (pCurrentScene == pNextScene) {
@@ -33,10 +38,11 @@ namespace ChaosEngine {
             return 0;
         };
 
+
+        // Engine Render
         LRESULT EngineRender() {
-            OutputDebugString("begin drawing\n");
             WindowX::pHwndRenderTarget->BeginDraw();
-            WindowX::pHwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+            WindowX::pHwndRenderTarget->Clear();
 
             if (pCurrentScene != NULL) pCurrentScene->Render();
 
@@ -45,6 +51,8 @@ namespace ChaosEngine {
             return 0;
         };
 
+
+        // Engine Exit
         LRESULT EngineExit() {
             if (!Property::Engine::StartupProp->pEngineExit())
                 return FALSE;
@@ -52,9 +60,9 @@ namespace ChaosEngine {
             Engine::IGraphic::Release();
 
             std::cout << "Engine has exited!" << std::endl;
-
             return TRUE;
         };
+
 
     }
 

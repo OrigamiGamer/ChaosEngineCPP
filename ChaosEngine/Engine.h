@@ -26,9 +26,9 @@ namespace ChaosEngine {
             extern float StrokeWidth;
 
             LRESULT Init();
-            LRESULT Release();
+            LRESULT Release();;
             void SetColor(Type::Color newColor);
-            void SetLineWidth(float newStrokeWidth);
+            void SetStrokeWidth(float newStrokeWidth);
             void DrawLine(Type::POS pos_1, Type::POS pos_2);
 
         }

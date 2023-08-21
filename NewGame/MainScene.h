@@ -3,8 +3,6 @@
 
 class MainScene : public Scene {
 
-    ID2D1SolidColorBrush* brush;
-
 public:
     MainScene();
 

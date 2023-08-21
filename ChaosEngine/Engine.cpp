@@ -1,5 +1,6 @@
 #pragma once
 #include "ChaosEngine.h"
+#include "Engine.h"
 
 namespace ChaosEngine {
 
@@ -49,8 +50,6 @@ namespace ChaosEngine {
         // Basic Interfaces of Graphics
         namespace IGraphic {
 
-#define Colors D2D1::ColorF;
-
             ID2D1SolidColorBrush* pBrush = NULL;
             float StrokeWidth = 1;
 
@@ -59,7 +58,8 @@ namespace ChaosEngine {
                 brush_properties.opacity = 1;
                 brush_properties.transform = D2D1::IdentityMatrix();
 
-                WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
+                //WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
+                WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), &pBrush);
 
 
                 return 0;
@@ -72,10 +72,10 @@ namespace ChaosEngine {
             };
 
             void SetColor(Type::Color newColor) {
-                pBrush->SetColor(D2D1::ColorF(newColor.RGB, newColor.Alpha));
+                pBrush->SetColor(D2D1::ColorF(newColor.rgb, newColor.alpha));
             };
 
-            void SetLineWidth(float newStrokeWidth) {
+            void SetStrokeWidth(float newStrokeWidth) {
                 if (newStrokeWidth >= 0) StrokeWidth = newStrokeWidth;
             };
 

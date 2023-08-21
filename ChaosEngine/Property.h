@@ -12,10 +12,12 @@ namespace ChaosEngine {
         /* Window */
 
         namespace Window {
-            void BindWindow(HWND new_hWnd);
+            extern HWND hWnd;
+            extern Type::SIZE Size;
+            extern Type::POS Pos;
+            extern Type::POS MousePos;
 
-            // Get the most attributes of window
-            bool GetWinAttris();
+            void BindWindow(HWND new_hWnd);
 
         };
 
@@ -24,6 +26,7 @@ namespace ChaosEngine {
         /* Engine */
 
         namespace Engine {
+            extern Type::EngineStartupProperty* StartupProp;
 
         };
 

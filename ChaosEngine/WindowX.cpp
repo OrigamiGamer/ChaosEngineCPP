@@ -30,14 +30,13 @@ namespace ChaosEngine {
 
             D2D1_HWND_RENDER_TARGET_PROPERTIES HwndRenderTarget_properties{};
             HwndRenderTarget_properties.hwnd = hWnd;
-            HwndRenderTarget_properties.pixelSize = { (UINT32)Property::Window::Size.width,(UINT32)Property::Window::Size.height };
+            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Property::Window::Size.width, (int)Property::Window::Size.height);
             HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
 
-            //hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
-            hr = pD2DFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(
-                hWnd
-            ), &pHwndRenderTarget);
+            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
             if (FAILED(hr)) return hr;
+
+
 
             return hr;
         };
@@ -58,38 +57,37 @@ namespace ChaosEngine {
         HWND InitWindow(Type::WindowInitialProperty* WndProp) {
             HWND hWnd;
             HINSTANCE hInst = GetModuleHandle(NULL);
-            LPSTR ClassName = "ChaosGameWin";
 
-            WNDCLASSEX WndClassEx{};
+            WNDCLASSEX WndClassEx;
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
-            WndClassEx.lpszClassName = (LPCSTR)ClassName;
+            WndClassEx.lpszClassName = "ChaosGameWin";
             WndClassEx.lpfnWndProc = WndProc;
-            WndClassEx.style = CS_SAVEBITS | CS_DROPSHADOW;
+            WndClassEx.style = CS_HREDRAW | CS_VREDRAW; //CS_SAVEBITS | CS_DROPSHADOW;
             WndClassEx.cbClsExtra = 0;
             WndClassEx.cbWndExtra = 0;
             WndClassEx.hIcon = NULL;
             WndClassEx.hCursor = NULL;
-            WndClassEx.hbrBackground = NULL;
+            WndClassEx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
             WndClassEx.lpszMenuName = NULL;
             WndClassEx.hIconSm = NULL;
 
             RegisterClassEx(&WndClassEx);
 
-            hWnd = CreateWindowEx(
-                (DWORD)NULL,
-                (LPCSTR)ClassName,
-                (LPCSTR)WndProp->WndTitle,
+            hWnd = CreateWindow(
+                "ChaosGameWin",
+                WndProp->WndTitle,
                 WS_OVERLAPPEDWINDOW,
                 WndProp->x, WndProp->y,
                 WndProp->width, WndProp->height,
                 WndProp->hWndParent,
-                (HMENU)NULL,
+                NULL,
                 hInst,
-                (LPVOID)NULL
+                NULL
             );
             if (hWnd == 0) {
-                std::cout << "Initialize Window Failed! " << GetLastError() << std::endl;
+                std::string content = "Initialize Window Failed! " + std::to_string(GetLastError());
+                MessageBox(NULL, content.c_str(), "ERROR", 0);
                 return 0;
             };
 
@@ -126,6 +124,7 @@ namespace ChaosEngine {
                 EngineX::EngineInit();  // Init
 
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
+
                 break;
             case WM_SIZE:
                 Property::Window::Size.width = (float)LOWORD(lParam);
@@ -153,11 +152,13 @@ namespace ChaosEngine {
 
                 break;
             case WM_DESTROY:
+                UnregisterClass("ChaosGameWin", NULL);
                 PostQuitMessage(0);
 
                 break;
             default:
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
             };
 
             return 0;

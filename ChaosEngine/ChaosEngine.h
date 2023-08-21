@@ -1,4 +1,6 @@
 #pragma once
+//#define UNICODE
+//#define _UNICODE
 
 // All is function is for single engine obj in a project.
 

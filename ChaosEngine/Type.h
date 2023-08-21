@@ -60,10 +60,11 @@ namespace ChaosEngine {
         };
 
         struct Color {
-            BYTE RGB;
-            float Alpha;
+            BYTE rgb;
+            float alpha;
 
             Color() = default;
+            Color(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
         };
 
     }

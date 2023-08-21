@@ -19,12 +19,10 @@ namespace ChaosEngine {
 
             void BindWindow(HWND new_hWnd) {
                 hWnd = new_hWnd;
-            };
 
-            // Get the most attributes of window
-            bool GetWinAttris() {
+                // Immediately get basic attributes of the window
                 RECT rect;
-                if (!GetClientRect(hWnd, &rect)) return false;
+                if (!GetClientRect(hWnd, &rect)) return;
 
                 /* Size */
                 Size.width = (float)(rect.right - rect.left);
@@ -33,9 +31,6 @@ namespace ChaosEngine {
                 /* Pos */
                 Pos.x = (float)rect.left;
                 Pos.y = (float)rect.top;
-
-
-                return true;
             };
 
         };
