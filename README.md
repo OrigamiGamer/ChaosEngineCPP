@@ -1,7 +1,9 @@
 # ChaosEngineCPP
  A version of ChaosEngine for C++ is developing...
 
-# How to use #
+
+
+# How to use
 
 #### 1. Make sure you have installed CMake
 
@@ -18,3 +20,12 @@
 - 2. Then again execute `CMake: Build`;
 
 #### 4. Finally, copy a backup of "NewGame" folder, rename the project's name to make your game!
+
+
+
+# Dependence
+| name					| url											| Author			| License				|
+|-----------------------|-----------------------------------------------|-------------------|-----------------------|
+| JSON					| https://github.com/nlohmann/json				| Niels Lohmann		| MIT					|
+| ChakraCore			| https://github.com/chakra-core/ChakraCore		| Microsoft			| MIT					|
+| FMOD					|												| 					|						|
