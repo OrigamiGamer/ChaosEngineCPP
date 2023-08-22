@@ -67,6 +67,11 @@ namespace ChaosEngine {
             Color(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
         };
 
+        struct VirtualKeyState {
+            BOOL current = FALSE;
+            BOOL last = FALSE;
+        };
+
     }
 
 }

@@ -13,8 +13,8 @@ namespace ChaosEngine {
 
         namespace Stage {
 
-            void SwitchScene(Model::Scene* pTargetScene);
-            void RegScene(Model::Scene* pAnyScene);
+            void SwitchScene(Model::SceneModel* pTargetScene);
+            void RegScene(Model::SceneModel* pAnyScene);
 
         }
 
@@ -26,7 +26,7 @@ namespace ChaosEngine {
             extern float StrokeWidth;
 
             LRESULT Init();
-            LRESULT Release();;
+            LRESULT Release();
             void SetColor(Type::Color newColor);
             void SetStrokeWidth(float newStrokeWidth);
             void DrawLine(Type::POS pos_1, Type::POS pos_2);

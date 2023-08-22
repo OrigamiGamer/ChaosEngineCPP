@@ -5,20 +5,20 @@ namespace ChaosEngine {
 
     namespace Model {
 
-        class ObjectModel {
+        class ObjectModel : public CompModel {
         private:
-            Type::SIZE self_size;
-            Type::POS self_pos;
+            Type::SIZE self_size{};
+            Type::POS self_pos{};
 
         public:
             ObjectModel() {};
 
-            virtual int Init() { return -1; };
-            virtual int Update() { return -1; };
-            virtual int Render() { return -1; };
-            virtual int Release() { return -1; };
+            int Init() { return -2; };
+            int Update() { return -2; };
+            int Render() { return -2; };
+            int Release() { return -2; };
 
-        public:
+
             void SetSize(Type::SIZE new_size) {
                 SET_OPT(self_size.width, new_size.width);
                 SET_OPT(self_size.height, new_size.height);

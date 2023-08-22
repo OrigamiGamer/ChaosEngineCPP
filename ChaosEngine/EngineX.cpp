@@ -7,10 +7,45 @@ namespace ChaosEngine {
     namespace EngineX {
 
 
+        namespace _Internal {
+
+            void InitComp(Model::CompModel& AnyComp) {
+              
+                const std::string type_Comp = typeid(Model::CompModel).name();
+                const std::string type_Object = typeid(Model::ObjectModel).name();
+                const std::string type_Scene = typeid(Model::SceneModel).name();
+
+                std::string new_type = typeid(AnyComp).name();
+                
+                if (new_type == type_Comp) {
+                    
+                }
+                else if (new_type == type_Object) {
+
+                }
+                else if (new_type == type_Scene) {
+                    
+                }
+            };
+
+            void UpdateComp(Model::CompModel& AnyComp) {
+
+            };
+
+            void RenderComp(Model::CompModel& AnyComp) {
+
+            };
+
+            void ReleaseComp(Model::CompModel& AnyComp) {
+            };
+
+        };
+
+
         // Global
-        std::vector<Model::Scene*> pSceneArray;
-        Model::Scene* pCurrentScene = NULL;
-        Model::Scene* pNextScene = pCurrentScene;
+        std::vector<Model::SceneModel*> pSceneArray;
+        Model::SceneModel* pCurrentScene = NULL;
+        Model::SceneModel* pNextScene = pCurrentScene;
 
 
         // Engine Init
@@ -60,9 +95,8 @@ namespace ChaosEngine {
             Engine::IGraphic::Release();
 
             std::cout << "Engine has exited!" << std::endl;
-            return TRUE;
+            return TRUE;    // TRUE returned means confirm to exit.
         };
-
 
     }
 

@@ -273,8 +273,8 @@
 //     namespace EngineX {
 
 //         // Global
-//         Model::Scene* pCurrentScene = NULL;
-//         Model::Scene* pNextScene = pCurrentScene;
+//         Model::SceneModel* pCurrentScene = NULL;
+//         Model::SceneModel* pNextScene = pCurrentScene;
 
 //         LRESULT EngineInit() {
 //             if (pCurrentScene != NULL)
@@ -358,9 +358,9 @@
 
 //     namespace Model {
 
-//         class Scene : public Object {
+//         class SceneModel : public Object {
 //         public:
-//             Scene() {};
+//             SceneModel() {};
 
 //             int Init() {
 
@@ -413,7 +413,7 @@
 
 //         namespace Stage {
 
-//             void SwitchScene(Model::Scene* pTargetScene) {
+//             void SwitchScene(Model::SceneModel* pTargetScene) {
 //                 if (pTargetScene != NULL)
 //                     EngineX::pNextScene = pTargetScene;
 

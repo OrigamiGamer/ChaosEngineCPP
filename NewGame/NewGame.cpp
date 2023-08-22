@@ -4,10 +4,14 @@
 
 /* Only support single window */
 
+void debug();
+
 // Main
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
     Engine::Stage::RegScene(&main_scene);
     Engine::Stage::RegScene(&debug_scene);
+
+    debug();
 
     static WindowInitialProperty WndProp;
     WndProp.WndTitle = (LPSTR)"ChaosEngine Game Window Test";
@@ -28,4 +32,10 @@ bool EngineExit() {
     if (MessageBox(Property::Window::hWnd, "Please confirm to exit", "Exit", MB_OKCANCEL) != IDOK)
         return false;
     return true;    // true returned means confirm to exit the engine.
+};
+
+void debug() {
+    vector<Model::SceneModel> vec_Scene;
+    vec_Scene.push_back(main_scene);
+
 };

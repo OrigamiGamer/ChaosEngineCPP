@@ -26,12 +26,12 @@ namespace ChaosEngine {
 
         namespace Stage {
 
-            void SwitchScene(Model::Scene* pTargetScene) {
+            void SwitchScene(Model::SceneModel* pTargetScene) {
                 if (pTargetScene != NULL)
                     EngineX::pNextScene = pTargetScene;
             };
 
-            void RegScene(Model::Scene* pAnyScene) {
+            void RegScene(Model::SceneModel* pAnyScene) {
                 if (pAnyScene != NULL) {
                     if (EngineX::pCurrentScene == NULL) {
                         EngineX::pCurrentScene = pAnyScene;
@@ -58,8 +58,7 @@ namespace ChaosEngine {
                 brush_properties.opacity = 1;
                 brush_properties.transform = D2D1::IdentityMatrix();
 
-                //WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
-                WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), &pBrush);
+                WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
 
 
                 return 0;

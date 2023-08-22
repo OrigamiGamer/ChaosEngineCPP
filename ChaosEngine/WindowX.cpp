@@ -117,13 +117,9 @@ namespace ChaosEngine {
         LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             switch (uMsg) {
 
-            case WM_CREATE:
-                Property::Window::BindWindow(hWnd);
-
-                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, "Initialize Direct2D failed!", "ERROR", 0);
-                EngineX::EngineInit();  // Init
-
-                SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
+            case WM_ENGINE_FRAME:
+                EngineX::EngineUpdate();    // Update
+                EngineX::EngineRender();    // Render
 
                 break;
             case WM_SIZE:
@@ -141,9 +137,23 @@ namespace ChaosEngine {
                 Property::Window::MousePos.y = (float)GET_Y_LPARAM(lParam);
 
                 break;
-            case WM_ENGINE_FRAME:
-                EngineX::EngineUpdate();    // Update
-                EngineX::EngineRender();    // Render
+            case WM_KEYDOWN:
+                if (Property::Window::VirtKeyStateBuffer[wParam].current != TRUE)
+                    Property::Window::VirtKeyStateBuffer[wParam].current = TRUE;
+
+                break;
+            case WM_KEYUP:
+                if (Property::Window::VirtKeyStateBuffer[wParam].current != FALSE)
+                    Property::Window::VirtKeyStateBuffer[wParam].current = FALSE;
+
+                break;
+            case WM_CREATE:
+                Property::Window::BindWindow(hWnd);
+
+                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, "Initialize Direct2D failed!", "ERROR", 0);
+                EngineX::EngineInit();  // Init
+
+                SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
 
                 break;
             case WM_CLOSE:

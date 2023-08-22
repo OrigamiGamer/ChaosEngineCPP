@@ -3,5 +3,6 @@
 
 /* Model */
 
-#include "Model/Object.h"
-#include "Model/Scene.h"
+#include "Model/CompModel.h"
+#include "Model/ObjectModel.h"
+#include "Model/SceneModel.h"

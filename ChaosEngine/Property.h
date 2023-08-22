@@ -16,6 +16,8 @@ namespace ChaosEngine {
             extern Type::SIZE Size;
             extern Type::POS Pos;
             extern Type::POS MousePos;
+            extern Type::VirtualKeyState VirtKeyStateBuffer[254];
+            extern std::vector<int> VirtKeyInputBuffer;
 
             void BindWindow(HWND new_hWnd);
 

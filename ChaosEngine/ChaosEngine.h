@@ -33,7 +33,7 @@
 #include "Property.h"
 #include "WindowX.h"
 #include "EngineX.h"
-#include "res/ObjectList.h"
+#include "res/ResList.h"
 #include "Engine.h"
 
 #ifndef GAME_DEV

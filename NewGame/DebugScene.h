@@ -1,7 +1,7 @@
 #pragma once
 #include "NewGame.h"
 
-class DebugScene : public Scene {
+class DebugScene : public SceneModel {
 
 public:
     DebugScene();
