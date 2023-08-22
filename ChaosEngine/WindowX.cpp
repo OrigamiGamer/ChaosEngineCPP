@@ -61,7 +61,7 @@ namespace ChaosEngine {
             WNDCLASSEX WndClassEx;
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
-            WndClassEx.lpszClassName = "ChaosGameWin";
+            WndClassEx.lpszClassName = L"ChaosGameWin";
             WndClassEx.lpfnWndProc = WndProc;
             WndClassEx.style = CS_HREDRAW | CS_VREDRAW; //CS_SAVEBITS | CS_DROPSHADOW;
             WndClassEx.cbClsExtra = 0;
@@ -75,7 +75,7 @@ namespace ChaosEngine {
             RegisterClassEx(&WndClassEx);
 
             hWnd = CreateWindow(
-                "ChaosGameWin",
+                L"ChaosGameWin",
                 WndProp->WndTitle,
                 WS_OVERLAPPEDWINDOW,
                 WndProp->x, WndProp->y,
@@ -86,8 +86,8 @@ namespace ChaosEngine {
                 NULL
             );
             if (hWnd == 0) {
-                std::string content = "Initialize Window Failed! " + std::to_string(GetLastError());
-                MessageBox(NULL, content.c_str(), "ERROR", 0);
+                std::wstring content = L"Initialize Window Failed! " + std::to_wstring(GetLastError());
+                MessageBox(NULL, content.c_str(), L"ERROR", 0);
                 return 0;
             };
 
@@ -150,7 +150,7 @@ namespace ChaosEngine {
             case WM_CREATE:
                 Property::Window::BindWindow(hWnd);
 
-                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, "Initialize Direct2D failed!", "ERROR", 0);
+                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, L"Initialize Direct2D failed!", L"ERROR", 0);
                 EngineX::EngineInit();  // Init
 
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
@@ -162,7 +162,7 @@ namespace ChaosEngine {
 
                 break;
             case WM_DESTROY:
-                UnregisterClass("ChaosGameWin", NULL);
+                UnregisterClass(L"ChaosGameWin", NULL);
                 PostQuitMessage(0);
 
                 break;

@@ -1,4 +1,5 @@
 #pragma once
+//#define UNICODE
 //#define GAME_DEV
 
 #include "ChaosEngine.h"

@@ -74,12 +74,17 @@ namespace ChaosEngine {
                 pBrush->SetColor(D2D1::ColorF(newColor.rgb, newColor.alpha));
             };
 
-            void SetStrokeWidth(float newStrokeWidth) {
+            void SetStrokeWidth(FLOAT newStrokeWidth) {
                 if (newStrokeWidth >= 0) StrokeWidth = newStrokeWidth;
             };
 
             void DrawLine(Type::POS pos_1, Type::POS pos_2) {
-                WindowX::pHwndRenderTarget->DrawLine({ pos_1.x,pos_1.y }, { pos_2.x,pos_2.y }, pBrush, StrokeWidth);
+                WindowX::pHwndRenderTarget->DrawLine({ pos_1.x, pos_1.y }, { pos_2.x, pos_2.y }, pBrush, StrokeWidth);
+            };
+
+            void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius) {
+                D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
+                WindowX::pHwndRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(rect, radius.x, radius.y), pBrush);
             };
 
         }

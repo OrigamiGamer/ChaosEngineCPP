@@ -28,8 +28,9 @@ namespace ChaosEngine {
             LRESULT Init();
             LRESULT Release();
             void SetColor(Type::Color newColor);
-            void SetStrokeWidth(float newStrokeWidth);
+            void SetStrokeWidth(FLOAT newStrokeWidth);
             void DrawLine(Type::POS pos_1, Type::POS pos_2);
+            void DrawRectangle(Type::POS pos, Type::SIZE size, FLOAT radiusX = 0, FLOAT radiusY = 0);
 
         }
 

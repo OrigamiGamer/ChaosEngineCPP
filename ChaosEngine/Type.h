@@ -25,7 +25,7 @@ namespace ChaosEngine {
         struct WindowInitialProperty {
             int width = 800, height = 600;
             int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
-            LPSTR WndTitle = "New Game";
+            LPWSTR WndTitle = L"New Game";
             HWND hWndParent = NULL;
         };
         struct EngineStartupProperty {
@@ -47,7 +47,7 @@ namespace ChaosEngine {
         };
 
         struct POS {
-            float x, y;
+            float x = 0, y = 0;
 
             POS() = default;
             POS(float x, float y) : x(x), y(y) {};

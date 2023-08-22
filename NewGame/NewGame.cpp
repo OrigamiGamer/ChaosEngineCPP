@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     debug();
 
     static WindowInitialProperty WndProp;
-    WndProp.WndTitle = (LPSTR)"ChaosEngine Game Window Test";
+    WndProp.WndTitle = L"ChaosEngine Game Window Test";
     // WndProp.width = 1280;
     // WndProp.height = 720;
 
@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 };
 
 bool EngineExit() {
-    if (MessageBox(Property::Window::hWnd, "Please confirm to exit", "Exit", MB_OKCANCEL) != IDOK)
+    if (MessageBox(Property::Window::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
         return false;
     return true;    // true returned means confirm to exit the engine.
 };
