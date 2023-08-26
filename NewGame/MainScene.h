@@ -2,6 +2,7 @@
 #include "NewGame.h"
 
 class MainScene : public SceneModel {
+    CompList::Timer timer;
 
 public:
     MainScene();

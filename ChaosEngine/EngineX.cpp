@@ -6,53 +6,47 @@ namespace ChaosEngine {
     /* EngineX for processing engine logic */
     namespace EngineX {
 
+        // Global
+        std::vector<Model::SceneModel*> pSceneArray;
 
-        namespace _Internal {
+        Model::SceneModel* pCurScene = NULL;    // Current Scene
+        Model::SceneModel* pNextScene = pCurScene;  // Next Scene
 
-            void InitComp(Model::CompModel& AnyComp) {
-              
-                const std::string type_Comp = typeid(Model::CompModel).name();
-                const std::string type_Object = typeid(Model::ObjectModel).name();
-                const std::string type_Scene = typeid(Model::SceneModel).name();
+        namespace SafeAccessScene {
 
-                std::string new_type = typeid(AnyComp).name();
-                
-                if (new_type == type_Comp) {
-                    
+            LRESULT InitScene(Model::SceneModel* new_scene) {
+                if (new_scene != NULL) {
+                    ((Model::SceneModel*)new_scene)->Init();
                 }
-                else if (new_type == type_Object) {
+                else return FALSE;
 
-                }
-                else if (new_type == type_Scene) {
-                    
-                }
+                return TRUE;
             };
 
-            void UpdateComp(Model::CompModel& AnyComp) {
+            LRESULT UpdateScene(Model::SceneModel* new_scene) {
+                if (new_scene != NULL) {
+                    new_scene->Update();
+                }
+                else return FALSE;
 
+                return TRUE;
             };
 
-            void RenderComp(Model::CompModel& AnyComp) {
+            LRESULT RenderScene(Model::SceneModel* new_scene) {
+                if (new_scene != NULL) {
+                    new_scene->Render();
+                }
+                else return FALSE;
 
-            };
-
-            void ReleaseComp(Model::CompModel& AnyComp) {
+                return TRUE;
             };
 
         };
 
 
-        // Global
-        std::vector<Model::SceneModel*> pSceneArray;
-        Model::SceneModel* pCurrentScene = NULL;
-        Model::SceneModel* pNextScene = pCurrentScene;
-
-
         // Engine Init
         LRESULT EngineInit() {
             Engine::IGraphic::Init();
-
-            if (pCurrentScene != NULL) pCurrentScene->Init();
 
             return 0;
         };
@@ -60,14 +54,12 @@ namespace ChaosEngine {
 
         // Engine Update
         LRESULT EngineUpdate() {
-            if (pCurrentScene != NULL) {
-                if (pCurrentScene == pNextScene) {
-                    pCurrentScene->Update();
-
-                } else if (pCurrentScene->OnSceneExiting()) {
-                    pCurrentScene = pNextScene;
-                    pCurrentScene->Init();
-                }
+            if (pCurScene == pNextScene) {
+                SafeAccessScene::UpdateScene(pCurScene);
+            }
+            else if (pCurScene->OnSceneExiting()) {
+                SafeAccessScene::InitScene(pNextScene);
+                pCurScene = pNextScene;
             }
 
             return 0;
@@ -79,7 +71,7 @@ namespace ChaosEngine {
             WindowX::pHwndRenderTarget->BeginDraw();
             WindowX::pHwndRenderTarget->Clear();
 
-            if (pCurrentScene != NULL) pCurrentScene->Render();
+            SafeAccessScene::RenderScene(pCurScene);
 
             WindowX::pHwndRenderTarget->EndDraw();
             ValidateRect(Property::Window::hWnd, NULL);
@@ -89,7 +81,7 @@ namespace ChaosEngine {
 
         // Engine Exit
         LRESULT EngineExit() {
-            if (!Property::Engine::StartupProp->pEngineExit())
+            if (!Property::Engine::StartupProp->pEngineExit())  // Ignore any other value returned.
                 return FALSE;
 
             Engine::IGraphic::Release();

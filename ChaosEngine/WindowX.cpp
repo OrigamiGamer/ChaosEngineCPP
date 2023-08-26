@@ -67,7 +67,7 @@ namespace ChaosEngine {
             WndClassEx.cbClsExtra = 0;
             WndClassEx.cbWndExtra = 0;
             WndClassEx.hIcon = NULL;
-            WndClassEx.hCursor = NULL;
+            WndClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);
             WndClassEx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
             WndClassEx.lpszMenuName = NULL;
             WndClassEx.hIconSm = NULL;
@@ -88,7 +88,7 @@ namespace ChaosEngine {
             if (hWnd == 0) {
                 std::wstring content = L"Initialize Window Failed! " + std::to_wstring(GetLastError());
                 MessageBox(NULL, content.c_str(), L"ERROR", 0);
-                return 0;
+                return NULL;
             };
 
             ShowWindow(hWnd, SW_SHOW);

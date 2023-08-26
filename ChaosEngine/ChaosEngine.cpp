@@ -273,23 +273,23 @@
 //     namespace EngineX {
 
 //         // Global
-//         Model::SceneModel* pCurrentScene = NULL;
-//         Model::SceneModel* pNextScene = pCurrentScene;
+//         Model::SceneModel* pCurScene = NULL;
+//         Model::SceneModel* pNextScene = pCurScene;
 
 //         LRESULT EngineInit() {
-//             if (pCurrentScene != NULL)
-//                 pCurrentScene->Init();
+//             if (pCurScene != NULL)
+//                 pCurScene->Init();
 
 //             return 0;
 //         };
 
 //         LRESULT EngineUpdate() {
-//             if (pCurrentScene != pNextScene) {
-//                 pCurrentScene->Update();
+//             if (pCurScene != pNextScene) {
+//                 pCurScene->Update();
 
-//             } else if (pCurrentScene->OnClose()) {
-//                 pCurrentScene = pNextScene;
-//                 pCurrentScene->Init();
+//             } else if (pCurScene->OnClose()) {
+//                 pCurScene = pNextScene;
+//                 pCurScene->Init();
 //             }
 
 //             return 0;
@@ -299,7 +299,7 @@
 //             WindowX::pHwndRenderTarget->BeginDraw();
 //             WindowX::pHwndRenderTarget->Clear({ 0,0,0,1 });
 
-//             pCurrentScene->Render();
+//             pCurScene->Render();
 
 //             WindowX::pHwndRenderTarget->EndDraw();
 //             return 0;

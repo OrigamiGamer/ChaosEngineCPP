@@ -7,38 +7,40 @@ namespace ChaosEngine {
     /* Engine */
     namespace Engine {
 
-        BOOL Start(Type::WindowInitialProperty* WndProp, Type::EngineStartupProperty* EngineProp) {
-            WindowX::InitWindow(WndProp);
-            Property::Engine::StartupProp = EngineProp;
-
+        BOOL Start(Type::WindowInitialProperty& WndProp, Type::EngineStartupProperty& EngineProp) {
+            if (WindowX::InitWindow(&WndProp) == NULL) return FALSE;
+            Property::Engine::StartupProp = &EngineProp;
+            
             WindowX::StartMessageLoop();
 
-            return true;
+            return TRUE;
         };
 
         BOOL Release() {
             WindowX::ReleaseDirectX();
 
-            return true;
+            return TRUE;
         };
 
 
 
         namespace Stage {
 
-            void SwitchScene(Model::SceneModel* pTargetScene) {
-                if (pTargetScene != NULL)
-                    EngineX::pNextScene = pTargetScene;
+            void SwitchScene(Model::SceneModel& TargetScene) {
+                if (&TargetScene != NULL)
+                    EngineX::pNextScene = &TargetScene;
             };
 
-            void RegScene(Model::SceneModel* pAnyScene) {
-                if (pAnyScene != NULL) {
-                    if (EngineX::pCurrentScene == NULL) {
-                        EngineX::pCurrentScene = pAnyScene;
-                        EngineX::pNextScene = EngineX::pCurrentScene;   // Switch to initial scene directly
+            void RegScene(Model::SceneModel& AnyScene) {
+                if (&AnyScene != NULL) {
+                    EngineX::SafeAccessScene::InitScene(&AnyScene);
+                    EngineX::pSceneArray.push_back(&AnyScene);  // Register the new scene
+
+                    if (EngineX::pCurScene == NULL) {
+                        EngineX::pCurScene = &AnyScene;
+                        EngineX::pNextScene = EngineX::pCurScene;   // Switch to initial scene directly
                     }
 
-                    EngineX::pSceneArray.push_back(pAnyScene);  // Register the new scene
                 }
 
             };
@@ -82,9 +84,14 @@ namespace ChaosEngine {
                 WindowX::pHwndRenderTarget->DrawLine({ pos_1.x, pos_1.y }, { pos_2.x, pos_2.y }, pBrush, StrokeWidth);
             };
 
-            void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius) {
+            void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius = { 0, 0 }) {
                 D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
-                WindowX::pHwndRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(rect, radius.x, radius.y), pBrush);
+                if (radius.x == 0 && radius.y == 0) {
+                    WindowX::pHwndRenderTarget->DrawRectangle(rect, pBrush, StrokeWidth);
+                }
+                else {
+                    WindowX::pHwndRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(rect, radius.x, radius.y), pBrush, StrokeWidth);
+                }
             };
 
         }

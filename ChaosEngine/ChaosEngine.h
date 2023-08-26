@@ -2,7 +2,7 @@
 #define UNICODE
 //#define _UNICODE
 
-// All is function is for single engine obj in a project.
+// All is function is for single engine obj in single project.
 
 
 /* Libraries */
@@ -31,9 +31,9 @@
 #include "Memory.h"
 #include "Type.h"
 #include "Property.h"
+#include "res/ResList.h"
 #include "WindowX.h"
 #include "EngineX.h"
-#include "res/ResList.h"
 #include "Engine.h"
 
 #ifndef GAME_DEV

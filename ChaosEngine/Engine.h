@@ -13,8 +13,8 @@ namespace ChaosEngine {
 
         namespace Stage {
 
-            void SwitchScene(Model::SceneModel* pTargetScene);
-            void RegScene(Model::SceneModel* pAnyScene);
+            void SwitchScene(Model::SceneModel& pTargetScene);
+            void RegScene(Model::SceneModel& pAnyScene);
 
         }
 
@@ -30,7 +30,7 @@ namespace ChaosEngine {
             void SetColor(Type::Color newColor);
             void SetStrokeWidth(FLOAT newStrokeWidth);
             void DrawLine(Type::POS pos_1, Type::POS pos_2);
-            void DrawRectangle(Type::POS pos, Type::SIZE size, FLOAT radiusX = 0, FLOAT radiusY = 0);
+            void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
 
         }
 

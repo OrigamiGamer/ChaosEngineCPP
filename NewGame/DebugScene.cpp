@@ -13,7 +13,7 @@ int DebugScene::Init() {
 int DebugScene::Update() {
 
     if (GetKeyState('F') < 0) {
-        Engine::Stage::SwitchScene(&main_scene);
+        Engine::Stage::SwitchScene(main_scene);
     }
 
 

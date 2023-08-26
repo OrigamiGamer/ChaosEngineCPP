@@ -14,14 +14,13 @@
 
 namespace ChaosEngine {
 
-    // Callback EngineProc
-    typedef bool (CALLBACK* ENGINEPROC)();
-
-
-
-    // Types defined
+    // Type defines
     namespace Type {
 
+        // Callback EngineProc
+        typedef BOOL(CALLBACK* ENGINEPROC)();
+
+        // Initial Property
         struct WindowInitialProperty {
             int width = 800, height = 600;
             int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
@@ -33,6 +32,7 @@ namespace ChaosEngine {
             int FPS = 60;
         };
 
+        // Basic Type
         struct SIZE {
             float width, height;
 

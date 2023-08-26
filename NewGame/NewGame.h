@@ -15,5 +15,5 @@ using namespace Model;
 #include "DebugScene.cpp"
 
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
-bool EngineExit();
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd);
+BOOL EngineExit();
