@@ -1,6 +1,6 @@
 #pragma once
-#include "ChaosEngine.h"
+#include "ResList.h"
 
-/* Object */
+/* Object List */
 
-//#include "Object/"
+#include "Object/Sprite.cpp"

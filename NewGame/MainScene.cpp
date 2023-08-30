@@ -20,7 +20,7 @@ int MainScene::Update() {
 
     ULONGLONG delta_t;
     if (timer.Todo(&delta_t)) {
-        OutputDebugString((std::to_wstring(delta_t) + L"\n").c_str());
+        OutputDebugString((std::to_wstring(GetTickCount()) + L"\n").c_str());
     };
 
     return 0;

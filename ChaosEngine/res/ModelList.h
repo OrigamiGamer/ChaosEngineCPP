@@ -1,7 +1,7 @@
 #pragma once
-#include "ObjectList.h"
+#include "ResList.h"
 
-/* Model */
+/* Model List */
 
 #include "Model/CompModel.h"
 #include "Model/ObjectModel.h"

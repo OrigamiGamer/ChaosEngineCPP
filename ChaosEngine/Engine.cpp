@@ -94,6 +94,15 @@ namespace ChaosEngine {
                 }
             };
 
+            void DrawTexture(Type::POS pos, Type::SIZE size, FLOAT opacity = 1.0F) {
+                ID2D1Bitmap* pBitmap = NULL;
+                //WindowX::pHwndRenderTarget->CreateBitmap();
+                
+                //WindowX::pHwndRenderTarget->CreateBitmapFromWicBitmap();
+                D2D1_RECT_F rect{ pos.x,pos.y,pos.x + size.width,pos.y + size.height };
+                WindowX::pHwndRenderTarget->DrawBitmap(pBitmap, rect, opacity);
+            };
+
         }
 
     }

@@ -1,5 +1,5 @@
 #pragma once
-#include "ChaosEngine.h"
+#include "CompList.h"
 
 namespace ChaosEngine {
 

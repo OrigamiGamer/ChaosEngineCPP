@@ -10,6 +10,7 @@ namespace ChaosEngine {
         // Global
         ID2D1Factory* pD2DFactory = NULL;
         ID2D1HwndRenderTarget* pHwndRenderTarget = NULL;
+        IWICImagingFactory* pWICFactory = NULL;
 
         // Initialize DirectX
         HRESULT InitDirectX(HWND hWnd) {
@@ -36,6 +37,10 @@ namespace ChaosEngine {
             hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
             if (FAILED(hr)) return hr;
 
+            /* WIC */
+
+            hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
+            if (FAILED(hr)) return hr;
 
 
             return hr;
@@ -45,6 +50,11 @@ namespace ChaosEngine {
         HRESULT ReleaseDirectX() {
             /* D2D */
             SafeRelease(&pD2DFactory);
+            
+            /* WIC */
+            SafeRelease(&pWICFactory);
+
+            pWICFactory->CreateBitmapFromMemory();
 
             return 0;
         };
