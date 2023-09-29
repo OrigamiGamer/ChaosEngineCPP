@@ -28,7 +28,7 @@ namespace ChaosEngine {
             HWND hWndParent = NULL;
         };
         struct EngineStartupProperty {
-            ENGINEPROC pEngineExit;
+            ENGINEPROC pGameExit;
             int FPS = 60;
         };
 
@@ -59,12 +59,12 @@ namespace ChaosEngine {
             POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
         };
 
-        struct Color {
+        struct COLOR {
             BYTE rgb;
             float alpha;
 
-            Color() = default;
-            Color(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
+            COLOR() = default;
+            COLOR(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
         };
 
         struct VirtualKeyState {

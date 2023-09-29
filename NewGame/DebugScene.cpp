@@ -4,7 +4,6 @@
 DebugScene::DebugScene() {
 
 };
-
 int DebugScene::Init() {
 
 
@@ -13,7 +12,7 @@ int DebugScene::Init() {
 int DebugScene::Update() {
 
     if (GetKeyState('F') < 0) {
-        Engine::Stage::SwitchScene(main_scene);
+        Stage::SwitchScene(main_scene);
     }
 
 
@@ -29,12 +28,10 @@ int DebugScene::Release() {
 
     return 0;
 };
-
 int DebugScene::OnSceneEntered() {
 
     return 0;
 };
-
 bool DebugScene::OnSceneExiting() {
 
     return true;

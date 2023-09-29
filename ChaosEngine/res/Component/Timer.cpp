@@ -65,12 +65,12 @@ namespace ChaosEngine {
 				Clear();
 			};
 
-			// TRUE returned means user can execute the codeblocks as event in "if";
-			// FALSE returned means ignore the tick now.
+			// TRUE returned means user can execute the codeblock as an event in "if";
+			// FALSE returned means ignore the current tick.
 			BOOL Todo(OPTIONAL OUT ULONGLONG* pTimeUsed = NULL) {
 				t = GetTickCount64();
 				
-				// For first run
+				// For the first run
 				if (last_t == 0) {
 					last_t = t;
 					last_event_t = t;
@@ -80,14 +80,14 @@ namespace ChaosEngine {
 					delta_t = t - last_t;	// get time used each cycle
 					cached_t += delta_t;	// update the cached time
 
-					// Create event
+					// Create an event
 					if (cached_t >= CycleTime) {
 						this->CountEventTodo += 1;	// update count of events todo
 						cached_t -= CycleTime;	// update the cached time
 
-						// To do event
+						// To do an event
 						if (this->CountEventTodo > 0) {
-							this->CountEventTodo -= 1;	// finish the event todo
+							this->CountEventTodo -= 1;	// finish an event todo
 							this->CountEventTotal += 1;	// log this event
 
 							if (pTimeUsed != NULL) *pTimeUsed = t - last_event_t;

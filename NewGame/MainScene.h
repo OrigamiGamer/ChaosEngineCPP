@@ -3,6 +3,7 @@
 
 class MainScene : public SceneModel {
     CompList::Timer timer;
+    ID2D1Bitmap* pD2DBitmap;
 
 public:
     MainScene();

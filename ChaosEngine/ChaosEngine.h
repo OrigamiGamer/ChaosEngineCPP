@@ -2,13 +2,14 @@
 #define UNICODE
 //#define _UNICODE
 
+
 // All is function is for single engine obj in single project.
 
 
 /* Libraries */
 
 //#pragma comment(lib,"DXGI.lib")
-#pragma comment(lib,"D2D1.lib") //#pragma comment(lib,"D3D12.lib")
+#pragma comment(lib,"D2D1.lib")	//#pragma comment(lib,"D3D12.lib")
 
 
 /* Dependances */
@@ -30,18 +31,23 @@
 
  /* Sources */
 
-#include "Memory.h"
+#include "Utils.h"
 #include "Type.h"
 #include "Property.h"
 #include "res/ResList.h"
 #include "WindowX.h"
 #include "EngineX.h"
 #include "Engine.h"
+#include "Stage.h"
+#include "IGraphic.h"
 
 #ifndef GAME_DEV
 #include "Property.cpp"
+#include "res/ResList.h"
 #include "WindowX.cpp"
 #include "EngineX.cpp"
 #include "Engine.cpp"
+#include "Stage.cpp"
+#include "IGraphic.cpp"
 
 #endif

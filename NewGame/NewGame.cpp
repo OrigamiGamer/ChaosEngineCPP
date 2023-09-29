@@ -6,8 +6,6 @@
 
 // Main
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd) {
-    Engine::Stage::RegScene(main_scene);
-    Engine::Stage::RegScene(debug_scene);
 
     static WindowInitialProperty WndProp;
     WndProp.WndTitle = L"ChaosEngine Game Window Test";
@@ -15,8 +13,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     // WndProp.height = 720;
 
     static EngineStartupProperty EngineProp;
-    EngineProp.pEngineExit = &EngineExit;
+    EngineProp.pGameExit = &GameExit;
     // EngineProp.FPS = 60;
+
+    Stage::RegScene(main_scene);
+    Stage::RegScene(debug_scene);
 
     Engine::Start(WndProp, EngineProp);
     Engine::Release();
@@ -24,7 +25,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     return 0;
 };
 
-BOOL EngineExit() {
+BOOL GameExit() {
     if (MessageBox(Property::Window::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
         return FALSE;
     return TRUE;    // TRUE returned means confirm to exit the engine.

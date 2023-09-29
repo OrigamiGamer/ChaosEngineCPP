@@ -3,7 +3,7 @@
 
 namespace ChaosEngine {
 
-    /* EngineX for processing engine logic */
+    /* EngineX, the process of engine logic */
     namespace EngineX {
 
         // Global
@@ -12,57 +12,27 @@ namespace ChaosEngine {
         Model::SceneModel* pCurScene = NULL;    // Current Scene
         Model::SceneModel* pNextScene = pCurScene;  // Next Scene
 
-        namespace SafeAccessScene {
-
-            LRESULT InitScene(Model::SceneModel* new_scene) {
-                if (new_scene != NULL) {
-                    ((Model::SceneModel*)new_scene)->Init();
-                }
-                else return FALSE;
-
-                return TRUE;
-            };
-
-            LRESULT UpdateScene(Model::SceneModel* new_scene) {
-                if (new_scene != NULL) {
-                    new_scene->Update();
-                }
-                else return FALSE;
-
-                return TRUE;
-            };
-
-            LRESULT RenderScene(Model::SceneModel* new_scene) {
-                if (new_scene != NULL) {
-                    new_scene->Render();
-                }
-                else return FALSE;
-
-                return TRUE;
-            };
-
-        };
-
 
         // Engine Init
         LRESULT EngineInit() {
-            Engine::IGraphic::Init();
+            LRESULT lr = S_OK;
+            lr = IGraphic::Init();
 
-            return 0;
+            return lr;
         };
 
 
         // Engine Update
         LRESULT EngineUpdate() {
             if (pCurScene == pNextScene) {
-                SafeAccessScene::UpdateScene(pCurScene);
+                if (pCurScene) pCurScene->Update();
             }
-            else if (pCurScene->OnSceneExiting()) {
-                SafeAccessScene::InitScene(pNextScene);
+            else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
+                if (pNextScene) pNextScene->Update();
                 pCurScene = pNextScene;
             }
 
-            return 0;
+            return S_OK;
         };
 
 
@@ -71,23 +41,23 @@ namespace ChaosEngine {
             WindowX::pHwndRenderTarget->BeginDraw();
             WindowX::pHwndRenderTarget->Clear();
 
-            SafeAccessScene::RenderScene(pCurScene);
+            if (pCurScene) pCurScene->Render();
 
             WindowX::pHwndRenderTarget->EndDraw();
             ValidateRect(Property::Window::hWnd, NULL);
-            return 0;
+            return S_OK;
         };
 
 
         // Engine Exit
         LRESULT EngineExit() {
-            if (!Property::Engine::StartupProp->pEngineExit())  // Ignore any other value returned.
+            if (!Property::Engine::StartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
                 return FALSE;
 
-            Engine::IGraphic::Release();
+            IGraphic::Release();
 
             std::cout << "Engine has exited!" << std::endl;
-            return TRUE;    // TRUE returned means confirm to exit.
+            return TRUE;    // TRUE returned means confirm exiting.
         };
 
     }

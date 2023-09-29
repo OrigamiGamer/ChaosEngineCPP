@@ -7,6 +7,9 @@ using namespace std;
 using namespace ChaosEngine;
 using namespace Type;
 using namespace Model;
+void test() {
+    TextureManager::GetSize();
+}
 
 #include "MainScene.h"
 #include "DebugScene.h"
@@ -16,4 +19,4 @@ using namespace Model;
 
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd);
-BOOL EngineExit();
+BOOL GameExit();

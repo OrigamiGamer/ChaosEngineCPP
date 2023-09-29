@@ -1,12 +1,12 @@
 #pragma once
 #include "ResList.h"
 
-/* Object List */
+/* Type List */
 
 #ifndef RES_LIST_CPP
 
 // header files
-#include "Object/Sprite.cpp"
+#include "Type/Texture.cpp"
 
 #else
 
