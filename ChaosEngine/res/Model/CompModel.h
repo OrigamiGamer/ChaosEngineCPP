@@ -8,13 +8,13 @@ namespace ChaosEngine {
 		class CompModel {
 		public:
 
-			virtual int Init() { return -1; };
-			virtual int Update() { return -1; };
-			virtual int Render() { return -1; };
-			virtual int Release() { return -1; };
+			virtual void Init() {};
+			virtual void Update() {};
+			virtual void Render() {};
+			virtual void Release() {};
 
 		};
-
+		  
 	}
 
 }

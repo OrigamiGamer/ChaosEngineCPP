@@ -3,14 +3,6 @@
 
 /* Object List */
 
-#ifndef RES_LIST_CPP
-
 // header files
+#include "Object/Image.h"
 #include "Object/Sprite.cpp"
-
-#else
-
-// source files
-
-
-#endif

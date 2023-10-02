@@ -29,7 +29,7 @@
 #include "JSON/json.hpp"
 
 
- /* Sources */
+/* Headers */
 
 #include "Utils.h"
 #include "Type.h"
@@ -41,9 +41,11 @@
 #include "Stage.h"
 #include "IGraphic.h"
 
+/* Sources */
+
 #ifndef GAME_DEV
 #include "Property.cpp"
-#include "res/ResList.h"
+#include "res/ResList.cpp"
 #include "WindowX.cpp"
 #include "EngineX.cpp"
 #include "Engine.cpp"

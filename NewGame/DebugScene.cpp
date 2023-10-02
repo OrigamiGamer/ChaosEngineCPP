@@ -4,29 +4,21 @@
 DebugScene::DebugScene() {
 
 };
-int DebugScene::Init() {
+void DebugScene::Init() {
 
-
-    return 0;
 };
-int DebugScene::Update() {
+void DebugScene::Update() {
 
     if (GetKeyState('F') < 0) {
         Stage::SwitchScene(main_scene);
     }
 
-
-    return 0;
 };
-int DebugScene::Render() {
+void DebugScene::Render() {
 
-
-    return 0;
 };
-int DebugScene::Release() {
+void DebugScene::Release() {
 
-
-    return 0;
 };
 int DebugScene::OnSceneEntered() {
 

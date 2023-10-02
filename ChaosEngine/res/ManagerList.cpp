@@ -3,5 +3,5 @@
 
 /* Manager List */
 
-// header files
-#include "Manager/TextureManager.h"
+// source files
+#include "Manager/TextureManager.cpp"

@@ -3,5 +3,5 @@
 
 /* Type List */
 
-// header files
+// source files
 #include "Type/Texture.cpp"

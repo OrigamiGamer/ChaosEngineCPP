@@ -21,21 +21,17 @@ namespace ChaosEngine {
 			ULONGLONG CycleTime = 0;
 
 
-			int Init() {
+			void Init() {
 
-				return 0;
 			};
-			//int Update() {
+			//void Update() {
 
-			//	return 0;
 			//};
-			//int Render() {
+			//void Render() {
 
-			//	return 0;
 			//};
-			int Release() {
+			void Release() {
 
-				return 0;
 			};
 
 

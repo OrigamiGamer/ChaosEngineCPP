@@ -29,7 +29,7 @@ namespace ChaosEngine {
 
         namespace Engine {
             extern Type::EngineStartupProperty* StartupProp;
-
+            
         };
 
     }

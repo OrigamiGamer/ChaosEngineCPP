@@ -3,15 +3,15 @@
 
 class MainScene : public SceneModel {
     CompList::Timer timer;
-    ID2D1Bitmap* pD2DBitmap;
+    ObjectList::Image image;
 
 public:
     MainScene();
 
-    int Init();
-    int Update();
-    int Render();
-    int Release();
+    void Init();
+    void Update();
+    void Render();
+    void Release();
     int OnSceneEntered();
     bool OnSceneExiting();
 

@@ -7,27 +7,23 @@ namespace ChaosEngine {
 
 		class Sprite : public Model::ObjectModel {
 		private:
-
+			
 		public:
 
-
-			int Init() {
-				return 0;
+			void Init() {
 			};
-			int Update() {
-				return 0;
+			void Update() {
 			};
-			int Render() {
-				return 0;
+			void Render() {
 			};
-			int Release() {
-				return 0;
+			void Release() {
 			};
-
-
+			
 			void Create() {
-
+				
 			};
+
+
 
 		};
 

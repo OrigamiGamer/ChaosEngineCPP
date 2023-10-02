@@ -18,6 +18,8 @@ namespace ChaosEngine {
             LRESULT lr = S_OK;
             lr = IGraphic::Init();
 
+            lr = Property::Engine::StartupProp->pGameMain();
+
             return lr;
         };
 
@@ -41,7 +43,9 @@ namespace ChaosEngine {
             WindowX::pHwndRenderTarget->BeginDraw();
             WindowX::pHwndRenderTarget->Clear();
 
-            if (pCurScene) pCurScene->Render();
+            if (pCurScene) {
+                pCurScene->Render();
+            }
 
             WindowX::pHwndRenderTarget->EndDraw();
             ValidateRect(Property::Window::hWnd, NULL);

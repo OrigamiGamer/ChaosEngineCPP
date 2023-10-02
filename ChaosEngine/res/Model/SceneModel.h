@@ -13,16 +13,18 @@ namespace ChaosEngine {
         public:
             SceneModel() {};
 
-            int Init() { return -3; };
-            int Update() {
+            void Init() {};
+            void Update() {
                 for (int i = 0; i < vec_pComp.size(); i++) {
                     vec_pComp[i]->Update();
                 };
-
-                return -3;
             };
-            int Render() { return -3; };
-            int Release() { return -3; };
+            void Render() {
+                for (int i = 0; i < vec_pComp.size(); i++) {
+                    vec_pComp[i]->Render();
+                };
+            };
+            void Release() {};
 
 
             virtual int OnSceneEntered() {

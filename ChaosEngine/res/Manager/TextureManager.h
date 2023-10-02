@@ -3,14 +3,20 @@
 
 namespace ChaosEngine {
 
-    namespace TextureManager {
+    namespace Manager {
 
-        extern std::vector<LPWSTR> vec_regName;
-        extern std::vector<Type::Texture> vec_tex;
+        class TextureManager {
+        public:
+            std::vector<std::wstring> vec_regName;
+            std::vector<Type::Texture> vec_tex;
 
-        HRESULT CreateTextureFromFile(LPWSTR fileName, LPWSTR regName = L"");
-        Type::SIZE GetSize();
-        HRESULT Release();
+            TextureManager();
+
+            HRESULT CreateTextureFromFile(std::wstring fileName, std::wstring regName, Type::Texture** lpTexture);
+            HRESULT Release();
+            Type::Texture* GetTexture(std::wstring regName);
+
+        } Texture;
 
     }
 

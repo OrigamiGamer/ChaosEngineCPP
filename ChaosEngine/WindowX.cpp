@@ -5,63 +5,6 @@ namespace ChaosEngine {
 
     namespace WindowX {
 
-        /* Function about DirectX */
-
-        // Global
-        ID2D1Factory* pD2DFactory = NULL;
-        ID2D1HwndRenderTarget* pHwndRenderTarget = NULL;
-        IWICImagingFactory* pWICFactory = NULL;
-
-
-        // Initialize DirectX
-        HRESULT InitDirectX(HWND hWnd) {
-
-            HRESULT hr = NULL;
-
-            /* D2D */
-
-            hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
-            if (FAILED(hr)) return hr;
-
-            D2D1_RENDER_TARGET_PROPERTIES RenderTarget_Properties{};
-            //float hWndDpi = GetDpiForWindow(hWnd);
-            //RenderTarget_Properties.dpiX = hWndDpi;
-            //RenderTarget_Properties.dpiY = hWndDpi;
-            RenderTarget_Properties.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
-            RenderTarget_Properties.pixelFormat = { DXGI_FORMAT_R8G8B8A8_UNORM ,D2D1_ALPHA_MODE_PREMULTIPLIED };
-
-            D2D1_HWND_RENDER_TARGET_PROPERTIES HwndRenderTarget_properties{};
-            HwndRenderTarget_properties.hwnd = hWnd;
-            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Property::Window::Size.width, (int)Property::Window::Size.height);
-            HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
-
-            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
-            if (FAILED(hr)) return hr;
-
-            /* WIC */
-
-            hr = CoInitialize(NULL);
-            hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
-            if (FAILED(hr)) return hr;
-
-
-            return hr;
-        };
-
-        // Release DirectX
-        HRESULT ReleaseDirectX() {
-            /* D2D */
-            SafeRelease(&pD2DFactory);
-            
-            /* WIC */
-            SafeRelease(&pWICFactory);
-
-
-            return 0;
-        };
-
-
-
         /* Function about Windows */
 
         // Initialize Window
@@ -181,6 +124,61 @@ namespace ChaosEngine {
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
             };
+
+            return 0;
+        };
+
+
+
+        /* Function about DirectX */
+
+        // Global
+        ID2D1Factory* pD2DFactory = NULL;
+        ID2D1HwndRenderTarget* pHwndRenderTarget = NULL;
+        IWICImagingFactory* pWICFactory = NULL;
+
+        // Initialize DirectX
+        HRESULT InitDirectX(HWND hWnd) {
+            HRESULT hr = NULL;
+
+            /* D2D */
+
+            hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+            if (FAILED(hr)) return hr;
+
+            D2D1_RENDER_TARGET_PROPERTIES RenderTarget_Properties{};
+            //float hWndDpi = GetDpiForWindow(hWnd);
+            //RenderTarget_Properties.dpiX = hWndDpi;
+            //RenderTarget_Properties.dpiY = hWndDpi;
+            RenderTarget_Properties.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
+            RenderTarget_Properties.pixelFormat = { DXGI_FORMAT_R8G8B8A8_UNORM ,D2D1_ALPHA_MODE_PREMULTIPLIED };
+
+            D2D1_HWND_RENDER_TARGET_PROPERTIES HwndRenderTarget_properties{};
+            HwndRenderTarget_properties.hwnd = hWnd;
+            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Property::Window::Size.width, (int)Property::Window::Size.height);
+            HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
+
+            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
+            if (FAILED(hr)) return hr;
+
+            /* WIC */
+
+            hr = CoInitialize(NULL);
+            hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
+            if (FAILED(hr)) return hr;
+
+
+            return hr;
+        };
+
+        // Release DirectX
+        HRESULT ReleaseDirectX() {
+
+            /* D2D */
+            SafeRelease(&pD2DFactory);
+
+            /* WIC */
+            SafeRelease(&pWICFactory);
 
             return 0;
         };

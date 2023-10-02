@@ -11,8 +11,7 @@ namespace ChaosEngine {
 
 			Type::SIZE GetSize() {
 				D2D1_SIZE_U size{};
-				if (!pD2DBitmap)
-					size = pD2DBitmap->GetPixelSize();
+				if (pD2DBitmap) size = pD2DBitmap->GetPixelSize();
 				return Type::SIZE((float)size.width, (float)size.height);
 			};
 

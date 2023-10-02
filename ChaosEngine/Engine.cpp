@@ -7,9 +7,9 @@ namespace ChaosEngine {
     namespace Engine {
 
         BOOL Start(Type::WindowInitialProperty& WndProp, Type::EngineStartupProperty& EngineProp) {
-            if (WindowX::InitWindow(&WndProp) == NULL) return FALSE;
             Property::Engine::StartupProp = &EngineProp;
-            
+
+            if (WindowX::InitWindow(&WndProp) == NULL) return FALSE;
             WindowX::StartMessageLoop();
 
             return TRUE;

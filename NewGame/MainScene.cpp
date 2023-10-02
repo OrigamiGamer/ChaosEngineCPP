@@ -3,20 +3,23 @@
 
 MainScene::MainScene() {
     timer;
-    pD2DBitmap = NULL;
+    image;
+    
 };
-int MainScene::Init() {
+void MainScene::Init() {
     this->RegComp(timer);
     timer.Create(100);
     timer.Begin();
 
-    //TextureManager::CreateTextureFromFile(L"D:\\origami\\ChaosEngine\\ChaosEngineCPP\\NewGame\\res\\texture\\stonecutter.png");
-    //TextureManager::Release();
-    
+    this->RegComp(image);
+    Type::Texture* lpTex = NULL;
+    Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
+    image.SetTexture(lpTex);
+    image.SetSize(100, 100);
+    image.SetPos(200, 200);
 
-    return 0;
 };
-int MainScene::Update() {
+void MainScene::Update() {
 
     if (GetKeyState('D') < 0) {
         Stage::SwitchScene(debug_scene);
@@ -27,23 +30,18 @@ int MainScene::Update() {
         OutputDebugString((std::to_wstring(GetTickCount()) + L"\n").c_str());
     };
 
-    return 0;
 };
-int MainScene::Render() {
+void MainScene::Render() {
 
     IGraphic::SetStrokeWidth(10);
     IGraphic::DrawLine({ 50,50 }, { 200,100 });
     IGraphic::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
 
-    //WindowX::pHwndRenderTarget->DrawBitmap(pD2DBitmap);
-
-
-    return 0;
 };
-int MainScene::Release() {
+void MainScene::Release() {
 
 
-    return 0;
+
 };
 int MainScene::OnSceneEntered() {
 

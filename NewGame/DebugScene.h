@@ -6,10 +6,10 @@ class DebugScene : public SceneModel {
 public:
     DebugScene();
 
-    int Init();
-    int Update();
-    int Render();
-    int Release();
+    void Init();
+    void Update();
+    void Render();
+    void Release();
     int OnSceneEntered();
     bool OnSceneExiting();
 
