@@ -103,7 +103,6 @@ namespace ChaosEngine {
                 break;
             case WM_CHAR:
                 Property::Window::VirtKeyInputBuffer.push_back(wParam);
-                //OutputDebugString(std::to_wstring(wParam).c_str());
 
                 break;
             case WM_CREATE:
