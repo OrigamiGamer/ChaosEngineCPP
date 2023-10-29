@@ -10,7 +10,6 @@ namespace ChaosEngine {
     namespace Property {
 
         /* Window */
-
         namespace Window {
             HWND hWnd = NULL;
             Type::SIZE Size;
@@ -40,7 +39,6 @@ namespace ChaosEngine {
 
 
         /* Engine */
-
         namespace Engine {
             Type::EngineStartupProperty* StartupProp = NULL;
                 

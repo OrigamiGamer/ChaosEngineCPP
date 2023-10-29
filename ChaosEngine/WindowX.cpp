@@ -101,6 +101,11 @@ namespace ChaosEngine {
                     Property::Window::VirtKeyStateBuffer[wParam].current = FALSE;
 
                 break;
+            case WM_CHAR:
+                Property::Window::VirtKeyInputBuffer.push_back(wParam);
+                //OutputDebugString(std::to_wstring(wParam).c_str());
+
+                break;
             case WM_CREATE:
                 Property::Window::BindWindow(hWnd);
 
@@ -141,11 +146,14 @@ namespace ChaosEngine {
         HRESULT InitDirectX(HWND hWnd) {
             HRESULT hr = NULL;
 
+            
             /* D2D */
 
+            // D2DFactory
             hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
             if (FAILED(hr)) return hr;
 
+            // HwndRenderTarget
             D2D1_RENDER_TARGET_PROPERTIES RenderTarget_Properties{};
             //float hWndDpi = GetDpiForWindow(hWnd);
             //RenderTarget_Properties.dpiX = hWndDpi;
@@ -163,6 +171,7 @@ namespace ChaosEngine {
 
             /* WIC */
 
+            // WICImagingFactory
             hr = CoInitialize(NULL);
             hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
             if (FAILED(hr)) return hr;

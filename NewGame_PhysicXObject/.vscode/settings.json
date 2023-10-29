@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.asm": "assembly",
+        "*.chaos": "csharp",
+        "iostream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}

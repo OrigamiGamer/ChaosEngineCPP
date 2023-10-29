@@ -7,7 +7,7 @@ include_directories(ChaosEngine)
 include_directories(ChaosEngine/lib)
 include_directories(ChaosEngine/res)
 
-add_library(${PROJECT_NAME} ChaosEngine/ChaosEngine.cpp)
+add_library(${PROJECT_NAME} ChaosEngine/ChaosEngine.cpp )
 
 # 3rd Libraries
 target_link_libraries(${PROJECT_NAME} ChakraCore.lib)

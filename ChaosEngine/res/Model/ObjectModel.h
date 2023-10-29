@@ -11,6 +11,12 @@ namespace ChaosEngine {
             Type::POS self_pos{};
 
         public:
+            DOUBLE mass = 0;    // kg
+            DOUBLE acceleration = 0;    // m/s^2
+            DOUBLE direction = 0;
+            BOOL use_physics = FALSE;   // Do NOT use physics to this Object by default.
+            
+        public:
             ObjectModel() {};
 
             void Init() {};

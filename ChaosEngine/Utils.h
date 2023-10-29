@@ -13,6 +13,7 @@ namespace ChaosEngine {
         }
     };
 
+    // Locate absolute filename from relative
     std::wstring locate(std::wstring fileName) {
         wchar_t _path[MAX_PATH];
         GetModuleFileName(NULL, _path, MAX_PATH);
