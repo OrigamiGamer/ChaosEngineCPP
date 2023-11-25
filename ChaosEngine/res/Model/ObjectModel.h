@@ -13,7 +13,7 @@ namespace ChaosEngine {
         public:
             DOUBLE mass = 0;    // kg
             DOUBLE acceleration = 0;    // m/s^2
-            DOUBLE direction = 0;
+            DOUBLE direction = 0;   // radian (NOT degree)
             BOOL use_physics = FALSE;   // Do NOT use physics to this Object by default.
             
         public:

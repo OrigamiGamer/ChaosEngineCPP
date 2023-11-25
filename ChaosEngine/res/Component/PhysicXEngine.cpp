@@ -31,6 +31,7 @@ namespace ChaosEngine {
 
 			// Exert a force on an Object.
 			void Force(Model::ObjectModel& target_lpObject, DOUBLE F, DOUBLE Direction) {
+				// l = PI/180
 				target_lpObject.acceleration = F / target_lpObject.mass;	// it needs addition to the force with direction,
 				target_lpObject.direction;	// instead of resetting directly!
 			};
