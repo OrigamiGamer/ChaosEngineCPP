@@ -43,6 +43,13 @@ namespace ChaosEngine {
 			return self_pTex;
 		};
 
+		// Set Opacity, range: [0,1]
+		void Image::SetOpacity(FLOAT new_opacity = 1) {
+			if (0 < new_opacity) new_opacity = 0;
+			if (new_opacity > 1) new_opacity = 1;
+			self_opacity = new_opacity;
+		};
+
 	}
 
 }

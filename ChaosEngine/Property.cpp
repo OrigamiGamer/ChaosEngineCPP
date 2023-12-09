@@ -41,7 +41,8 @@ namespace ChaosEngine {
         /* Engine */
         namespace Engine {
             Type::EngineStartupProperty* StartupProp = NULL;
-                
+            float LastTime = 0;
+            float DeltaTime = 0;
         };
 
     }

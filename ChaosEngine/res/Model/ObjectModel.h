@@ -11,10 +11,12 @@ namespace ChaosEngine {
             Type::POS self_pos{};
 
         public:
-            DOUBLE mass = 0;    // kg
-            DOUBLE acceleration = 0;    // m/s^2
-            DOUBLE direction = 0;   // radian (NOT degree)
             BOOL use_physics = FALSE;   // Do NOT use physics to this Object by default.
+            FLOAT mass = 0;    // kg
+            FLOAT force_x = 0;  // N
+            FLOAT force_y = 0;  // N
+            FLOAT velocity_x = 0;  // m/s
+            FLOAT velocity_y = 0;  // m/s
             
         public:
             ObjectModel() {};
@@ -47,6 +49,29 @@ namespace ChaosEngine {
             };
             Type::POS GetPos() const {
                 return self_pos;
+            };
+
+            void AddForce(Type::FORCE new_force) {
+                float& ma = new_force.magnitude;
+                float& di = new_force.direction;
+
+                if (0 <= di && di <= 90) {
+                    force_x += ma * cos(di);
+                    force_y += ma * sin(di);
+                }
+                else if (90 < di && di <= 180) {
+                    force_x -= ma * sin(di);
+                    force_y += ma * cos(di);
+                }
+                else if (180 < di && di <= 270) {
+                    force_x -= ma * cos(di);
+                    force_y -= ma * sin(di);
+                }
+                else if (270 < di && di <= 360) {
+                    force_x += ma * sin(di);
+                    force_y -= ma * cos(di);
+                }
+
             };
 
         };

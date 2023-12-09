@@ -6,11 +6,10 @@ namespace ChaosEngine {
     namespace Model {
 
         class SceneModel : public ObjectModel {
-        private:
-            std::vector<CompModel*> vec_pComp;
-
-
         public:
+            std::vector<CompModel*> vec_pComp;
+            std::vector<ObjectModel*> vec_pObject;
+
             SceneModel() {};
 
             void Init() {};
@@ -34,10 +33,14 @@ namespace ChaosEngine {
                 return true;    // true returned means confirmed to exit.
             };
 
-            // Register a component obj to the scene obj, immediately init the component before success.
+            // Register a component to this scene, immediately init the component before success.
             void RegComp(CompModel& AnyComp) {
+                AnyComp.Init();
                 vec_pComp.push_back(&AnyComp);
+            };
 
+            void RegObject(ObjectModel& AnyObject) {
+                vec_pObject.push_back(&AnyObject);
             };
 
         };

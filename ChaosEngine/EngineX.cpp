@@ -12,16 +12,13 @@ namespace ChaosEngine {
         Model::SceneModel* pCurScene = NULL;    // Current Scene
         Model::SceneModel* pNextScene = pCurScene;  // Next Scene
 
-        CompList::PhysicXEngine PhysicXEngine;
-
 
         // Engine Init
         LRESULT EngineInit() {
             LRESULT lr = S_OK;
             lr = IGraphic::Init();
-            PhysicXEngine.Init();
             
-            lr = Property::Engine::StartupProp->pGameMain();
+            lr = Property::Engine::StartupProp->pGameMain();    // Call GameMain function
 
             return lr;
         };
@@ -29,12 +26,18 @@ namespace ChaosEngine {
 
         // Engine Update
         LRESULT EngineUpdate() {
-            PhysicXEngine.Update();
-            
+            float CurTime = (float)GetTickCount() / 1000;
+            if (Property::Engine::LastTime == 0) Property::Engine::LastTime = CurTime;
+
             if (pCurScene == pNextScene) {
-                if (pCurScene) { 
-                    ((Model::SceneModel*)pCurScene)->Update();  // Update the logic of Model itself at first,
-                    pCurScene->Update();    // then update the logic of Scene.
+                if (pCurScene) {
+                    // Update Logic
+                    ((Model::SceneModel*)pCurScene)->Update();  // Update the logic in model at first,
+                    pCurScene->Update();    // then update the logic of scene.
+
+                    // Update PhysicX
+                    PhysicXEngine::PhysicXUpdate(pCurScene->vec_pObject, Property::Engine::DeltaTime);
+
                 };
             }
             else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
@@ -43,6 +46,8 @@ namespace ChaosEngine {
                 pCurScene = pNextScene;
             }
 
+            Property::Engine::DeltaTime = CurTime - Property::Engine::LastTime;
+            Property::Engine::LastTime = CurTime;
             return S_OK;
         };
 
@@ -53,7 +58,6 @@ namespace ChaosEngine {
             WindowX::pHwndRenderTarget->Clear();
 
             if (pCurScene) {
-                PhysicXEngine.Render();
                 ((Model::SceneModel*)pCurScene)->Render();  // Render in the same way to update.
                 pCurScene->Render();
             }
@@ -70,7 +74,6 @@ namespace ChaosEngine {
                 return FALSE;
 
             IGraphic::Release();
-            PhysicXEngine.Release();
 
             std::cout << "Engine has exited!" << std::endl;
             return TRUE;    // TRUE returned means confirm exiting.

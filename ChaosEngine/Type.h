@@ -68,6 +68,14 @@ namespace ChaosEngine {
             COLOR(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
         };
 
+        struct FORCE {
+            float magnitude = 0;    // N
+            float direction = 0;    // angle, range: [0,360]
+
+            FORCE() = default;
+            FORCE(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+        };
+
         struct VirtualKeyState {
             BOOL current = FALSE;
             BOOL last = FALSE;
