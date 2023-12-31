@@ -11,12 +11,15 @@ void MainScene::Init() {
     timer.Create(100);
     timer.Begin();
 
-    this->RegComp(image);
+    this->RegObject(image);
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
     image.SetTexture(lpTex);
-    image.size = { 100, 100 };
+    image.size = { 50, 50 };
     image.pos = { 200, 200 };
+    image.use_physics = TRUE;
+    image.mass = 1;
+    image.AddForce(FORCE(15*10, 0));
 
 };
 void MainScene::Update() {
@@ -33,9 +36,9 @@ void MainScene::Update() {
 };
 void MainScene::Render() {
 
-    IGraphic::SetStrokeWidth(10);
-    IGraphic::DrawLine({ 50,50 }, { 200,100 });
-    IGraphic::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
+    GraphicX::SetStrokeWidth(10);
+    GraphicX::DrawLine({ 50,50 }, { 200,100 });
+    GraphicX::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
 
 };
 void MainScene::Release() {

@@ -14,7 +14,7 @@ namespace ChaosEngine {
             if (pCurScene == pPreScene) {
                 if (pCurScene) {
                     // Update Logic
-                    ((Model::SceneModel*)pCurScene)->Update();  // Update the logic in model at first,
+                    pCurScene->_update();  // Update the logic in model at first,
                     pCurScene->Update();    // then update the logic of scene.
 
                     // Update PhysicX
@@ -23,7 +23,7 @@ namespace ChaosEngine {
                 };
             }
             else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
-                ((Model::SceneModel*)pPreScene)->Update(); // Update in the same way.
+                pPreScene->_update(); // Update in the same way.
                 if (pPreScene) pPreScene->Update();
                 pCurScene = pPreScene;
             }
@@ -32,7 +32,7 @@ namespace ChaosEngine {
         /* Stage Render */
         void StageRender() {
             if (pCurScene) {
-                ((Model::SceneModel*)pCurScene)->Render();  // Render in the same way to update.
+                pCurScene->_render();  // Render in the same way to update.
                 pCurScene->Render();
             }
         };
@@ -40,8 +40,7 @@ namespace ChaosEngine {
         /* Methods */
 
         void SwitchScene(Model::SceneModel& TargetScene) {
-            if (&TargetScene)
-                pPreScene = &TargetScene;
+            if (&TargetScene) pPreScene = &TargetScene;
         };
 
         void RegScene(Model::SceneModel& AnyScene) {

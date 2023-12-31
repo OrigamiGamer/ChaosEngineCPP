@@ -18,11 +18,15 @@ namespace ChaosEngine {
 
         // Engine Update
         LRESULT EngineUpdate() {
-            float CurTime = (float)GetTickCount() / 1000;
-            if (Property::Engine::LastTime == 0) Property::Engine::LastTime = CurTime;
+            static float CurTime;
+            if (Property::Engine::LastTime == 0) {
+                CurTime = (float)GetTickCount() / 1000;
+                Property::Engine::LastTime = CurTime;
+            };
 
             Stage::StageUpdate();
 
+            CurTime = (float)GetTickCount() / 1000;
             Property::Engine::DeltaTime = CurTime - Property::Engine::LastTime;
             Property::Engine::LastTime = CurTime;
             return S_OK;

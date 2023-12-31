@@ -12,19 +12,22 @@ namespace ChaosEngine {
 
             SceneModel() {};
 
-            void Init() {};
-            void Update() {
+            void _update() {
                 for (int i = 0; i < vec_pComp.size(); i++) {
                     vec_pComp[i]->Update();
                 };
+                for (int i = 0; i < vec_pObject.size(); i++) {
+                    vec_pObject[i]->Update();
+                };
             };
-            void Render() {
+            void _render() {
                 for (int i = 0; i < vec_pComp.size(); i++) {
                     vec_pComp[i]->Render();
                 };
+                for (int i = 0; i < vec_pObject.size(); i++) {
+                    vec_pObject[i]->Render();
+                };
             };
-            void Release() {};
-
 
             virtual int OnSceneEntered() {
                 return -1;
@@ -40,6 +43,7 @@ namespace ChaosEngine {
             };
 
             void RegObject(ObjectModel& AnyObject) {
+                AnyObject.Init();
                 vec_pObject.push_back(&AnyObject);
             };
 
