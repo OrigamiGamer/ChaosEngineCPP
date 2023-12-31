@@ -1,5 +1,5 @@
 #pragma once
-#include "ObjectList.h"
+#include "_list.h"
 
 namespace ChaosEngine {
 
@@ -16,14 +16,12 @@ namespace ChaosEngine {
 		};
 		void Image::Render() {
 			if (self_pTex) {
-				Type::POS pos = this->GetPos();
-				Type::SIZE size = this->GetSize();
-				WindowX::pHwndRenderTarget->DrawBitmap(
+				/*WindowX::pHwndRenderTarget->DrawBitmap(
 					self_pTex->pD2DBitmap,
 					D2D1::RectF(pos.x, pos.y, pos.x + size.width, pos.y = size.height),
 					self_opacity,
 					D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR
-				);
+				);*/
 			}
 		};
 		void Image::Release() {

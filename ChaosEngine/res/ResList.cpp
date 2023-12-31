@@ -3,10 +3,9 @@
 
 /* Resource List */
 
-#include "TypeList.cpp"
-#include "ManagerList.cpp"
+#include "Type\_list.cpp"
+#include "Manager\_list.cpp"
 
-#include "ModelList.cpp"
-#include "CompList.cpp"
-#include "ObjectList.cpp"
-
+#include "Model\_list.cpp"
+#include "Component\_list.cpp"
+#include "Object\_list.cpp"

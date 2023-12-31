@@ -68,9 +68,23 @@ namespace ChaosEngine {
             COLOR(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
         };
 
+        struct ACCELERATION {
+            float magnitude = 0;    // m/s^2
+            float direction = 0;    // angle
+
+            ACCELERATION() = default;
+            ACCELERATION(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+        };
+        struct VELOCITY {
+            float magnitude = 0;    // m/s
+            float direction = 0;    // angle
+
+            VELOCITY() = default;
+            VELOCITY(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+        };
         struct FORCE {
             float magnitude = 0;    // N
-            float direction = 0;    // angle, range: [0,360]
+            float direction = 0;    // angle
 
             FORCE() = default;
             FORCE(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};

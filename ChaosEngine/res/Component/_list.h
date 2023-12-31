@@ -4,4 +4,4 @@
 /* Component List */
 
 // header files
-#include "Component/Timer.cpp"
+#include "Timer.cpp"

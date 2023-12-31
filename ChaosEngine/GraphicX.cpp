@@ -4,12 +4,12 @@
 namespace ChaosEngine {
 
     // Basic Interfaces of Graphics
-    namespace IGraphic {
+    namespace GraphicX {
 
         ID2D1SolidColorBrush* pBrush = NULL;
         float StrokeWidth = 1;
 
-        LRESULT Init() {
+        LRESULT GraphicXInit() {
             D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
             brush_properties.opacity = 1;
             brush_properties.transform = D2D1::IdentityMatrix();
@@ -20,13 +20,13 @@ namespace ChaosEngine {
             return 0;
         };
 
-        LRESULT Release() {
+        LRESULT GraphicXRelease() {
             LRESULT lr = NULL;
             lr = pBrush->Release();
             return lr;
         };
 
-        void SetColor(Type::COLOR newColor) {
+        void SetBrushColor(Type::COLOR newColor) {
             pBrush->SetColor(D2D1::ColorF(newColor.rgb, newColor.alpha));
         };
 

@@ -3,14 +3,14 @@
 
 namespace ChaosEngine {
 
-    namespace IGraphic {
+    namespace GraphicX {
 
         extern ID2D1SolidColorBrush* pBrush;
         extern float StrokeWidth;
 
-        LRESULT Init();
-        LRESULT Release();
-        void SetColor(Type::COLOR newColor);
+        LRESULT GraphicXInit();
+        LRESULT GraphicXRelease();
+        void SetBrushColor(Type::COLOR newColor);
         void SetStrokeWidth(FLOAT newStrokeWidth);
         void DrawLine(Type::POS pos_1, Type::POS pos_2);
         void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);

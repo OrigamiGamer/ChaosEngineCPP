@@ -1,19 +1,14 @@
 #pragma once
 #define UNICODE
 //#define _UNICODE
-
-
 // All is function is for single engine obj in single project.
 
 
 /* Libraries */
-
 //#pragma comment(lib,"DXGI.lib")
 #pragma comment(lib,"D2D1.lib")	//#pragma comment(lib,"D3D12.lib")
 
-
 /* Dependances */
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -28,30 +23,27 @@
 #include "FMOD_Studio/fmod_studio.hpp"
 #include "JSON/json.hpp"
 
-
 /* Headers */
-
-#include "Utils.h"
-#include "Type.h"
-#include "Property.h"
+#include "headers/Utils.h"
+#include "headers/Type.h"
+#include "headers/Property.h"
 #include "res/ResList.h"
-#include "WindowX.h"
-#include "EngineX.h"
-#include "PhysicXEngine.h"
-#include "Engine.h"
-#include "Stage.h"
-#include "IGraphic.h"
+#include "headers/WindowX.h"
+#include "headers/EngineX.h"
+#include "headers/PhysicX.h"
+#include "headers/Engine.h"
+#include "headers/Stage.h"
+#include "headers/GraphicX.h"
 
 /* Sources */
-
 #ifndef GAME_DEV
 #include "Property.cpp"
 #include "res/ResList.cpp"
 #include "WindowX.cpp"
 #include "EngineX.cpp"
-#include "PhysicXEngine.cpp"
+#include "PhysicX.cpp"
 #include "Engine.cpp"
 #include "Stage.cpp"
-#include "IGraphic.cpp"
+#include "GraphicX.cpp"
 
 #endif

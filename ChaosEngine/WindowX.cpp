@@ -102,7 +102,7 @@ namespace ChaosEngine {
 
                 break;
             case WM_CHAR:
-                Property::Window::VirtKeyInputBuffer.push_back(wParam);
+                Property::Window::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
 
                 break;
             case WM_CREATE:

@@ -3,9 +3,9 @@
 
 /* Resource List */
 
-#include "TypeList.h"
-#include "ManagerList.h"
+#include "Type\_list.h"
+#include "Manager\_list.h"
 
-#include "ModelList.h"
-#include "CompList.h"
-#include "ObjectList.h"
+#include "Model\_list.h"
+#include "Component\_list.h"
+#include "Object\_list.h"

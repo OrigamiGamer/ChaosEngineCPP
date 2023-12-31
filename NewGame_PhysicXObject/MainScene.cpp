@@ -15,8 +15,8 @@ void MainScene::Init() {
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
     image.SetTexture(lpTex);
-    image.SetSize(100, 100);
-    image.SetPos(200, 200);
+    image.size = { 100, 100 };
+    image.pos = { 200, 200 };
 
 };
 void MainScene::Update() {
