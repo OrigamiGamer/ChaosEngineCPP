@@ -21,8 +21,7 @@ namespace ChaosEngine {
                     PhysicX::PhysicXUpdate(pCurScene->vec_pObject, Property::Engine::DeltaTime);
 
                 };
-            }
-            else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
+            } else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
                 pPreScene->_update(); // Update in the same way.
                 if (pPreScene) pPreScene->Update();
                 pCurScene = pPreScene;

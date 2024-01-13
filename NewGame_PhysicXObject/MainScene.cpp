@@ -4,11 +4,11 @@
 MainScene::MainScene() {
     timer;
     image;
-    
+
 };
 void MainScene::Init() {
     this->RegComp(timer);
-    timer.Create(100);
+    timer.Create(300);
     timer.Begin();
 
     this->RegObject(image);
@@ -19,11 +19,10 @@ void MainScene::Init() {
     image.pos = { 200, 200 };
     image.use_physics = TRUE;
     image.mass = 1;
-    image.AddForce(FORCE(15*10, 0));
+    image.AddForce(FORCE(5, 3.14 / 4)); // Force pi/4
 
 };
 void MainScene::Update() {
-
     if (GetKeyState('D') < 0) {
         Stage::SwitchScene(debug_scene);
     }

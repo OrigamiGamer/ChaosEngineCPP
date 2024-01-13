@@ -25,7 +25,6 @@ namespace ChaosEngine {
             WndClassEx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
             WndClassEx.lpszMenuName = NULL;
             WndClassEx.hIconSm = NULL;
-
             RegisterClassEx(&WndClassEx);
 
             hWnd = CreateWindow(
@@ -47,7 +46,6 @@ namespace ChaosEngine {
 
             ShowWindow(hWnd, SW_SHOW);
             UpdateWindow(hWnd);
-
             return hWnd;
         };
 
@@ -58,7 +56,6 @@ namespace ChaosEngine {
                 TranslateMessage(&Msg);
                 DispatchMessage(&Msg);
             };
-
             return (DWORD)Msg.wParam;
         };
 
@@ -184,7 +181,6 @@ namespace ChaosEngine {
 
             /* D2D */
             SafeRelease(&pD2DFactory);
-
             /* WIC */
             SafeRelease(&pWICFactory);
 
