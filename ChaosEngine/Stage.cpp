@@ -6,15 +6,15 @@ namespace ChaosEngine {
     namespace Stage {
 
         std::vector<Model::SceneModel*> vec_pRegScene;
-        Model::SceneModel* pCurScene = NULL;    // Current Scene
-        Model::SceneModel* pPreScene = NULL;  // Preparing Scene
+        Model::SceneModel* pCurScene = nullptr;    // Current Scene
+        Model::SceneModel* pPreScene = nullptr;  // Preparing Scene
 
         /* Stage Update */
         void StageUpdate() {
             if (pCurScene == pPreScene) {
                 if (pCurScene) {
                     // Update Logic
-                    pCurScene->_update();  // Update the logic in model at first,
+                    pCurScene->SceneModel::Update();  // Update the logic in model at first,
                     pCurScene->Update();    // then update the logic of scene.
 
                     // Update PhysicX
@@ -22,7 +22,7 @@ namespace ChaosEngine {
 
                 };
             } else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
-                pPreScene->_update(); // Update in the same way.
+                pPreScene->SceneModel::Update(); // Update in the same way.
                 if (pPreScene) pPreScene->Update();
                 pCurScene = pPreScene;
             }
@@ -31,7 +31,7 @@ namespace ChaosEngine {
         /* Stage Render */
         void StageRender() {
             if (pCurScene) {
-                pCurScene->_render();  // Render in the same way to update.
+                pCurScene->SceneModel::Render();  // Render in the same way to update.
                 pCurScene->Render();
             }
         };

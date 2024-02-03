@@ -29,8 +29,8 @@ namespace ChaosEngine {
 
         namespace Engine {
             extern Type::EngineStartupProperty* StartupProp;
-            extern float LastTime;
-            extern float DeltaTime;
+            extern long double LastTime;
+            extern long double DeltaTime;
         };
 
     }

@@ -134,9 +134,9 @@ namespace ChaosEngine {
         /* Function about DirectX */
 
         // Global
-        ID2D1Factory* pD2DFactory = NULL;
-        ID2D1HwndRenderTarget* pHwndRenderTarget = NULL;
-        IWICImagingFactory* pWICFactory = NULL;
+        ID2D1Factory* pD2DFactory = nullptr;
+        ID2D1HwndRenderTarget* pHwndRenderTarget = nullptr;
+        IWICImagingFactory* pWICFactory = nullptr;
 
         // Initialize DirectX
         HRESULT InitDirectX(HWND hWnd) {

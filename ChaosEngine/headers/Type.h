@@ -2,8 +2,8 @@
 #include "ChaosEngine.h"
 
 /* Define */
-
-#define empty (float)0xFFFFFFFF // 4 bytes
+#define emptyf (float)0xFFFFFFFF            // 4 bytes
+#define emptyd (double)0xFFFFFFFFFFFFFFFF   // 8 bytes
 
 #define SET_OPT(var, new_var) if(new_var != empty) var = new_var;   // Set optionally
 
@@ -35,29 +35,29 @@ namespace ChaosEngine {
 
         // Basic Type
         struct SIZE {
-            float width, height;
+            double width, height;
 
             SIZE() = default;
-            SIZE(float width, float height) : width(width), height(height) {};
+            SIZE(double width, double height) : width(width), height(height) {};
         };
         struct SIZE_3D {
-            float length, width, height;
+            double length, width, height;
 
             SIZE_3D() = default;
-            SIZE_3D(float length, float width, float height) : length(length), width(width), height(height) {};
+            SIZE_3D(double length, double width, double height) : length(length), width(width), height(height) {};
         };
 
         struct POS {
-            float x = 0, y = 0;
+            double x = 0, y = 0;
 
             POS() = default;
-            POS(float x, float y) : x(x), y(y) {};
+            POS(double x, double y) : x(x), y(y) {};
         };
         struct POS_3D {
-            float x, y, z;
+            double x, y, z;
 
             POS_3D() = default;
-            POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
+            POS_3D(double x, double y, double z) : x(x), y(y), z(z) {};
         };
 
         struct COLOR {
@@ -69,25 +69,25 @@ namespace ChaosEngine {
         };
 
         struct ACCELERATION {
-            float magnitude = 0;    // m/s^2
-            float direction = 0;    // angle
+            double magnitude = 0;    // m/s^2
+            double direction = 0;    // angle
 
             ACCELERATION() = default;
-            ACCELERATION(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+            ACCELERATION(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
         };
         struct VELOCITY {
-            float magnitude = 0;    // m/s
-            float direction = 0;    // angle
+            double magnitude = 0;    // m/s
+            double direction = 0;    // angle
 
             VELOCITY() = default;
-            VELOCITY(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+            VELOCITY(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
         };
         struct FORCE {
-            float magnitude = 0;    // N
-            float direction = 0;    // angle
+            double magnitude = 0;    // N
+            double direction = 0;    // angle
 
             FORCE() = default;
-            FORCE(float magnitude, float direction) :magnitude(magnitude), direction(direction) {};
+            FORCE(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
         };
 
         struct VirtualKeyState {

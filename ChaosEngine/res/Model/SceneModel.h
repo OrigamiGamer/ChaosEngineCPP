@@ -12,7 +12,7 @@ namespace ChaosEngine {
 
             SceneModel() {};
 
-            void _update() {
+            void Update() {
                 for (int i = 0; i < vec_pComp.size(); i++) {
                     vec_pComp[i]->Update();
                 };
@@ -20,7 +20,7 @@ namespace ChaosEngine {
                     vec_pObject[i]->Update();
                 };
             };
-            void _render() {
+            void Render() {
                 for (int i = 0; i < vec_pComp.size(); i++) {
                     vec_pComp[i]->Render();
                 };

@@ -18,17 +18,17 @@ namespace ChaosEngine {
 
         // Engine Update
         LRESULT EngineUpdate() {
-            static float CurTime;
+            static long double curTime;
             if (Property::Engine::LastTime == 0) {
-                CurTime = (float)GetTickCount() / 1000;
-                Property::Engine::LastTime = CurTime;
+                curTime = (long double)(GetTickCount64() / 1000);
+                Property::Engine::LastTime = curTime;
             };
 
             Stage::StageUpdate();
 
-            CurTime = (float)GetTickCount() / 1000;
-            Property::Engine::DeltaTime = CurTime - Property::Engine::LastTime;
-            Property::Engine::LastTime = CurTime;
+            curTime = (long double)(GetTickCount64() / 1000);
+            Property::Engine::DeltaTime = curTime - Property::Engine::LastTime;
+            Property::Engine::LastTime = curTime;
             return S_OK;
         };
 
@@ -40,7 +40,7 @@ namespace ChaosEngine {
             Stage::StageRender();
 
             WindowX::pHwndRenderTarget->EndDraw();
-            ValidateRect(Property::Window::hWnd, NULL);
+            ValidateRect(Property::Window::hWnd, nullptr);
             return S_OK;
         };
 
