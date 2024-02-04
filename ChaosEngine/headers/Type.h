@@ -35,30 +35,32 @@ namespace ChaosEngine {
 
         // Basic Type
         struct SIZE {
-            double width, height;
+            float width, height;
 
             SIZE() = default;
-            SIZE(double width, double height) : width(width), height(height) {};
+            SIZE(float width, float height) : width(width), height(height) {};
         };
         struct SIZE_3D {
-            double length, width, height;
+            float length, width, height;
 
             SIZE_3D() = default;
-            SIZE_3D(double length, double width, double height) : length(length), width(width), height(height) {};
+            SIZE_3D(float length, float width, float height) : length(length), width(width), height(height) {};
         };
 
         struct POS {
-            double x = 0, y = 0;
+            float x = 0, y = 0;
 
             POS() = default;
-            POS(double x, double y) : x(x), y(y) {};
+            POS(float x, float y) : x(x), y(y) {};
         };
         struct POS_3D {
-            double x, y, z;
+            float x, y, z;
 
             POS_3D() = default;
-            POS_3D(double x, double y, double z) : x(x), y(y), z(z) {};
+            POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
         };
+
+        //struct RECT_F
 
         struct COLOR {
             BYTE rgb;

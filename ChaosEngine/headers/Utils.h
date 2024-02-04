@@ -27,6 +27,7 @@ namespace ChaosEngine {
 
         size_t lpos = raw.find_last_of('\\');
         size_t rpos = raw.find_last_of('e');  //  \folder\test.exe
+        size_t _rpos = raw.size() - 1;
 
         std::wstring root;
         if (rpos + 1 == raw.size()) {
