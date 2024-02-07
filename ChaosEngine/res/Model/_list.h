@@ -4,6 +4,6 @@
 /* Model List */
 
 // header files
-#include "Model/CompModel.h"
-#include "Model/ObjectModel.h"
-#include "Model/SceneModel.h"
+#include "CompModel.h"
+#include "ObjectModel.h"
+#include "SceneModel.h"

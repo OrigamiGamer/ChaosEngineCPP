@@ -7,7 +7,7 @@ link_directories(../build/x64-Debug)
 # include_directories(.)
 # include_directories(../ChaosEngine)
 # include_directories(../ChaosEngine/lib)
-include_directories(. ../ChaosEngine/lib ../ChaosEngine)
+include_directories(. ../ChaosEngine ../ChaosEngine/lib ../ChaosEngine/res)
 
 add_executable(${PROJECT_NAME} WIN32 NewGame.cpp)
 target_link_libraries(${PROJECT_NAME} ChaosEngine.lib)

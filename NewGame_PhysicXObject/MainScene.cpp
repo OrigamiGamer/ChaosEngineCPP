@@ -3,41 +3,47 @@
 
 MainScene::MainScene() {
     timer;
-    image;
+    vec_image;
 
 };
 void MainScene::Init() {
     this->RegComp(timer);
-    timer.Create(300);
+    timer.Create(10000);
     timer.Begin();
-
-    this->RegObject(image);
+    
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
-    image.SetTexture(lpTex);
-    image.size = { 50, 50 };
-    image.pos = { 200, 200 };
-    image.use_physics = TRUE;
-    image.mass = 1;
-    image.AddForce(FORCE(5, 3.14 / 4)); // Force pi/4
-
+    
+    size_t count = 50;
+    vec_image.resize(count);
+    for (size_t i = 0; i < count; i++) {
+        ObjectList::Image& image = vec_image[i];
+        this->RegObject(image);
+        image.SetTexture(lpTex);
+        image.size = { 30,30 };
+        image.pos = { (float)(10.0 + rand() % 1400 + 1), (float)(10.0 + rand() % 900 + 1) };
+        image.use_physics = TRUE;
+        image.mass = (double)(50.0 + rand() % 100 + 1);
+    };
 };
 void MainScene::Update() {
-    if (GetKeyState('D') < 0) {
+    /*if (GetKeyState('D') < 0) {
         Stage::SwitchScene(debug_scene);
-    }
+    }*/
 
     ULONGLONG delta_t;
     if (timer.Todo(&delta_t)) {
+        //timer.Pause();
+        //image_2.vec_force.applied.clear();
         //OutputDebugString((std::to_wstring(GetTickCount()) + L"\n").c_str());
     };
 
 };
 void MainScene::Render() {
 
-    GraphicX::SetStrokeWidth(10);
-    GraphicX::DrawLine({ 50,50 }, { 200,100 });
-    GraphicX::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
+    //GraphicX::SetStrokeWidth(10);
+    //GraphicX::DrawLine({ 50,50 }, { 200,100 });
+    //GraphicX::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
 
 };
 void MainScene::Release() {

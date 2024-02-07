@@ -4,4 +4,4 @@
 /* Type List */
 
 // source files
-#include "Type/Texture.cpp"
+#include "Texture.cpp"

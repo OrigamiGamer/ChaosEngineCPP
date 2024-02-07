@@ -20,13 +20,13 @@ namespace ChaosEngine {
         LRESULT EngineUpdate() {
             static long double curTime;
             if (Property::Engine::LastTime == 0) {
-                curTime = (long double)(GetTickCount64() / 1000);
+                curTime = (long double)((long double)GetTickCount64() / 1000);
                 Property::Engine::LastTime = curTime;
             };
 
             Stage::StageUpdate();
 
-            curTime = (long double)(GetTickCount64() / 1000);
+            curTime = (long double)((long double)GetTickCount64() / 1000);
             Property::Engine::DeltaTime = curTime - Property::Engine::LastTime;
             Property::Engine::LastTime = curTime;
             return S_OK;

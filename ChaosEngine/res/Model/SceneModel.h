@@ -46,6 +46,10 @@ namespace ChaosEngine {
                 AnyObject.Init();
                 vec_pObject.push_back(&AnyObject);
             };
+            void RegObject(ObjectModel*& AnyObject) {
+                (*AnyObject).Init();
+                vec_pObject.push_back(AnyObject);
+            };
 
         };
 

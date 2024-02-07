@@ -4,5 +4,5 @@
 /* Object List */
 
 // header files
-#include "Object/Image.h"
-#include "Object/Sprite.cpp"
+#include "Image.h"
+#include "Sprite.cpp"
