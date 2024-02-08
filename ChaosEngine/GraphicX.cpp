@@ -6,7 +6,7 @@ namespace ChaosEngine {
     // Basic Interfaces of Graphics
     namespace GraphicX {
 
-        ID2D1SolidColorBrush* pBrush = NULL;
+        ID2D1SolidColorBrush* pBrush = nullptr;
         float StrokeWidth = 1;
 
         LRESULT GraphicXInit() {
@@ -14,8 +14,11 @@ namespace ChaosEngine {
             brush_properties.opacity = 1;
             brush_properties.transform = D2D1::IdentityMatrix();
 
-            WindowX::pHwndRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::LightGreen), brush_properties, &pBrush);
-
+            WindowX::pHwndRenderTarget->CreateSolidColorBrush(
+                D2D1::ColorF(D2D1::ColorF::LightGreen),
+                brush_properties,
+                &pBrush
+            );
 
             return 0;
         };
@@ -44,17 +47,21 @@ namespace ChaosEngine {
                 WindowX::pHwndRenderTarget->DrawRectangle(rect, pBrush, StrokeWidth);
             }
             else {
-                WindowX::pHwndRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(rect, radius.x, radius.y), pBrush, StrokeWidth);
+                WindowX::pHwndRenderTarget->DrawRoundedRectangle(
+                    D2D1::RoundedRect(rect, radius.x, radius.y),
+                    pBrush,
+                    StrokeWidth
+                );
             }
         };
 
-        void DrawTexture(Type::POS pos, Type::SIZE size, FLOAT opacity = 1.0F) {
-            ID2D1Bitmap* pBitmap = NULL;
-            //WindowX::pHwndRenderTarget->CreateBitmap();
-
-            //WindowX::pHwndRenderTarget->CreateBitmapFromWicBitmap();
-            D2D1_RECT_F rect{ pos.x,pos.y,pos.x + size.width,pos.y + size.height };
-            WindowX::pHwndRenderTarget->DrawBitmap(pBitmap, rect, opacity);
+        void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity = 1.0F) {
+            const auto mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;  // As a setting of GraphicX
+            WindowX::pHwndRenderTarget->DrawBitmap(pTexture->pD2DBitmap, rect, opacity, mode);
+        };
+        inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity = 1.0F) {
+            const D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
+            DrawTexture(pTexture, rect, opacity);
         };
 
     }

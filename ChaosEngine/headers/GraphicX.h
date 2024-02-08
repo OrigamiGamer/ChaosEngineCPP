@@ -14,7 +14,8 @@ namespace ChaosEngine {
         void SetStrokeWidth(FLOAT newStrokeWidth);
         void DrawLine(Type::POS pos_1, Type::POS pos_2);
         void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
-        void DrawTexture(Type::POS pos, Type::SIZE size, FLOAT opacity);
+        void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity);
+        inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity);
 
     }
 

@@ -13,16 +13,16 @@ void MainScene::Init() {
     
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
-    
+
     size_t count = 50;
     vec_image.resize(count);
     for (size_t i = 0; i < count; i++) {
         ObjectList::Image& image = vec_image[i];
-        this->RegObject(image);
+        this->RegComp(image);
         image.SetTexture(lpTex);
         image.size = { 30,30 };
         image.pos = { (float)(10.0 + rand() % 1400 + 1), (float)(10.0 + rand() % 900 + 1) };
-        image.use_physics = TRUE;
+        image.use_physics = true;
         image.mass = (double)(50.0 + rand() % 100 + 1);
     };
 };

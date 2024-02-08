@@ -25,6 +25,7 @@ namespace ChaosEngine {
             Type::POS pos{ 0, 0 };
 
             bool use_physics = false;   // Do NOT use physics to this Object by default.
+            bool fixed = false; // Do NOT fix this object by default.
             double mass = 0;    // kg
             double elastic_k = 1;   // elastic coefficient
             double force_x = 0;  // N
