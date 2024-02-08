@@ -4,7 +4,7 @@
 namespace ChaosEngine {
 
     template <class T>
-    void SafeRelease(T** ppT)
+    inline void SafeRelease(T** ppT)
     {
         if (*ppT)
         {
@@ -14,7 +14,7 @@ namespace ChaosEngine {
     };
 
     namespace Program {
-        std::wstring getRootPath() {
+        inline std::wstring getRootPath() {
             wchar_t _raw_path[MAX_PATH]; GetModuleFileName(NULL, _raw_path, MAX_PATH);
             return std::wstring(_raw_path);
         };

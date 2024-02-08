@@ -54,7 +54,7 @@ namespace ChaosEngine {
                 force_y += ma * sin(di);
             };
 
-            bool IsCollided(const Type::POS& obj_pos, const Type::SIZE& obj_size) const {
+            inline bool IsCollided(const Type::POS& obj_pos, const Type::SIZE& obj_size) const {
                 D2D1_RECT_F rs = { pos.x, pos.y, pos.x + size.width, pos.y + size.height };
                 D2D1_RECT_F r = { obj_pos.x, obj_pos.y, obj_pos.x + obj_size.width, obj_pos.y + obj_size.height };
                 bool _X = !(rs.left > r.right || rs.right < r.left);

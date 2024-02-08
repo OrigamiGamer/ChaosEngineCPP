@@ -12,7 +12,7 @@ namespace ChaosEngine {
 
         
         // Get the center position of object
-        Type::POS GetCenterPos(Type::POS& obj_pos, Type::SIZE& obj_size) {
+        inline Type::POS GetCenterPos(Type::POS& obj_pos, Type::SIZE& obj_size) {
             return { (obj_pos.x + obj_size.width) / 2, (obj_pos.y + obj_size.height) / 2 };
         }
         inline static Type::POS GetCenterPos(Model::ObjectModel*& obj) {
