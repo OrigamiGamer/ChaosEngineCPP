@@ -16,8 +16,8 @@ namespace ChaosEngine {
         void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
         void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity);
         inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity);
-        HRESULT DrawTextRaw(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos);
-        HRESULT DrawTextRaw(Type::TextFormat textFormat, Type::POS pos);
+        HRESULT DrawRawText(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos);
+        HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos);
 
     }
 

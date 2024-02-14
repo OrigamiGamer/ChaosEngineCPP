@@ -5,15 +5,13 @@ namespace ChaosEngine {
 
 	namespace Model {
 
-		class CompModel {
+		class PropertyModel {
 		public:
 			virtual void Init() {};
-			virtual void Update() {};
-			virtual void Render() {};
 			virtual void Release() {};
-
+			
 		};
-		  
+
 	}
 
 }

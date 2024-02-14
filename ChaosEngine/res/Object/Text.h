@@ -6,9 +6,8 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		class Text : public Model::ObjectModel {
-		private:
-
 		public:
+			std::wstring content;
 			Type::TextFormat textFormat;
 			Type::POS* pMousePos;
 

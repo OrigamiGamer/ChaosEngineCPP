@@ -1,11 +1,15 @@
 #pragma once
 #include "MainScene.h"
 
+namespace Global {
+    Type::TextFormat default_textFormat;
+
+}
+
 MainScene::MainScene() {
     timer;
     vec_image;
     text;
-
 };
 void MainScene::Init() {
     this->RegComp(timer);
@@ -51,6 +55,7 @@ void MainScene::Render() {
     //GraphicX::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
     //GraphicX::DrawTextRaw(L"ChaosEngine Text Demo", L"Microsoft YaHei", 64, { 1000,1000 }, { 50,50 });
 
+    GraphicX::DrawRawText(L"test", Global::default_textFormat, { 100,100 });
 
 };
 void MainScene::Release() {

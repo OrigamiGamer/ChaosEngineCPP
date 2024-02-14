@@ -15,7 +15,7 @@ namespace ChaosEngine {
                 applied;    // ×÷ÓÃÁ¦
         };
 
-    };
+    }
 
     namespace Model {
 

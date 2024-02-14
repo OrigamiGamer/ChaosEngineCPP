@@ -61,7 +61,7 @@ namespace ChaosEngine {
             DrawTexture(pTexture, rect, opacity);
         }
 
-        HRESULT DrawTextRaw(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos) {
+        HRESULT DrawRawText(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos) {
             HRESULT hr = NULL;
 
             static IDWriteTextFormat* pTextFormat = nullptr;
@@ -125,14 +125,15 @@ namespace ChaosEngine {
 
             return hr;
         }
-        HRESULT DrawTextRaw(Type::TextFormat textFormat, Type::POS pos) {
+        HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos) {
+            textFormat.SetContent(content);
             WindowX::pHwndRenderTarget->DrawTextLayout(
                 { pos.x, pos.y },
                 textFormat.pLayout,
                 pBrush,
-                D2D1_DRAW_TEXT_OPTIONS_NONE
+                D2D1_DRAW_TEXT_OPTIONS_NONE //
             );
-
+            return S_OK;
         }
 
 
