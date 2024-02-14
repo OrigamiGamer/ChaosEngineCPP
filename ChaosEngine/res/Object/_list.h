@@ -5,4 +5,4 @@
 
 // header files
 #include "Image.h"
-#include "Sprite.cpp"
+#include "Text.h"

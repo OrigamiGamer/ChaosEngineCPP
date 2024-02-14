@@ -5,3 +5,4 @@
 
 // source files
 #include "Image.cpp"
+#include "Text.cpp"

@@ -4,4 +4,5 @@
 /* Type List */
 
 // header files
-#include "Texture.cpp"
+#include "Texture.h"
+#include "TextFormat.h"

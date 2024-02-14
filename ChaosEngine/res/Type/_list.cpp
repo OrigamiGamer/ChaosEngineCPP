@@ -5,3 +5,4 @@
 
 // source files
 #include "Texture.cpp"
+#include "TextFormat.cpp"

@@ -1,13 +1,13 @@
 #pragma once
-#include "ObjectList.h"
+#include "_list.h"
 
 namespace ChaosEngine {
 
 	namespace ObjectList {
 
-		class ExampleObject: public Model::ObjectModel {
+		class ExampleObject : public Model::ObjectModel {
 		private:
-			
+
 		public:
 
 			void Init() {
@@ -20,7 +20,6 @@ namespace ChaosEngine {
 			};
 
 			void Create() {
-
 			};
 
 		};

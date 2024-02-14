@@ -12,7 +12,7 @@ namespace ChaosEngine {
             HWND hWnd;
             HINSTANCE hInst = GetModuleHandle(NULL);
 
-            WNDCLASSEX WndClassEx;
+            WNDCLASSEX WndClassEx{};
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
             WndClassEx.lpszClassName = L"ChaosGameWin";
@@ -137,12 +137,13 @@ namespace ChaosEngine {
         ID2D1Factory* pD2DFactory = nullptr;
         ID2D1HwndRenderTarget* pHwndRenderTarget = nullptr;
         IWICImagingFactory* pWICFactory = nullptr;
+        IDWriteFactory* pDWriteFactory = nullptr;
 
         // Initialize DirectX
         HRESULT InitDirectX(HWND hWnd) {
             HRESULT hr = NULL;
 
-            
+
             /* D2D */
 
             // D2DFactory
@@ -172,6 +173,11 @@ namespace ChaosEngine {
             hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
             if (FAILED(hr)) return hr;
 
+            /* DWrite */
+
+            hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), (IUnknown**)&pDWriteFactory);
+            if (FAILED(hr)) return hr;
+
 
             return hr;
         };
@@ -183,6 +189,8 @@ namespace ChaosEngine {
             SafeRelease(&pD2DFactory);
             /* WIC */
             SafeRelease(&pWICFactory);
+            /* DWrite */
+            SafeRelease(&pDWriteFactory);
 
             return 0;
         };

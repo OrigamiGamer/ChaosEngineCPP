@@ -1,5 +1,5 @@
 #pragma once
-#include "CompList.h"
+#include "_list.h"
 
 namespace ChaosEngine {
 
@@ -15,7 +15,6 @@ namespace ChaosEngine {
 			void Update() {};
 			void Render() {};
 			void Release() {};
-
 
 			void Create() {};
 

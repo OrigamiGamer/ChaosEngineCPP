@@ -23,6 +23,7 @@ namespace ChaosEngine {
         extern ID2D1Factory* pD2DFactory;
         extern ID2D1HwndRenderTarget* pHwndRenderTarget;
         extern IWICImagingFactory* pWICFactory;
+        extern IDWriteFactory* pDWriteFactory;
 
         HRESULT InitDirectX(HWND hWnd);
         HRESULT ReleaseDirectX();
