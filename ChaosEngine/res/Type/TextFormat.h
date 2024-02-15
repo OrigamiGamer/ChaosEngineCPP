@@ -28,7 +28,7 @@ namespace ChaosEngine {
             TextFormat();
             void Init();
             void Release();
-            HRESULT Initialize();
+            HRESULT Initialize(); 
             HRESULT SetContent(std::wstring new_content);
 
         };

@@ -28,7 +28,7 @@
 /* Headers */
 #include "headers/Utils.h"
 #include "headers/Type.h"
-#include "headers/Property.h"
+#include "headers/Properties.h"
 #include "res/ResList.h"
 #include "headers/WindowX.h"
 #include "headers/EngineX.h"
@@ -39,7 +39,7 @@
 
 /* Sources */
 #ifndef GAME_DEV
-#include "Property.cpp"
+#include "Properties.cpp"
 #include "res/ResList.cpp"
 #include "WindowX.cpp"
 #include "EngineX.cpp"

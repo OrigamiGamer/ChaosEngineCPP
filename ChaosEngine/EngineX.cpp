@@ -11,7 +11,7 @@ namespace ChaosEngine {
             LRESULT lr = S_OK;
             lr = GraphicX::GraphicXInit();
             
-            lr = Property::Engine::StartupProp->pGameMain();    // Call GameMain function
+            lr = Properties::Engine::StartupProp->pGameMain();    // Call GameMain function
 
             return lr;
         };
@@ -19,16 +19,16 @@ namespace ChaosEngine {
         // Engine Update
         LRESULT EngineUpdate() {
             static long double curTime;
-            if (Property::Engine::LastTime == 0) {
+            if (Properties::Engine::LastTime == 0) {
                 curTime = (long double)((long double)GetTickCount64() / 1000);
-                Property::Engine::LastTime = curTime;
+                Properties::Engine::LastTime = curTime;
             };
 
             Stage::StageUpdate();
 
             curTime = (long double)((long double)GetTickCount64() / 1000);
-            Property::Engine::DeltaTime = curTime - Property::Engine::LastTime;
-            Property::Engine::LastTime = curTime;
+            Properties::Engine::DeltaTime = curTime - Properties::Engine::LastTime;
+            Properties::Engine::LastTime = curTime;
             return S_OK;
         };
 
@@ -40,13 +40,13 @@ namespace ChaosEngine {
             Stage::StageRender();
 
             WindowX::pHwndRenderTarget->EndDraw();
-            ValidateRect(Property::Window::hWnd, nullptr);
+            ValidateRect(Properties::Window::hWnd, nullptr);
             return S_OK;
         };
 
         // Engine Exit
         LRESULT EngineExit() {
-            if (!Property::Engine::StartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
+            if (!Properties::Engine::StartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
                 return FALSE;
 
             GraphicX::GraphicXRelease();

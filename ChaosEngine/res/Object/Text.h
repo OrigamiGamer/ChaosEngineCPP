@@ -6,7 +6,7 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		class Text : public Model::ObjectModel {
-		public:
+		private:
 			std::wstring content;
 			Type::TextFormat textFormat;
 			Type::POS* pMousePos;
@@ -19,6 +19,7 @@ namespace ChaosEngine {
 			void Release();
 
 			void Create();
+			void SetContent(std::wstring new_content);
 			BOOL HitTest();
 			BOOL IsInside();
 

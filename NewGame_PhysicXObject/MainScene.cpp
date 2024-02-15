@@ -12,6 +12,8 @@ MainScene::MainScene() {
     text;
 };
 void MainScene::Init() {
+    Global::default_textFormat.Init();
+
     this->RegComp(timer);
     timer.Create(10000);
     timer.Begin();
@@ -19,7 +21,7 @@ void MainScene::Init() {
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
 
-    size_t count = 100;
+    /*size_t count = 100;
     vec_image.resize(count);
     for (size_t i = 0; i < count; i++) {
         ObjectList::Image& image = vec_image[i];
@@ -29,7 +31,7 @@ void MainScene::Init() {
         image.pos = { (float)(10.0 + rand() % 1400 + 1), (float)(10.0 + rand() % 900 + 1) };
         image.use_physics = true;
         image.mass = (double)(1000.0 + rand() % 100 + 1);
-    };
+    };*/
 
     RegComp(text);
     

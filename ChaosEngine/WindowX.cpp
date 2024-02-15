@@ -74,36 +74,36 @@ namespace ChaosEngine {
 
                 break;
             case WM_SIZE:
-                Property::Window::Size.width = (float)LOWORD(lParam);
-                Property::Window::Size.height = (float)HIWORD(lParam);
+                Properties::Window::Size.width = (float)LOWORD(lParam);
+                Properties::Window::Size.height = (float)HIWORD(lParam);
 
                 break;
             case WM_MOVE:
-                Property::Window::Pos.x = (float)LOWORD(lParam);
-                Property::Window::Pos.y = (float)HIWORD(lParam);
+                Properties::Window::Pos.x = (float)LOWORD(lParam);
+                Properties::Window::Pos.y = (float)HIWORD(lParam);
 
                 break;
             case WM_MOUSEMOVE:
-                Property::Window::MousePos.x = (float)GET_X_LPARAM(lParam);
-                Property::Window::MousePos.y = (float)GET_Y_LPARAM(lParam);
+                Properties::Window::MousePos.x = (float)GET_X_LPARAM(lParam);
+                Properties::Window::MousePos.y = (float)GET_Y_LPARAM(lParam);
 
                 break;
             case WM_KEYDOWN:
-                if (Property::Window::VirtKeyStateBuffer[wParam].current != TRUE)
-                    Property::Window::VirtKeyStateBuffer[wParam].current = TRUE;
+                if (Properties::Window::VirtKeyStateBuffer[wParam].current != TRUE)
+                    Properties::Window::VirtKeyStateBuffer[wParam].current = TRUE;
 
                 break;
             case WM_KEYUP:
-                if (Property::Window::VirtKeyStateBuffer[wParam].current != FALSE)
-                    Property::Window::VirtKeyStateBuffer[wParam].current = FALSE;
+                if (Properties::Window::VirtKeyStateBuffer[wParam].current != FALSE)
+                    Properties::Window::VirtKeyStateBuffer[wParam].current = FALSE;
 
                 break;
             case WM_CHAR:
-                Property::Window::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
+                Properties::Window::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
 
                 break;
             case WM_CREATE:
-                Property::Window::BindWindow(hWnd);
+                Properties::Window::BindWindow(hWnd);
 
                 if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, L"Initialize Direct2D failed!", L"ERROR", 0);
                 EngineX::EngineInit();  // Init
@@ -160,7 +160,7 @@ namespace ChaosEngine {
 
             D2D1_HWND_RENDER_TARGET_PROPERTIES HwndRenderTarget_properties{};
             HwndRenderTarget_properties.hwnd = hWnd;
-            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Property::Window::Size.width, (int)Property::Window::Size.height);
+            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Properties::Window::Size.width, (int)Properties::Window::Size.height);
             HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
 
             hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);

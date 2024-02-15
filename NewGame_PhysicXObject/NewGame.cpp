@@ -31,7 +31,7 @@ BOOL GameMain() {
 }
 
 BOOL GameExit() {
-    if (MessageBox(Property::Window::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
+    if (MessageBox(Properties::Window::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
         return FALSE;
     return TRUE;    // TRUE returned means confirm to exit the engine.
 };

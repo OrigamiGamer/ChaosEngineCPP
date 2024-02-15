@@ -9,7 +9,7 @@ namespace ChaosEngine {
 		public:
 			virtual void Init() {};
 			virtual void Release() {};
-			
+
 		};
 
 	}

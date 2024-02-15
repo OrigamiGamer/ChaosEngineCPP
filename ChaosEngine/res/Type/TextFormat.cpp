@@ -6,7 +6,7 @@ namespace ChaosEngine {
     namespace Type {
 
         TextFormat::TextFormat() {
-            layoutSize = Property::Window::Size;
+            layoutSize = Properties::Window::Size;
             pFormat = nullptr;
             pLayout = nullptr;
         }

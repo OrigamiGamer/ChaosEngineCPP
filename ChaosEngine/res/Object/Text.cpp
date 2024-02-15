@@ -8,10 +8,11 @@ namespace ChaosEngine {
 		Text::Text() {
 			content;
 			textFormat;
-			pMousePos = &Property::Window::MousePos;
+			pMousePos = &Properties::Window::MousePos;
 		}
 
 		void Text::Init() {
+			textFormat.Init();
 		}
 		void Text::Update() {
 			
@@ -25,6 +26,10 @@ namespace ChaosEngine {
 
 		void Text::Create() {
 
+		}
+
+		void Text::SetContent(std::wstring new_content) {
+			content = new_content;
 		}
 
 		BOOL Text::HitTest() {
