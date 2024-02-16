@@ -9,6 +9,7 @@ namespace ChaosEngine {
         ID2D1SolidColorBrush* pBrush = nullptr;
         float StrokeWidth = 1;
 
+        // Initialize
         LRESULT GraphicXInit() {
             D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
             brush_properties.opacity = 1;
@@ -23,6 +24,7 @@ namespace ChaosEngine {
             return 0;
         }
 
+        // Release
         void GraphicXRelease() {
             SafeRelease(&pBrush);
         }
@@ -34,10 +36,12 @@ namespace ChaosEngine {
             if (newStrokeWidth >= 0) StrokeWidth = newStrokeWidth;
         }
 
+        // Draw a line
         void DrawLine(Type::POS pos_1, Type::POS pos_2) {
             WindowX::pHwndRenderTarget->DrawLine({ pos_1.x, pos_1.y }, { pos_2.x, pos_2.y }, pBrush, StrokeWidth);
         }
 
+        // Draw a rectangle
         void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius = { 0, 0 }) {
             D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
             if (radius.x == 0 && radius.y == 0) {
@@ -52,6 +56,7 @@ namespace ChaosEngine {
             }
         }
 
+        // Draw a texture
         inline void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity = 1.0F) {
             const auto mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;  // As a setting of GraphicX
             WindowX::pHwndRenderTarget->DrawBitmap(pTexture->pD2DBitmap, rect, opacity, mode);
@@ -61,6 +66,7 @@ namespace ChaosEngine {
             DrawTexture(pTexture, rect, opacity);
         }
 
+        // Draw a piece of raw text by direct parameters
         HRESULT DrawRawText(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos) {
             HRESULT hr = NULL;
 

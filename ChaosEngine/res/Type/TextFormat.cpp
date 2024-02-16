@@ -46,17 +46,17 @@ namespace ChaosEngine {
                 &pFormat
             );
 
-            if (pFormat) {
-                hr = WindowX::pDWriteFactory->CreateTextLayout(
-                    content.c_str(),
-                    (UINT32)content.size(),
-                    pFormat,
-                    layout_size.width,
-                    layout_size.height,
-                    &pLayout
-                ); if (FAILED(hr)) return hr;
-            }
-            else return hr;
+            if (pFormat == nullptr) return hr;
+
+            hr = WindowX::pDWriteFactory->CreateTextLayout(
+                content.c_str(),
+                (UINT32)content.size(),
+                pFormat,
+                layout_size.width,
+                layout_size.height,
+                &pLayout
+            ); if (FAILED(hr)) return hr;
+
             return hr;
         }
 
@@ -83,10 +83,10 @@ namespace ChaosEngine {
         HRESULT TextFormat::SetContent(std::wstring new_content) {
             UINT32 len = 0;
 
-            std::unique_ptr<WCHAR[]> local_name; len = pFormat->GetLocaleNameLength();
+            std::unique_ptr<WCHAR[]> local_name; len = pFormat->GetLocaleNameLength() + 1;
             local_name.reset(new WCHAR[len]); pFormat->GetLocaleName(local_name.get(), len);
 
-            std::unique_ptr<WCHAR[]> font_family_name; len = pFormat->GetFontFamilyNameLength();
+            std::unique_ptr<WCHAR[]> font_family_name; len = pFormat->GetFontFamilyNameLength() + 1;
             font_family_name.reset(new WCHAR[len]); pFormat->GetFontFamilyName(font_family_name.get(), len);
 
             HRESULT hr = _update(
@@ -102,15 +102,6 @@ namespace ChaosEngine {
 
             return hr;
         }
-
-        
-
-        /*void Set() {
-            const DWRITE_TRIMMING dw_trimming;
-            IDWriteInlineObject* w = nullptr;
-            Format->SetTrimming(&dw_trimming, w);
-
-        }*/
 
     }
 

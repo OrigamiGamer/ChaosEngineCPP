@@ -12,7 +12,7 @@ MainScene::MainScene() {
     text;
 };
 void MainScene::Init() {
-    Global::default_textFormat.Init();
+    Global::default_textFormat.Init();  // 还有一个空指针
 
     this->RegComp(timer);
     timer.Create(10000);
@@ -33,9 +33,8 @@ void MainScene::Init() {
         image.mass = (double)(1000.0 + rand() % 100 + 1);
     };*/
 
-    RegComp(text);
-    
-
+    //RegComp(text);
+    //text.Init();    // IntelliCode 炸了
 };
 void MainScene::Update() {
     /*if (GetKeyState('D') < 0) {
@@ -52,10 +51,7 @@ void MainScene::Update() {
 };
 void MainScene::Render() {
 
-    //GraphicX::SetStrokeWidth(10);
-    //GraphicX::DrawLine({ 50,50 }, { 200,100 });
-    //GraphicX::DrawRectangle({ 300,300 }, { 150,150 }, { 10,10 });
-    //GraphicX::DrawTextRaw(L"ChaosEngine Text Demo", L"Microsoft YaHei", 64, { 1000,1000 }, { 50,50 });
+    //GraphicX::DrawRawText(L"ChaosEngine Text Demo", L"Microsoft YaHei", 64, { 1000,1000 }, { 50,50 });
 
     GraphicX::DrawRawText(L"test", Global::default_textFormat, { 100,100 });
 
