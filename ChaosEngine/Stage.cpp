@@ -12,7 +12,7 @@ namespace ChaosEngine {
         /* Stage Update */
         void StageUpdate() {
             if (pCurScene == pPreScene) {
-                if (pCurScene) {
+                if (pCurScene != nullptr) {
                     // Update Logic
                     pCurScene->SceneModel::Update();  // Update the logic in model at first,
                     pCurScene->Update();    // then update the logic of scene.
@@ -23,14 +23,14 @@ namespace ChaosEngine {
                 };
             } else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
                 pPreScene->SceneModel::Update(); // Update in the same way.
-                if (pPreScene) pPreScene->Update();
+                if (pPreScene != nullptr) pPreScene->Update();
                 pCurScene = pPreScene;
             }
         };
 
         /* Stage Render */
         void StageRender() {
-            if (pCurScene) {
+            if (pCurScene != nullptr) {
                 pCurScene->SceneModel::Render();  // Render in the same way to update.
                 pCurScene->Render();
             }
@@ -39,11 +39,11 @@ namespace ChaosEngine {
         /* Methods */
 
         void SwitchScene(Model::SceneModel& TargetScene) {
-            if (&TargetScene) pPreScene = &TargetScene;
+            if (&TargetScene != nullptr) pPreScene = &TargetScene;
         };
 
         void RegScene(Model::SceneModel& AnyScene) {
-            if (&AnyScene) {
+            if (&AnyScene != nullptr) {
                 vec_pRegScene.push_back(&AnyScene);  // Register the new scene
                 AnyScene.Init();    // Initialize the new scene
 
