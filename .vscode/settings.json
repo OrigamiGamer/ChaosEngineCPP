@@ -55,5 +55,4 @@
         "clang-diagnostic-error",
         "clang-diagnostic-error"
     ],
-    "C_Cpp.errorSquiggles": "disabled",
 }
