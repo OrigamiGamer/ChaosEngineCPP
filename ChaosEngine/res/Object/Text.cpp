@@ -6,9 +6,9 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		Text::Text() {
-			content;
+			s_pTargetPos = &Properties::Window::MousePos;
+			color = { D2D1::ColorF::LightPink, 1 };
 			textFormat;
-			pMousePos = &Properties::Window::MousePos;
 		}
 
 		void Text::Init() {
@@ -18,37 +18,41 @@ namespace ChaosEngine {
 			
 		}
 		void Text::Render() {
-			GraphicX::DrawRawText(content, textFormat, this->pos);
-			
+			if (textFormat.GetLayoutSize() != this->size) textFormat.SetLayoutSize(this->size);
+			GraphicX::PushColor(color);
+
+			GraphicX::DrawRawText(textFormat, this->pos);
+
+			// DEBUG //
+			GraphicX::DrawRectangle(this->pos, this->size, { 0,0 });	// Draw Box
+
+			GraphicX::PopColor();
 		}
 		void Text::Release() {
+			textFormat.Release();
 		}
 
 		void Text::Create() {
 
 		}
 
-		void Text::SetContent(std::wstring new_content) {
-			content = new_content;
-		}
-
 		BOOL Text::HitTest() {
-			DWRITE_HIT_TEST_METRICS w;
+			DWRITE_HIT_TEST_METRICS metrics;
 			BOOL is_trailing_hit;
 			BOOL is_inside;
 
-			Type::POS pos = { pMousePos->x - this->pos.x, pMousePos->y - this->pos.y };
-			textFormat.pLayout->HitTestPoint(pos.x, pos.y, &is_trailing_hit, &is_inside, &w);
+			Type::POS pos_hit = { s_pTargetPos->x - this->pos.x, s_pTargetPos->y - this->pos.y };
+			textFormat.pLayout->HitTestPoint(pos_hit.x, pos_hit.y, &is_trailing_hit, &is_inside, &metrics);
 			return is_trailing_hit;
 		}
 
 		BOOL Text::IsInside() {
-			DWRITE_HIT_TEST_METRICS w;
+			DWRITE_HIT_TEST_METRICS metrics;
 			BOOL is_trailing_hit;
 			BOOL is_inside;
 
-			Type::POS pos = { pMousePos->x - this->pos.x, pMousePos->y - this->pos.y };
-			textFormat.pLayout->HitTestPoint(pos.x, pos.y, &is_trailing_hit, &is_inside, &w);
+			Type::POS pos_hit = { s_pTargetPos->x - this->pos.x, s_pTargetPos->y - this->pos.y };
+			textFormat.pLayout->HitTestPoint(pos_hit.x, pos_hit.y, &is_trailing_hit, &is_inside, &metrics);
 			return is_inside;
 		}
 

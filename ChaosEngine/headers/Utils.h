@@ -38,4 +38,30 @@ namespace ChaosEngine {
         return std::wstring(root) + fileName;
     }
 
+    namespace Color {
+        
+        static const UINT32 _redShift = 16;
+        static const UINT32 _greenShift = 8;
+        static const UINT32 _blueShift = 0;
+
+        static const UINT32 _redMask = 0xff << _redShift;
+        static const UINT32 _greenMask = 0xff << _greenShift;
+        static const UINT32 _blueMask = 0xff << _blueShift;
+
+        // r = static_cast<FLOAT>((rgb & _redMask) >> _redShift) / 255.f;
+        // g = static_cast<FLOAT>((rgb & _greenMask) >> _greenShift) / 255.f;
+        // b = static_cast<FLOAT>((rgb & _blueMask) >> _blueShift) / 255.f;
+
+        FLOAT r(UINT32 rgb) {
+            return static_cast<FLOAT>((rgb & _redMask) >> _redShift) / 255.f;
+        }
+        FLOAT g(UINT32 rgb) {
+            return static_cast<FLOAT>((rgb & _greenMask) >> _greenShift) / 255.f;
+        }
+        FLOAT b(UINT32 rgb) {
+            return static_cast<FLOAT>((rgb & _blueMask) >> _blueShift) / 255.f;
+        }
+
+    }
+
 }

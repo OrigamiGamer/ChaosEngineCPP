@@ -12,16 +12,16 @@ MainScene::MainScene() {
     text;
 };
 void MainScene::Init() {
-    Global::default_textFormat.Init();  // »¹ÓÐÒ»¸ö¿ÕÖ¸Õë
+    Global::default_textFormat.Init();
 
     this->RegComp(timer);
     timer.Create(10000);
     timer.Begin();
-    
+
     Type::Texture* lpTex = NULL;
     Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
 
-    /*size_t count = 100;
+    size_t count = 100;
     vec_image.resize(count);
     for (size_t i = 0; i < count; i++) {
         ObjectList::Image& image = vec_image[i];
@@ -31,10 +31,14 @@ void MainScene::Init() {
         image.pos = { (float)(10.0 + rand() % 1400 + 1), (float)(10.0 + rand() % 900 + 1) };
         image.use_physics = true;
         image.mass = (double)(1000.0 + rand() % 100 + 1);
-    };*/
+    };
 
-    //RegComp(text);
-    //text.Init();    // IntelliCode Õ¨ÁË
+    RegComp(text);
+    text.Init();
+    text.size = { 1000, 300 };
+    text.textFormat = Global::default_textFormat;
+    text.textFormat.SetContent(L"ÎÒ²Ý£¬C++ÎÒ°®ËÀÄãÁË£¨heart");
+
 };
 void MainScene::Update() {
     /*if (GetKeyState('D') < 0) {
@@ -48,12 +52,38 @@ void MainScene::Update() {
         //OutputDebugString((std::to_wstring(GetTickCount()) + L"\n").c_str());
     };
 
+
+
+    static BOOL last_state_inside = FALSE;
+    static BOOL state_inside = FALSE;
+    static BOOL state_update = FALSE;
+
+    state_inside = text.IsInside();
+
+    // cheack update state
+    if (last_state_inside != state_inside) { 
+        last_state_inside = state_inside;
+        state_update = TRUE;
+    }
+
+    // update event
+    if (state_inside) {
+        state_update = FALSE;
+        text.textFormat.SetContent(L"ºßºß°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡°¡");
+        text.color = { D2D1::ColorF::LightSeaGreen, 1 };
+    }
+    else {
+        state_update = FALSE;
+        text.textFormat.SetContent(L"Ã»ÊÂ£¨");
+        text.color = { D2D1::ColorF::White, 1 };
+    }
+
+
+
 };
 void MainScene::Render() {
+    //GraphicX::DrawRawText(L"test", Global::default_textFormat, { 100,100 });
 
-    //GraphicX::DrawRawText(L"ChaosEngine Text Demo", L"Microsoft YaHei", 64, { 1000,1000 }, { 50,50 });
-
-    GraphicX::DrawRawText(L"test", Global::default_textFormat, { 100,100 });
 
 };
 void MainScene::Release() {

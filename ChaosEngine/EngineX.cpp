@@ -10,7 +10,6 @@ namespace ChaosEngine {
         LRESULT EngineInit() {
             LRESULT lr = S_OK;
             lr = GraphicX::GraphicXInit();
-            
             lr = Properties::Engine::StartupProp->pGameMain();    // Call GameMain function
 
             return lr;

@@ -1,20 +1,9 @@
 #pragma once
 #include "ChaosEngine.h"
 
-/* Define */
-#define emptyf (float)0xFFFFFFFF            // 4 bytes
-#define emptyd (double)0xFFFFFFFFFFFFFFFF   // 8 bytes
-
-#define SET_OPT(var, new_var) if(new_var != empty) var = new_var;   // Set optionally
-
-// Window Message
-#define WM_ENGINE_FRAME (WM_USER + 1)
-
-
-
 namespace ChaosEngine {
 
-    // Type defines
+    // Types which engine predefined
     namespace Type {
 
         // Callback EngineProc
@@ -22,9 +11,9 @@ namespace ChaosEngine {
 
         // Initial Property
         struct WindowInitialProperty {
-            int width = 800, height = 600;
+            int width = CW_USEDEFAULT, height = CW_USEDEFAULT;
             int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
-            LPWSTR WndTitle = L"New Game";
+            std::wstring WndTitle = L"New Game";
             HWND hWndParent = NULL;
         };
         struct EngineStartupProperty {
@@ -33,18 +22,32 @@ namespace ChaosEngine {
             int FPS = 60;
         };
 
-        // Basic Type
+        // Basic Types
         struct SIZE {
             float width, height;
 
             SIZE() = default;
             SIZE(float width, float height) : width(width), height(height) {};
+
+            bool operator==(SIZE other) const {
+                return width == other.width || height == other.height;
+            }
+            bool operator!=(SIZE other) const {
+                return !(*this == other);
+            }
         };
         struct SIZE_3D {
-            float length, width, height;
+            float width, height, length;
 
             SIZE_3D() = default;
-            SIZE_3D(float length, float width, float height) : length(length), width(width), height(height) {};
+            SIZE_3D(float width, float height, float length) : width(width), height(height), length(length) {};
+
+            bool operator==(SIZE_3D other) const {
+                return width == other.width && height == other.height && length == other.length;
+            }
+            bool operator!=(SIZE_3D other) const {
+                return !(*this == other);
+            }
         };
 
         struct POS {
@@ -52,22 +55,35 @@ namespace ChaosEngine {
 
             POS() = default;
             POS(float x, float y) : x(x), y(y) {};
+
+            bool operator==(POS other) const {
+                return x == other.x && y == other.y;
+            }
+            bool operator!=(POS other) const {
+                return !(*this == other);
+            }
         };
         struct POS_3D {
             float x, y, z;
 
             POS_3D() = default;
             POS_3D(float x, float y, float z) : x(x), y(y), z(z) {};
+
+            bool operator==(POS_3D other) const {
+                return x == other.x && y == other.y && z == other.z;
+            }
+            bool operator!=(POS_3D other) const {
+                return !(*this == other);
+            }
         };
 
-        //struct RECT_F
-
         struct COLOR {
-            BYTE rgb;
-            float alpha;
+            UINT32 rgb;
+            FLOAT alpha;
 
             COLOR() = default;
-            COLOR(BYTE rgb, float alpha) : rgb(rgb), alpha(alpha) {};
+            COLOR(UINT32 rgb, FLOAT alpha) : rgb(rgb), alpha(alpha) {};
+            //COLOR(FLOAT red, FLOAT green, FLOAT blue, FLOAT alpha) : alpha(alpha) {}; // NEED: ARGB Color Mixer
         };
 
         struct ACCELERATION {

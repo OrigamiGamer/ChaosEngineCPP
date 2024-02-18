@@ -5,19 +5,25 @@ namespace ChaosEngine {
 
     namespace GraphicX {
 
+        extern Type::COLOR base_color;
+        extern std::vector<Type::COLOR> vec_color;
         extern ID2D1SolidColorBrush* pBrush;
-        extern float StrokeWidth;
+        extern float _strokeWidth;
 
         LRESULT GraphicXInit();
-        void GraphicXRelease();
-        void SetBrushColor(Type::COLOR newColor);
-        void SetStrokeWidth(FLOAT newStrokeWidth);
-        void DrawLine(Type::POS pos_1, Type::POS pos_2);
-        void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
-        void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity);
+        inline void GraphicXRelease();
+
+        inline void SetBrushBaseColor(Type::COLOR new_base_color);
+        inline void SetStrokeWidth(FLOAT new_strokeWidth);
+        inline void PushColor(Type::COLOR new_color);
+        inline void PopColor();
+
+        inline void DrawLine(Type::POS pos_1, Type::POS pos_2);
+        inline void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
+        inline void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity);
         inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity);
-        HRESULT DrawRawText(std::wstring content, std::wstring fontFamilyName, FLOAT fontSize, Type::SIZE layoutSize, Type::POS pos);
-        HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos);
+        inline HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos);
+        inline HRESULT DrawRawText(Type::TextFormat& textFormat, Type::POS pos);
 
     }
 

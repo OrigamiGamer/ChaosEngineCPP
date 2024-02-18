@@ -11,8 +11,7 @@ namespace ChaosEngine {
             std::vector<Type::Texture> vec_tex;
 
             TextureManager();
-
-            HRESULT CreateTextureFromFile(std::wstring fileName, std::wstring regName, Type::Texture** lpTexture);
+            HRESULT CreateTextureFromFile(std::wstring fileName, std::wstring regName, Type::Texture** out_pTexture);
             HRESULT Release();
             Type::Texture* GetTexture(std::wstring regName);
 

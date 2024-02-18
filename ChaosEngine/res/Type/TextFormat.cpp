@@ -6,7 +6,10 @@ namespace ChaosEngine {
     namespace Type {
 
         TextFormat::TextFormat() {
-            layoutSize = Properties::Window::Size;
+            s_content;
+            s_local_name;
+            s_font_family_name;
+            s_layout_size = { 600, 600 };
             pFormat = nullptr;
             pLayout = nullptr;
         }
@@ -26,7 +29,7 @@ namespace ChaosEngine {
             DWRITE_FONT_WEIGHT font_weight,
             DWRITE_FONT_STYLE font_style,
             DWRITE_FONT_STRETCH font_stretch,
-            WCHAR* local_name,
+            std::wstring local_name,
             std::wstring content,
             std::wstring font_family_name,
             FLOAT font_size,
@@ -35,6 +38,12 @@ namespace ChaosEngine {
             Release();
             HRESULT hr = NULL;
 
+            // update cached properties
+            if (s_content != content) s_content = content;
+            if (s_local_name != local_name) s_local_name = local_name;
+            if (s_font_family_name != font_family_name) s_font_family_name = font_family_name;
+            if (s_layout_size.height != layout_size.height || s_layout_size.width != layout_size.width) s_layout_size = layout_size;
+
             hr = WindowX::pDWriteFactory->CreateTextFormat(
                 font_family_name.c_str(),
                 NULL,
@@ -42,7 +51,7 @@ namespace ChaosEngine {
                 font_style,
                 font_stretch,
                 font_size,
-                local_name,
+                local_name.c_str(),
                 &pFormat
             );
 
@@ -63,7 +72,6 @@ namespace ChaosEngine {
         // Initialize Format and Layout objects by default properties.
         HRESULT TextFormat::Initialize() {
             HRESULT hr = NULL;
-
             WCHAR local_name[LOCALE_NAME_MAX_LENGTH]; GetSystemDefaultLocaleName(local_name, LOCALE_NAME_MAX_LENGTH); // ?
             hr = _update(
                 DWRITE_FONT_WEIGHT_NORMAL,
@@ -73,33 +81,54 @@ namespace ChaosEngine {
                 L"",
                 L"Microsoft YaHei",
                 32,
-                layoutSize  // Property::Window::Size
+                Properties::Window::Size
             );
-
             return hr;
+        }
+
+        std::wstring TextFormat::GetContent() {
+            return s_content;
+        };
+
+        std::wstring TextFormat::GetLocalName() {
+            return s_local_name;
+        }
+
+        std::wstring TextFormat::GetFontFamilyName() {
+            return s_font_family_name;
+        }
+
+        Type::SIZE TextFormat::GetLayoutSize() {
+            return s_layout_size;
         }
 
         // Set new contents of Layout object to render.
         HRESULT TextFormat::SetContent(std::wstring new_content) {
-            UINT32 len = 0;
+            HRESULT hr = _update(
+                pFormat->GetFontWeight(),
+                pFormat->GetFontStyle(),
+                pFormat->GetFontStretch(),
+                GetLocalName(),
+                new_content,    // the only one parameter to be updated
+                GetFontFamilyName(),
+                pFormat->GetFontSize(),
+                s_layout_size
+            );
+            return hr;
+        }
 
-            std::unique_ptr<WCHAR[]> local_name; len = pFormat->GetLocaleNameLength() + 1;
-            local_name.reset(new WCHAR[len]); pFormat->GetLocaleName(local_name.get(), len);
-
-            std::unique_ptr<WCHAR[]> font_family_name; len = pFormat->GetFontFamilyNameLength() + 1;
-            font_family_name.reset(new WCHAR[len]); pFormat->GetFontFamilyName(font_family_name.get(), len);
+        HRESULT TextFormat::SetLayoutSize(Type::SIZE new_layout_size) {
 
             HRESULT hr = _update(
                 pFormat->GetFontWeight(),
                 pFormat->GetFontStyle(),
                 pFormat->GetFontStretch(),
-                local_name.get(),
-                new_content,    // the only one parameter to be updated
-                font_family_name.get(),
+                GetLocalName(),
+                s_content,
+                GetFontFamilyName(),
                 pFormat->GetFontSize(),
-                layoutSize
+                new_layout_size
             );
-
             return hr;
         }
 

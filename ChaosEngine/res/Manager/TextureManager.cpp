@@ -8,11 +8,19 @@ namespace ChaosEngine {
         TextureManager::TextureManager() {
             vec_regName;
             vec_tex;
-        };
+        }
 
-        // Create a texture from a file
+        // Release all texture resources.
+        HRESULT TextureManager::Release() {
+            for (UINT i = 0; i < vec_tex.size(); i++)
+                if (!vec_tex[i].pD2DBitmap) vec_tex[i].pD2DBitmap->Release();
+            vec_tex.clear();
+            return S_OK;
+        }
+
+        // Create a texture resource from an image file.
         HRESULT TextureManager::CreateTextureFromFile(
-            std::wstring fileName, std::wstring regName = L"", Type::Texture** lpTexture = NULL
+            std::wstring fileName, std::wstring regName = L"", Type::Texture** out_pTexture = NULL
         ) {
             HRESULT hr = NULL;
 
@@ -34,29 +42,21 @@ namespace ChaosEngine {
             if (SUCCEEDED(WindowX::pHwndRenderTarget->CreateBitmapFromWicBitmap(pConverter, &_tex.pD2DBitmap))) {
                 if (regName == L"") {
                     vec_regName.push_back(std::to_wstring(vec_tex.size() + 1));
-                } else {
+                }
+                else {
                     vec_regName.push_back(regName);
                 }
                 vec_tex.push_back(_tex);
-                if (lpTexture) *lpTexture = &vec_tex[vec_tex.size() - 1];
+                if (out_pTexture) *out_pTexture = &vec_tex[vec_tex.size() - 1];
             }
 
             pConverter->Release();
             pFrame->Release();
             pDecoder->Release();
-
             return hr;
-        };
+        }
 
-        // Release the TextureManager
-        HRESULT TextureManager::Release() {
-            for (UINT i = 0; i < vec_tex.size(); i++)
-                if (!vec_tex[i].pD2DBitmap) vec_tex[i].pD2DBitmap->Release();
-            vec_tex.clear();
-            return S_OK;
-        };
-
-        // Get a pTexture by a RegName
+        // Get a pTexture by the register name of a texture resource.
         Type::Texture* TextureManager::GetTexture(std::wstring regName) {
             if (regName != L"")
                 for (UINT i = 0; i < vec_regName.size(); i++)

@@ -1,11 +1,15 @@
 #pragma once
 #include "ChaosEngine.h"
 
+/* Compiler Definitions */
+#define WM_ENGINE_FRAME (WM_USER + 1)
+
+
 namespace ChaosEngine {
 
     namespace WindowX {
 
-        /* Function about Windows */
+        /* Processes about Windows */
 
         // Initialize Window
         HWND InitWindow(Type::WindowInitialProperty* WndProp) {
@@ -29,7 +33,7 @@ namespace ChaosEngine {
 
             hWnd = CreateWindow(
                 L"ChaosGameWin",
-                WndProp->WndTitle,
+                WndProp->WndTitle.c_str(),
                 WS_OVERLAPPEDWINDOW,
                 WndProp->x, WndProp->y,
                 WndProp->width, WndProp->height,
@@ -131,7 +135,7 @@ namespace ChaosEngine {
 
 
 
-        /* Function about DirectX */
+        /* Processes about DirectX */
 
         // Global
         ID2D1Factory* pD2DFactory = nullptr;

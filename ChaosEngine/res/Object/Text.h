@@ -7,10 +7,10 @@ namespace ChaosEngine {
 
 		class Text : public Model::ObjectModel {
 		private:
-			std::wstring content;
+			Type::POS* s_pTargetPos;
+		public:
+			Type::COLOR color = { 0, 0 };
 			Type::TextFormat textFormat;
-			Type::POS* pMousePos;
-
 		public:
 			Text();
 			void Init();
@@ -19,7 +19,6 @@ namespace ChaosEngine {
 			void Release();
 
 			void Create();
-			void SetContent(std::wstring new_content);
 			BOOL HitTest();
 			BOOL IsInside();
 
