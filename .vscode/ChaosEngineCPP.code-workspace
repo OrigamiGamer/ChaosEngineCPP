@@ -94,5 +94,6 @@
 			"xloctime": "cpp",
 			"xtree": "cpp"
 		},
+		"files.encoding": "gb2312",
 	}
 }

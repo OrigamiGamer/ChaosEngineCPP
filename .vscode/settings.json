@@ -51,6 +51,8 @@
     "files.encoding": "gb2312",
     "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
         "clang-diagnostic-error",
+        "clang-diagnostic-unused-value",
+        "clang-diagnostic-error",
         "clang-diagnostic-error"
     ],
 }
