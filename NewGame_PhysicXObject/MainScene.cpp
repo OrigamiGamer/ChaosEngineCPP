@@ -10,6 +10,7 @@ MainScene::MainScene() {
     timer;
     vec_image;
     text;
+    image_bg;
 };
 void MainScene::Init() {
     Global::default_textFormat.Init();
@@ -18,26 +19,31 @@ void MainScene::Init() {
     timer.Create(10000);
     timer.Begin();
 
-    Type::Texture* lpTex = NULL;
-    Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"", &lpTex);
+    Type::Texture* pTex = NULL;
+    Manager::Texture.CreateTextureFromFile(locate(L"res\\texture\\stonecutter.png"), L"stonecutter", &pTex);
 
-    size_t count = 100;
+    /*size_t count = 100;
     vec_image.resize(count);
     for (size_t i = 0; i < count; i++) {
         ObjectList::Image& image = vec_image[i];
         this->RegComp(image);
-        image.SetTexture(lpTex);
+        image.SetTexture(pTex);
         image.size = { 30,30 };
         image.pos = { (float)(10.0 + rand() % 1400 + 1), (float)(10.0 + rand() % 900 + 1) };
         image.use_physics = true;
         image.mass = (double)(1000.0 + rand() % 100 + 1);
-    };
+    };*/
 
     RegComp(text);
     text.Init();
     text.size = { 1000, 300 };
+    text.pos = { 50,100 };
     text.textFormat = Global::default_textFormat;
-    text.textFormat.SetContent(L"Œ“≤›£¨C++Œ“∞ÆÀ¿ƒ„¡À£®heart");
+
+    RegComp(image_bg);
+    
+    pTex = Manager::Texture.GetTexture(L"stonecutter");
+    image_bg.SetTexture(pTex);
 
 };
 void MainScene::Update() {
@@ -69,8 +75,8 @@ void MainScene::Update() {
     // update event
     if (state_inside) {
         state_update = FALSE;
-        text.textFormat.SetContent(L"∫ﬂ∫ﬂ∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°∞°");
-        text.color = { D2D1::ColorF::LightSeaGreen, 1 };
+        text.textFormat.SetContent(L"Œ“≤›£¨C++Œ“∞ÆÀ¿ƒ„¡À£®");
+        text.color = { D2D1::ColorF::HotPink, 1 };
     }
     else {
         state_update = FALSE;
@@ -82,12 +88,10 @@ void MainScene::Update() {
 
 };
 void MainScene::Render() {
-    //GraphicX::DrawRawText(L"test", Global::default_textFormat, { 100,100 });
 
 
 };
 void MainScene::Release() {
-
 
 
 };

@@ -9,8 +9,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     static WindowInitialProperty WndProp;
     WndProp.WndTitle = L"ChaosEngine Game Window Test";
-    //WndProp.width = 1600;
-    //WndProp.height = 900;
+    WndProp.width = 1600;
+    WndProp.height = 900;
 
     static EngineStartupProperty EngineProp;
     EngineProp.pGameMain = &GameMain;

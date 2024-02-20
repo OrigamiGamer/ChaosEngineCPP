@@ -20,8 +20,8 @@ namespace ChaosEngine {
 		void Image::Release() { };
 		void Image::Create() { };
 
-		void Image::SetTexture(Type::Texture*& lpTexture) {
-			self_pTex = lpTexture;
+		void Image::SetTexture(Type::Texture* pTexture) {
+			if (pTexture != nullptr) self_pTex = pTexture;
 		};
 		Type::Texture* Image::GetTexture() {
 			return self_pTex;

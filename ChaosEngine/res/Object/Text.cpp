@@ -20,13 +20,12 @@ namespace ChaosEngine {
 		void Text::Render() {
 			if (textFormat.GetLayoutSize() != this->size) textFormat.SetLayoutSize(this->size);
 			GraphicX::PushColor(color);
-
 			GraphicX::DrawRawText(textFormat, this->pos);
+			GraphicX::PopColor();
 
 			// DEBUG //
 			GraphicX::DrawRectangle(this->pos, this->size, { 0,0 });	// Draw Box
 
-			GraphicX::PopColor();
 		}
 		void Text::Release() {
 			textFormat.Release();

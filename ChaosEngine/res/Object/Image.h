@@ -19,7 +19,7 @@ namespace ChaosEngine {
 			void Release();
 
 			void Create();
-			void SetTexture(Type::Texture*& lpTexture);
+			void SetTexture(Type::Texture* pTexture);
 			Type::Texture* GetTexture();
 			void SetOpacity(FLOAT new_opacity);
 

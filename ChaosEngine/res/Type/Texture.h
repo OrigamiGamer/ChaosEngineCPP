@@ -12,7 +12,7 @@ namespace ChaosEngine {
 			Texture();
 			void Init();
 			void Release();
-			Type::SIZE GetSize();
+			Type::SIZE GetSize() const;
 
 		};
 

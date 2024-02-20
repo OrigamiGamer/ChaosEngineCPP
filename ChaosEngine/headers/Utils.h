@@ -38,8 +38,8 @@ namespace ChaosEngine {
         return std::wstring(root) + fileName;
     }
 
-    namespace Color {
-        
+    namespace ColorMixer {
+
         static const UINT32 _redShift = 16;
         static const UINT32 _greenShift = 8;
         static const UINT32 _blueShift = 0;
@@ -52,13 +52,13 @@ namespace ChaosEngine {
         // g = static_cast<FLOAT>((rgb & _greenMask) >> _greenShift) / 255.f;
         // b = static_cast<FLOAT>((rgb & _blueMask) >> _blueShift) / 255.f;
 
-        FLOAT r(UINT32 rgb) {
+        inline FLOAT r(UINT32 rgb) {
             return static_cast<FLOAT>((rgb & _redMask) >> _redShift) / 255.f;
         }
-        FLOAT g(UINT32 rgb) {
+        inline FLOAT g(UINT32 rgb) {
             return static_cast<FLOAT>((rgb & _greenMask) >> _greenShift) / 255.f;
         }
-        FLOAT b(UINT32 rgb) {
+        inline FLOAT b(UINT32 rgb) {
             return static_cast<FLOAT>((rgb & _blueMask) >> _blueShift) / 255.f;
         }
 
