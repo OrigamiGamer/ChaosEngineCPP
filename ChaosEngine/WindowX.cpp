@@ -1,26 +1,30 @@
 #pragma once
 #include "ChaosEngine.h"
 
-/* Compiler Definitions */
 #define WM_ENGINE_FRAME (WM_USER + 1)
-
 
 namespace ChaosEngine {
 
     namespace WindowX {
 
-        /* Processes about Windows */
+        namespace Prop {
+            HWND hWnd = nullptr;
+            Type::SIZE Size;
+            Type::POS Pos;
+            Type::POS MousePos;
+            Type::VirtualKeyState VirtKeyStateBuffer[254];
+            std::vector<int> VirtKeyInputBuffer;
+        }
 
-        // Initialize Window
-        HWND InitWindow(Type::WindowInitialProperty* WndProp) {
-            HWND hWnd;
+        // Initialize Game Window
+        HWND InitializeGameWindow(Type::WindowInitialProperty& WndProp) {
             HINSTANCE hInst = GetModuleHandle(NULL);
 
             WNDCLASSEX WndClassEx{};
             WndClassEx.cbSize = sizeof(WNDCLASSEX);
             WndClassEx.hInstance = hInst;
             WndClassEx.lpszClassName = L"ChaosGameWin";
-            WndClassEx.lpfnWndProc = WndProc;
+            WndClassEx.lpfnWndProc = WindowX::WndProc;
             WndClassEx.style = CS_HREDRAW | CS_VREDRAW; //CS_SAVEBITS | CS_DROPSHADOW;
             WndClassEx.cbClsExtra = 0;
             WndClassEx.cbWndExtra = 0;
@@ -31,27 +35,28 @@ namespace ChaosEngine {
             WndClassEx.hIconSm = NULL;
             RegisterClassEx(&WndClassEx);
 
-            hWnd = CreateWindow(
+            Prop::hWnd = CreateWindowEx(
+                NULL,
                 L"ChaosGameWin",
-                WndProp->WndTitle.c_str(),
+                WndProp.WndTitle.c_str(),
                 WS_OVERLAPPEDWINDOW,
-                WndProp->x, WndProp->y,
-                WndProp->width, WndProp->height,
-                WndProp->hWndParent,
+                WndProp.x, WndProp.y,
+                WndProp.width, WndProp.height,
+                WndProp.hWndParent,
                 NULL,
                 hInst,
-                NULL
+                nullptr
             );
-            if (hWnd == 0) {
+            if (Prop::hWnd == 0) {
                 std::wstring content = L"Initialize Window Failed! " + std::to_wstring(GetLastError());
                 MessageBox(NULL, content.c_str(), L"ERROR", 0);
                 return NULL;
-            };
+            }
 
-            ShowWindow(hWnd, SW_SHOW);
-            UpdateWindow(hWnd);
-            return hWnd;
-        };
+            ShowWindow(Prop::hWnd, SW_SHOW);
+            UpdateWindow(Prop::hWnd);
+            return Prop::hWnd;
+        }
 
         // Start Message Loop
         DWORD StartMessageLoop() {
@@ -61,12 +66,12 @@ namespace ChaosEngine {
                 DispatchMessage(&Msg);
             };
             return (DWORD)Msg.wParam;
-        };
+        }
 
         // Callback TimerProc
         VOID CALLBACK TimerProc_GameFrameUpdate(HWND hWnd, UINT p1, UINT_PTR p2, DWORD p3) {
             SendMessage(hWnd, WM_ENGINE_FRAME, 0, 0);
-        };
+        }
 
         // Callback WndProc
         LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -78,40 +83,45 @@ namespace ChaosEngine {
 
                 break;
             case WM_SIZE:
-                Properties::Window::Size.width = (float)LOWORD(lParam);
-                Properties::Window::Size.height = (float)HIWORD(lParam);
+                WindowX::Prop::Size.width = (float)LOWORD(lParam);
+                WindowX::Prop::Size.height = (float)HIWORD(lParam);
 
                 break;
             case WM_MOVE:
-                Properties::Window::Pos.x = (float)LOWORD(lParam);
-                Properties::Window::Pos.y = (float)HIWORD(lParam);
+                WindowX::Prop::Pos.x = (float)LOWORD(lParam);
+                WindowX::Prop::Pos.y = (float)HIWORD(lParam);
 
                 break;
             case WM_MOUSEMOVE:
-                Properties::Window::MousePos.x = (float)GET_X_LPARAM(lParam);
-                Properties::Window::MousePos.y = (float)GET_Y_LPARAM(lParam);
+                WindowX::Prop::MousePos.x = (float)GET_X_LPARAM(lParam);
+                WindowX::Prop::MousePos.y = (float)GET_Y_LPARAM(lParam);
 
                 break;
             case WM_KEYDOWN:
-                if (Properties::Window::VirtKeyStateBuffer[wParam].current != TRUE)
-                    Properties::Window::VirtKeyStateBuffer[wParam].current = TRUE;
+                if (WindowX::Prop::VirtKeyStateBuffer[wParam].current != TRUE)
+                    WindowX::Prop::VirtKeyStateBuffer[wParam].current = TRUE;
 
                 break;
             case WM_KEYUP:
-                if (Properties::Window::VirtKeyStateBuffer[wParam].current != FALSE)
-                    Properties::Window::VirtKeyStateBuffer[wParam].current = FALSE;
+                if (WindowX::Prop::VirtKeyStateBuffer[wParam].current != FALSE)
+                    WindowX::Prop::VirtKeyStateBuffer[wParam].current = FALSE;
 
                 break;
             case WM_CHAR:
-                Properties::Window::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
+                WindowX::Prop::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
 
                 break;
             case WM_CREATE:
-                Properties::Window::BindWindow(hWnd);
+                RECT rect;
+                GetClientRect(hWnd, &rect);
+                Prop::Size.width = (float)(rect.right - rect.left);
+                Prop::Size.height = (float)(rect.bottom - rect.top);
+                Prop::Pos.x = (float)rect.left;
+                Prop::Pos.y = (float)rect.top;
 
-                if (InitDirectX(hWnd) != S_OK) MessageBox(hWnd, L"Initialize Direct2D failed!", L"ERROR", 0);
-                EngineX::EngineInit();  // Init
+                if (DirectX::InitializeDirectX(hWnd) != S_OK) MessageBox(hWnd, L"Initialize Direct2D failed!", L"ERROR", 0);
 
+                EngineX::EngineInit();   // Init
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
 
                 break;
@@ -121,6 +131,8 @@ namespace ChaosEngine {
 
                 break;
             case WM_DESTROY:
+                DirectX::ReleaseDirectX();
+
                 UnregisterClass(L"ChaosGameWin", NULL);
                 PostQuitMessage(0);
 
@@ -128,76 +140,10 @@ namespace ChaosEngine {
             default:
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
-            };
+            }
 
-            return 0;
-        };
-
-
-
-        /* Processes about DirectX */
-
-        // Global
-        ID2D1Factory* pD2DFactory = nullptr;
-        ID2D1HwndRenderTarget* pHwndRenderTarget = nullptr;
-        IWICImagingFactory* pWICFactory = nullptr;
-        IDWriteFactory* pDWriteFactory = nullptr;
-
-        // Initialize DirectX
-        HRESULT InitDirectX(HWND hWnd) {
-            HRESULT hr = NULL;
-
-
-            /* D2D */
-
-            // D2DFactory
-            hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
-            if (FAILED(hr)) return hr;
-
-            // HwndRenderTarget
-            D2D1_RENDER_TARGET_PROPERTIES RenderTarget_Properties{};
-            //float hWndDpi = GetDpiForWindow(hWnd);
-            //RenderTarget_Properties.dpiX = hWndDpi;
-            //RenderTarget_Properties.dpiY = hWndDpi;
-            RenderTarget_Properties.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
-            RenderTarget_Properties.pixelFormat = { DXGI_FORMAT_R8G8B8A8_UNORM ,D2D1_ALPHA_MODE_PREMULTIPLIED };
-
-            D2D1_HWND_RENDER_TARGET_PROPERTIES HwndRenderTarget_properties{};
-            HwndRenderTarget_properties.hwnd = hWnd;
-            HwndRenderTarget_properties.pixelSize = D2D1::SizeU((int)Properties::Window::Size.width, (int)Properties::Window::Size.height);
-            HwndRenderTarget_properties.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
-
-            hr = pD2DFactory->CreateHwndRenderTarget(&RenderTarget_Properties, &HwndRenderTarget_properties, &pHwndRenderTarget);
-            if (FAILED(hr)) return hr;
-
-            /* WIC */
-
-            // WICImagingFactory
-            hr = CoInitialize(NULL);
-            hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
-            if (FAILED(hr)) return hr;
-
-            /* DWrite */
-
-            hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), (IUnknown**)&pDWriteFactory);
-            if (FAILED(hr)) return hr;
-
-
-            return hr;
-        };
-
-        // Release DirectX
-        HRESULT ReleaseDirectX() {
-
-            /* D2D */
-            SafeRelease(&pD2DFactory);
-            /* WIC */
-            SafeRelease(&pWICFactory);
-            /* DWrite */
-            SafeRelease(&pDWriteFactory);
-
-            return 0;
-        };
+            return NULL;
+        }
 
     }
 

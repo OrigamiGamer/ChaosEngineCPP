@@ -11,22 +11,24 @@ namespace ChaosEngine {
         float _strokeWidth = 1;
 
         // Initialize
-        LRESULT GraphicXInit() {
+        HRESULT InitializeGraphicX() {
+            HRESULT hr = NULL;
+
             D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
             brush_properties.opacity = 1;
             brush_properties.transform = D2D1::IdentityMatrix();
 
-            WindowX::pHwndRenderTarget->CreateSolidColorBrush(
+            hr = DirectX::pHwndRenderTarget->CreateSolidColorBrush(
                 D2D1::ColorF(base_color.rgb),
                 brush_properties,
                 &pBrush
-            );
+            ); if (FAILED(hr)) return hr;
 
             return 0;
         }
 
         // Release
-        inline void GraphicXRelease() {
+        inline void ReleaseGraphicX() {
             SafeRelease(&pBrush);
         }
 
@@ -58,17 +60,17 @@ namespace ChaosEngine {
 
         // Draw a line.
         inline void DrawLine(Type::POS pos_1, Type::POS pos_2) {
-            WindowX::pHwndRenderTarget->DrawLine({ pos_1.x, pos_1.y }, { pos_2.x, pos_2.y }, pBrush, _strokeWidth);
+            DirectX::pHwndRenderTarget->DrawLine({ pos_1.x, pos_1.y }, { pos_2.x, pos_2.y }, pBrush, _strokeWidth);
         }
 
         // Draw a rectangle.
         inline void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius = { 0, 0 }) {
             D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
             if (radius.x == 0 && radius.y == 0) {
-                WindowX::pHwndRenderTarget->DrawRectangle(rect, pBrush, _strokeWidth);
+                DirectX::pHwndRenderTarget->DrawRectangle(rect, pBrush, _strokeWidth);
             }
             else {
-                WindowX::pHwndRenderTarget->DrawRoundedRectangle(
+                DirectX::pHwndRenderTarget->DrawRoundedRectangle(
                     D2D1::RoundedRect(rect, radius.x, radius.y),
                     pBrush,
                     _strokeWidth
@@ -79,7 +81,7 @@ namespace ChaosEngine {
         // Draw a texture.
         inline void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity = 1.0F) {
             const auto mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;  // As a setting of GraphicX
-            WindowX::pHwndRenderTarget->DrawBitmap(pTexture->pD2DBitmap, rect, opacity, mode);
+            DirectX::pHwndRenderTarget->DrawBitmap(pTexture->pD2DBitmap, rect, opacity, mode);
         }
         inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity = 1.0F) {
             const D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
@@ -87,24 +89,22 @@ namespace ChaosEngine {
         }
 
         // Draw a piece of raw text.
-        inline HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos) {
+        inline void DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos) {
             textFormat.SetContent(content);
-            WindowX::pHwndRenderTarget->DrawTextLayout(
+            DirectX::pHwndRenderTarget->DrawTextLayout(
                 { pos.x, pos.y },
                 textFormat.pLayout,
                 pBrush,
                 D2D1_DRAW_TEXT_OPTIONS_NONE //
             );
-            return S_OK;
         }
-        inline HRESULT DrawRawText(Type::TextFormat& textFormat, Type::POS pos) {
-            WindowX::pHwndRenderTarget->DrawTextLayout(
+        inline void DrawRawText(Type::TextFormat& textFormat, Type::POS pos) {
+            DirectX::pHwndRenderTarget->DrawTextLayout(
                 { pos.x, pos.y },
                 textFormat.pLayout,
                 pBrush,
                 D2D1_DRAW_TEXT_OPTIONS_NONE //
             );
-            return S_OK;
         }
 
 

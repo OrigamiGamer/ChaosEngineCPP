@@ -44,7 +44,7 @@ namespace ChaosEngine {
             if (s_font_family_name != font_family_name) s_font_family_name = font_family_name;
             if (s_layout_size.height != layout_size.height || s_layout_size.width != layout_size.width) s_layout_size = layout_size;
 
-            hr = WindowX::pDWriteFactory->CreateTextFormat(
+            hr = DirectX::pDWriteFactory->CreateTextFormat(
                 font_family_name.c_str(),
                 NULL,
                 font_weight,
@@ -57,7 +57,7 @@ namespace ChaosEngine {
 
             if (pFormat == nullptr) return hr;
 
-            hr = WindowX::pDWriteFactory->CreateTextLayout(
+            hr = DirectX::pDWriteFactory->CreateTextLayout(
                 content.c_str(),
                 (UINT32)content.size(),
                 pFormat,
@@ -81,7 +81,7 @@ namespace ChaosEngine {
                 L"",
                 L"Microsoft YaHei",
                 32,
-                Properties::Window::Size
+                WindowX::Prop::Size
             );
             return hr;
         }
@@ -118,7 +118,6 @@ namespace ChaosEngine {
         }
 
         HRESULT TextFormat::SetLayoutSize(Type::SIZE new_layout_size) {
-
             HRESULT hr = _update(
                 pFormat->GetFontWeight(),
                 pFormat->GetFontStyle(),

@@ -3,57 +3,70 @@
 
 namespace ChaosEngine {
 
-    /* EngineX, the process of engine logic */
     namespace EngineX {
+
+        Type::EngineStartupProperty* pStartupProp = nullptr;
+        long double lastTime = 0;
+        long double curTime = 0;
+        long double deltaTime = 0;
+
+        HRESULT Initialize(Type::EngineStartupProperty& EngineProp, Type::WindowInitialProperty& WndProp) {
+            HRESULT hr = NULL;
+            pStartupProp = &EngineProp;
+            WindowX::InitializeGameWindow(WndProp);
+            WindowX::StartMessageLoop();    // Start Message Loop
+
+            return TRUE;
+        }
 
         // Engine Init
         LRESULT EngineInit() {
-            LRESULT lr = S_OK;
-            lr = GraphicX::GraphicXInit();
-            lr = Properties::Engine::StartupProp->pGameMain();    // Call GameMain function
+            LRESULT lr = NULL;
+            lr = GraphicX::InitializeGraphicX();
+            lr = pStartupProp->pGameMain();    // Call GameMain function
 
-            return lr;
-        };
+            return S_OK;
+        }
 
         // Engine Update
         LRESULT EngineUpdate() {
             static long double curTime;
-            if (Properties::Engine::LastTime == 0) {
+            if (EngineX::lastTime == 0) {
                 curTime = (long double)((long double)GetTickCount64() / 1000);
-                Properties::Engine::LastTime = curTime;
+                EngineX::lastTime = curTime;
             };
 
             Stage::StageUpdate();
 
             curTime = (long double)((long double)GetTickCount64() / 1000);
-            Properties::Engine::DeltaTime = curTime - Properties::Engine::LastTime;
-            Properties::Engine::LastTime = curTime;
+            EngineX::deltaTime = curTime - EngineX::lastTime;
+            EngineX::lastTime = curTime;
             return S_OK;
-        };
+        }
 
         // Engine Render
         LRESULT EngineRender() {
-            WindowX::pHwndRenderTarget->BeginDraw();
-            WindowX::pHwndRenderTarget->Clear();
+            DirectX::pHwndRenderTarget->BeginDraw();
+            DirectX::pHwndRenderTarget->Clear();
 
             Stage::StageRender();
 
-            WindowX::pHwndRenderTarget->EndDraw();
-            ValidateRect(Properties::Window::hWnd, nullptr);
+            DirectX::pHwndRenderTarget->EndDraw();
+            ValidateRect(WindowX::Prop::hWnd, nullptr);
             return S_OK;
-        };
+        }
 
         // Engine Exit
         LRESULT EngineExit() {
-            if (!Properties::Engine::StartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
+            if (!EngineX::pStartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
                 return FALSE;
 
-            GraphicX::GraphicXRelease();
+            GraphicX::ReleaseGraphicX();
 
             std::cout << "Engine has exited!" << std::endl;
             return TRUE;    // TRUE returned means confirm exiting.
-        };
+        }
 
     }
-
+    
 }

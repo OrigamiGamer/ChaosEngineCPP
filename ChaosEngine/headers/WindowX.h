@@ -5,28 +5,19 @@ namespace ChaosEngine {
 
     namespace WindowX {
 
-        /* Function about Windows */
+        namespace Prop {
+            extern HWND hWnd;
+            extern Type::SIZE Size;
+            extern Type::POS Pos;
+            extern Type::POS MousePos;
+            extern Type::VirtualKeyState VirtKeyStateBuffer[254];
+            extern std::vector<int> VirtKeyInputBuffer;
+        }
 
-        HWND InitWindow(Type::WindowInitialProperty* WndProp);
+        HWND InitializeGameWindow(Type::WindowInitialProperty& WndProp);
         DWORD StartMessageLoop();
-
-        // Callback TimerProc
-        VOID CALLBACK TimerProc_GameFrameUpdate(HWND, UINT, UINT_PTR, DWORD);
-
-        // Callback WndProc
-        LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
-
-        /* Function about DirectX */
-
-        // Global
-        extern ID2D1Factory* pD2DFactory;
-        extern ID2D1HwndRenderTarget* pHwndRenderTarget;
-        extern IWICImagingFactory* pWICFactory;
-        extern IDWriteFactory* pDWriteFactory;
-
-        HRESULT InitDirectX(HWND hWnd);
-        HRESULT ReleaseDirectX();
+        VOID CALLBACK TimerProc_GameFrameUpdate(HWND hWnd, UINT p1, UINT_PTR p2, DWORD p3);
+        LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     }
 

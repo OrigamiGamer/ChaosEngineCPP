@@ -6,7 +6,7 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		Text::Text() {
-			s_pTargetPos = &Properties::Window::MousePos;
+			s_pTargetPos = &WindowX::Prop::MousePos;
 			color = { D2D1::ColorF::LightPink, 1 };
 			textFormat;
 		}
@@ -49,7 +49,7 @@ namespace ChaosEngine {
 			DWRITE_HIT_TEST_METRICS metrics;
 			BOOL is_trailing_hit;
 			BOOL is_inside;
-
+			
 			Type::POS pos_hit = { s_pTargetPos->x - this->pos.x, s_pTargetPos->y - this->pos.y };
 			textFormat.pLayout->HitTestPoint(pos_hit.x, pos_hit.y, &is_trailing_hit, &is_inside, &metrics);
 			return is_inside;
