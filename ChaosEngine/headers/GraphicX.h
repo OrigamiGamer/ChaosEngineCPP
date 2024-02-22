@@ -10,8 +10,8 @@ namespace ChaosEngine {
         extern ID2D1SolidColorBrush* pBrush;
         extern float _strokeWidth;
 
-        LRESULT GraphicXInit();
-        inline void GraphicXRelease();
+        HRESULT InitializeGraphicX();
+        inline void ReleaseGraphicX();
 
         inline void SetBrushBaseColor(Type::COLOR new_base_color);
         inline void SetStrokeWidth(FLOAT new_strokeWidth);
@@ -22,8 +22,8 @@ namespace ChaosEngine {
         inline void DrawRectangle(Type::POS pos, Type::SIZE size, Type::POS radius);
         inline void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity);
         inline void DrawTexture(Type::Texture*& pTexture, Type::POS pos, Type::SIZE size, FLOAT opacity);
-        inline HRESULT DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos);
-        inline HRESULT DrawRawText(Type::TextFormat& textFormat, Type::POS pos);
+        inline void DrawRawText(std::wstring content, Type::TextFormat& textFormat, Type::POS pos);
+        inline void DrawRawText(Type::TextFormat& textFormat, Type::POS pos);
 
     }
 

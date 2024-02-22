@@ -17,8 +17,8 @@ namespace ChaosEngine {
             HWND hWndParent = NULL;
         };
         struct EngineStartupProperty {
-            ENGINEPROC pGameMain;
-            ENGINEPROC pGameExit;
+            ENGINEPROC pGameMain = nullptr;
+            ENGINEPROC pGameExit = nullptr;
             int FPS = 60;
         };
 

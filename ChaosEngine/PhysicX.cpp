@@ -6,10 +6,6 @@ namespace ChaosEngine {
     namespace PhysicX {
         // 6.67e-11
         const double GRAVITY = 6.67;    // notice transition between realistic(meter) and virtual(piexl) unit
-
-        // !! Notice the impact from: !!
-        //  the static functions
-
         
         // Get the center position of object
         inline Type::POS GetCenterPos(Type::POS& obj_pos, Type::SIZE& obj_size) {

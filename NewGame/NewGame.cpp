@@ -9,16 +9,16 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     static WindowInitialProperty WndProp;
     WndProp.WndTitle = L"ChaosEngine Game Window Test";
-     WndProp.width = 1280;
-     WndProp.height = 720;
+    WndProp.width = 1600;
+    WndProp.height = 900;
 
     static EngineStartupProperty EngineProp;
     EngineProp.pGameMain = &GameMain;
     EngineProp.pGameExit = &GameExit;
     // EngineProp.FPS = 60;
 
-    Engine::Start(WndProp, EngineProp);
-    Engine::Release();
+    EngineX::Initialize(EngineProp, WndProp);
+    EngineX::Release();
 
     return 0;
 };
@@ -31,7 +31,7 @@ BOOL GameMain() {
 }
 
 BOOL GameExit() {
-    if (MessageBox(Property::Window::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
+    if (MessageBox(WindowX::Prop::hWnd, L"Please confirm to exit", L"Exit", MB_OKCANCEL) != IDOK)
         return FALSE;
     return TRUE;    // TRUE returned means confirm to exit the engine.
 };

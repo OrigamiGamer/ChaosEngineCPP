@@ -29,30 +29,39 @@
 /* Headers */
 #include "headers/Utils.h"
 #include "headers/Type.h"
+//#include "headers/RuntimeProperty.h"
 #include "res/ResList.h"
-
+#include "headers/Window.h"
 #include "headers/DirectX.h"
-#include "headers/WindowX.h"
-#include "headers/GraphicX.h"
 
-#include "headers/PhysicX.h"
-#include "headers/Stage.h"
-
+#include "headers/Engine.h"
 #include "headers/EngineX.h"
 
 
+
+//#include "headers/WindowX.h"
+//#include "headers/EngineX.h"
+//#include "headers/PhysicX.h"
+//#include "headers/Engine.h"
+//#include "headers/Stage.h"
+//#include "headers/GraphicX.h"
+
 /* Sources */
 #ifndef GAME_DEV
+#include "RuntimeProperty.cpp"
 #include "res/ResList.cpp"
-
+#include "Window.cpp"
 #include "DirectX.cpp"
-#include "WindowX.cpp"
-#include "GraphicX.cpp"
 
-#include "PhysicX.cpp"
-#include "Stage.cpp"
+#include "Engine.cpp"
 
-#include "EngineX.cpp"
 
+
+//#include "WindowX.cpp"
+//#include "EngineX.cpp"
+//#include "PhysicX.cpp"
+//#include "Engine.cpp"
+//#include "Stage.cpp"
+//#include "GraphicX.cpp"
 
 #endif

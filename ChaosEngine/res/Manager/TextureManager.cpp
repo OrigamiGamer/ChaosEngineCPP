@@ -25,7 +25,7 @@ namespace ChaosEngine {
             HRESULT hr = NULL;
 
             IWICBitmapDecoder* pDecoder = NULL;
-            hr = WindowX::pWICFactory->CreateDecoderFromFilename(
+            hr = DirectX::pWICFactory->CreateDecoderFromFilename(
                 (LPWSTR)fileName.data(), NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder
             ); if (FAILED(hr)) return hr;
 
@@ -33,13 +33,13 @@ namespace ChaosEngine {
             hr = pDecoder->GetFrame(0, &pFrame); if (FAILED(hr)) return hr;
 
             IWICFormatConverter* pConverter = NULL;
-            hr = WindowX::pWICFactory->CreateFormatConverter(&pConverter); if (FAILED(hr)) return hr;
+            hr = DirectX::pWICFactory->CreateFormatConverter(&pConverter); if (FAILED(hr)) return hr;
             pConverter->Initialize(
                 pFrame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0.f, WICBitmapPaletteTypeCustom
             );
 
             Type::Texture _tex;
-            if (SUCCEEDED(WindowX::pHwndRenderTarget->CreateBitmapFromWicBitmap(pConverter, &_tex.pD2DBitmap))) {
+            if (SUCCEEDED(DirectX::pHwndRenderTarget->CreateBitmapFromWicBitmap(pConverter, &_tex.pD2DBitmap))) {
                 if (regName == L"") {
                     vec_regName.push_back(std::to_wstring(vec_tex.size() + 1));
                 }

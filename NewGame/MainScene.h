@@ -3,7 +3,9 @@
 
 class MainScene : public SceneModel {
     CompList::Timer timer;
-    ObjectList::Image image;
+    vector<ObjectList::Image> vec_image;
+    ObjectList::Text text;
+    ObjectList::Image image_bg;
 
 public:
     MainScene();
