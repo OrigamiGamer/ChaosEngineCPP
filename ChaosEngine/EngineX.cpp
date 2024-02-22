@@ -19,12 +19,6 @@ namespace ChaosEngine {
             return TRUE;
         }
 
-        BOOL Release() {
-            
-
-            return TRUE;
-        }
-
         // Engine Init
         LRESULT EngineInit() {
             LRESULT lr = NULL;
