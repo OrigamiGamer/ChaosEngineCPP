@@ -18,7 +18,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     // EngineProp.FPS = 60;
 
     EngineX::Initialize(EngineProp, WndProp);
-    EngineX::Release();
 
     return 0;
 };
