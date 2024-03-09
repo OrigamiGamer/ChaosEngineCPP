@@ -6,7 +6,7 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		Text::Text() {
-			s_pTargetPos = &WindowX::Prop::MousePos;
+			s_pCursorPos = &WindowX::Prop::MousePos;
 			color = { D2D1::ColorF::LightPink, 1 };
 			textFormat;
 		}
@@ -35,22 +35,12 @@ namespace ChaosEngine {
 
 		}
 
-		BOOL Text::HitTest() {
+		BOOL Text::OnHover() {
 			DWRITE_HIT_TEST_METRICS metrics;
-			BOOL is_trailing_hit;
-			BOOL is_inside;
-
-			Type::POS pos_hit = { s_pTargetPos->x - this->pos.x, s_pTargetPos->y - this->pos.y };
-			textFormat.pLayout->HitTestPoint(pos_hit.x, pos_hit.y, &is_trailing_hit, &is_inside, &metrics);
-			return is_trailing_hit;
-		}
-
-		BOOL Text::IsInside() {
-			DWRITE_HIT_TEST_METRICS metrics;
-			BOOL is_trailing_hit;
+			BOOL is_trailing_hit;	// hadn't ever been used //
 			BOOL is_inside;
 			
-			Type::POS pos_hit = { s_pTargetPos->x - this->pos.x, s_pTargetPos->y - this->pos.y };
+			Type::POS pos_hit = { s_pCursorPos->x - this->pos.x, s_pCursorPos->y - this->pos.y };
 			textFormat.pLayout->HitTestPoint(pos_hit.x, pos_hit.y, &is_trailing_hit, &is_inside, &metrics);
 			return is_inside;
 		}
