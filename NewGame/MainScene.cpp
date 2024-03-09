@@ -69,8 +69,8 @@ void MainScene::Update() {
     static BOOL state_inside = FALSE;
     static BOOL state_update = FALSE;
 
-    state_inside = text.IsInside();
-
+    state_inside = text.OnHover();
+    
     // cheack update state
     if (last_state_inside != state_inside) { 
         last_state_inside = state_inside;

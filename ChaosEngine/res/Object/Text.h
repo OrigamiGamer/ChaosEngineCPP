@@ -7,7 +7,7 @@ namespace ChaosEngine {
 
 		class Text : public Model::ObjectModel {
 		private:
-			Type::POS* s_pTargetPos;
+			Type::POS* s_pCursorPos;
 		public:
 			Type::COLOR color = { 0, 0 };
 			Type::TextFormat textFormat;
@@ -19,7 +19,7 @@ namespace ChaosEngine {
 			void Release();
 
 			void Create();
-			BOOL HitTest();
+			BOOL OnHover();
 			BOOL IsInside();
 
 		};
