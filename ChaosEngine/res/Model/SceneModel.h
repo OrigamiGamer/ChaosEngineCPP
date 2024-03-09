@@ -20,7 +20,7 @@ namespace ChaosEngine {
                 for (ObjectModel* pObject : vec_pObject) {
                     pObject->Update();
                 }
-            }
+            };
             void Render() {
                 for (CompModel* pComp : vec_pComp) {
                     pComp->Render();
@@ -28,28 +28,28 @@ namespace ChaosEngine {
                 for (ObjectModel* pObject : vec_pObject) {
                     pObject->Render();
                 }
-            }
+            };
 
             virtual int OnSceneEntered() {
                 return -1;
-            }
+            };
             virtual bool OnSceneExiting() {
                 return true;    // true returned means confirmed to exit.
-            }
+            };
 
             // Register a component or an object to this scene, initialize it before success immediately.
             void RegComp(CompModel& AnyComp) {
                 AnyComp.Init();
                 vec_pComp.push_back(&AnyComp);
-            }
+            };
             void RegComp(ObjectModel& AnyObject) {
                 AnyObject.Init();
                 vec_pObject.push_back(&AnyObject);
-            }
+            };
             void RegComp(ObjectModel*& AnyObject) {
                 (*AnyObject).Init();
                 vec_pObject.push_back(AnyObject);
-            }
+            };
 
         };
 

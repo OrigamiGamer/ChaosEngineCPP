@@ -5,3 +5,4 @@
 
 // header files
 #include "Timer.cpp"
+#include "Camera.h"

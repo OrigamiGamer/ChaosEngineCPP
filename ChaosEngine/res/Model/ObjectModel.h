@@ -21,8 +21,11 @@ namespace ChaosEngine {
 
         class ObjectModel : public CompModel {
         public:
-            Type::SIZE size{ 0, 0 };
-            Type::POS pos{ 0, 0 };
+            Type::SIZE size = { 0, 0 };
+            Type::POS anchorPos = { 0, 0 }; // anchor position related to the size.
+            Type::SCALE scale = { 1, 1, 1 };
+            Type::POS pos = { 0, 0 };
+            double rotation = 0;
 
             bool use_physics = false;   // Do NOT use physics to this Object by default.
             bool fixed = false; // Do NOT fix this object by default.
@@ -37,6 +40,22 @@ namespace ChaosEngine {
 
         public:
             ObjectModel() = default;
+
+            void SetAnchorSite() {
+
+            }
+
+            Type::POS GetAbsAnchorPos() {
+                return pos + anchorPos; // so complex relative position!!!! wtf!
+            }
+
+            Type::POS GetRenderPos() {
+                return pos - anchorPos;
+            };
+
+            Type::SIZE GetRenderSize() {
+                return size * scale;
+            }
 
             void ApplyForce(const Type::FORCE& new_force) {
                 vec_force.applied.push_back(new_force);

@@ -5,20 +5,13 @@ namespace ChaosEngine {
 
 	namespace CompList {
 
-		class ExampleComp : public Model::CompModel {
-		private:
+		ExmapleComp::ExampleComp() {}
 
-		public:
+		void ExmapleComp::Init() {}
+		void ExmapleComp::Update() {}
+		void ExmapleComp::Release() {}
 
-
-			void Init() {};
-			void Update() {};
-			void Render() {};
-			void Release() {};
-
-			void Create() {};
-
-		};
+		void ExmapleComp::Create() {}
 
 	}
 

@@ -23,24 +23,23 @@ namespace ChaosEngine {
         LRESULT EngineInit() {
             LRESULT lr = NULL;
             lr = GraphicX::InitializeGraphicX();
-            lr = pStartupProp->pGameMain();    // Call GameMain function
+            lr = EngineX::pStartupProp->pGameMain();    // Call GameMain function
 
             return S_OK;
         }
 
         // Engine Update
         LRESULT EngineUpdate() {
-            static long double curTime;
             if (EngineX::lastTime == 0) {
-                curTime = (long double)((long double)GetTickCount64() / 1000);
-                EngineX::lastTime = curTime;
+                EngineX::curTime = (long double)((long double)GetTickCount64() / 1000);
+                EngineX::lastTime = EngineX::curTime;
             };
 
             Stage::StageUpdate();
 
-            curTime = (long double)((long double)GetTickCount64() / 1000);
-            EngineX::deltaTime = curTime - EngineX::lastTime;
-            EngineX::lastTime = curTime;
+            EngineX::curTime = (long double)((long double)GetTickCount64() / 1000);
+            EngineX::deltaTime = EngineX::curTime - EngineX::lastTime;
+            EngineX::lastTime = EngineX::curTime;
             return S_OK;
         }
 

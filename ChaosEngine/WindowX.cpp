@@ -12,6 +12,7 @@ namespace ChaosEngine {
             Type::SIZE Size;
             Type::POS Pos;
             Type::POS MousePos;
+            Type::POS MouseOffsetPos;
             Type::VirtualKeyState VirtKeyStateBuffer[254];
             std::vector<int> VirtKeyInputBuffer;
         }
@@ -122,6 +123,7 @@ namespace ChaosEngine {
                 if (DirectX::InitializeDirectX(hWnd) != S_OK) MessageBox(hWnd, L"Initialize Direct2D failed!", L"ERROR", 0);
 
                 EngineX::EngineInit();   // Init
+
                 SetTimer(hWnd, 0, 1, (TIMERPROC)TimerProc_GameFrameUpdate);
 
                 break;

@@ -5,24 +5,14 @@ namespace ChaosEngine {
 
 	namespace ObjectList {
 
-		class ExampleObject : public Model::ObjectModel {
-		private:
+		ExampleObject::ExampleObject() {}
 
-		public:
+		void ExampleObject::Init() {}
+		void ExampleObject::Update() {}
+		void ExmapleObject::Render() {}
+		void ExampleObject::Release() {}
 
-			void Init() {
-			};
-			void Update() {
-			};
-			void Render() {
-			};
-			void Release() {
-			};
-
-			void Create() {
-			};
-
-		};
+		void ExampleObject::Create() {}
 
 	}
 

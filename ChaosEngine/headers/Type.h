@@ -22,18 +22,33 @@ namespace ChaosEngine {
             int FPS = 60;
         };
 
-        // Basic Types
+        // Based Types
         struct SIZE {
             float width, height;
 
             SIZE() = default;
             SIZE(float width, float height) : width(width), height(height) {};
 
-            bool operator==(SIZE other) const {
+            bool operator==(SIZE& other) const {
                 return width == other.width || height == other.height;
             }
-            bool operator!=(SIZE other) const {
+            bool operator!=(SIZE& other) const {
                 return !(*this == other);
+            }
+            SIZE operator+(SIZE& other) {
+                return SIZE(width + other.width, height + other.height);
+            }
+            SIZE operator-(SIZE& other) {
+                return SIZE(width - other.width, height - other.height);
+            }
+            SIZE operator+=(SIZE& other) {
+                return *this + other;
+            }
+            SIZE operator-=(SIZE& other) {
+                return *this - other;
+            }
+            SIZE operator*(SCALE& scale) {
+                return SIZE(width * scale.x*scale.global, height * scale.y);
             }
         };
         struct SIZE_3D {
@@ -42,11 +57,23 @@ namespace ChaosEngine {
             SIZE_3D() = default;
             SIZE_3D(float width, float height, float length) : width(width), height(height), length(length) {};
 
-            bool operator==(SIZE_3D other) const {
+            bool operator==(SIZE_3D& other) const {
                 return width == other.width && height == other.height && length == other.length;
             }
-            bool operator!=(SIZE_3D other) const {
+            bool operator!=(SIZE_3D& other) const {
                 return !(*this == other);
+            }
+            SIZE_3D operator+(SIZE_3D& other) {
+                return SIZE_3D(width + other.width, height + other.height, length + other.length);
+            }
+            SIZE_3D operator-(SIZE_3D& other) {
+                return SIZE_3D(width - other.width, height - other.height, length + other.length);
+            }
+            SIZE_3D operator+=(SIZE_3D& other) {
+                return *this + other;
+            }
+            SIZE_3D operator-=(SIZE_3D& other) {
+                return *this - other;
             }
         };
 
@@ -62,6 +89,18 @@ namespace ChaosEngine {
             bool operator!=(POS other) const {
                 return !(*this == other);
             }
+            POS operator+(POS other) {
+                return POS(x + other.x, y + other.y);
+            }
+            POS operator-(POS other) {
+                return POS(x - other.x, y - other.y);
+            }
+            POS operator+=(POS other) {
+                return *this + other;
+            }
+            POS operator-=(POS other) {
+                return *this - other;
+            }
         };
         struct POS_3D {
             float x, y, z;
@@ -75,6 +114,32 @@ namespace ChaosEngine {
             bool operator!=(POS_3D other) const {
                 return !(*this == other);
             }
+            POS_3D operator+(POS_3D other) {
+                return POS_3D(x + other.x, y + other.y, z + other.z);
+            }
+            POS_3D operator-(POS_3D other) {
+                return POS_3D(x - other.x, y - other.y, z + other.z);
+            }
+            POS_3D operator+=(POS_3D other) {
+                return *this + other;
+            }
+            POS_3D operator-=(POS_3D other) {
+                return *this - other;
+            }
+        };
+
+        struct SCALE {
+            float x, y, global;
+
+            SCALE() = default;
+            SCALE(float x, float y, float global) : x(x), y(y), global(global) {};
+
+            bool operator==(SCALE other) const {
+                return x == other.x || y == other.y;
+            }
+            bool operator!=(SCALE other) const {
+                return !(*this == other);
+            }
         };
 
         struct COLOR {
@@ -86,26 +151,32 @@ namespace ChaosEngine {
             //COLOR(FLOAT red, FLOAT green, FLOAT blue, FLOAT alpha) : alpha(alpha) {}; // NEED: ARGB Color Mixer
         };
 
-        struct ACCELERATION {
-            double magnitude = 0;    // m/s^2
-            double direction = 0;    // angle
+        struct VECTOR {
+            double magnitude = 0;
+            double direction = 0;
 
-            ACCELERATION() = default;
-            ACCELERATION(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
+            VECTOR() = default;
+            VECTOR(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
         };
-        struct VELOCITY {
-            double magnitude = 0;    // m/s
-            double direction = 0;    // angle
 
-            VELOCITY() = default;
-            VELOCITY(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
+        enum FORCE_TYPE{
+            FORCE_TYPE_APPLIED = 0,
+            FORCE_TYPE_GRAVITY = 1,
+            FORCE_TYPE_NORMAL = 2,
+            FORCE_TYPE_FRICTION = 3,
+            FORCE_TYPE_TENSION = 4,
+            FORCE_TYPE_MAGNETISM = 5,
         };
-        struct FORCE {
-            double magnitude = 0;    // N
-            double direction = 0;    // angle
+
+        struct FORCE : public VECTOR {
+            UINT type;
 
             FORCE() = default;
-            FORCE(double magnitude, double direction) :magnitude(magnitude), direction(direction) {};
+            FORCE(double magnitude, double direction, UINT type = FORCE_TYPE_APPLIED) {
+                this->magnitude = magnitude;
+                this->direction = direction;
+                this->type = type;
+            };
         };
 
         struct VirtualKeyState {

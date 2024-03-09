@@ -33,7 +33,7 @@ namespace ChaosEngine {
         inline static Type::FORCE ComputeGravity(Model::ObjectModel*& obj, Model::ObjectModel*& obj_apply) {
              double dist = GetDistance(obj, obj_apply);
              double di = GetDirection(obj, obj_apply);
-            return { GRAVITY * ((obj->mass * obj_apply->mass) / (dist * dist)), di };
+             return { GRAVITY * ((obj->mass * obj_apply->mass) / (dist * dist)), di, Type::FORCE_TYPE_GRAVITY };
         }
 
         void PhysicXUpdate(std::vector<Model::ObjectModel*>& objs, long double deltaTime) {

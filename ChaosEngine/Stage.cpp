@@ -5,12 +5,16 @@ namespace ChaosEngine {
 
     namespace Stage {
 
-        std::vector<Model::SceneModel*> vec_pRegScene;
+        std::vector<Model::SceneModel*> vec_pSceneRegistered;
         Model::SceneModel* pCurScene = nullptr;    // Current Scene
         Model::SceneModel* pPreScene = nullptr;  // Preparing Scene
 
-        /* Stage Update */
+        CompList::Camera Camera;
+
+        // State Update
         void StageUpdate() {
+            WindowX::Prop::MouseOffsetPos = WindowX::Prop::MousePos + Camera.viewPos;   // Update the mouse offset position.
+
             if (pCurScene == pPreScene) {
                 if (pCurScene != nullptr) {
                     // Update Logic
@@ -28,7 +32,7 @@ namespace ChaosEngine {
             }
         };
 
-        /* Stage Render */
+        // Stage Render
         void StageRender() {
             if (pCurScene != nullptr) {
                 pCurScene->SceneModel::Render();  // Render in the same way to update.
@@ -36,15 +40,15 @@ namespace ChaosEngine {
             }
         };
 
-        /* Methods */
-
+        // Switch to a target scene as the current scene
         void SwitchScene(Model::SceneModel& TargetScene) {
             if (&TargetScene != nullptr) pPreScene = &TargetScene;
         };
 
+        // Register a scene object to stage
         void RegScene(Model::SceneModel& AnyScene) {
             if (&AnyScene != nullptr) {
-                vec_pRegScene.push_back(&AnyScene);  // Register the new scene
+                vec_pSceneRegistered.push_back(&AnyScene);  // Register the new scene
                 AnyScene.Init();    // Initialize the new scene
 
                 if (!pCurScene) {

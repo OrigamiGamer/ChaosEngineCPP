@@ -4,7 +4,7 @@
 namespace ChaosEngine {
 
     namespace Stage {
-        extern std::vector<Model::SceneModel*> vec_pRegScene;
+        extern std::vector<Model::SceneModel*> vec_pSceneRegistered;
         extern Model::SceneModel* pCurScene;
         extern Model::SceneModel* pPreScene;
 
