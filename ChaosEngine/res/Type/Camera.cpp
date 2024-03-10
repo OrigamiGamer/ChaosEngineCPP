@@ -11,7 +11,7 @@ namespace ChaosEngine {
 			this->viewScale = { 1, 1, 1 };
 			this->mouseOffsetPos = {};
 			
-			this->pObjectPos = {};
+			this->pTrackingObject = nullptr;
 		}
 
 		void Camera::Init() {}

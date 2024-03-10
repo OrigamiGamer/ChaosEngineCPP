@@ -14,7 +14,7 @@ namespace ChaosEngine {
 			Type::SCALE viewScale{ 1, 1, 1 };
 			Type::POS mouseOffsetPos;
 
-			Type::POS pObjectPos;	// track the objects  ????
+			Model::ObjectModel* pTrackingObject = nullptr;	// track the object  ???? 视角绑定到指定物体
 
 			Camera();
 			void Init();
