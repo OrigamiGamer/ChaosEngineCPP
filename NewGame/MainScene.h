@@ -2,6 +2,7 @@
 #include "NewGame.h"
 
 class MainScene : public SceneModel {
+    Type::Camera camera;
     CompList::Timer timer;
     vector<ObjectList::Image> vec_image;
     ObjectList::Text text;

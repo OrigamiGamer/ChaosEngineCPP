@@ -6,7 +6,7 @@ namespace ChaosEngine {
 	namespace ObjectList {
 
 		Text::Text() {
-			s_pCursorPos = &WindowX::Prop::MousePos;
+			s_pCursorPos = nullptr;
 			color = { D2D1::ColorF::LightPink, 1 };
 			textFormat;
 		}
@@ -15,16 +15,17 @@ namespace ChaosEngine {
 			textFormat.Init();
 		}
 		void Text::Update() {
-			
+			s_pCursorPos = &this->pCamera->mouseOffsetPos;
 		}
 		void Text::Render() {
-			if (textFormat.GetLayoutSize() != this->size) textFormat.SetLayoutSize(this->size);
+			Type::SIZE _size = this->GetRenderSize();
+			if (textFormat.GetLayoutSize() != _size) textFormat.SetLayoutSize(_size);
 			GraphicX::PushColor(color);
-			GraphicX::DrawRawText(textFormat, this->pos);
+			GraphicX::DrawRawText(textFormat, this->GetRenderPos());
 			GraphicX::PopColor();
 
 			// DEBUG //
-			GraphicX::DrawRectangle(this->pos, this->size, { 0,0 });	// Draw Box
+			GraphicX::DrawRectangle(this->GetRenderPos(), this->GetRenderSize(), {0,0});	// Draw Box
 
 		}
 		void Text::Release() {

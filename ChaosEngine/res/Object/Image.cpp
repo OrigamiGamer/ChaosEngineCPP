@@ -18,7 +18,7 @@ namespace ChaosEngine {
 		}
 		void Image::Render() {
 			if (self_pTex) {
-				GraphicX::DrawTexture(self_pTex, this->pos, this->size, self_opacity);
+				GraphicX::DrawTexture(self_pTex, this->GetRenderPos(), this->GetRenderSize(), self_opacity);
 			}
 		}
 		void Image::Release() {

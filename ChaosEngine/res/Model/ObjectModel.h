@@ -21,6 +21,8 @@ namespace ChaosEngine {
 
         class ObjectModel : public CompModel {
         public:
+            Type::Camera* pCamera = nullptr;
+
             Type::SIZE size = { 0, 0 };
             Type::POS anchorPos = { 0, 0 }; // anchor position related to the size.
             Type::SCALE scale = { 1, 1, 1 };
@@ -42,9 +44,11 @@ namespace ChaosEngine {
             ObjectModel();
 
             void SetAnchorPosInSite();
-            Type::POS GetAbsAnchorPos();
-            Type::POS GetOriginPos();
-            Type::SIZE GetOriginSize();
+            inline Type::POS GetAbsAnchorPos();
+            inline Type::POS GetOriginPos();
+            inline Type::SIZE GetOriginSize();
+            inline Type::POS GetRenderPos();
+            inline Type::SIZE GetRenderSize();
 
             void ApplyForce(const Type::FORCE& new_force);
             void ClearForce();

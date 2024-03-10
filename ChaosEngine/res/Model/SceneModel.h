@@ -5,16 +5,19 @@ namespace ChaosEngine {
 
     namespace Model {
 
-        class SceneModel : public ObjectModel {
+        class SceneModel {
         public:
 
             std::vector<CompModel*> vec_pComp;
             std::vector<ObjectModel*> vec_pObject;
+            Type::Camera* pCurCamera = nullptr; // Current Camera
+            Type::Camera* pPreCamera = nullptr; // TODO: pPreCamera (like PreScene in Stage)
 
             SceneModel();
 
-            void Update();
-            void Render();
+            virtual void Init();
+            virtual void Update();
+            virtual void Render();
             virtual int OnSceneEntered();
             virtual bool OnSceneExiting();
 
@@ -22,6 +25,8 @@ namespace ChaosEngine {
             void RegComp(CompModel& AnyComp);
             void RegComp(ObjectModel& AnyObject);
             void RegComp(ObjectModel*& AnyObject);
+            void SwitchCamera(Type::Camera& TargetCamera);
+
         };
 
     }

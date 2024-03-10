@@ -8,9 +8,16 @@ namespace ChaosEngine {
         SceneModel::SceneModel() {
             vec_pComp;
             vec_pObject;
+            pCurCamera = nullptr;
+            pPreCamera = nullptr;
         }
 
+        void SceneModel::Init() { };
+
         void SceneModel::Update() {
+
+            pCurCamera->Update();
+
             for (CompModel* pComp : vec_pComp) {
                 pComp->Update();
             }
@@ -18,6 +25,7 @@ namespace ChaosEngine {
                 pObject->Update();
             }
         };
+
         void SceneModel::Render() {
             for (CompModel* pComp : vec_pComp) {
                 pComp->Render();
@@ -40,12 +48,24 @@ namespace ChaosEngine {
             vec_pComp.push_back(&AnyComp);
         };
         void SceneModel::RegComp(ObjectModel& AnyObject) {
+            AnyObject.pCamera = pCurCamera;
             AnyObject.Init();
             vec_pObject.push_back(&AnyObject);
         };
         void SceneModel::RegComp(ObjectModel*& AnyObject) {
+            AnyObject->pCamera = pCurCamera;
             (*AnyObject).Init();
             vec_pObject.push_back(AnyObject);
+        };
+
+        void SceneModel::SwitchCamera(Type::Camera& TargetCamera) {
+            pPreCamera = &TargetCamera;
+            pCurCamera = pPreCamera;  // TODO
+            
+            for (size_t i = 0; i < vec_pObject.size(); i++) {
+                vec_pObject[i]->pCamera = pCurCamera;
+            }
+
         };
 
     }

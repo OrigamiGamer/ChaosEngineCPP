@@ -9,12 +9,9 @@ namespace ChaosEngine {
         Model::SceneModel* pCurScene = nullptr; // Current Scene
         Model::SceneModel* pPreScene = nullptr; // Preparing Scene
 
-        CompList::Camera* pCurCamera = nullptr; // Current Camera
 
         // State Update
         void StageUpdate() {
-            if (pCurCamera != nullptr)
-                WindowX::Prop::MouseOffsetPos = WindowX::Prop::MousePos + pCurCamera->viewPos; // Update the mouse offset position.
 
             if (pCurScene == pPreScene) {
                 if (pCurScene != nullptr) {
@@ -32,6 +29,7 @@ namespace ChaosEngine {
                 if (pPreScene != nullptr) pPreScene->Update();
                 pCurScene = pPreScene;
             }
+
         };
 
         // Stage Render
@@ -40,11 +38,12 @@ namespace ChaosEngine {
                 pCurScene->SceneModel::Render();  // Render in the same way to update.
                 pCurScene->Render();
             }
+
         };
 
         // Switch to a target scene as the current scene
         void SwitchScene(Model::SceneModel& TargetScene) {
-            if (&TargetScene != nullptr) pPreScene = &TargetScene;
+            pPreScene = &TargetScene;
         };
 
         // Register a scene object to stage

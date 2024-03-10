@@ -6,6 +6,7 @@ namespace ChaosEngine {
     namespace Model {
 
         ObjectModel::ObjectModel() {
+            pCamera = nullptr;
 
             size = { 0, 0 };
             anchorPos = { 0, 0 }; // anchor position related to the size.
@@ -29,16 +30,24 @@ namespace ChaosEngine {
 
         }
 
-        Type::POS ObjectModel::GetAbsAnchorPos() {
+        inline Type::POS ObjectModel::GetAbsAnchorPos() {
             return pos + anchorPos; // so complex relative position!!!! wtf!
         }
 
-        Type::POS ObjectModel::GetOriginPos() {
+        inline Type::POS ObjectModel::GetOriginPos() {
             return pos - anchorPos * scale;
         };
 
-        Type::SIZE ObjectModel::GetOriginSize() {
+        inline Type::SIZE ObjectModel::GetOriginSize() {
             return size * scale;
+        }
+
+        inline Type::POS ObjectModel::GetRenderPos() {
+            return GetOriginPos() - pCamera->viewPos;
+        }
+
+        inline Type::SIZE ObjectModel::GetRenderSize() {
+            return GetOriginSize() * pCamera->viewScale;
         }
 
         void ObjectModel::ApplyForce(const Type::FORCE& new_force) {

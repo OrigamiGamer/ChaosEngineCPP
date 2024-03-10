@@ -4,4 +4,3 @@
 /* Component List */
 
 // source files
-#include "Camera.cpp"

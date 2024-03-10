@@ -196,7 +196,13 @@ namespace ChaosEngine {
             BOOL current = FALSE;
             BOOL last = FALSE;
         };
-        
+     
+
+        // Class Predefined
+        class Texture;
+        class TextFormat;
+        class Camera;
+
     }
 
 }
