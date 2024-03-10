@@ -23,6 +23,30 @@ namespace ChaosEngine {
         };
 
         // Based Types
+        struct SCALE;
+        struct SIZE;
+        struct SIZE_3D;
+        struct POS;
+        struct POS_3D;
+        struct COLOR;
+        struct VECTOR;
+        struct FORCE;
+        struct VirtualKeyState;
+
+        struct SCALE {
+            float x, y, global;
+
+            SCALE() = default;
+            SCALE(float x, float y, float global) : x(x), y(y), global(global) {};
+
+            bool operator==(SCALE other) const {
+                return x == other.x || y == other.y;
+            }
+            bool operator!=(SCALE other) const {
+                return !(*this == other);
+            }
+        };
+
         struct SIZE {
             float width, height;
 
@@ -47,8 +71,8 @@ namespace ChaosEngine {
             SIZE operator-=(SIZE& other) {
                 return *this - other;
             }
-            SIZE operator*(SCALE& scale) {
-                return SIZE(width * scale.x*scale.global, height * scale.y);
+            SIZE SIZE::operator*(SCALE& scale) {
+                return SIZE(width * scale.x * scale.global, height * scale.y * scale.global);
             }
         };
         struct SIZE_3D {
@@ -101,6 +125,9 @@ namespace ChaosEngine {
             POS operator-=(POS other) {
                 return *this - other;
             }
+            POS operator*(SCALE& scale) {
+                return POS(x * scale.x * scale.global, y * scale.y * scale.global);
+            }
         };
         struct POS_3D {
             float x, y, z;
@@ -125,20 +152,6 @@ namespace ChaosEngine {
             }
             POS_3D operator-=(POS_3D other) {
                 return *this - other;
-            }
-        };
-
-        struct SCALE {
-            float x, y, global;
-
-            SCALE() = default;
-            SCALE(float x, float y, float global) : x(x), y(y), global(global) {};
-
-            bool operator==(SCALE other) const {
-                return x == other.x || y == other.y;
-            }
-            bool operator!=(SCALE other) const {
-                return !(*this == other);
             }
         };
 
@@ -183,7 +196,7 @@ namespace ChaosEngine {
             BOOL current = FALSE;
             BOOL last = FALSE;
         };
-
+        
     }
 
 }

@@ -5,7 +5,7 @@ namespace ChaosEngine {
 
 	namespace CompList {
 
-		class Camera : public Model::ObjectModel {
+		class Camera : public Model::CompModel {
 		private:
 
 		public:

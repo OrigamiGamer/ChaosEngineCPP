@@ -7,8 +7,8 @@ namespace ChaosEngine {
 
 		class PropertyModel {
 		public:
-			virtual void Init() {};
-			virtual void Release() {};
+			virtual void Init();
+			virtual void Release();
 
 		};
 

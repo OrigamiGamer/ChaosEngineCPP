@@ -39,53 +39,19 @@ namespace ChaosEngine {
             Type::STD_VEC_FORCE_LIST vec_force;
 
         public:
-            ObjectModel() = default;
+            ObjectModel();
 
-            void SetAnchorSite() {
+            void SetAnchorPosInSite();
+            Type::POS GetAbsAnchorPos();
+            Type::POS GetOriginPos();
+            Type::SIZE GetOriginSize();
 
-            }
-
-            Type::POS GetAbsAnchorPos() {
-                return pos + anchorPos; // so complex relative position!!!! wtf!
-            }
-
-            Type::POS GetRenderPos() {
-                return pos - anchorPos;
-            };
-
-            Type::SIZE GetRenderSize() {
-                return size * scale;
-            }
-
-            void ApplyForce(const Type::FORCE& new_force) {
-                vec_force.applied.push_back(new_force);
-            };
-
-            void ClearForce() {
-                vec_force.applied.clear();
-            };
-
-            inline void ComposeForce(const Type::FORCE& new_force) {
-                double ma = new_force.magnitude, di = new_force.direction;
-                //force_x += ma * cos(-di);
-                //force_y += ma * sin(-di);
-                force_x += ma * cos(di);
-                force_y += ma * sin(di);
-            };
-
-            inline bool IsCollided(const Type::POS& obj_pos, const Type::SIZE& obj_size) const {
-                D2D1_RECT_F rs = { pos.x, pos.y, pos.x + size.width, pos.y + size.height };
-                D2D1_RECT_F r = { obj_pos.x, obj_pos.y, obj_pos.x + obj_size.width, obj_pos.y + obj_size.height };
-                bool _X = !(rs.left > r.right || rs.right < r.left);
-                bool _Y = !(rs.top > r.bottom || rs.bottom < r.top);
-                return _X && _Y;
-            };
-            inline bool IsCollided(Model::ObjectModel& obj) const {
-                return IsCollided(obj.pos, obj.size);
-            };
-            inline bool IsCollided(Model::ObjectModel*& obj) const {
-                return IsCollided(obj->pos, obj->size);
-            };
+            void ApplyForce(const Type::FORCE& new_force);
+            void ClearForce();
+            inline void ComposeForce(const Type::FORCE& new_force);
+            inline bool IsCollided(const Type::POS& obj_pos, const Type::SIZE& obj_size) const;
+            inline bool IsCollided(Model::ObjectModel& obj) const;
+            inline bool IsCollided(Model::ObjectModel*& obj) const;
 
         };
 

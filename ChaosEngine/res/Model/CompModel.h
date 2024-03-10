@@ -7,10 +7,10 @@ namespace ChaosEngine {
 
 		class CompModel {
 		public:
-			virtual void Init() {};
-			virtual void Update() {};
-			virtual void Render() {};
-			virtual void Release() {};
+			virtual void Init();
+			virtual void Update();
+			virtual void Render();
+			virtual void Release();
 
 		};
 		  

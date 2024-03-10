@@ -28,6 +28,7 @@ namespace ChaosEngine {
             // WICImagingFactory
             hr = CoInitialize(NULL);
             hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICFactory));
+            
             if (FAILED(hr)) return hr;
 
             /* DWrite */

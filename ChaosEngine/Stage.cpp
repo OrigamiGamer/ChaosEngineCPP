@@ -6,26 +6,28 @@ namespace ChaosEngine {
     namespace Stage {
 
         std::vector<Model::SceneModel*> vec_pSceneRegistered;
-        Model::SceneModel* pCurScene = nullptr;    // Current Scene
-        Model::SceneModel* pPreScene = nullptr;  // Preparing Scene
+        Model::SceneModel* pCurScene = nullptr; // Current Scene
+        Model::SceneModel* pPreScene = nullptr; // Preparing Scene
 
-        CompList::Camera Camera;
+        CompList::Camera* pCurCamera = nullptr; // Current Camera
 
         // State Update
         void StageUpdate() {
-            WindowX::Prop::MouseOffsetPos = WindowX::Prop::MousePos + Camera.viewPos;   // Update the mouse offset position.
+            if (pCurCamera != nullptr)
+                WindowX::Prop::MouseOffsetPos = WindowX::Prop::MousePos + pCurCamera->viewPos; // Update the mouse offset position.
 
             if (pCurScene == pPreScene) {
                 if (pCurScene != nullptr) {
                     // Update Logic
-                    pCurScene->SceneModel::Update();  // Update the logic in model at first,
+                    pCurScene->SceneModel::Update();    // Update the logic in model at first,
                     pCurScene->Update();    // then update the logic of scene.
 
                     // Update PhysicX
                     PhysicX::PhysicXUpdate(pCurScene->vec_pObject, EngineX::deltaTime);
 
                 };
-            } else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
+            }
+            else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
                 pPreScene->SceneModel::Update(); // Update in the same way.
                 if (pPreScene != nullptr) pPreScene->Update();
                 pCurScene = pPreScene;
