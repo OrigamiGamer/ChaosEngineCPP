@@ -19,7 +19,9 @@ namespace ChaosEngine {
             virtual void Update();
             virtual void Render();
             virtual int OnSceneEntered();
+            virtual int OnCameraEntered();
             virtual bool OnSceneExiting();
+            virtual bool OnCameraExiting();
 
             // Register a component or an object to this scene, initialize it before success immediately.
             void RegComp(CompModel& AnyComp);

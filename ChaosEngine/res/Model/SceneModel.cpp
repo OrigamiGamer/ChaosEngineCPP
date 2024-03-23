@@ -35,11 +35,19 @@ namespace ChaosEngine {
             }
         };
 
+        // Return value is custom.
         int SceneModel::OnSceneEntered() {
             return -1;
         };
+        int SceneModel::OnCameraEntered() {
+            return -1;
+        };
+        // Value 'true' returned means confirmed to exit.
         bool SceneModel::OnSceneExiting() {
-            return true;    // true returned means confirmed to exit.
+            return true;
+        };
+        bool SceneModel::OnCameraExiting() {
+            return true;
         };
 
         // Register a component or an object to this scene, initialize it before success immediately.
@@ -64,8 +72,9 @@ namespace ChaosEngine {
 
         void SceneModel::SwitchCamera(Type::Camera& TargetCamera) {
             pPreCamera = &TargetCamera;
-            pCurCamera = pPreCamera;  // TODO
-            
+
+            // TODO
+            pCurCamera = pPreCamera;
             for (size_t i = 0; i < vec_pObject.size(); i++) {
                 vec_pObject[i]->pCamera = pCurCamera;
             }
