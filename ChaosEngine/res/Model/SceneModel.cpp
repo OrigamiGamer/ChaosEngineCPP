@@ -47,6 +47,10 @@ namespace ChaosEngine {
             AnyComp.Init();
             vec_pComp.push_back(&AnyComp);
         };
+        void SceneModel::RegComp(CompModel*& AnyComp) {
+            AnyComp->Init();
+            vec_pComp.push_back(AnyComp);
+        };
         void SceneModel::RegComp(ObjectModel& AnyObject) {
             AnyObject.pCamera = pCurCamera;
             AnyObject.Init();

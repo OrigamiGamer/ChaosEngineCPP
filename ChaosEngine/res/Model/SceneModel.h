@@ -23,6 +23,7 @@ namespace ChaosEngine {
 
             // Register a component or an object to this scene, initialize it before success immediately.
             void RegComp(CompModel& AnyComp);
+            void RegComp(CompModel*& AnyComp);
             void RegComp(ObjectModel& AnyObject);
             void RegComp(ObjectModel*& AnyObject);
             void SwitchCamera(Type::Camera& TargetCamera);
