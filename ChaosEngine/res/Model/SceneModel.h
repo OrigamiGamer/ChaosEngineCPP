@@ -11,7 +11,7 @@ namespace ChaosEngine {
             std::vector<CompModel*> vec_pComp;
             std::vector<ObjectModel*> vec_pObject;
             Type::Camera* pCurCamera = nullptr; // Current Camera
-            Type::Camera* pPreCamera = nullptr; // TODO: pPreCamera (like PreScene in Stage)
+            Type::Camera* pPreCamera = nullptr; // Preparing Camera
 
             SceneModel();
 
@@ -23,7 +23,6 @@ namespace ChaosEngine {
             virtual bool OnSceneExiting();
             virtual bool OnCameraExiting();
 
-            // Register a component or an object to this scene, initialize it before success immediately.
             void RegComp(CompModel& AnyComp);
             void RegComp(CompModel*& AnyComp);
             void RegComp(ObjectModel& AnyObject);

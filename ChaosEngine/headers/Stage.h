@@ -10,8 +10,8 @@ namespace ChaosEngine {
 
         void StageUpdate();
         void StageRender();
-        void SwitchScene(Model::SceneModel& TargetScene);
         void RegScene(Model::SceneModel& AnyScene);
+        void SwitchScene(Model::SceneModel& TargetScene);
 
     }
 

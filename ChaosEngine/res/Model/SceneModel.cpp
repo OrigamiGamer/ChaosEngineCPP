@@ -16,8 +16,16 @@ namespace ChaosEngine {
 
         void SceneModel::Update() {
 
-            pCurCamera->Update();
+            // Switch the current camera to preparing camera.
+            if (pCurCamera == pPreCamera) {
+                pCurCamera->Update();
+            }
+            else if (SceneModel::OnCameraEntered()) {
+                if (pPreCamera != nullptr) pPreCamera->Update();
+                pCurCamera = pPreCamera;
+            }
 
+            // Update the Object or Component registered to this scene.
             for (CompModel* pComp : vec_pComp) {
                 pComp->Update();
             }
@@ -69,16 +77,10 @@ namespace ChaosEngine {
             (*AnyObject).Init();
             vec_pObject.push_back(AnyObject);
         };
-
+        
+        // Switch the current camera to preparing camera after an user's preparing process.
         void SceneModel::SwitchCamera(Type::Camera& TargetCamera) {
             pPreCamera = &TargetCamera;
-
-            // TODO
-            pCurCamera = pPreCamera;
-            for (size_t i = 0; i < vec_pObject.size(); i++) {
-                vec_pObject[i]->pCamera = pCurCamera;
-            }
-
         };
 
     }

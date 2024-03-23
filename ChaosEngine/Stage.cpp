@@ -22,11 +22,14 @@ namespace ChaosEngine {
                     // Update PhysicX
                     PhysicX::PhysicXUpdate(pCurScene->vec_pObject, EngineX::deltaTime);
 
-                };
+                }
             }
             else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
-                pPreScene->SceneModel::Update(); // Update in the same way.
-                if (pPreScene != nullptr) pPreScene->Update();
+                // Update in the same way.
+                if (pPreScene != nullptr) {
+                    pPreScene->Update();
+                    pPreScene->SceneModel::Update();
+                }
                 pCurScene = pPreScene;
             }
 
@@ -41,11 +44,6 @@ namespace ChaosEngine {
 
         };
 
-        // Switch to a target scene as the current scene
-        void SwitchScene(Model::SceneModel& TargetScene) {
-            pPreScene = &TargetScene;
-        };
-
         // Register a scene object to stage
         void RegScene(Model::SceneModel& AnyScene) {
             if (&AnyScene != nullptr) {
@@ -57,6 +55,11 @@ namespace ChaosEngine {
                     pPreScene = &AnyScene;
                 }
             }
+        };
+
+        // Switch the current scene to target scene after an user's preparing process.
+        void SwitchScene(Model::SceneModel& TargetScene) {
+            pPreScene = &TargetScene;
         };
 
     }
