@@ -25,7 +25,7 @@ void MainScene::Init() {
     timer.Begin();
 
     Type::Texture* pTex = NULL;
-    Manager::Texture.CreateTextureFromFile(locate(L"BG_FACE.png"), L"BG", &pTex);
+    Manager::Texture.CreateTextureFromFile(locate(L"res/tex/bg.png"), L"bg", &pTex);
 
     /*size_t count = 100;
     vec_image.resize(count);
@@ -41,8 +41,8 @@ void MainScene::Init() {
 
 
     RegComp(image_bg);
-    image_bg.size = { 1000,1000 };
-    image_bg.SetTexture(Manager::Texture.GetTexture(L"BG"));
+    image_bg.size = { 200,200 };
+    image_bg.SetTexture(Manager::Texture.GetTexture(L"bg"));
 
     RegComp(text);
     text.Init();
@@ -63,7 +63,7 @@ void MainScene::Update() {
         //OutputDebugString((std::to_wstring(GetTickCount()) + L"\n").c_str());
     };
 
-
+    text.textFormat.SetContent(std::to_wstring(camera.viewPos.x) + L", " + std::to_wstring(camera.viewPos.y));
 
     struct StateList {
         BOOL last;
@@ -85,12 +85,12 @@ void MainScene::Update() {
     // update event
     if (state_inside) {
         state_update = FALSE;
-        text.textFormat.SetContent(L"111");
+        //text.textFormat.SetContent(L"111");
         text.color = { D2D1::ColorF::HotPink, 1 };
     }
     else {
         state_update = FALSE;
-        text.textFormat.SetContent(L"2222");
+        //text.textFormat.SetContent(L"2222");
         text.color = { D2D1::ColorF::White, 1 };
     }
 
@@ -99,7 +99,7 @@ void MainScene::Update() {
         _VKS_W.last = _VKS_W.current;
 
         if (_VKS_W.current == TRUE) {
-            camera.viewPos.y -= 20;
+            camera.viewPos.y -= 4;
         }
     }
     Type::VirtualKeyState _VKS_S = WindowX::Prop::VirtKeyStateBuffer['S'];
@@ -107,7 +107,7 @@ void MainScene::Update() {
         _VKS_S.last = _VKS_S.current;
 
         if (_VKS_S.current == TRUE) {
-            camera.viewPos.y += 20;
+            camera.viewPos.y += 4;
         }
     }
 
@@ -116,7 +116,7 @@ void MainScene::Update() {
         _VKS_A.last = _VKS_A.current;
 
         if (_VKS_A.current == TRUE) {
-            camera.viewPos.x -= 20;
+            camera.viewPos.x -= 4;
         }
     }
     Type::VirtualKeyState _VKS_D = WindowX::Prop::VirtKeyStateBuffer['D'];
@@ -124,7 +124,7 @@ void MainScene::Update() {
         _VKS_D.last = _VKS_D.current;
 
         if (_VKS_D.current == TRUE) {
-            camera.viewPos.x += 20;
+            camera.viewPos.x += 4;
         }
     }
 
@@ -141,7 +141,15 @@ int MainScene::OnSceneEntered() {
 
     return 0;
 };
+int MainScene::OnCameraEntered() {
+
+    return 0;
+};
 bool MainScene::OnSceneExiting() {
+
+    return true;
+};
+bool MainScene::OnCameraExiting() {
 
     return true;
 };

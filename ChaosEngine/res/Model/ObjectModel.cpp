@@ -43,11 +43,13 @@ namespace ChaosEngine {
         }
 
         inline Type::POS ObjectModel::GetRenderPos() {
-            return GetOriginPos() - pCamera->viewPos;
+            if (pCamera != nullptr) return GetOriginPos() - pCamera->viewPos;
+            return {};
         }
 
         inline Type::SIZE ObjectModel::GetRenderSize() {
-            return GetOriginSize() * pCamera->viewScale;
+            if (pCamera != nullptr) return GetOriginSize() * pCamera->viewScale;
+            return {};
         }
 
         void ObjectModel::ApplyForce(const Type::FORCE& new_force) {

@@ -16,6 +16,8 @@ public:
     void Render();
     void Release();
     int OnSceneEntered();
+    int OnCameraEntered();
     bool OnSceneExiting();
+    bool OnCameraExiting();
 
 } main_scene;

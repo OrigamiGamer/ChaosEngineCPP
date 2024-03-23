@@ -20,7 +20,7 @@ namespace ChaosEngine {
             if (pCurCamera == pPreCamera) {
                 pCurCamera->Update();
             }
-            else if (SceneModel::OnCameraEntered()) {
+            else if (SceneModel::OnCameraExiting()) {
                 if (pPreCamera != nullptr) pPreCamera->Update();
                 pCurCamera = pPreCamera;
             }
@@ -81,6 +81,11 @@ namespace ChaosEngine {
         // Switch the current camera to preparing camera after an user's preparing process.
         void SceneModel::SwitchCamera(Type::Camera& TargetCamera) {
             pPreCamera = &TargetCamera;
+
+            // Set the initial camera as default camera.
+            if (pCurCamera == nullptr) {
+                pCurCamera = pPreCamera;
+            }
         };
 
     }
