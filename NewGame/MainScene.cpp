@@ -12,6 +12,7 @@ MainScene::MainScene() {
     vec_image;
     text;
     image_bg;
+    ease;
 };
 void MainScene::Init() {
     Global::default_textFormat.Init();
@@ -49,6 +50,11 @@ void MainScene::Init() {
     text.size = { 1000, 300 };
     text.pos = { 50,100 };
     text.textFormat = Global::default_textFormat;
+
+    //RegComp(ease);
+    ease.Create(4, 0.4);
+    ease.SetVariable(camera.viewPos.x);
+    
 
 };
 void MainScene::Update() {
@@ -110,7 +116,6 @@ void MainScene::Update() {
             camera.viewPos.y += 4;
         }
     }
-
     Type::VirtualKeyState _VKS_A = WindowX::Prop::VirtKeyStateBuffer['A'];
     if (_VKS_A.current != _VKS_A.last) {
         _VKS_A.last = _VKS_A.current;
@@ -124,9 +129,12 @@ void MainScene::Update() {
         _VKS_D.last = _VKS_D.current;
 
         if (_VKS_D.current == TRUE) {
-            camera.viewPos.x += 4;
+            //camera.viewPos.x += 4;
+            ease.Begin(camera.viewPos.x + 50);
         }
     }
+
+    camera.viewPos.x = ease.GetResult();
 
 };
 void MainScene::Render() {

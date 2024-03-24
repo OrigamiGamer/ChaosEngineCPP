@@ -1,6 +1,7 @@
 #pragma once
-#include "ResList.h"
+#include "ResList.cpp"
 
 /* Component List */
 
 // source files
+#include "EaseFunc.cpp"

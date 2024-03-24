@@ -96,7 +96,7 @@ namespace ChaosEngine {
             case WM_MOUSEMOVE:
                 WindowX::Prop::MousePos.x = (float)GET_X_LPARAM(lParam);
                 WindowX::Prop::MousePos.y = (float)GET_Y_LPARAM(lParam);
-
+                
                 break;
             case WM_KEYDOWN:
                 if (WindowX::Prop::VirtKeyStateBuffer[wParam].current != TRUE)

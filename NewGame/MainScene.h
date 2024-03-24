@@ -7,6 +7,7 @@ class MainScene : public SceneModel {
     vector<ObjectList::Image> vec_image;
     ObjectList::Text text;
     ObjectList::Image image_bg;
+    CompList::EaseFunc<float> ease;
 
 public:
     MainScene();
