@@ -9,7 +9,7 @@ add_library(${PROJECT_NAME} ChaosEngine/ChaosEngine.cpp)
 
 # 3rd Libraries
 target_link_libraries(${PROJECT_NAME} ChakraCore.lib)
-target_link_libraries(${PROJECT_NAME} fmodstudio_vc_x64.lib)
+target_link_libraries(${PROJECT_NAME} OpenAL32.lib)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

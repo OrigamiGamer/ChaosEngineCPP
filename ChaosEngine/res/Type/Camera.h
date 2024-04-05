@@ -13,14 +13,11 @@ namespace ChaosEngine {
 			Type::SIZE viewSize{};
 			Type::SCALE viewScale{ 1, 1, 1 };
 			Type::POS mouseOffsetPos;
-			Model::ObjectModel* pTrackingObject = nullptr;
-			Type::POS viewOffsetPos{};
 
 			Camera();
 			void Init();
 			void Update();
 			void Release();
-			void TrackObject(Model::ObjectModel& new_object);
 
 		};
 

@@ -97,6 +97,7 @@ void MainScene::Update() {
     if (vk_state_buffer.GetState('D') && ease.state == false) {
         ease.SetNewValue(camera.viewPos.x, camera.viewPos.x + 100);
         ease.Begin();
+        
     }
 
     if (ease.state) camera.viewPos.x = ease.GetSingleResult();

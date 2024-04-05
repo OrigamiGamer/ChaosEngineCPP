@@ -10,7 +10,6 @@ namespace ChaosEngine {
 			this->viewSize = {};
 			this->viewScale = { 1, 1, 1 };
 			this->mouseOffsetPos = {};
-			this->pTrackingObject = nullptr;
 		}
 
 		void Camera::Init() {}
@@ -19,10 +18,10 @@ namespace ChaosEngine {
 		}
 		void Camera::Release() {}
 
-		// Track the center position of the object
-		void Camera::TrackObject(Model::ObjectModel& new_object) {
-			this->pTrackingObject = &new_object;
-		}
+		//// Track the center position of the object
+		//void Camera::TrackObject(Model::ObjectModel& new_object) {
+		//	this->pTrackingObject = &new_object;
+		//}
 
 	}
 

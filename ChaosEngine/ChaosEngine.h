@@ -25,8 +25,7 @@
 #include <wincodec.h>
 
 #include "ChakraCore/ChakraCore.h"
-#include "FMOD_Studio/fmod_studio.hpp"
-#include "JSON/json.hpp"
+#include "OpenAL/alcpp.h"
 
 /* Headers */
 #include "headers/Utils.h"
