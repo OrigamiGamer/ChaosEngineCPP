@@ -1,6 +1,6 @@
 # ChaosEngineCPP
  The first version that created in E language has been left behind because of a serious problem of that language.
- Then I had tried reconstruct in some other languages, but finally I chose C++ to finish this project.
+ Then I had tried reconstructing in some other languages, but finally I chose C++ to finish this project.
 
  This engine only used DirectX for graphics rendering, so the games made by it can only run on Windows.
 
