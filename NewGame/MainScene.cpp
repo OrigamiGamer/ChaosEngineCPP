@@ -8,6 +8,7 @@ namespace Global {
 
 MainScene::MainScene() {
     camera;
+    vk_state_buffer;
     timer;
     vec_image;
     text;
@@ -51,17 +52,12 @@ void MainScene::Init() {
     text.pos = { 50,100 };
     text.textFormat = Global::default_textFormat;
 
-    //RegComp(ease);
-    ease.Create(4, 0.4);
-    ease.SetVariable(camera.viewPos.x);
+    RegComp(ease);
+    ease.Init(camera.viewPos.x, camera.viewPos.x, Type::EASE_FUNC_INDEX_INOUT, 3, 0.5);
     
 
 };
 void MainScene::Update() {
-    /*if (GetKeyState('D') < 0) {
-        Stage::SwitchScene(debug_scene);
-    }*/
-
     ULONGLONG delta_t;
     if (timer.Todo(&delta_t)) {
         //timer.Pause();
@@ -71,19 +67,14 @@ void MainScene::Update() {
 
     text.textFormat.SetContent(std::to_wstring(camera.viewPos.x) + L", " + std::to_wstring(camera.viewPos.y));
 
-    struct StateList {
-        BOOL last;
-        BOOL current;
-    };
-
     static BOOL last_state_inside = FALSE;
     static BOOL state_inside = FALSE;
     static BOOL state_update = FALSE;
 
     state_inside = text.OnHover();
-    
+
     // cheack update state
-    if (last_state_inside != state_inside) { 
+    if (last_state_inside != state_inside) {
         last_state_inside = state_inside;
         state_update = TRUE;
     }
@@ -100,41 +91,15 @@ void MainScene::Update() {
         text.color = { D2D1::ColorF::White, 1 };
     }
 
-    Type::VirtualKeyState _VKS_W = WindowX::Prop::VirtKeyStateBuffer['W'];
-    if (_VKS_W.current != _VKS_W.last) {
-        _VKS_W.last = _VKS_W.current;
-
-        if (_VKS_W.current == TRUE) {
-            camera.viewPos.y -= 4;
-        }
-    }
-    Type::VirtualKeyState _VKS_S = WindowX::Prop::VirtKeyStateBuffer['S'];
-    if (_VKS_S.current != _VKS_S.last) {
-        _VKS_S.last = _VKS_S.current;
-
-        if (_VKS_S.current == TRUE) {
-            camera.viewPos.y += 4;
-        }
-    }
-    Type::VirtualKeyState _VKS_A = WindowX::Prop::VirtKeyStateBuffer['A'];
-    if (_VKS_A.current != _VKS_A.last) {
-        _VKS_A.last = _VKS_A.current;
-
-        if (_VKS_A.current == TRUE) {
-            camera.viewPos.x -= 4;
-        }
-    }
-    Type::VirtualKeyState _VKS_D = WindowX::Prop::VirtKeyStateBuffer['D'];
-    if (_VKS_D.current != _VKS_D.last) {
-        _VKS_D.last = _VKS_D.current;
-
-        if (_VKS_D.current == TRUE) {
-            //camera.viewPos.x += 4;
-            ease.Begin(camera.viewPos.x + 50);
-        }
+    if (vk_state_buffer.GetState('W')) camera.viewPos.y -= 10;
+    if (vk_state_buffer.GetState('S')) camera.viewPos.y += 10;
+    if (vk_state_buffer.GetState('A')) camera.viewPos.x -= 10;
+    if (vk_state_buffer.GetState('D') && ease.state == false) {
+        ease.SetNewValue(camera.viewPos.x, camera.viewPos.x + 100);
+        ease.Begin();
     }
 
-    camera.viewPos.x = ease.GetResult();
+    if (ease.state) camera.viewPos.x = ease.GetSingleResult();
 
 };
 void MainScene::Render() {

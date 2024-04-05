@@ -7,3 +7,4 @@
 #include "Texture.h"
 #include "TextFormat.h"
 #include "Camera.h"
+#include "VirtKeyStateBuffer.h"

@@ -3,6 +3,7 @@
 
 class MainScene : public SceneModel {
     Type::Camera camera;
+    Type::VirtKeyStateBuffer vk_state_buffer;
     CompList::Timer timer;
     vector<ObjectList::Image> vec_image;
     ObjectList::Text text;

@@ -13,8 +13,8 @@ namespace ChaosEngine {
             Type::POS Pos;
             Type::POS MousePos;
             Type::POS MouseOffsetPos;
-            Type::VirtualKeyState VirtKeyStateBuffer[254];
-            std::vector<int> VirtKeyInputBuffer;
+            Type::VirtKeyState VKeyStateBuffer[254];    // Global buffer of states of virtual keys.
+            std::vector<int> VKeyInputBuffer;           // Global buffer of the virtual keys user input.
         }
 
         // Initialize Game Window
@@ -99,17 +99,17 @@ namespace ChaosEngine {
                 
                 break;
             case WM_KEYDOWN:
-                if (WindowX::Prop::VirtKeyStateBuffer[wParam].current != TRUE)
-                    WindowX::Prop::VirtKeyStateBuffer[wParam].current = TRUE;
+                if (WindowX::Prop::VKeyStateBuffer[wParam].current != TRUE)
+                    WindowX::Prop::VKeyStateBuffer[wParam].current = TRUE;
 
                 break;
             case WM_KEYUP:
-                if (WindowX::Prop::VirtKeyStateBuffer[wParam].current != FALSE)
-                    WindowX::Prop::VirtKeyStateBuffer[wParam].current = FALSE;
+                if (WindowX::Prop::VKeyStateBuffer[wParam].current != FALSE)
+                    WindowX::Prop::VKeyStateBuffer[wParam].current = FALSE;
 
                 break;
             case WM_CHAR:
-                WindowX::Prop::VirtKeyInputBuffer.push_back(static_cast<int>(wParam));
+                WindowX::Prop::VKeyInputBuffer.push_back(static_cast<int>(wParam));
 
                 break;
             case WM_CREATE:

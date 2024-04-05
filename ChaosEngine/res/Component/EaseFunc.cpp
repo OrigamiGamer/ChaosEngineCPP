@@ -5,71 +5,120 @@ namespace ChaosEngine {
 
 	namespace CompList {
 
-		template <typename T_FLOAT>
+		template<typename T_FLOAT>
 		EaseFunc<T_FLOAT>::EaseFunc() {
-			state = false;
-			max_progress = 0.4;	// (s)
-			progress = 0;
+			state = false;	// updating state
+			g = 0;			// progress, unit: second
+			g_max = 1.0;	// max progress
+			t = 0;			// process
+			a = 1;			// index of the index-function
+			p = 0;			// percent
+			n;				// ease function type
+			x = 0;			// initial value
+			x_t = 0;		// target value
+			dx = 0;			// delta value
+		}
 
-			index = 1;		// linear
-			p_variable = nullptr;
-			initial_value = 0;
-			target_value = 0;
+		// Initialize by default properties. It will stop updating and clear progress.
+		template <typename T_FLOAT>
+		void EaseFunc<T_FLOAT>::Init() {
+			state = false;
+			n = Type::EASE_FUNC_INDEX_OUT;
+			a = 2;
+			g = 0.0;
+			g_max = 1.0;
+			
+			SetNewValue(0, 0);
+		}
+
+		// Initialize by user properties. It will stop updating and clear progress.
+		template <typename T_FLOAT>
+		void EaseFunc<T_FLOAT>::Init(
+			T_FLOAT new_initial_x, T_FLOAT new_target_x, unsigned int new_function_type, long double new_index, long double new_time_length
+		) {
+			state = false;
+			n = new_function_type;
+			a = new_index;
+			g = 0.0;
+			g_max = new_time_length;
+
+			SetNewValue(new_initial_x, new_target_x);
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Init() {}
+		void EaseFunc<T_FLOAT>::Update() {
+			if (state = true) {
+
+				if (g < g_max) {
+					g += EngineX::deltaTime;
+				}
+				else {
+					g = g_max;
+					state = false;
+				}
+
+				t = g / g_max;
+
+				switch (n) {
+				case Type::EASE_FUNC_INDEX_IN:
+					p = pow(t, a);
+
+					break;
+				case Type::EASE_FUNC_INDEX_OUT:
+					p = -pow(abs(t - 1), a) + 1;
+
+					break;
+				case Type::EASE_FUNC_INDEX_INOUT:
+					if (t <= 0.5) {
+						p = pow(2, a - 1) * pow(t, a);
+					}
+					else if (t > 0.5) {
+						p = -pow(2, a - 1) * pow(abs(t - 1), a) + 1;
+					}
+
+					break;
+				}
+
+			}
+		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Update() {
-			
+		T_FLOAT EaseFunc<T_FLOAT>::GetSingleResult() {
+			return (T_FLOAT)(x + dx * p);
 		}
 
 		template <typename T_FLOAT>
 		void EaseFunc<T_FLOAT>::Release() {}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Create(long double new_index, long double new_max_progress) {
-			index = new_index;
-			max_progress = new_max_progress;
+		void EaseFunc<T_FLOAT>::SetNewValue(T_FLOAT new_initial_x, T_FLOAT new_target_x) {
+			x = new_initial_x;
+			x_t = new_target_x;
+			dx = x_t - x;
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::SetVariable(T_FLOAT& new_varaible) {
-			p_variable = &new_varaible;
+		void EaseFunc<T_FLOAT>::ClearProgress() {
+			g = 0.0;
+			t = 0.0;
+			p = 0.0;
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Begin(T_FLOAT new_target_value) {
+		void EaseFunc<T_FLOAT>::Begin() {
+			ClearProgress();
 			state = true;
-			progress = 0;
-			if (p_variable != nullptr) initial_value = *p_variable;
-			target_value = new_target_value;
-
 		}
 
 		template <typename T_FLOAT>
-		T_FLOAT EaseFunc<T_FLOAT>::GetResult() {
-			T_FLOAT single_result = 0;
-			if (state) {
-				if (progress < max_progress) {
-					progress += EngineX::deltaTime;
-				}
-				if (progress >= max_progress) {
-					progress = EngineX::deltaTime;
-					state = false;
-				}
-				long double percent = progress / max_progress;
+		void EaseFunc<T_FLOAT>::Pause() {
+			state = false;
+		}
 
-				// index function
-				single_result = initial_value + (target_value - initial_value) * (T_FLOAT)pow(percent, index);	// len += (d_len)*t^a
-
-				/*if (p_varaible != nullptr) {
-					*p_varaible = single_result;
-				}*/
-				return single_result;
-			}
-			return target_value;
+		template <typename T_FLOAT>
+		void EaseFunc<T_FLOAT>::Stop() {
+			state = false;
+			ClearProgress();
 		}
 
 	}

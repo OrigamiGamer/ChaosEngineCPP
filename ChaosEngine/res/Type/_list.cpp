@@ -7,3 +7,4 @@
 #include "Texture.cpp"
 #include "TextFormat.cpp"
 #include "Camera.cpp"
+#include "VirtKeyStateBuffer.cpp"

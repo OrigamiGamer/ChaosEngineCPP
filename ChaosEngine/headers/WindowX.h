@@ -10,8 +10,8 @@ namespace ChaosEngine {
             extern Type::SIZE Size;
             extern Type::POS Pos;
             extern Type::POS MousePos;
-            extern Type::VirtualKeyState VirtKeyStateBuffer[254];
-            extern std::vector<int> VirtKeyInputBuffer;
+            extern Type::VirtKeyState VKeyStateBuffer[254];
+            extern std::vector<int> VKeyInputBuffer;
         }
 
         HWND InitializeGameWindow(Type::WindowInitialProperty& WndProp);

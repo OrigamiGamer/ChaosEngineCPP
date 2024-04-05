@@ -6,6 +6,7 @@
 
 /* Libraries */
 //#pragma comment(lib,"DXGI.lib")
+#pragma comment(lib,"User32.lib")
 #pragma comment(lib,"D2D1.lib")	//#pragma comment(lib,"D3D12.lib")
 #pragma comment(lib,"Dwrite.lib")
 
@@ -16,6 +17,7 @@
 #include <vector>
 #include <windows.h>
 #include <windowsx.h>
+#include <winuser.h>
 #include <wrl.h>
 #include <dxgi.h>
 #include <d2d1.h>	//#include <d3d12.h>

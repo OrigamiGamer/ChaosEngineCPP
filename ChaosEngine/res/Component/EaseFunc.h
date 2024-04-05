@@ -3,34 +3,46 @@
 
 namespace ChaosEngine {
 
+	namespace Type {
+		enum EASE_FUNC {
+			EASE_FUNC_INDEX_IN = 0,
+			EASE_FUNC_INDEX_OUT = 1,
+			EASE_FUNC_INDEX_INOUT = 2
+		};
+	}
+
 	namespace CompList {
 
 		template <typename T_FLOAT>
 		class EaseFunc : public Model::CompModel {
 		private:
-			bool state = false;
-			long double max_progress = 1;	// (s)
-			long double progress = 0;		// (s)
-
-			T_FLOAT* p_variable = nullptr;
-			T_FLOAT initial_value = 0;
-			T_FLOAT target_value = 0;
 
 		public:
-			long double index = 1;
+			bool state = false;			// updating state
+			long double g = 0;			// progress, unit: second
+			long double g_max = 1.0;	// max progress
+			long double t = 0;			// process
+			unsigned long double a = 1;	// index of the index-function
+			long double p = 0;			// percent
+			unsigned int n;				// ease function type
+			T_FLOAT x = 0;				// initial value
+			T_FLOAT x_t = 0;			// target value
+			T_FLOAT dx = 0;				// delta value
 
 		public:
 			EaseFunc();
 
 			void Init();
+			void Init(T_FLOAT new_initial_x, T_FLOAT new_target_x, unsigned int new_function_type, long double new_index, long double new_time_length);
 			void Update();
+			T_FLOAT GetSingleResult();
 			void Release();
 
-			void Create(long double new_index, long double new_max_progress);
-			void SetVariable(T_FLOAT& new_varaible);
-			void Begin(T_FLOAT new_target_value);
-			void Pause();	// TODO
-			T_FLOAT GetResult();
+			void SetNewValue(T_FLOAT new_initial_value, T_FLOAT new_target_value);
+			void ClearProgress();
+			void Begin();
+			void Pause();
+			void Stop();
 
 		};
 

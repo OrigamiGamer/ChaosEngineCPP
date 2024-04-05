@@ -9,7 +9,11 @@ namespace ChaosEngine {
         // Callback EngineProc
         typedef BOOL(CALLBACK* ENGINEPROC)();
 
+
         // Initial Property
+        struct WindowInitialProperty;
+        struct EngineStartupProperty;
+
         struct WindowInitialProperty {
             int width = CW_USEDEFAULT, height = CW_USEDEFAULT;
             int x = CW_USEDEFAULT, y = CW_USEDEFAULT;
@@ -22,7 +26,8 @@ namespace ChaosEngine {
             int FPS = 60;
         };
 
-        // Based Types
+
+        // Basic Types
         struct SCALE;
         struct SIZE;
         struct SIZE_3D;
@@ -31,7 +36,6 @@ namespace ChaosEngine {
         struct COLOR;
         struct VECTOR;
         struct FORCE;
-        struct VirtualKeyState;
 
         struct SCALE {
             float x, y, global;
@@ -192,13 +196,12 @@ namespace ChaosEngine {
             };
         };
 
-        struct VirtualKeyState {
-            BOOL current = FALSE;
-            BOOL last = FALSE;
-        };
+
      
 
         // Class Predefined
+        struct VirtKeyState;
+        class VirtKeyStateBuffer;
         class Texture;
         class TextFormat;
         class Camera;
