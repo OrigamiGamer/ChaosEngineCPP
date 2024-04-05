@@ -8,7 +8,7 @@
 
 # Build
 
-### 1. Make sure your computer has installed 'CMake'
+### 1. Make sure your computer has installed `CMake`
 
 ### 2. Clone repository
 - `https://github.com/OrigamiGamer/ChaosEngineCPP.git`
