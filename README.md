@@ -1,6 +1,6 @@
 # ChaosEngineCPP
- The first version that created in E language has been left behind because of a serious problem of that language.
- Then I had tried reconstructing in some other languages, but finally I chose C++ to finish this project.
+ The first version that was created in E language has been left behind because of a serious problem of that language.
+ Then I had tried reconstructing in some other languages, but finally I chose C++ to finish this project for its powerful capabilities.
 
  This engine only used DirectX for graphics rendering, so the games made by it can only run on Windows.
 
@@ -8,7 +8,7 @@
 
 # Build
 
-### 1. Make sure your computer had installed CMake
+### 1. Make sure your computer has installed 'CMake'
 
 ### 2. Clone repository
 - `https://github.com/OrigamiGamer/ChaosEngineCPP.git`
@@ -36,4 +36,4 @@
 |-----------------------|-----------------------------------------------|-------------------|-----------------------|
 | JSON					| https://github.com/nlohmann/json				| Niels Lohmann		| MIT					|
 | ChakraCore			| https://github.com/chakra-core/ChakraCore		| Microsoft			| MIT					|
-| FMOD					|												| 					|						|
+| FMOD					| 												| 					|						|
