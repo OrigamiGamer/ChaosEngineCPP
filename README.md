@@ -16,7 +16,7 @@
 ### 3. Build `ChaosEngine.lib`
 
 - #### in `Visual Studio`(recommend):
-- 1. Open the project folder (root path, the source codes of `ChaosEngine.lib`) in Visual Studio,
+- 1. Open the project folder (in root path, the source codes of `ChaosEngine`) in Visual Studio,
       choose the cmake configuration `x64-Debug`;
 - 2. Build the project (hot-key is `Ctrl+Shift+B`), by default, it'll be compiled in `\build\x64-Debug\` in root path;
 
