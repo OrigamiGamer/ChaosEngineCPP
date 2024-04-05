@@ -1,5 +1,10 @@
 # ChaosEngineCPP
- A version of ChaosEngine for C++ is developing...
+ The first version that created in E language has been left behind because of a serious problem of that language.
+ Then I had tried reconstruct in some other languages, but finally I chose C++ to finish this project.
+
+ This engine only used DirectX for graphics rendering, so the games made by it can only run on Windows.
+
+ Now, a new version of ChaosEngine for C++ is growing...
 
 # Build
 
@@ -21,12 +26,12 @@
 - 2. Then execute `CMake: Build`.
 -->
 
-### 4. Prepare folder for making new game
+### 4. Prepare a folder for making a new game
 - Finally, copy a backup of "NewGame" folder, rename the folder (instead of any file in the folder), then begin making your game!
 
 
 
-# Dependence
+# Dependences
 | name					| url											| Author			| License				|
 |-----------------------|-----------------------------------------------|-------------------|-----------------------|
 | JSON					| https://github.com/nlohmann/json				| Niels Lohmann		| MIT					|
