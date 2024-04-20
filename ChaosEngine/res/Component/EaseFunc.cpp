@@ -5,7 +5,7 @@ namespace ChaosEngine {
 
 	namespace CompList {
 
-		template<typename T_FLOAT>
+		template <typename T_FLOAT>
 		EaseFunc<T_FLOAT>::EaseFunc() {
 			state = false;	// updating state
 			g = 0;			// progress, unit: second
@@ -34,7 +34,8 @@ namespace ChaosEngine {
 		// Initialize by user properties. It will stop updating and clear progress.
 		template <typename T_FLOAT>
 		void EaseFunc<T_FLOAT>::Init(
-			T_FLOAT new_initial_x, T_FLOAT new_target_x, unsigned int new_function_type, long double new_index, long double new_time_length
+			T_FLOAT new_initial_x, T_FLOAT new_target_x,
+			unsigned int new_function_type, long double new_index, long double new_time_length
 		) {
 			state = false;
 			n = new_function_type;
@@ -84,7 +85,7 @@ namespace ChaosEngine {
 
 		template <typename T_FLOAT>
 		T_FLOAT EaseFunc<T_FLOAT>::GetSingleResult() {
-			return (T_FLOAT)(x + dx * p);
+			return static_cast<T_FLOAT>(x + dx * p);
 		}
 
 		template <typename T_FLOAT>
@@ -92,8 +93,8 @@ namespace ChaosEngine {
 
 		template <typename T_FLOAT>
 		void EaseFunc<T_FLOAT>::SetNewValue(T_FLOAT new_initial_x, T_FLOAT new_target_x) {
-			x = new_initial_x;
-			x_t = new_target_x;
+			x = static_cast<long double>(new_initial_x);
+			x_t = static_cast<long double>(new_target_x);
 			dx = x_t - x;
 		}
 

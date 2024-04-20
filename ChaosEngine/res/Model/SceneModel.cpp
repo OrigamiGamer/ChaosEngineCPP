@@ -25,7 +25,7 @@ namespace ChaosEngine {
                 pCurCamera = pPreCamera;
             }
 
-            // Update the Object or Component registered to this scene.
+            // Update the registered Object and Component.
             for (CompModel* pComp : vec_pComp) {
                 pComp->Update();
             }
@@ -42,6 +42,15 @@ namespace ChaosEngine {
                 pObject->Render();
             }
         };
+
+        void SceneModel::Release() {
+            for (CompModel* pComp : vec_pComp) {
+                pComp->Release();
+            }
+            for (ObjectModel* pObject : vec_pObject) {
+                pObject->Release();
+            }
+        }
 
         // Return value is custom.
         int SceneModel::OnSceneEntered() {

@@ -13,6 +13,7 @@ namespace ChaosEngine {
         // State Update
         void StageUpdate() {
 
+            // Initialize or release resources while switching scene.
             if (pCurScene == pPreScene) {
                 if (pCurScene != nullptr) {
                     // Update Logic
@@ -21,7 +22,6 @@ namespace ChaosEngine {
 
                     // Update PhysicX
                     PhysicX::PhysicXUpdate(pCurScene->vec_pObject, EngineX::deltaTime);
-
                 }
             }
             else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.
@@ -30,6 +30,9 @@ namespace ChaosEngine {
                     pPreScene->Update();
                     pPreScene->SceneModel::Update();
                 }
+                // Release resources in current scene, and switch to the new scene, preparing scene.
+                pCurScene->SceneModel::Release();
+                pCurScene->Release();
                 pCurScene = pPreScene;
             }
 

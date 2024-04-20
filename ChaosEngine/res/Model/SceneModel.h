@@ -18,6 +18,7 @@ namespace ChaosEngine {
             virtual void Init();
             virtual void Update();
             virtual void Render();
+            virtual void Release();
             virtual int OnSceneEntered();
             virtual int OnCameraEntered();
             virtual bool OnSceneExiting();

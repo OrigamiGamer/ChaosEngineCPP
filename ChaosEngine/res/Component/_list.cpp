@@ -5,3 +5,4 @@
 
 // source files
 #include "EaseFunc.cpp"
+#include "Animation.cpp"
