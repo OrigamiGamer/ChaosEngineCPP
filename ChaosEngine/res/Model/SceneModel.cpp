@@ -10,6 +10,7 @@ namespace ChaosEngine {
             vec_pObject;
             pCurCamera = nullptr;
             pPreCamera = nullptr;
+            is_release_on_switching = false;
         }
 
         void SceneModel::Init() { };

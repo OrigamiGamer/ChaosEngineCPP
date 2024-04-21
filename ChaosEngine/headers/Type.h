@@ -206,6 +206,12 @@ namespace ChaosEngine {
         class TextFormat;
         class Camera;
 
+        class Timer;
+        template <typename T_FLOAT>
+        class EaseFunc;
+        template <typename T_FLOAT>
+        class Animation;
+
     }
 
 }

@@ -3,16 +3,30 @@
 
 namespace ChaosEngine {
 
+	namespace Type {
+
+		template <typename T_FLOAT>
+		struct STD_ANIMATION_PROPERTY_LIST {
+			CompList::EaseFunc<long double> ease_func;
+			T_FLOAT* p_variable = nullptr;			// !! dangerous !!
+			long double start_time;
+		};
+
+	}
+
 	namespace CompList {
 
 		template <typename T_FLOAT>
 		class Animation : public Model::CompModel {
 		private:
-			std::vector<EaseFunc<T_FLOAT>> vec_EaseFunc;
-			std::vector<T_FLOAT*> vec_pVariable;			// !! dangerous !!
+			std::vector<Type::STD_ANIMATION_PROPERTY_LIST<T_FLOAT>> vec_ani;
+			bool state = false;
+			long double progress;		// playing progress
+			long double max_progress;	// max playing progress
 
 		public:
-			std::wstring IdName;
+			std::wstring id_name;	// animation identity name
+			bool is_loop_playback = false;
 
 		public:
 			Animation();
@@ -20,11 +34,16 @@ namespace ChaosEngine {
 			void Init();
 			void Update();
 			void Release();
-			void Animation<T_FLOAT>::CreateEaseFunction(
+			
+			inline void Animation<T_FLOAT>::CreateEaseFunction(
 				T_FLOAT& new_variable, EaseFunc<long double> new_ease_func,
 				long double new_start_time
 			);
-			void Play();
+			inline void ClearProgress();
+			inline void Play();
+			inline void Pause();
+			inline void Continue();
+			inline void Stop();
 
 		};
 

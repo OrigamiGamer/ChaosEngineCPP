@@ -16,8 +16,6 @@ namespace ChaosEngine {
 		template <typename T_FLOAT>
 		class EaseFunc : public Model::CompModel {
 		private:
-
-		public:
 			bool state = false;			// updating state
 			long double g = 0;			// progress, unit: second
 			long double g_max = 1.0;	// max progress
@@ -28,6 +26,7 @@ namespace ChaosEngine {
 			long double x = 0;			// initial value
 			long double x_t = 0;		// target value
 			long double dx = 0;			// delta value
+			long double result = 0;		// single result value
 
 		public:
 			EaseFunc();
@@ -41,12 +40,17 @@ namespace ChaosEngine {
 			void Update();
 			void Release();
 
-			T_FLOAT GetSingleResult();
-			void SetNewValue(T_FLOAT new_initial_value, T_FLOAT new_target_value);
-			void ClearProgress();
-			void Begin();
-			void Pause();
-			void Stop();
+			inline T_FLOAT GetSingleResult();
+			inline void SetNewValue(T_FLOAT new_initial_value, T_FLOAT new_target_value);
+			inline void ClearProgress();
+			inline void Begin();
+			inline void Pause();
+			inline void Continue();
+			inline void Stop();
+			inline bool GetPlayingState();
+			inline long double GetTimeLength();
+			inline T_FLOAT GetInitialValue();
+			inline T_FLOAT GetTargetValue();
 
 		};
 

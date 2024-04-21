@@ -12,6 +12,7 @@ namespace ChaosEngine {
             std::vector<ObjectModel*> vec_pObject;
             Type::Camera* pCurCamera = nullptr; // Current Camera
             Type::Camera* pPreCamera = nullptr; // Preparing Camera
+            bool is_release_on_switching = false;  // Do NOT release resources of scene on scene switching by default.
 
             SceneModel();
 

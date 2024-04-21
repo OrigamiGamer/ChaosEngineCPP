@@ -17,6 +17,7 @@ namespace ChaosEngine {
 			x = 0;			// initial value
 			x_t = 0;		// target value
 			dx = 0;			// delta value
+			result = 0;		// single result value
 		}
 
 		// Initialize by default properties. It will stop updating and clear progress.
@@ -80,47 +81,74 @@ namespace ChaosEngine {
 					break;
 				}
 
+				result = x + dx * p;
 			}
-		}
-
-		template <typename T_FLOAT>
-		T_FLOAT EaseFunc<T_FLOAT>::GetSingleResult() {
-			return static_cast<T_FLOAT>(x + dx * p);
 		}
 
 		template <typename T_FLOAT>
 		void EaseFunc<T_FLOAT>::Release() {}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::SetNewValue(T_FLOAT new_initial_x, T_FLOAT new_target_x) {
-			x = static_cast<long double>(new_initial_x);
-			x_t = static_cast<long double>(new_target_x);
-			dx = x_t - x;
+		inline T_FLOAT EaseFunc<T_FLOAT>::GetSingleResult() {
+			return static_cast<T_FLOAT>(result);
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::ClearProgress() {
+		inline void EaseFunc<T_FLOAT>::SetNewValue(T_FLOAT new_initial_x, T_FLOAT new_target_x) {
+			x = static_cast<long double>(new_initial_x);
+			x_t = static_cast<long double>(new_target_x);
+			dx = x_t - x;
+			result = x;
+		}
+
+		template <typename T_FLOAT>
+		inline void EaseFunc<T_FLOAT>::ClearProgress() {
 			g = 0.0;
 			t = 0.0;
 			p = 0.0;
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Begin() {
+		inline void EaseFunc<T_FLOAT>::Begin() {
 			ClearProgress();
 			state = true;
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Pause() {
+		inline void EaseFunc<T_FLOAT>::Pause() {
 			state = false;
 		}
 
 		template <typename T_FLOAT>
-		void EaseFunc<T_FLOAT>::Stop() {
+		inline void EaseFunc<T_FLOAT>::Continue() {
+			state = true;
+		}
+
+		template <typename T_FLOAT>
+		inline void EaseFunc<T_FLOAT>::Stop() {
 			state = false;
 			ClearProgress();
 		}
+
+		template <typename T_FLOAT>
+		inline bool EaseFunc<T_FLOAT>::GetPlayingState() {
+			return state;
+		};
+
+		template <typename T_FLOAT>
+		inline long double EaseFunc<T_FLOAT>::GetTimeLength() {
+			return g_max;
+		};
+
+		template <typename T_FLOAT>
+		inline T_FLOAT EaseFunc<T_FLOAT>::GetInitialValue() {
+			return x;
+		};
+
+		template <typename T_FLOAT>
+		inline T_FLOAT EaseFunc<T_FLOAT>::GetTargetValue() {
+			return x_t;
+		};
 
 	}
 
