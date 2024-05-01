@@ -49,7 +49,7 @@ namespace ChaosEngine {
 
 		template <typename T_FLOAT>
 		void EaseFunc<T_FLOAT>::Update() {
-			if (state = true) {
+			if (state == true) {
 
 				if (g < g_max) {
 					g += EngineX::deltaTime;

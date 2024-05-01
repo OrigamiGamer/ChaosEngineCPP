@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef AL_ALC_H
 #define AL_ALC_H
 
