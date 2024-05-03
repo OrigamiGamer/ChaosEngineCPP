@@ -15,12 +15,14 @@ namespace ChaosEngine {
 			std::vector<VirtKeyState> vec_buffer;
 
 		public:
-
-		public:
 			VirtKeyStateBuffer();
 			void Init();
 			void Release();
 
+		private:
+			inline BOOL IsValid(int new_nVirtKey);
+
+		public:
 			BOOL GetState(int new_nVirtKey);
 			BOOL OnKeyDown(int new_nVirtKey);
 			BOOL OnKeyUp(int new_nVirtKey);

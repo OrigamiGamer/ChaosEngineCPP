@@ -12,7 +12,9 @@ namespace ChaosEngine {
 			this->mouseOffsetPos = {};
 		}
 
-		void Camera::Init() {}
+		void Camera::Init() {
+			viewSize = WindowX::Prop::Size;
+		}
 		void Camera::Update() {
 			this->mouseOffsetPos = WindowX::Prop::MousePos + viewPos; // Update the mouse offset position.
 		}

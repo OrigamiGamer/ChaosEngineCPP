@@ -9,7 +9,6 @@ namespace ChaosEngine {
         // Callback EngineProc
         typedef BOOL(CALLBACK* ENGINEPROC)();
 
-
         // Initial Property
         struct WindowInitialProperty;
         struct EngineStartupProperty;

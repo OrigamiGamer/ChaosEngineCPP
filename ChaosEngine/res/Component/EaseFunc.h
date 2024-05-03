@@ -22,7 +22,7 @@ namespace ChaosEngine {
 			long double t = 0;			// process
 			long double a = 1;			// index of the index-function
 			long double p = 0;			// percent
-			unsigned int n;				// ease function type
+			unsigned int n = 1;			// ease function type
 			long double x = 0;			// initial value
 			long double x_t = 0;		// target value
 			long double dx = 0;			// delta value

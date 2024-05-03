@@ -5,11 +5,7 @@ namespace ChaosEngine {
 
 	namespace ObjectList {
 
-		Text::Text() {
-			s_pCursorPos = nullptr;
-			color = { D2D1::ColorF::LightPink, 1 };
-			textFormat;
-		}
+		Text::Text() { }
 
 		void Text::Init() {
 			textFormat.Init();

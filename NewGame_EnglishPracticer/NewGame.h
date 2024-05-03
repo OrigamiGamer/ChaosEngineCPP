@@ -1,6 +1,6 @@
 #pragma once
-//#define UNICODE
-#define _GAME_DEV_
+#define UNICODE
+//#define _GAME_DEV_
 
 #pragma comment(lib,"ChaosEngine.lib")
 #include "ChaosEngine.h"

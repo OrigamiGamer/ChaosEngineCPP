@@ -34,7 +34,7 @@ namespace OpenAL {
 	namespace _Test_ {
 
 		void test_main() {
-			OpenAL::Types::BufferID new_sound = OpenAL::LoadSoundFile("test.wav");
+			OpenAL::Type::BufferID new_sound = OpenAL::LoadSoundFile("test.wav");
 
 
 		}

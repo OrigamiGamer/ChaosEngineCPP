@@ -7,9 +7,9 @@ namespace ChaosEngine {
 
 		class Text : public Model::ObjectModel {
 		private:
-			Type::POS* s_pCursorPos;
+			Type::POS* s_pCursorPos = nullptr;
 		public:
-			Type::COLOR color = { 0, 0 };
+			Type::COLOR color = { D2D1::ColorF::LightPink, 1 };
 			Type::TextFormat textFormat;
 		public:
 			Text();

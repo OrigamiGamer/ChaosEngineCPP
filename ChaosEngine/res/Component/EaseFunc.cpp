@@ -6,19 +6,7 @@ namespace ChaosEngine {
 	namespace CompList {
 
 		template <typename T_FLOAT>
-		EaseFunc<T_FLOAT>::EaseFunc() {
-			state = false;	// updating state
-			g = 0;			// progress, unit: second
-			g_max = 1.0;	// max progress
-			t = 0;			// process
-			a = 1;			// index of the index-function
-			p = 0;			// percent
-			n;				// ease function type
-			x = 0;			// initial value
-			x_t = 0;		// target value
-			dx = 0;			// delta value
-			result = 0;		// single result value
-		}
+		EaseFunc<T_FLOAT>::EaseFunc() { }
 
 		// Initialize by default properties. It will stop updating and clear progress.
 		template <typename T_FLOAT>
@@ -28,7 +16,7 @@ namespace ChaosEngine {
 			a = 2;
 			g = 0.0;
 			g_max = 1.0;
-			
+
 			SetNewValue(0, 0);
 		}
 

@@ -3,7 +3,13 @@
 
 class MainScene : public SceneModel {
     Type::Camera camera;
-
+    Type::VirtKeyStateBuffer VKBuffer;
+    ObjectList::Text text;
+    ObjectList::Image image_player;
+    ObjectList::Image image_bg;
+    CompList::EaseFunc<float> ease_x;
+    CompList::EaseFunc<float> ease_y;
+    
 public:
     MainScene();
 

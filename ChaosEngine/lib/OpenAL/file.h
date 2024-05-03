@@ -3,7 +3,7 @@
 
 namespace OpenAL {
 
-	namespace Types {
+	namespace Type {
 
 #pragma pack(push,1)
 		struct WavHeaderInfo {
@@ -29,12 +29,12 @@ namespace OpenAL {
 	}
 
 	// File formats support: wav
-	Types::BufferID LoadSoundFile(const std::string& filename) {
+	Type::BufferID LoadSoundFile(const std::string& filename) {
 
 		std::ifstream file(filename, std::ios::binary);
 
 		// WAV
-		Types::WavHeaderInfo header{};
+		Type::WavHeaderInfo header{};
 		file.read(reinterpret_cast<char*>(&header), sizeof(header));
 		if (header.chunkID != 0x52494646 || header.format != 0x45564157) {
 			file.close();
@@ -64,7 +64,7 @@ namespace OpenAL {
 		}
 		else return NULL;
 
-		Types::BufferID bufferID{};
+		Type::BufferID bufferID{};
 		alGenBuffers(1, &bufferID);
 		alBufferData(bufferID, format, &audioData, header.subchunk2Size, header.sampleRate);
 

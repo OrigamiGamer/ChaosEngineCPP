@@ -20,39 +20,43 @@ namespace ChaosEngine {
 
         // Create a texture resource from an image file.
         HRESULT TextureManager::CreateTextureFromFile(
-            std::wstring fileName, std::wstring regName = L"", Type::Texture** out_pTexture = NULL
+            std::wstring fileName, std::wstring regName = L"", Type::Texture** out_pTexture = nullptr
         ) {
             HRESULT hr = NULL;
 
-            IWICBitmapDecoder* pDecoder = NULL;
+            IWICBitmapDecoder* pDecoder = nullptr;
             hr = DirectX::pWICFactory->CreateDecoderFromFilename(
-                (LPWSTR)fileName.data(), NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder
+                locate(fileName).c_str(), NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder
             ); if (FAILED(hr)) return hr;
 
-            IWICBitmapFrameDecode* pFrame = NULL;
+            IWICBitmapFrameDecode* pFrame = nullptr;
             hr = pDecoder->GetFrame(0, &pFrame); if (FAILED(hr)) return hr;
 
-            IWICFormatConverter* pConverter = NULL;
+            IWICFormatConverter* pConverter = nullptr;
             hr = DirectX::pWICFactory->CreateFormatConverter(&pConverter); if (FAILED(hr)) return hr;
             pConverter->Initialize(
                 pFrame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0.f, WICBitmapPaletteTypeCustom
             );
 
-            Type::Texture _tex;
+            size_t n = vec_tex.size() + 1;
+            vec_tex.resize(n);
+            Type::Texture& _tex = vec_tex[n - 1];
             if (SUCCEEDED(DirectX::pHwndRenderTarget->CreateBitmapFromWicBitmap(pConverter, &_tex.pD2DBitmap))) {
                 if (regName == L"") {
-                    vec_regName.push_back(std::to_wstring(vec_tex.size() + 1));
+                    vec_regName.push_back(std::to_wstring(n));  // Need to check for duplicates.
                 }
                 else {
                     vec_regName.push_back(regName);
                 }
-                vec_tex.push_back(_tex);
-                if (out_pTexture) *out_pTexture = &vec_tex[vec_tex.size() - 1];
+                if (out_pTexture) *out_pTexture = &_tex; 
+            }
+            else {
+                vec_tex.pop_back();
             }
 
-            pConverter->Release();
-            pFrame->Release();
-            pDecoder->Release();
+            SafeRelease(&pConverter);
+            SafeRelease(&pFrame);
+            SafeRelease(&pDecoder);
             return hr;
         }
 

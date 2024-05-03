@@ -4,16 +4,13 @@
 
 // All is function is for single engine obj in single project.
 
-
-#ifndef _GAME_DEV_
 /* Libraries */
 #pragma comment(lib,"DXGI.lib")
 #pragma comment(lib,"User32.lib")
 #pragma comment(lib,"D2D1.lib")	//#pragma comment(lib,"D3D12.lib")
 #pragma comment(lib,"Dwrite.lib")
-#pragma comment(lib,"ChakraCore.lib")
-#pragma comment(lib,"OpenAL32.lib")
-#endif
+//#pragma comment(lib,"ChakraCore.lib")
+//#pragma comment(lib,"OpenAL32.lib")
 
 /* Dependances */
 #include <string>
@@ -29,8 +26,8 @@
 #include <dwrite.h>
 #include <wincodec.h>
 
-#include "ChakraCore/ChakraCore.h"
-#include "OpenAL/OpenAL.h"
+//#include "ChakraCore/ChakraCore.h"
+//#include "OpenAL/OpenAL.h"
 
 /* Headers */
 #include "headers/Utils.h"
@@ -59,5 +56,4 @@
 #include "Stage.cpp"
 
 #include "EngineX.cpp"
-
 #endif
