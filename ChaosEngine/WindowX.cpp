@@ -37,7 +37,7 @@ namespace ChaosEngine {
             RegisterClassEx(&WndClassEx);
 
             Prop::hWnd = CreateWindowEx(
-                NULL,
+                0,
                 L"ChaosGameWin",
                 WndProp.WndTitle.c_str(),
                 WS_OVERLAPPEDWINDOW,
@@ -139,12 +139,8 @@ namespace ChaosEngine {
                 PostQuitMessage(0);
 
                 break;
-            default:
-                return DefWindowProc(hWnd, uMsg, wParam, lParam);
-
             }
-
-            return NULL;
+            return DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
 
     }

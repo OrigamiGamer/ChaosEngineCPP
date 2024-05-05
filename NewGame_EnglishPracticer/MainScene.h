@@ -1,6 +1,8 @@
 #pragma once
 #include "NewGame.h"
 
+class MainScene;
+
 class MainScene : public SceneModel {
     Type::Camera camera;
     Type::VirtKeyStateBuffer VKBuffer;

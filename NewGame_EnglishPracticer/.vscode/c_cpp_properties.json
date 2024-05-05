@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "F:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.39.33519/include/**",
-                "../**"
+                "../ChaosEngine/**"
             ],
             "defines": [
                 "_DEBUG",

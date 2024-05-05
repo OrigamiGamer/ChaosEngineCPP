@@ -4,33 +4,30 @@
 namespace ChaosEngine {
 
     namespace PhysicX {
-        // 6.67e-11
-        const double GRAVITY = 6.67;    // notice transition between realistic(meter) and virtual(piexl) unit
-        
         // Get the center position of object
         inline Type::POS GetCenterPos(Type::POS& obj_pos, Type::SIZE& obj_size) {
             return { (obj_pos.x + obj_size.width) / 2, (obj_pos.y + obj_size.height) / 2 };
         }
-        inline static Type::POS GetCenterPos(Model::ObjectModel*& obj) {
+        inline Type::POS GetCenterPos(Model::ObjectModel*& obj) {
             return GetCenterPos(obj->pos, obj->size);
         }
 
         // Get the distance between objects
-        inline static double GetDistance(Model::ObjectModel*& obj_1, Model::ObjectModel*& obj_2) {
+        inline double GetDistance(Model::ObjectModel*& obj_1, Model::ObjectModel*& obj_2) {
              Type::POS pos_1 = GetCenterPos(obj_1);
              Type::POS pos_2 = GetCenterPos(obj_2);
             return sqrt(pow(pos_2.x - pos_1.x, 2) + pow(pos_2.y - pos_1.y, 2));
         }
 
         // Get the direction from object itself to reference object
-        inline static double GetDirection(Model::ObjectModel*& obj_self, Model::ObjectModel*& obj_reference) {
+        inline double GetDirection(Model::ObjectModel*& obj_self, Model::ObjectModel*& obj_reference) {
              Type::POS pos_s = GetCenterPos(obj_self);
              Type::POS pos_r = GetCenterPos(obj_reference);
-             return static_cast<double>(std::atan2f(pos_r.y - pos_s.y, pos_r.x - pos_s.x));
+             return static_cast<double>(std::atan2(pos_r.y - pos_s.y, pos_r.x - pos_s.x));
         }
 
         // Compute gravity
-        inline static Type::FORCE ComputeGravity(Model::ObjectModel*& obj, Model::ObjectModel*& obj_apply) {
+        inline Type::FORCE ComputeGravity(Model::ObjectModel*& obj, Model::ObjectModel*& obj_apply) {
              double dist = GetDistance(obj, obj_apply);
              double di = GetDirection(obj, obj_apply);
              return { GRAVITY * ((obj->mass * obj_apply->mass) / (dist * dist)), di, Type::FORCE_TYPE_GRAVITY };
@@ -55,7 +52,7 @@ namespace ChaosEngine {
                         Model::ObjectModel*& _obj = objs[j];
                         // except itself(obj)
                         if (obj != _obj) {
-                            Type::FORCE& gravity = ComputeGravity(obj, _obj);
+                            Type::FORCE gravity = ComputeGravity(obj, _obj);
 
                             vec_force.gravity.push_back(gravity);
 

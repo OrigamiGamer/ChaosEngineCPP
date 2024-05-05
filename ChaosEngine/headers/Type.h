@@ -74,7 +74,7 @@ namespace ChaosEngine {
             SIZE operator-=(SIZE& other) {
                 return *this - other;
             }
-            SIZE SIZE::operator*(SCALE& scale) {
+            SIZE operator*(SCALE& scale) {
                 return SIZE(width * scale.x * scale.global, height * scale.y * scale.global);
             }
         };

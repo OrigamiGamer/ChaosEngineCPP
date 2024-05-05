@@ -173,7 +173,7 @@ namespace ChaosEngine {
 
 
         HRESULT Initialize(Type::EngineStartupProperty& EngineProp) {
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
             pStartupProp = &EngineProp;
             hr = DirectX::InitializeDirectX(); if (FAILED(hr)) return hr;
 
@@ -181,7 +181,7 @@ namespace ChaosEngine {
         };
 
         HRESULT CreateGameWindow(Type::WindowInitialProperty& WndProp) {
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
             HWND hWnd = window.InitializeGameWindow(WndProp);
             hr = DirectX::CreateRenderTarget(hWnd); if (FAILED(hr)) return hr;
 

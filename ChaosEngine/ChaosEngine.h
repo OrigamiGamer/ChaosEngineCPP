@@ -17,6 +17,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <math.h>
 #include <windows.h>
 #include <windowsx.h>
 #include <winuser.h>

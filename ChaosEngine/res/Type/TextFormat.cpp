@@ -36,7 +36,7 @@ namespace ChaosEngine {
             Type::SIZE layout_size
         ) {
             Release();
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
 
             // update cached properties
             if (s_content != content) s_content = content;
@@ -71,7 +71,7 @@ namespace ChaosEngine {
 
         // Initialize Format and Layout objects by default properties.
         HRESULT TextFormat::Initialize() {
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
             WCHAR local_name[LOCALE_NAME_MAX_LENGTH]; GetSystemDefaultLocaleName(local_name, LOCALE_NAME_MAX_LENGTH); // ?
             hr = _update(
                 DWRITE_FONT_WEIGHT_NORMAL,

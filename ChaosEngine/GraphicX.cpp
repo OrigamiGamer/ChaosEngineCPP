@@ -12,7 +12,7 @@ namespace ChaosEngine {
 
         // Initialize
         HRESULT InitializeGraphicX() {
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
 
             D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
             brush_properties.opacity = 1;
@@ -24,7 +24,7 @@ namespace ChaosEngine {
                 &pBrush
             ); if (FAILED(hr)) return hr;
 
-            return 0;
+            return hr;
         }
 
         // Release
@@ -52,8 +52,7 @@ namespace ChaosEngine {
             if (vec_color.size() > 0) {
                 Type::COLOR& _back = vec_color.back();
                 pBrush->SetColor(D2D1::ColorF(_back.rgb, _back.alpha));
-            }
-            else {
+            } else {
                 pBrush->SetColor(D2D1::ColorF(base_color.rgb, base_color.alpha));
             }
         }
@@ -68,8 +67,7 @@ namespace ChaosEngine {
             D2D1_RECT_F rect{ pos.x, pos.y, pos.x + size.width, pos.y + size.height };
             if (radius.x == 0 && radius.y == 0) {
                 DirectX::pHwndRenderTarget->DrawRectangle(rect, pBrush, _strokeWidth);
-            }
-            else {
+            } else {
                 DirectX::pHwndRenderTarget->DrawRoundedRectangle(
                     D2D1::RoundedRect(rect, radius.x, radius.y),
                     pBrush,

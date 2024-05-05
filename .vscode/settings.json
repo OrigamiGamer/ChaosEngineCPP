@@ -46,13 +46,9 @@
         "xstddef": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "fstream": "cpp",
+        "vector": "cpp"
     },
     "files.encoding": "gb2312",
-    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
-        "clang-diagnostic-error",
-        "clang-diagnostic-unused-value",
-        "clang-diagnostic-error",
-        "clang-diagnostic-error"
-    ],
 }

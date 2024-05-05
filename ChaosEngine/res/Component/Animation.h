@@ -35,7 +35,7 @@ namespace ChaosEngine {
 			void Update();
 			void Release();
 			
-			inline void Animation<T_FLOAT>::CreateEaseFunction(
+			inline void CreateEaseFunction(
 				T_FLOAT& new_variable, EaseFunc<long double> new_ease_func,
 				long double new_start_time
 			);

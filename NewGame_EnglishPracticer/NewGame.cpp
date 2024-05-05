@@ -1,11 +1,9 @@
-#pragma once
 #include "NewGame.h"
-
 
 /* Only support single window */
 
 // Main
-int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
 
     static WindowInitialProperty WndProp;
     WndProp.WndTitle = L"ChaosEngine Game Window Test (You are the stone)";

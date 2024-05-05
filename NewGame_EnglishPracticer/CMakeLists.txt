@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(NewGame VERSION 0.1.0 LANGUAGES C CXX)
 
-set(PATH ../ChaosEngine/lib ../ChaosEngine/res ../ChaosEngine .. .)
+set(PATH ../ChaosEngine ../ChaosEngine/lib ../ChaosEngine/res ..)
 link_directories(../build/x64-Debug ../build/Debug ${PATH})
 include_directories(${PATH})
 

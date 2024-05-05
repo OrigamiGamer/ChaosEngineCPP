@@ -11,7 +11,6 @@ namespace ChaosEngine {
         long double deltaTime = 0;
 
         HRESULT Initialize(Type::EngineStartupProperty& EngineProp, Type::WindowInitialProperty& WndProp) {
-            HRESULT hr = NULL;
             pStartupProp = &EngineProp;
             WindowX::InitializeGameWindow(WndProp);
             WindowX::StartMessageLoop();    // Start Message Loop
@@ -20,16 +19,16 @@ namespace ChaosEngine {
         }
 
         // Engine Init
-        LRESULT EngineInit() {
-            LRESULT lr = NULL;
-            lr = GraphicX::InitializeGraphicX();
-            lr = EngineX::pStartupProp->pGameMain();    // Call GameMain function
+        HRESULT EngineInit() {
+            HRESULT hr = S_OK;
+            hr = GraphicX::InitializeGraphicX();
+            EngineX::pStartupProp->pGameMain();    // Call GameMain function
 
-            return S_OK;
+            return hr;
         }
 
         // Engine Update
-        LRESULT EngineUpdate() {
+        HRESULT EngineUpdate() {
             if (EngineX::lastTime == 0) {
                 EngineX::curTime = (long double)((long double)GetTickCount64() / 1000);
                 EngineX::lastTime = EngineX::curTime;
@@ -44,7 +43,7 @@ namespace ChaosEngine {
         }
 
         // Engine Render
-        LRESULT EngineRender() {
+        HRESULT EngineRender() {
             DirectX::pHwndRenderTarget->BeginDraw();
             DirectX::pHwndRenderTarget->Clear();
 
@@ -56,7 +55,7 @@ namespace ChaosEngine {
         }
 
         // Engine Exit
-        LRESULT EngineExit() {
+        HRESULT EngineExit() {
             if (!EngineX::pStartupProp->pGameExit())  // FALSE returned means no exiting, other values returned will be ignored.
                 return FALSE;
 

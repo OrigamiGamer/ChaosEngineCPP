@@ -10,10 +10,10 @@ namespace ChaosEngine {
         extern long double deltaTime;
 
         HRESULT Initialize(Type::EngineStartupProperty& EngineProp, Type::WindowInitialProperty& WndProp);
-        LRESULT EngineInit();
-        LRESULT EngineUpdate();
-        LRESULT EngineRender();
-        LRESULT EngineExit();
+        HRESULT EngineInit();
+        HRESULT EngineUpdate();
+        HRESULT EngineRender();
+        HRESULT EngineExit();
     }
 
 }

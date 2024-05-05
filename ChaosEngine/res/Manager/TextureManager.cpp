@@ -22,7 +22,7 @@ namespace ChaosEngine {
         HRESULT TextureManager::CreateTextureFromFile(
             std::wstring fileName, std::wstring regName = L"", Type::Texture** out_pTexture = nullptr
         ) {
-            HRESULT hr = NULL;
+            HRESULT hr = S_OK;
 
             IWICBitmapDecoder* pDecoder = nullptr;
             hr = DirectX::pWICFactory->CreateDecoderFromFilename(
