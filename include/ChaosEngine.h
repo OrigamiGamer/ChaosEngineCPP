@@ -41,6 +41,10 @@
 #include "Type.h"
 #include "ResList.h"
 
+#include "GraphicX.h"
+#include "PhysicX.h"
+#include "Stage.h"
+
 #include "WindowX.h"
 #include "DirectX.h"
 #include "EngineX.h"
@@ -48,3 +52,11 @@
 
 /* Source Codes */
 #include "ResList.cpp"
+
+#include "GraphicX.cpp"
+#include "PhysicX.cpp"
+#include "Stage.cpp"
+
+#include "WindowX.cpp"
+#include "DirectX.cpp"
+#include "EngineX.cpp"

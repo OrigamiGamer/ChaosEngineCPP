@@ -1,5 +1,5 @@
 #pragma once
-#include "_list.h"
+#include "ResList.cpp"
 
 namespace ChaosEngine {
 

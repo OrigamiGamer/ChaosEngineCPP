@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(ChaosEngine VERSION 0.1.0 LANGUAGES C CXX)
 
 # Directories
-set(PATH "library" "resource" "include" .)
+set(PATH "library" "resource" "include" "src" .)
 link_directories(${PATH})
 include_directories(${PATH})
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "_list.h"
+#include "ResList.h"
 
 namespace ChaosEngine {
 
@@ -9,6 +9,7 @@ namespace ChaosEngine {
 			BOOL current = FALSE;
 			BOOL last = FALSE;
 		};
+
 
 		class VirtKeyStateBuffer : public Model::PropertyModel {
 		private:

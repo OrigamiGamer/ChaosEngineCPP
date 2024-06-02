@@ -18,6 +18,9 @@
 #include "component/Animation.cpp"
 
 // object
+#include "object/Image.cpp"
+#include "object/Text.cpp"
 
 
 // manager
+#include "manager/TextureManager.cpp"
