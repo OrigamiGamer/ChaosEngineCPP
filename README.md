@@ -8,7 +8,7 @@
 
 # Build
 
-### 1. Make sure your computer has installed `CMake`
+### 1. Ensure that your computer has installed `CMake`
 
 ### 2. Clone repository
 - `https://github.com/OrigamiGamer/ChaosEngineCPP.git`
@@ -26,9 +26,10 @@
 - 2. Then execute `CMake: Build`.
 -->
 
+<!--
 ### 4. Prepare a folder for making a new game
 - Finally, copy a backup of "NewGame" folder, rename the folder (instead of any file in the folder), then begin making your game!
-
+-->
 
 
 # Dependences
