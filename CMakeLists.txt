@@ -1,13 +1,23 @@
-cmake_minimum_required(VERSION 3.8)
-project(ChaosEngine VERSION 0.1.0 LANGUAGES C CXX)
+cmake_minimum_required(VERSION 3.10)
 
-# Directories
-set(PATH "library" "resource" "include" "src" .)
-link_directories(${PATH})
-include_directories(${PATH})
+project(ChaosEngine VERSION 0.1.0 LANGUAGES CXX)
 
-add_library(${PROJECT_NAME} "src/ChaosEngine.cpp")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+
+set(INCLUDE_LIST . "include" "src" "basic_chaos_engine" 
+	"basic_chaos_engine/library/DirectX/D2D"
+	"basic_chaos_engine/library/DirectX/D3D"
+)
+set(LINK_LIST "library")
+
+include_directories(${INCLUDE_LIST})
+link_directories(${LINK_LIST})
+
+add_library(engine_static STATIC "chaos_engine.cpp")
+set_target_properties(engine_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Static)
+
+add_library(engine_shared SHARED "chaos_engine.cpp")
+set_target_properties(engine_shared PROPERTIES SUFFIX ".dll")
+set_target_properties(engine_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Shared CLEAN_DIRECT_OUTPUT 1)
