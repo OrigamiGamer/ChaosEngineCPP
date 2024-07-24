@@ -1,16 +1,13 @@
 #pragma once
 
-#include <string>
+#include "basic_window.h"
 
 namespace ChaosEngine {
-	struct WINDOW_PROPERTY {
-		unsigned int width, height;
-		int pos;
-		std::wstring title = L"New Window";
-	};
-
+	using namespace basic_chaos_engine;
 	class Window;
 	class Window {
-		bool initialize(WINDOW_PROPERTY win_prop);
+	public:
+		bool initialize(basic_window::INITIAL_WINDOW_PROPERTY init_win_prop);
 	};
+	std::vector<Window*> vec_window;
 }

@@ -1,10 +1,11 @@
 #pragma once
 
-#include "window.h"
+#include "Window.h"
 
 namespace ChaosEngine {
-	bool Window::initialize(WINDOW_PROPERTY win_prop) {
-		
-		return false;
+	bool Window::initialize(basic_window::INITIAL_WINDOW_PROPERTY init_win_prop) {
+		bool _state = basic_window::create_window(init_win_prop);
+		vec_window.push_back(this);
+		return _state;
 	}
 }

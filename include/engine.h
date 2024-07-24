@@ -6,7 +6,6 @@ namespace ChaosEngine {
 	class Engine;
 	class Engine {
 		bool initialize();
-
 	};
 
 }

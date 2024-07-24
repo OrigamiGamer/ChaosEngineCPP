@@ -1,42 +1,25 @@
 #pragma once
 
-#include <Windows.h>
-#include <string>
+#include "basic_common.h"
 
-namespace basic_window {
-	HWND create_window(std::wstring title, int x, int y, int width, int height, HWND hwnd_parent = NULL,HINSTANCE hInstance) {
-		LPWSTR cls_name = L"chaos_engine_window";
-		WNDCLASSEXA* wndcls{};
-		HWND hwnd = NULL;
-		wndcls->cbSize = sizeof(*wndcls);
-		wndcls->lpfnWndProc = nullptr;
-		wndcls->lpszClassName = cls_name;
-		wndcls->hInstance = NULL;
-		wndcls->style = ;
-		RegisterClassExW(&wndcls);
+#ifdef _WIN32
 
-		hwnd = CreateWindowExW(
-			NULL,
-			cls_name,
-			title.c_str(),
-			NULL,
-			x, y, width, height,
-			hwnd_parent,
-			NULL,
-			NULL,
-			NULL
-		);
+#include "basic_window_win.h"
 
-		WNDCLASS wc = {};
-		wc.lpfnWndProc = s_DropDownWndProc;
-		wc.cbWndExtra = sizeof(CTipACDialog*);
-		wc.hInstance = g_hInstance;
-		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-		wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-		wc.style = CS_SAVEBITS | CS_DROPSHADOW;
-		wc.lpszClassName = s_wzClassName;
-		RegisterClass(&wc);
-
-		return hwnd;
+// common standards
+namespace basic_chaos_engine {
+	namespace basic_window {
+		struct INITIAL_WINDOW_PROPERTY;
+		struct INITIAL_WINDOW_PROPERTY {
+			std::wstring title = L"game window";
+			ON_INIT on_init = nullptr;
+			ON_EXIT on_exit = nullptr;
+			int x, y, width, height;
+			std::bitset<32> style;
+		};
+		bool create_window(INITIAL_WINDOW_PROPERTY init_wnd_prop);
 	}
 }
+
+#elif __linux__
+#endif

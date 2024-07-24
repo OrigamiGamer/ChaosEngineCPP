@@ -14,8 +14,3 @@ namespace basic_chaos_engine {
 		bool initialize_d2d(D2D1_SIZE_U wnd_size, HWND hwnd);
 	}
 }
-
-
-namespace basic_window {
-
-}
