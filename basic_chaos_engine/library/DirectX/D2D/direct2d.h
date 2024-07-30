@@ -9,7 +9,7 @@
 namespace basic_chaos_engine {
 	namespace D2D {
 		extern ID2D1Factory* d2d_factory;
-		extern ID2D1HwndRenderTarget* d2d_hwndRenderTarget;
+		extern ID2D1HwndRenderTarget* d2d_hwnd_render_target;
 
 		bool initialize_d2d(D2D1_SIZE_U wnd_size, HWND hwnd);
 	}

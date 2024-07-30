@@ -4,7 +4,8 @@
 
 #include "basic_common.h"
 
-namespace basic_chaos_engine {
+namespace basic_core {
+	// Win32
 	namespace basic_window_win {
 		// Initial property of new window
 		struct INITIAL_WINDOW_PROPERTY;
@@ -20,10 +21,12 @@ namespace basic_chaos_engine {
 			basic_window::ON_INIT on_init = nullptr;
 			basic_window::ON_EXIT on_exit = nullptr;
 			WNDPROC wnd_proc = nullptr;
-		};
-		INITIAL_WINDOW_PROPERTY __init_wnd_prop{};
-		HWND create_window(INITIAL_WINDOW_PROPERTY init_wnd_prop);
+			HWND** out_pp_hwnd = nullptr;
+		} __init_wnd_prop{};
+
+		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop);
 		LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		DWORD tranform_style(std::bitset<32> style);
+		HWND get_handle_window();
 	}
 }

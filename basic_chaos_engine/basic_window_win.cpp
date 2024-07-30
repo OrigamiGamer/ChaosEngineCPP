@@ -2,19 +2,22 @@
 
 #include "basic_window_win.h"
 
-namespace basic_chaos_engine {
+namespace basic_core {
+	// Win32
 	namespace basic_window_win {
-		HWND create_window(INITIAL_WINDOW_PROPERTY init_wnd_prop) {
+		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop) {
+			__init_wnd_prop = init_wnd_prop;
+
 			LPWSTR cls_name = L"chaos_engine_window";
-			WNDCLASSEXW wndcls{};
 			HWND hwnd = NULL;
+			WNDCLASSEXW wndcls{};
 			wndcls.cbSize = sizeof(wndcls);
 			wndcls.lpfnWndProc = &wnd_proc;
 			wndcls.lpszClassName = cls_name;
-			wndcls.hInstance = NULL;
+			wndcls.hInstance = GetModuleHandleW(NULL);
 			wndcls.style = CS_HREDRAW | CS_VREDRAW;
 			//wndcls.hCursor = LoadCursor(NULL, IDC_ARROW);
-			RegisterClassExW(&wndcls);
+			if (RegisterClassExW(&wndcls) == NULL) return false;
 
 			hwnd = CreateWindowExW(
 				NULL,
@@ -29,27 +32,29 @@ namespace basic_chaos_engine {
 				NULL,
 				NULL,
 				NULL
-			);
+			); if (hwnd == NULL) return false;
 			//ShowWindow(hwnd, SW_SHOW);
 			UpdateWindow(hwnd);
-			__init_wnd_prop = init_wnd_prop;
 
 			MSG msg = {};
 			while (GetMessage(&msg, NULL, 0, 0) > 0) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-			return hwnd;
+			return true;
 		}
 
 		LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 			switch (msg) {
 			case WM_CREATE:
-				if (__init_wnd_prop.on_init != nullptr)
+				if (__init_wnd_prop.on_init != nullptr) {
+					// win32 thread problem
+					if (*__init_wnd_prop.out_pp_hwnd != nullptr) **__init_wnd_prop.out_pp_hwnd = hwnd;
 					if (!__init_wnd_prop.on_init()) DestroyWindow(hwnd);
+				}
 				break;
 			case WM_CLOSE:
-				if (__init_wnd_prop.on_exit != nullptr) 
+				if (__init_wnd_prop.on_exit != nullptr)
 					if (__init_wnd_prop.on_exit()) DestroyWindow(hwnd);
 				return 0;
 			case WM_DESTROY:
@@ -63,6 +68,7 @@ namespace basic_chaos_engine {
 				return __init_wnd_prop.wnd_proc(hwnd, msg, wparam, lparam);
 			return DefWindowProcW(hwnd, msg, wparam, lparam);
 		}
+
 		DWORD tranform_style(std::bitset<32> style) {
 			// !! The order of this map is connected to the order of the basic_window::WINDOW_STYLE !!
 			const std::array<DWORD, 32> style_map = {
@@ -70,8 +76,7 @@ namespace basic_chaos_engine {
 				WS_OVERLAPPEDWINDOW,
 			};
 			DWORD _win32_wnd_style = NULL;
-			for (size_t i = 0; i < style.size(); i++)
-				if (style[i]) _win32_wnd_style |= style_map[i];
+			for (size_t i = 0; i < style.size(); i++) if (style[i]) _win32_wnd_style |= style_map[i];
 			return _win32_wnd_style;
 		}
 	}

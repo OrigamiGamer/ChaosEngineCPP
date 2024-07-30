@@ -3,9 +3,12 @@
 #include "chaos_engine.h"
 
 namespace ChaosEngine {
-	class Engine;
 	class Engine {
-		bool initialize();
+	public:
+		Window* window;
+	public:
+		inline bool initialize(Window& new_window);
+		
 	};
 
 }

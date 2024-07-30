@@ -5,14 +5,21 @@
 #include <bitset>
 #include <string>
 #include <array>
+#include <thread>
 
-namespace basic_chaos_engine {
+#include "basic_type.h"
+
+namespace basic_core {
 	namespace basic_window {
-		enum WINDOW_STYLE {
-			VISIBLE = 1,
-			DEFAULT = 1 << 1,
+		struct Const {
+			static constexpr int DEFAULT = INT_MAX;
+		};
+		struct WindowStyle {
+			static constexpr int VISIBLE = 1;
+			static constexpr int DEFAULT = 1 << 1;
 		};
 		typedef bool (*ON_INIT)();
 		typedef bool (*ON_EXIT)();
+		struct INITIAL_WINDOW_PROPERTY;
 	}
 }
