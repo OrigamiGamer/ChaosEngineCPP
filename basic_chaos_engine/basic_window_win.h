@@ -8,8 +8,8 @@ namespace basic_core {
 	// Win32
 	namespace basic_window_win {
 		// Initial property of new window
-		struct INITIAL_WINDOW_PROPERTY;
-		struct INITIAL_WINDOW_PROPERTY {
+		struct INIT_WND_PROP_WIN;
+		struct INIT_WND_PROP_WIN {
 			std::wstring title = L"None Window";
 			int x = CW_USEDEFAULT;
 			int y = CW_USEDEFAULT;
@@ -24,7 +24,7 @@ namespace basic_core {
 			HWND** out_pp_hwnd = nullptr;
 		} __init_wnd_prop{};
 
-		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop);
+		bool create_window(INIT_WND_PROP_WIN& init_wnd_prop);
 		LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		DWORD tranform_style(std::bitset<32> style);
 		HWND get_handle_window();

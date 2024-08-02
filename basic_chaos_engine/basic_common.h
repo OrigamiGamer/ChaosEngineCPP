@@ -20,6 +20,12 @@ namespace basic_core {
 		};
 		typedef bool (*ON_INIT)();
 		typedef bool (*ON_EXIT)();
+
+#ifdef _WIN32
+#include "windef.h"
+		typedef HWND HANDLE_WINDOW;
+#endif
+
 		struct INITIAL_WINDOW_PROPERTY;
 	}
 }

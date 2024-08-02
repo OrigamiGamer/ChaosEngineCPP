@@ -5,7 +5,7 @@
 namespace basic_core {
 	// Win32
 	namespace basic_window_win {
-		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop) {
+		bool create_window(INIT_WND_PROP_WIN& init_wnd_prop) {
 			__init_wnd_prop = init_wnd_prop;
 
 			LPWSTR cls_name = L"chaos_engine_window";
@@ -78,6 +78,10 @@ namespace basic_core {
 			DWORD _win32_wnd_style = NULL;
 			for (size_t i = 0; i < style.size(); i++) if (style[i]) _win32_wnd_style |= style_map[i];
 			return _win32_wnd_style;
+		}
+
+		HWND get_handle_window() {
+			return **__init_wnd_prop.out_pp_hwnd;
 		}
 	}
 }

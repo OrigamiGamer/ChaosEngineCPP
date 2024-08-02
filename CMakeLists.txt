@@ -10,9 +10,9 @@ set(INCLUDE_LIST
 	. 
 	"include" 
 	"src" 
-	"basic_chaos_engine" 
+	"basic_chaos_engine"
+	"basic_chaos_engine/library/DirectX"
 	"basic_chaos_engine/library/DirectX/D2D"
-	"basic_chaos_engine/library/DirectX/D3D"
 )
 set(LINK_LIST "library")
 

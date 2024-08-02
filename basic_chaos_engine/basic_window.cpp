@@ -6,7 +6,7 @@
 namespace basic_core {
 	namespace basic_window {
 		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop) {
-			basic_window_win::INITIAL_WINDOW_PROPERTY _wnd_prop{};
+			basic_window_win::INIT_WND_PROP_WIN _wnd_prop{};
 			_wnd_prop.hInstance = NULL;
 			_wnd_prop.hwnd_parent = NULL;
 			_wnd_prop.out_pp_hwnd = &init_wnd_prop.out_p_hwnd;	// ?

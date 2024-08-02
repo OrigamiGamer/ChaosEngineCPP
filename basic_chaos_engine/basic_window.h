@@ -2,19 +2,11 @@
 
 #include "basic_common.h"
 
-// Common
-namespace basic_core {
-	namespace basic_window {
-		struct INITIAL_WINDOW_PROPERTY;
-	}
-}
-
 #ifdef _WIN32
 #include "basic_window_win.h"
 
 namespace basic_core {
 	namespace basic_window {
-		typedef HWND HANDLE_WINDOW;
 		struct INITIAL_WINDOW_PROPERTY {
 			std::wstring title = L"game window";
 			ON_INIT on_init = nullptr;
@@ -25,7 +17,6 @@ namespace basic_core {
 		};
 		bool create_window(INITIAL_WINDOW_PROPERTY& init_wnd_prop);
 		inline basic_type::vec2<int> get_window_size(HANDLE_WINDOW hwnd);
-
 	}
 }
 
