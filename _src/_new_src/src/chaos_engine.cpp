@@ -2,7 +2,7 @@
 
 #include "chaos_engine.h"
 
-/* source files */
+/* Source Files */
 // basic_chaos_engine
 #include "basic_window_win.cpp"
 #include "basic_window.cpp"

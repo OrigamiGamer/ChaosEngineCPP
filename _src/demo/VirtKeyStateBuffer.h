@@ -5,7 +5,7 @@
 // Windows
 #include "Windows.h"
 
-namespace type {
+namespace basic_type {
 	struct VirtKeyState {
 		BOOL current = FALSE;
 		BOOL last = FALSE;

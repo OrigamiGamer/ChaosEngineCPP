@@ -1,6 +1,6 @@
 #pragma once
 
-#include "basic_wic.h"
+#include "wic.h"
 
 namespace basic_chaos_engine {
 	namespace DirectX {

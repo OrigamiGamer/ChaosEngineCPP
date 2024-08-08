@@ -1,6 +1,5 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "C_Cpp.default.compilerPath": "F:\\Dev\\mingw64\\bin\\g++.exe",
     "files.associations": {
         "*.asm": "assembly",
         "*.chaos": "csharp",
@@ -69,6 +68,14 @@
         "xtr1common": "cpp",
         "xutility": "cpp",
         "map": "cpp",
-        "xtree": "cpp"
-    }
+        "xtree": "cpp",
+        "thread": "cpp",
+        "bitset": "cpp",
+        "xhash": "cpp",
+        "list": "cpp",
+        "stop_token": "cpp",
+        "unordered_map": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "cl.exe",
+    "C_Cpp.intelliSenseEngineFallback": "disabled"
 }

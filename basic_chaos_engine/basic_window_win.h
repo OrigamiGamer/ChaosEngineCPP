@@ -4,11 +4,11 @@
 
 #include "basic_common.h"
 
-namespace basic_core {
+namespace basic_chaos_engine {
 	// Win32
-	namespace basic_window_win {
+	class basic_window_win {
+	public:
 		// Initial property of new window
-		struct INIT_WND_PROP_WIN;
 		struct INIT_WND_PROP_WIN {
 			std::wstring title = L"None Window";
 			int x = CW_USEDEFAULT;
@@ -18,15 +18,27 @@ namespace basic_core {
 			DWORD style = WS_OVERLAPPEDWINDOW;
 			HWND hwnd_parent = NULL;
 			HINSTANCE hInstance = NULL;
-			basic_window::ON_INIT on_init = nullptr;
-			basic_window::ON_EXIT on_exit = nullptr;
+			ON_INIT on_init = nullptr;
+			ON_EXIT on_exit = nullptr;
 			WNDPROC wnd_proc = nullptr;
-			HWND** out_pp_hwnd = nullptr;
-		} __init_wnd_prop{};
+			//HWND** out_pp_hwnd = nullptr;
+		};
 
-		bool create_window(INIT_WND_PROP_WIN& init_wnd_prop);
-		LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+	private:
+		HANDLE_WINDOW __hwnd;
+	public:
+		// Create a Win32 window, start its Window Message Loop and wait for it to be ended.
+		bool create(INIT_WND_PROP_WIN& init_wnd_prop);
+		// Transform to Win32 window style.
 		DWORD tranform_style(std::bitset<32> style);
-		HWND get_handle_window();
-	}
+		// Get the handle of the Win32 window.
+		HWND get_handle() const;
+		// Update the Win32 window by processing its Window Message Loop.
+		bool update();
+	};
+
+	std::unordered_map<HANDLE_WINDOW, basic_window_win::INIT_WND_PROP_WIN> __map_init_wnd_prop;
+
+	void start_window_msg_loop();
+	LRESULT CALLBACK __global_wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 }

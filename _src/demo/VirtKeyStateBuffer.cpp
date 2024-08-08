@@ -2,7 +2,7 @@
 
 #include "VirtKeyStateBuffer.h"
 
-namespace type {
+namespace basic_type {
 	VirtKeyStateBuffer::VirtKeyStateBuffer() {
 		vec_buffer.resize(254);
 		vec_down_buffer.resize(254);

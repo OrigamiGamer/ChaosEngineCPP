@@ -185,13 +185,13 @@ namespace ChaosEngine {
         };
 
         struct FORCE : public VECTOR {
-            UINT type;
+            UINT basic_type;
 
             FORCE() = default;
-            FORCE(double magnitude, double direction, UINT type = FORCE_TYPE_APPLIED) {
+            FORCE(double magnitude, double direction, UINT basic_type = FORCE_TYPE_APPLIED) {
                 this->magnitude = magnitude;
                 this->direction = direction;
-                this->type = type;
+                this->basic_type = basic_type;
             };
         };
 

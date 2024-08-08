@@ -1,6 +1,5 @@
 #pragma once
 
-/* header files */
 // STL
 #include <iostream>
 #include <vector>
