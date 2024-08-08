@@ -15,7 +15,7 @@ namespace ChaosEngine {
 	// Start a Game Loop
 	bool Engine::Run() {
 		if (!running) return false;
-		// Game Loop
+		// Game Loop based on CPU clock
 		while (running) {
 			properties.window->Update();
 			properties.on_update();
