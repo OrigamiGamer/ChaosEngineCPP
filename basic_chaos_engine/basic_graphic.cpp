@@ -47,6 +47,9 @@ namespace basic_chaos_engine {
 		ellipse.radiusY = radius.y;
 		d2d_target->DrawEllipse(ellipse, brush, stroke_width);
 	}
+	inline void basic_graphic::draw_circle(basic_type::vec2<float> center_pos, float radius) {
+		draw_circle(center_pos, { radius,radius });
+	}
 	void basic_graphic::draw_line(basic_type::vec2<float> pos1, basic_type::vec2<float> pos2) {
 		d2d_target->DrawLine({ pos1.x,pos1.y }, { pos2.x,pos2.y }, brush, stroke_width);
 	}

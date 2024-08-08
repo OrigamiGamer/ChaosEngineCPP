@@ -15,7 +15,7 @@ namespace basic_chaos_engine {
 			float dpi = (float)GetDpiForWindow(hwnd);
 			target_prop.dpiX = dpi;
 			target_prop.dpiY = dpi;
-			target_prop.type = D2D1_RENDER_TARGET_TYPE_DEFAULT;
+			target_prop.type = D2D1_RENDER_TARGET_TYPE_HARDWARE;
 			target_prop.usage = D2D1_RENDER_TARGET_USAGE_NONE;
 			target_prop.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
 			target_prop.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
@@ -25,7 +25,7 @@ namespace basic_chaos_engine {
 			hwnd_target_prop.hwnd = hwnd;
 			RECT rc; GetWindowRect(hwnd, &rc);
 			hwnd_target_prop.pixelSize = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
-			hwnd_target_prop.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
+			hwnd_target_prop.presentOptions = D2D1_PRESENT_OPTIONS_IMMEDIATELY;
 
 			hr = d2d_factory->CreateHwndRenderTarget(target_prop, hwnd_target_prop, &d2d_target);
 			if (FAILED(hr)) return false;

@@ -48,7 +48,7 @@ namespace basic_chaos_engine {
 	}
 	bool basic_window_win::update() {
 		MSG msg{};
-		if (GetMessage(&msg, NULL, 0, 0) > 0) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 			return true;

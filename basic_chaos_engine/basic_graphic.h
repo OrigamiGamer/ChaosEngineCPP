@@ -24,7 +24,8 @@ namespace basic_chaos_engine {
 		ID2D1SolidColorBrush* brush;
 	public:
 		void draw_line(basic_type::vec2<float> pos1, basic_type::vec2<float> pos2);
-		void draw_circle(basic_type::vec2<float> center_pos, basic_type::vec2<float> radius);
+		void draw_circle(basic_type::vec2<float> center_pos, basic_type::vec2<float> radius = { 1.0f,1.0f });
+		inline void draw_circle(basic_type::vec2<float> center_pos, float radius);
 #endif
 	};
 }
