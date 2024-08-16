@@ -43,6 +43,14 @@ namespace basic_chaos_engine {
 		for (size_t i = 0; i < style.size(); i++) if (style[i]) _win32_wnd_style |= style_map[i];
 		return _win32_wnd_style;
 	}
+	basic_type::vec2<int> basic_window_win::get_size() const {
+		RECT rect{}; GetWindowRect(get_handle(), &rect);
+		return basic_type::vec2<int>{rect.right - rect.left, rect.bottom - rect.top};
+	}
+	basic_type::vec2<int> basic_window_win::get_pos() const {
+		RECT rect{}; GetWindowRect(get_handle(), &rect);
+		return basic_type::vec2<int>{rect.left, rect.top};
+	}
 	HWND basic_window_win::get_handle() const {
 		return __hwnd;
 	}

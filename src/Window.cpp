@@ -9,6 +9,9 @@ namespace ChaosEngine {
 	inline basic_type::vec2<int> Window::GetSize() const {
 		return _basic_window.get_size();
 	}
+	inline basic_type::vec2<int> Window::GetPos() const {
+		return _basic_window.get_pos();
+	}
 	inline basic_chaos_engine::HANDLE_WINDOW Window::GetHandle() const {
 		return _basic_window.get_handle();
 	}

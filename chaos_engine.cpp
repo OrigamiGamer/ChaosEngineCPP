@@ -9,5 +9,6 @@
 #include "basic_graphic.cpp"
 #include "basic_graphic_d2d.cpp"
 // ChaosEngine
+#include "common.cpp"
 #include "Engine.cpp"
 #include "Window.cpp"

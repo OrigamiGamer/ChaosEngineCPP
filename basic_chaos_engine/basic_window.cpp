@@ -25,8 +25,10 @@ namespace basic_chaos_engine {
 		return _window_win.get_handle();
 	}
 	inline basic_type::vec2<int> basic_window::get_size() const {
-		RECT rect{}; GetWindowRect(get_handle(), &rect);
-		return basic_type::vec2<int>{rect.right - rect.left, rect.bottom - rect.top};
+		return _window_win.get_size();
+	}
+	inline basic_type::vec2<int> basic_window::get_pos()const{
+		return _window_win.get_pos();
 	}
 	inline bool basic_window::update() {
 		return _window_win.update();

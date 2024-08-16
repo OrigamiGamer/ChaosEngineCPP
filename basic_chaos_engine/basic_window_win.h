@@ -31,6 +31,9 @@ namespace basic_chaos_engine {
 		bool create(INIT_WND_PROP_WIN& init_wnd_prop);
 		// Transform to Win32 window style.
 		DWORD tranform_style(std::bitset<32> style);
+		// Get the size of the Win32 window.
+		basic_type::vec2<int> get_size() const;
+		basic_type::vec2<int> get_pos() const;
 		// Get the handle of the Win32 window.
 		HWND get_handle() const;
 		// Update the Win32 window by processing its Window Message Loop.

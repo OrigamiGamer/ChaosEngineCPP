@@ -11,19 +11,19 @@ namespace basic_chaos_engine {
 		d2d_target = nullptr;
 		brush = nullptr;
 	}
-	// basic interfaces
+	// basic management interfaces
 	bool basic_graphic::initialize_graphic(HANDLE_WINDOW hwnd) {
 		// initialize d2d
-		if (!basic_graphic_d2d::initialize_d2d(hwnd)) return false;
-		d2d_factory = basic_graphic_d2d::d2d_factory;
-		d2d_target = basic_graphic_d2d::d2d_target;
+		if (!_graphic.initialize_d2d(hwnd)) return false;
+		d2d_factory = _graphic.d2d_factory;
+		d2d_target = _graphic.d2d_target;
 		// initialize brush
 		HRESULT hr = d2d_target->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White, 1), &brush);
 		if (FAILED(hr)) return false;
 		return true;
 	}
 	bool basic_graphic::release_graphic() {
-		if (!basic_graphic_d2d::release_d2d()) return false;
+		if (!_graphic.release_d2d()) return false;
 		return true;
 	}
 	inline void basic_graphic::set_stroke_width(float width) {

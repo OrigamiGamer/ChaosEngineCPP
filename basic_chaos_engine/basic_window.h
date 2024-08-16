@@ -28,6 +28,8 @@ namespace basic_chaos_engine {
 		inline HANDLE_WINDOW get_handle() const;
 		// Get size of the window.
 		inline basic_type::vec2<int> get_size() const;
+		// Get position of the window.
+		inline basic_type::vec2<int> get_pos() const;
 		// Update the window.
 		inline bool update();
 	};
