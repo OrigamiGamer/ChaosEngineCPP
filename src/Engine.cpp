@@ -36,11 +36,15 @@ namespace ChaosEngine {
 		return true;
 	}
 	void Engine::EngineUpdate() {
+		unsigned long long _t = 0;
 		while (running) {
 			last_time_update = get_system_time() / 1000ULL;
 			// Game Update
 			properties.on_update();
-			std::this_thread::sleep_for(properties.interval_game_update);
+			if (_t - last_time_update > properties.interval_game_update.count()) {
+				_t = last_time_update;
+				std::this_thread::sleep_for(properties.interval_game_update);
+			}
 			// calculate time used
 			delta_time_update = get_system_time() / 1000ULL - last_time_update;
 		}
