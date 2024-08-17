@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #include "basic_type.h"
 
 namespace ChaosEngine {
