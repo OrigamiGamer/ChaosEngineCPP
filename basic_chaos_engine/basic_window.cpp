@@ -20,14 +20,14 @@ namespace basic_chaos_engine {
 		if (init_wnd_prop.style != NULL) _wnd_prop.style = _window_win.tranform_style(init_wnd_prop.style);
 		return _window_win.create(_wnd_prop);
 	}
-	inline HANDLE_WINDOW basic_window::get_handle() const {
+	inline type::HANDLE_WINDOW basic_window::get_handle() const {
 		//if (__init_wnd_prop.out_p_hwnd != nullptr) return *__init_wnd_prop.out_p_hwnd;
 		return _window_win.get_handle();
 	}
 	inline basic_type::vec2<int> basic_window::get_size() const {
 		return _window_win.get_size();
 	}
-	inline basic_type::vec2<int> basic_window::get_pos()const{
+	inline basic_type::vec2<int> basic_window::get_pos()const {
 		return _window_win.get_pos();
 	}
 	inline bool basic_window::update() {

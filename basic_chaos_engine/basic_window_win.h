@@ -18,14 +18,14 @@ namespace basic_chaos_engine {
 			DWORD style = WS_OVERLAPPEDWINDOW;
 			HWND hwnd_parent = NULL;
 			HINSTANCE hInstance = NULL;
-			ON_INIT on_init = nullptr;
-			ON_EXIT on_exit = nullptr;
+			type::ON_INIT on_init = nullptr;
+			type::ON_EXIT on_exit = nullptr;
 			WNDPROC wnd_proc = nullptr;
 			//HWND** out_pp_hwnd = nullptr;
 		};
 
 	private:
-		HANDLE_WINDOW __hwnd;
+		type::HANDLE_WINDOW __hwnd;
 	public:
 		// Create a Win32 window, start its Window Message Loop and wait for it to be ended.
 		bool create(INIT_WND_PROP_WIN& init_wnd_prop);
@@ -40,7 +40,7 @@ namespace basic_chaos_engine {
 		bool update();
 	};
 
-	std::unordered_map<HANDLE_WINDOW, basic_window_win::INIT_WND_PROP_WIN> __map_init_wnd_prop;
+	std::unordered_map<type::HANDLE_WINDOW, basic_window_win::INIT_WND_PROP_WIN> __map_init_wnd_prop;
 
 	void start_window_msg_loop();
 	LRESULT CALLBACK __global_wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);

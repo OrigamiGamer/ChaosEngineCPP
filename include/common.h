@@ -6,7 +6,7 @@
 
 namespace ChaosEngine {
 	// Get the current system time(microseconds).
-	unsigned long long get_system_time();
+	long long get_system_time();
 
 	class Window;
 

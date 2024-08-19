@@ -16,11 +16,11 @@ namespace basic_chaos_engine {
 		float stroke_width;
 
 		basic_graphic();
-		bool initialize_graphic(HANDLE_WINDOW hwnd);
+		bool initialize_graphic(type::HANDLE_WINDOW hwnd);
 		bool release_graphic();
 		// watch out how to process the two conditions of common graphical interfaces between 2D and 3D
 		inline void set_stroke_width(float width);
-		inline void set_brush_color(COLOR color);
+		inline void set_brush_color(type::COLOR color);
 		inline void begin_draw();
 		inline void end_draw();
 #ifdef _D2D

@@ -36,7 +36,7 @@ namespace ChaosEngine {
 		return true;
 	}
 	void Engine::EngineUpdate() {
-		unsigned long long _t = 0;
+		long long _t = 0;
 		while (running) {
 			last_time_update = get_system_time() / 1000ULL;
 			// Game Update

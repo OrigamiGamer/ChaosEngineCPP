@@ -12,7 +12,7 @@ namespace basic_chaos_engine {
 		brush = nullptr;
 	}
 	// basic management interfaces
-	bool basic_graphic::initialize_graphic(HANDLE_WINDOW hwnd) {
+	bool basic_graphic::initialize_graphic(type::HANDLE_WINDOW hwnd) {
 		// initialize d2d
 		if (!_graphic.initialize_d2d(hwnd)) return false;
 		d2d_factory = _graphic.d2d_factory;
@@ -29,7 +29,7 @@ namespace basic_chaos_engine {
 	inline void basic_graphic::set_stroke_width(float width) {
 		stroke_width = width > 0.0f ? width : 0.0f;
 	}
-	inline void basic_graphic::set_brush_color(COLOR color) {
+	inline void basic_graphic::set_brush_color(type::COLOR color) {
 		brush->SetColor(color);
 	}
 	inline void basic_graphic::begin_draw() {

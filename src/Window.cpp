@@ -12,7 +12,7 @@ namespace ChaosEngine {
 	inline basic_type::vec2<int> Window::GetPos() const {
 		return _basic_window.get_pos();
 	}
-	inline basic_chaos_engine::HANDLE_WINDOW Window::GetHandle() const {
+	inline basic_chaos_engine::type::HANDLE_WINDOW Window::GetHandle() const {
 		return _basic_window.get_handle();
 	}
 	inline bool Window::Update() {

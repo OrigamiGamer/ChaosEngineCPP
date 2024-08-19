@@ -11,6 +11,10 @@ set(INCLUDE_LIST
 	"include" 
 	"src" 
 	"basic_chaos_engine"
+	"basic_chaos_engine/library"
+	"basic_chaos_engine/library/audio"
+	"basic_chaos_engine/library/audio/OpenAL"
+	"basic_chaos_engine/library/graphic"
 	"basic_chaos_engine/library/graphic/DirectX"
 	"basic_chaos_engine/library/graphic/DirectX/D2D"
 )

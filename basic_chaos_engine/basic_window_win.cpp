@@ -30,7 +30,7 @@ namespace basic_chaos_engine {
 		//ShowWindow(__hwnd, SW_SHOW);
 		UpdateWindow(__hwnd);
 		__map_init_wnd_prop.insert({ __hwnd, init_wnd_prop });
-		SendMessage(__hwnd, WM_GAME_INIT, 0, 0);
+		SendMessage(__hwnd, Const::WM_GAME_INIT, 0, 0);
 		return true;
 	}
 	DWORD basic_window_win::tranform_style(std::bitset<32> style) {
@@ -87,7 +87,7 @@ namespace basic_chaos_engine {
 			PostQuitMessage(0);
 			return 0;
 		default:
-			if (msg == WM_GAME_INIT) {
+			if (msg == Const::WM_GAME_INIT) {
 				if (__map_init_wnd_prop.at(hwnd).on_init != nullptr) {
 					// win32 thread problem !!!!!
 					//if (*__init_wnd_prop.out_pp_hwnd != nullptr) **__init_wnd_prop.out_pp_hwnd = hwnd;
