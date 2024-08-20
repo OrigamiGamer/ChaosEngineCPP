@@ -8,7 +8,7 @@ namespace basic_chaos_engine {
         _context = nullptr;
     }
 
-    bool basic_audio_openal::Initialize() {
+    bool basic_audio_openal::initialize() {
         _device = alcOpenDevice(NULL);
         if (!_device) return false;
         _context = alcCreateContext(_device, NULL);
@@ -20,7 +20,7 @@ namespace basic_chaos_engine {
         return true;
     }
 
-    void basic_audio_openal::Release() {
+    void basic_audio_openal::release() {
         alcDestroyContext(_context);
         alcCloseDevice(_device);
     }
@@ -65,7 +65,7 @@ namespace basic_chaos_engine {
         return bufferID;
     }
 
-    void basic_audio_openal::Play() {
+    void basic_audio_openal::play() {
 
     }
 }

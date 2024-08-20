@@ -9,9 +9,9 @@ namespace basic_chaos_engine {
         ALCcontext* _context;
 
         basic_audio_openal();
-        bool Initialize();
-        void Release();
+        bool initialize();
+        void release();
         type::BufferID load_sound_file(const std::wstring& filename);
-        void Play();
+        void play();
     };
 }

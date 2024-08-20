@@ -10,9 +10,10 @@ namespace ChaosEngine {
 		basic_chaos_engine::basic_graphic graphic;
 		INITIAL_ENGINE_PROPERTY properties;
 		// Units: milliseconds
-		long long last_time_update, last_time_render, last_time_window;
+		unsigned long long last_time_update, last_time_render, last_time_window;
 		// Units: milliseconds
-		long long delta_time_update, delta_time_render, delta_time_window;
+		unsigned long long delta_time_update, delta_time_render, delta_time_window;
+		float fps;
 
 	public:
 		Engine();
