@@ -13,7 +13,7 @@ namespace ChaosEngine {
 		unsigned long long last_time_update, last_time_render, last_time_window;
 		// Units: milliseconds
 		unsigned long long delta_time_update, delta_time_render, delta_time_window;
-		float fps;
+		unsigned long long fps;
 
 	public:
 		Engine();

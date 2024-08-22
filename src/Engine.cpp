@@ -27,13 +27,15 @@ namespace ChaosEngine {
 		thread_update.detach();
 		thread_render.detach();
 		// start a loop for window update
+		unsigned long long d_t = 0;
 		while (running) {
 			last_time_window = get_system_time() / 1000ULL;
 			// Window Update
 			properties.window->Update();
-			std::this_thread::sleep_for(properties.interval_window_update);
 			// calculate time used
 			delta_time_window = get_system_time() / 1000ULL - last_time_window;
+			d_t = static_cast<unsigned long long>(properties.interval_window_update.count() - delta_time_window);
+			if (d_t > 0) std::this_thread::sleep_for(properties.interval_window_update);
 		}
 		return true;
 	}
@@ -43,36 +45,29 @@ namespace ChaosEngine {
 		return true;
 	}
 	void Engine::EngineUpdate() {
-		unsigned long long _t = 0;
-		unsigned long long frame_count = 0;
-		unsigned long long last_time = 0;
+		unsigned long long d_t = 0;
 		while (running) {
 			last_time_update = get_system_time() / 1000ULL;
 			// Game Update
 			properties.on_update();
 			// calculate time used
 			delta_time_update = get_system_time() / 1000ULL - last_time_update;
-			_t = ((unsigned long long)properties.interval_game_update.count() - delta_time_update);
-			if (_t > 0) std::this_thread::sleep_for(std::chrono::milliseconds(_t));
-			// calculate fps
-			frame_count++;
-			if (frame_count >= 100) {
-				fps = 100.0f / (last_time_update - last_time);
-				frame_count = 0;
-				last_time = last_time_update;
-			}
+			d_t = (static_cast<unsigned long long>(properties.interval_game_update.count()) - delta_time_update);
+			if (d_t > 0) std::this_thread::sleep_for(std::chrono::milliseconds(d_t));
 		}
 	}
 	void Engine::EngineRender() {
+		unsigned long long d_t = 0;
 		while (running) {
 			last_time_render = get_system_time() / 1000ULL;
 			// Game Render
 			graphic.begin_draw();
 			properties.on_render();
 			graphic.end_draw();
-			std::this_thread::sleep_for(properties.interval_game_render);
 			// calculate time used
 			delta_time_render = get_system_time() / 1000ULL - last_time_render;
+			d_t = static_cast<unsigned long long>(properties.interval_game_render.count()) - delta_time_render;
+			if (d_t > 0) std::this_thread::sleep_for(std::chrono::milliseconds(d_t));
 		}
 	}
 }

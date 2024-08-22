@@ -13,7 +13,8 @@
             ],
             "cppStandard": "c++11",
             "intelliSenseMode": "windows-msvc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compilerPath": "cl.exe"
         }
     ],
     "version": 4

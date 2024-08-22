@@ -58,11 +58,9 @@ namespace basic_chaos_engine {
 
 		struct INITIAL_WINDOW_PROPERTY;
 		class basic_window;
-
-		// basic_graphic
-#ifdef _D2D
-		typedef D2D1_COLOR_F COLOR;
-#endif
 	}
 }
-#include "audio/common_audio.h"
+
+#include "graphic/basic_common_graphic.h"
+
+#include "audio/basic_common_audio.h"

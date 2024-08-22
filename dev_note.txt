@@ -1,0 +1,14 @@
+file:
+buffer: sound
+source: channel
+
+channel.add(sound);
+sound_player.add_channel();
+sound_player.play_channel();
+
+class basic_audio_openal;
+class basic_sound_player{
+	load_sound_file();
+	create_channel();
+}
+class SoundPlayer;

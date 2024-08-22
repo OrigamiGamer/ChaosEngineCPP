@@ -9,8 +9,10 @@ namespace basic_chaos_engine {
     }
 
     bool basic_audio_openal::initialize() {
+        // create device
         _device = alcOpenDevice(NULL);
         if (!_device) return false;
+        // create context
         _context = alcCreateContext(_device, NULL);
         if (!_context) {
             alcCloseDevice(_device);
@@ -20,52 +22,35 @@ namespace basic_chaos_engine {
         return true;
     }
 
-    void basic_audio_openal::release() {
+    bool basic_audio_openal::release() {
         alcDestroyContext(_context);
-        alcCloseDevice(_device);
+        return alcCloseDevice(_device);
     }
 
-    // File formats support: wav
     type::BufferID basic_audio_openal::load_sound_file(const std::wstring& filename) {
-        std::ifstream file(filename, std::ios::binary);
-        // WAV
-        type::WavHeaderInfo header{};
-        file.read(reinterpret_cast<char*>(&header), sizeof(header));
-        if (header.chunkID != 0x52494646 || header.format != 0x45564157) {
-            file.close();
-            return NULL;
-        }
-        // PCM
-        if (header.audioFormat != 1) {
-            return NULL;
-        }
-
-        std::vector<char> audioData(header.subchunk2Size);
-        file.read(audioData.data(), header.subchunk2Size);
-        file.close();
+        SF_INFO info{};
+        SNDFILE* file = sf_wchar_open(filename.c_str(), SFM_READ, &info);
+        if (!file) return NULL; // failed to open file
 
         ALenum format{};
-        if (header.numChannels == 1 && header.bitsPerSample == 1) {
+        if (info.channels == 1 && info.samplerate == 1)
             format = AL_FORMAT_MONO8;
-        }
-        else if (header.numChannels == 1 && header.bitsPerSample == 2) {
+        else if (info.channels == 1 && info.samplerate == 2)
             format = AL_FORMAT_MONO16;
-        }
-        else if (header.numChannels == 2 && header.bitsPerSample == 1) {
+        else if (info.channels == 2 && info.samplerate == 1)
             format = AL_FORMAT_STEREO8;
-        }
-        else if (header.numChannels == 2 && header.bitsPerSample == 2) {
+        else if (info.channels == 2 && info.samplerate == 2)
             format = AL_FORMAT_STEREO16;
-        }
-        else return NULL;
+        else return NULL;   // unsupported format
+
+        sf_count_t items = info.frames * info.channels;
+        std::vector<short> buf(items);
+        sf_read_short(file, buf.data(), items);
+        sf_close(file);
 
         type::BufferID bufferID{};
         alGenBuffers(1, &bufferID);
-        alBufferData(bufferID, format, &audioData, header.subchunk2Size, header.sampleRate);
+        alBufferData(bufferID, format, buf.data(), items * sizeof(short), info.samplerate);
         return bufferID;
-    }
-
-    void basic_audio_openal::play() {
-
     }
 }
