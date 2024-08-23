@@ -50,7 +50,7 @@ namespace basic_chaos_engine {
 
         type::BufferID bufferID{};
         alGenBuffers(1, &bufferID);
-        alBufferData(bufferID, format, buf.data(), items * sizeof(short), info.samplerate);
+        alBufferData(bufferID, format, buf.data(), static_cast<ALsizei>(items * sizeof(short)), info.samplerate);
         return bufferID;
     }
 }

@@ -3,7 +3,7 @@
 #include "basic_common.h"
 
 // libsndfile, a C library for reading and writing files containing sampled audio data.
-#pragma comment(lib,"libsndfile.lib")
+#pragma comment(lib,"sndfile.lib")
 
 #include "libsndfile/sndfile.h"
 

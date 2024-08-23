@@ -14,12 +14,16 @@ namespace basic_chaos_engine {
             basic_audio_openal openal;
 #endif
         public:
-            std::vector<type::HANDLE_SOUND> vec_sound;
+            std::map<const std::wstring, type::HANDLE_SOUND> map_sound;
         public:
             basic_sound_player();
             bool initialize();
             bool release();
-            bool load_sound_file(const std::wstring& filename);
+            // Load and create a sound from a file. 'soundname' is optional and can be used to get the sound resource later.
+            bool load_sound_file(const std::wstring& filename, const std::wstring& soundname = {});
+            bool create_channel();
+            bool create_channel_group();
+            bool playback();
         };
     }
 }

@@ -15,11 +15,15 @@ namespace basic_chaos_engine {
             if (!openal.release()) return false;
             return true;
         }
-        bool basic_sound_player::load_sound_file(const std::wstring& filename) {
+        bool basic_sound_player::load_sound_file(const std::wstring& filename, const std::wstring& soundname) {
             type::HANDLE_SOUND hSound = openal.load_sound_file(filename);
-            if (!hSound) return false;
+            if (!hSound) return false;  // failed to load sound file
+            if (map_sound.find(soundname) != map_sound.end())
+                map_sound.insert({ soundname, hSound });
+            else return false;   // failed to create: soundname already exists
             return true;
         }
+
     }
 }
 #endif

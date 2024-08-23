@@ -14,7 +14,7 @@
             "cppStandard": "c++11",
             "intelliSenseMode": "windows-msvc-x64",
             "configurationProvider": "ms-vscode.cmake-tools",
-            "compilerPath": "cl.exe"
+            "compilerPath": "d:/origami/program files/microsoft visual studio/2022/community/vc/tools/msvc/14.38.33130/bin/hostx64/x64/cl.exe"
         }
     ],
     "version": 4

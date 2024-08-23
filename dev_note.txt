@@ -1,14 +1,24 @@
+// diagram
 file:
 buffer: sound
 source: channel
 
-channel.add(sound);
-sound_player.add_channel();
-sound_player.play_channel();
+// call
+sound_player.load_sound_file();
+sound_player.create_channel();
+sound_player.create_channel_group();
 
+channel.add(sound);
+channel_group.add(channel);
+
+sound_player.add_channel_group(channel_group);
+sound_player.playback();
+
+// define
 class basic_audio_openal;
 class basic_sound_player{
 	load_sound_file();
 	create_channel();
+	playback();
 }
 class SoundPlayer;
