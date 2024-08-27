@@ -7,6 +7,9 @@ namespace basic_chaos_engine {
         struct basic_sound {
             std::wstring name;
             type::HANDLE_SOUND handle = 0;
+            basic_sound() {}
+            basic_sound(type::HANDLE_SOUND handle) : handle(handle) {}
+            basic_sound(const std::wstring& name, type::HANDLE_SOUND handle) : name(name), handle(handle) {}
         };
         typedef std::map<const std::wstring, basic_sound> MAP_SOUND;
 
@@ -17,6 +20,8 @@ namespace basic_chaos_engine {
         typedef std::vector<basic_channel_slice> CHRONO_QUEUE_SOUND;
 
         class basic_channel;
+        typedef std::map<const std::wstring, basic_channel> MAP_CHANNEL;
+
         class basic_sound_player;
     }
 }

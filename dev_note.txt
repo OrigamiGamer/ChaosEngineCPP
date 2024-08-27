@@ -27,3 +27,11 @@ class SoundPlayer;
 // 需要一个有序队列，让队列中小于player_time的sound播放
 // 考虑这个有序队列的"类型"...
 // TODO
+
+
+sound.start_time
+channel.start_time
+using t = player_time;
+
+player{ call->self.update(t); channel.update(t) }
+channel{ lpcall->self.update(t); sound.update(t) }

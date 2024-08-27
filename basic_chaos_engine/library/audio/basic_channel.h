@@ -12,10 +12,12 @@ namespace basic_chaos_engine {
             type::SourceID _source_id;
 #endif
         public:
+            bool playing_state;
             CHRONO_QUEUE_SOUND chronoqueue_sound;
         public:
             basic_channel();
             basic_channel(const std::wstring& channel_name);
+
             // Insert a sound into the map at a time point. Overwrite the existing sound with the same sound name in the map at this time point.
             inline bool insert_sound(unsigned long long time_point, basic_sound sound);
             inline bool insert_sound(unsigned long long time_point, const std::wstring& sound_name, type::HANDLE_SOUND sound_handle);
@@ -29,12 +31,10 @@ namespace basic_chaos_engine {
 
             // Clear all sounds.
             bool clear();
-
             // Get the map of sounds at a time point.
             inline MAP_SOUND get_sound_map(unsigned long long time_point);
             // Get the sound handle with a sound name at a time point.
             type::HANDLE_SOUND get_sound_handle(unsigned long long time_point, const std::wstring& sound_name);
-
             // Set the channel name.
             inline bool set_name(const std::wstring& name);
             // Get the channel name.

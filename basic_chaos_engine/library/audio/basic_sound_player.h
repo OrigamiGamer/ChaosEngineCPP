@@ -14,9 +14,10 @@ namespace basic_chaos_engine {
             basic_audio_openal openal;
 #endif
         public:
+            bool player_playing_state;
             unsigned long long player_time; // Unit: microseconds
-            std::map<const std::wstring, type::HANDLE_SOUND> map_sound; // single sound resource
-            std::map<const std::wstring, basic_channel> map_channel;
+            MAP_SOUND map_sound; // single sound resource
+            MAP_CHANNEL map_channel;
         public:
             basic_sound_player();
             bool initialize();
