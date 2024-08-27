@@ -14,5 +14,8 @@ namespace basic_chaos_engine {
         // Load a sound file from filename, return buffer ID, or NULL if failed.
         // Supported most common formats: WAV, OGG, MP3, FLAC.
         type::BufferID load_sound_file(const std::wstring& filename);
+        type::SourceID create_source();
+        bool source_add_buffer(type::SourceID sourceID, type::BufferID bufferID);
+        bool source_play(type::SourceID sourceID);
     };
 }

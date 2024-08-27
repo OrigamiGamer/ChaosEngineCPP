@@ -9,6 +9,7 @@
 
 // CPP_STL
 #include <stdexcept>
+#include <algorithm>
 #include <vector>
 #include <array>
 #include <bitset>
@@ -30,6 +31,13 @@
 #include <d2d1.h>
 #endif
 #endif
+
+namespace program {
+	// Get the current directory.
+	inline std::wstring get_root_directory();
+	// Tramsform a relative path to an absolute path.
+	inline std::wstring locate(const std::wstring& filename);
+}
 
 namespace basic_chaos_engine {
 	struct Const {

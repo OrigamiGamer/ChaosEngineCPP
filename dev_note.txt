@@ -22,3 +22,8 @@ class basic_sound_player{
 	playback();
 }
 class SoundPlayer;
+
+// sound播放时间小于播放器时间，激活播放
+// 需要一个有序队列，让队列中小于player_time的sound播放
+// 考虑这个有序队列的"类型"...
+// TODO

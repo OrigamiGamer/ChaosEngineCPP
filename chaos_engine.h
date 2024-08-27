@@ -8,6 +8,8 @@
 #include <string>
 #include <chrono>
 // basic_chaos_engine
+#include "basic_common.h"
+
 #include "basic_window_win.h"
 #include "basic_window.h"
 
@@ -16,6 +18,7 @@
 
 #include "basic_audio_openal.h"
 #include "basic_audio.h"
+#include "basic_channel.h"
 #include "basic_sound_player.h"
 
 // ChaosEngine

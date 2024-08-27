@@ -74,7 +74,9 @@
         "xhash": "cpp",
         "list": "cpp",
         "stop_token": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "filesystem": "cpp",
+        "algorithm": "cpp"
     },
     "C_Cpp.default.compilerPath": "cl.exe",
     "C_Cpp.intelliSenseEngineFallback": "enabled"

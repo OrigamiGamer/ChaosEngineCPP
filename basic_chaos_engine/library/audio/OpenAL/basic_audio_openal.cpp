@@ -10,10 +10,10 @@ namespace basic_chaos_engine {
 
     bool basic_audio_openal::initialize() {
         // create device
-        _device = alcOpenDevice(NULL);
+        _device = alcOpenDevice(0);
         if (!_device) return false;
         // create context
-        _context = alcCreateContext(_device, NULL);
+        _context = alcCreateContext(_device, 0);
         if (!_context) {
             alcCloseDevice(_device);
             return false;
@@ -29,19 +29,11 @@ namespace basic_chaos_engine {
 
     type::BufferID basic_audio_openal::load_sound_file(const std::wstring& filename) {
         SF_INFO info{};
-        SNDFILE* file = sf_wchar_open(filename.c_str(), SFM_READ, &info);
-        if (!file) return NULL; // failed to open file
+        SNDFILE* file = sf_wchar_open(program::locate(filename).c_str(), SFM_READ, &info);
+        if (file == nullptr) return 0; // failed to open file
 
         ALenum format{};
-        if (info.channels == 1 && info.samplerate == 1)
-            format = AL_FORMAT_MONO8;
-        else if (info.channels == 1 && info.samplerate == 2)
-            format = AL_FORMAT_MONO16;
-        else if (info.channels == 2 && info.samplerate == 1)
-            format = AL_FORMAT_STEREO8;
-        else if (info.channels == 2 && info.samplerate == 2)
-            format = AL_FORMAT_STEREO16;
-        else return NULL;   // unsupported format
+        format = info.channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
 
         sf_count_t items = info.frames * info.channels;
         std::vector<short> buf(items);
@@ -52,5 +44,20 @@ namespace basic_chaos_engine {
         alGenBuffers(1, &bufferID);
         alBufferData(bufferID, format, buf.data(), static_cast<ALsizei>(items * sizeof(short)), info.samplerate);
         return bufferID;
+    }
+    type::SourceID basic_audio_openal::create_source() {
+        type::SourceID sourceID{};
+        alGenSources(1, &sourceID);
+        return sourceID;
+    }
+    bool basic_audio_openal::source_add_buffer(type::SourceID sourceID, type::BufferID bufferID) {
+        if (sourceID == 0 || bufferID == 0) return false;
+        alSourcei(sourceID, AL_BUFFER, bufferID);
+        return true;
+    }
+    bool basic_audio_openal::source_play(type::SourceID sourceID) {
+        if (sourceID == 0) return false;
+        alSourcePlay(sourceID);
+        return true;
     }
 }

@@ -4,8 +4,17 @@
 
 namespace basic_chaos_engine {
     namespace basic_audio {
-        typedef std::map<const std::wstring, type::HANDLE_SOUND> MAP_SOUND;
-        typedef std::map<unsigned long long, MAP_SOUND> CHRONO_QUEUE_SOUND;
+        struct basic_sound {
+            std::wstring name;
+            type::HANDLE_SOUND handle = 0;
+        };
+        typedef std::map<const std::wstring, basic_sound> MAP_SOUND;
+
+        struct basic_channel_slice {
+            unsigned long long start_time = 0;
+            MAP_SOUND map_sound;
+        };
+        typedef std::vector<basic_channel_slice> CHRONO_QUEUE_SOUND;
 
         class basic_channel;
         class basic_sound_player;

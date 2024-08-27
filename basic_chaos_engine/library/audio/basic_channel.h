@@ -7,18 +7,23 @@ namespace basic_chaos_engine {
         class basic_channel {
         private:
             std::wstring channel_name;
+        public:
+#ifdef _OPENAL
+            type::SourceID _source_id;
+#endif
+        public:
             CHRONO_QUEUE_SOUND chronoqueue_sound;
         public:
+            basic_channel();
             basic_channel(const std::wstring& channel_name);
-            // Insert a map of sounds at a time point. Overwrite the existing sounds at this time point.
-            void insert_sound(unsigned long long time_point, MAP_SOUND& map_sound);
-            // TODO: Insert a sound into the map at a time point. Overwrite the existing sound with the same sound name in the map at this time point.
-            void insert_sound(unsigned long long time_point, const std::wstring& sound_name, type::HANDLE_SOUND sound_handle);
+            // Insert a sound into the map at a time point. Overwrite the existing sound with the same sound name in the map at this time point.
+            inline bool insert_sound(unsigned long long time_point, basic_sound sound);
+            inline bool insert_sound(unsigned long long time_point, const std::wstring& sound_name, type::HANDLE_SOUND sound_handle);
 
             // Remove all sounds at a time point.
-            bool remove(unsigned long long time_point);
+            inline bool remove(unsigned long long time_point);
             // Remove a sound from a sound name at a time point.
-            bool remove(unsigned long long time_point, const std::wstring& sound_name);
+            inline bool remove(unsigned long long time_point, const std::wstring& sound_name);
             // Remove all sounds with a same sound handle at a time point.
             bool remove(unsigned long long time_point, type::HANDLE_SOUND sound_handle);
 
@@ -26,7 +31,7 @@ namespace basic_chaos_engine {
             bool clear();
 
             // Get the map of sounds at a time point.
-            MAP_SOUND get_sound_map(unsigned long long time_point);
+            inline MAP_SOUND get_sound_map(unsigned long long time_point);
             // Get the sound handle with a sound name at a time point.
             type::HANDLE_SOUND get_sound_handle(unsigned long long time_point, const std::wstring& sound_name);
 

@@ -4,6 +4,8 @@
 
 /* source files */
 // basic_chaos_engine
+#include "basic_common.cpp"
+
 #include "basic_window_win.cpp"
 #include "basic_window.cpp"
 
@@ -12,6 +14,7 @@
 
 #include "basic_audio_openal.cpp"
 #include "basic_audio.cpp"
+#include "basic_channel.cpp"
 #include "basic_sound_player.cpp"
 
 // ChaosEngine
