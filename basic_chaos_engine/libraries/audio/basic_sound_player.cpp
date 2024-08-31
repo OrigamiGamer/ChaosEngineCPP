@@ -17,7 +17,7 @@ namespace basic_chaos_engine {
         }
         void basic_sound_player::update(unsigned long long delta_time) {
             player_time += delta_time;
-            
+
         }
         bool basic_sound_player::load_sound_file(const std::wstring& filename, const std::wstring& sound_name) {
             type::HANDLE_SOUND hSound = openal.load_sound_file(filename);
@@ -44,9 +44,7 @@ namespace basic_chaos_engine {
             if (map_channel.find(channel_name) != map_channel.end())
                 return nullptr;   // failed to insert: channel_name already exists
             map_channel[channel_name] = basic_channel(channel_name);
-            auto& _channel = map_channel.at(channel_name);
-            _channel.al_source_id = openal.create_source();   // openal::source -> basic_channel
-            return &_channel;
+            return &map_channel.at(channel_name);
         }
         basic_channel basic_sound_player::get_channel(const std::wstring& channel_name) {
             if (map_channel.find(channel_name) != map_channel.end()) return map_channel.at(channel_name);

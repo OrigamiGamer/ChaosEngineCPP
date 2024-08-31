@@ -11,6 +11,10 @@ namespace basic_chaos_engine {
             this->set_name(channel_name);
         }
 
+        void basic_channel::update(unsigned long long delta_time) {
+            
+        }
+
         inline bool basic_channel::insert_sound(unsigned long long time_point, basic_sound sound) {
             if (sound.name.empty() || sound.handle == 0) return false;
 

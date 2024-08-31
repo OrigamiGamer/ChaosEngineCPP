@@ -7,16 +7,13 @@ namespace basic_chaos_engine {
         class basic_channel {
         private:
             std::wstring channel_name;
-        public:
-#ifdef _OPENAL
-            type::SourceID al_source_id;
-#endif
-        public:
             bool playing_state;
             CHRONO_QUEUE_SOUND chronoqueue_sound;
         public:
             basic_channel();
             basic_channel(const std::wstring& channel_name);
+
+            void update(unsigned long long delta_time);
 
             // Insert a sound into the map at a time point. Overwrite the existing sound with the same sound name in the map at this time point.
             inline bool insert_sound(unsigned long long time_point, basic_sound sound);
