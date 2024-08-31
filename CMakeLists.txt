@@ -11,17 +11,17 @@ set(INCLUDE_LIST
 	"include" 
 	"src" 
 	"basic_chaos_engine"
-	"basic_chaos_engine/library"
-	"basic_chaos_engine/library/util"
-	"basic_chaos_engine/library/util/fftw3/api"
-	"basic_chaos_engine/library/audio"
-	"basic_chaos_engine/library/audio/libsndfile"
-	"basic_chaos_engine/library/audio/OpenAL"
-	"basic_chaos_engine/library/graphic"
-	"basic_chaos_engine/library/graphic/DirectX"
-	"basic_chaos_engine/library/graphic/DirectX/D2D"
+	"basic_chaos_engine/libraries"
+	"basic_chaos_engine/libraries/utils"
+	"basic_chaos_engine/libraries/utils/fftw3/api"
+	"basic_chaos_engine/libraries/audio"
+	"basic_chaos_engine/libraries/audio/libsndfile"
+	"basic_chaos_engine/libraries/audio/OpenAL"
+	"basic_chaos_engine/libraries/graphics"
+	"basic_chaos_engine/libraries/graphics/DirectX"
+	"basic_chaos_engine/libraries/graphics/DirectX/D2D"
 )
-set(LINK_LIST "library")
+set(LINK_LIST "libraries")
 
 include_directories(${INCLUDE_LIST})
 link_directories(${LINK_LIST})

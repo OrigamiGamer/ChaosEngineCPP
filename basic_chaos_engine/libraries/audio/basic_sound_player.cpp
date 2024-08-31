@@ -17,27 +17,7 @@ namespace basic_chaos_engine {
         }
         void basic_sound_player::update(unsigned long long delta_time) {
             player_time += delta_time;
-
-
-            // if (player_playing_state) {
-            //     // foreach channel in map_channel
-            //     for (auto& it = map_channel.begin(); it != map_channel.end(); it++) {
-            //         auto& _queue_sound = it->second.chronoqueue_sound;
-            //         if (it->second.playing_state == false) {
-            //             // foreach sound in queue_sound
-            //             for (auto& _it = _queue_sound.begin(); _it != _queue_sound.end(); _it++) {
-            //                 if (player_time >= _it->start_time) {
-            //                     auto& _map_sound = _it->map_sound;
-            //                     // foreach sound in map_sound
-            //                     for (auto& __it = _map_sound.begin(); __it != _map_sound.end(); __it++) {
-
-            //                     }
-            //                     openal.source_play(it->second._source_id);
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
+            
         }
         bool basic_sound_player::load_sound_file(const std::wstring& filename, const std::wstring& sound_name) {
             type::HANDLE_SOUND hSound = openal.load_sound_file(filename);

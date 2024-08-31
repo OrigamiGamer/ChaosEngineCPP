@@ -37,7 +37,7 @@ namespace basic_chaos_engine {
             bool playback();
 
             // TODO
-            bool create_channel_group(const std::wstring& channel_group_name);
+            // bool create_channel_group(const std::wstring& channel_group_name);
         };
     }
 }

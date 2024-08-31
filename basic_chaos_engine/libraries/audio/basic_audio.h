@@ -11,16 +11,16 @@ namespace basic_chaos_engine {
             basic_sound(type::HANDLE_SOUND handle) : handle(handle) {}
             basic_sound(const std::wstring& name, type::HANDLE_SOUND handle) : name(name), handle(handle) {}
         };
-        typedef std::map<const std::wstring, basic_sound> MAP_SOUND;
+        typedef std::map<const std::wstring, basic_sound> MAP_SOUND;    // map of sounds
 
         struct basic_channel_slice {
             unsigned long long start_time = 0;
             MAP_SOUND map_sound;
         };
-        typedef std::vector<basic_channel_slice> CHRONO_QUEUE_SOUND;
+        typedef std::vector<basic_channel_slice> CHRONO_QUEUE_SOUND;    // chrono-queue of sounds
 
         class basic_channel;
-        typedef std::map<const std::wstring, basic_channel> MAP_CHANNEL;
+        typedef std::map<const std::wstring, basic_channel> MAP_CHANNEL;    // map of channels
 
         class basic_sound_player;
     }
