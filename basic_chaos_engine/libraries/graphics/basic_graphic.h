@@ -3,7 +3,7 @@
 #include "basic_common.h"
 
 #ifdef _D2D
-#include "library/graphic/DirectX/D2D/basic_graphic_d2d.h"
+#include "libraries/graphics/DirectX/D2D/basic_graphic_d2d.h"
 #endif
 
 namespace basic_chaos_engine {
