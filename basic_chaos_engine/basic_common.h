@@ -69,6 +69,6 @@ namespace basic_chaos_engine {
 	}
 }
 
-#include "graphic/basic_common_graphic.h"
+#include "graphics/basic_common_graphic.h"
 
 #include "audio/basic_common_audio.h"
