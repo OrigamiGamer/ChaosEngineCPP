@@ -9,7 +9,7 @@ namespace basic_chaos_engine {
             std::wstring channel_name;
         public:
 #ifdef _OPENAL
-            type::SourceID _source_id;
+            type::SourceID al_source_id;
 #endif
         public:
             bool playing_state;

@@ -12,6 +12,8 @@ set(INCLUDE_LIST
 	"src" 
 	"basic_chaos_engine"
 	"basic_chaos_engine/library"
+	"basic_chaos_engine/library/util"
+	"basic_chaos_engine/library/util/fftw3/api"
 	"basic_chaos_engine/library/audio"
 	"basic_chaos_engine/library/audio/libsndfile"
 	"basic_chaos_engine/library/audio/OpenAL"

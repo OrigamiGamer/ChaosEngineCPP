@@ -15,7 +15,7 @@ namespace basic_chaos_engine {
 #endif
         public:
             bool player_playing_state;
-            unsigned long long player_time; // Unit: microseconds
+            unsigned long long player_time; // Units: microseconds
             MAP_SOUND map_sound; // single sound resource
             MAP_CHANNEL map_channel;
         public:
@@ -26,9 +26,9 @@ namespace basic_chaos_engine {
             // Load and create a sound from a file. Return false if the file is invalid or the sound name already exists. 
             // The parameter 'soundname' is optional and can be used to get the sound resource later.
             bool load_sound_file(const std::wstring& filename, const std::wstring& sound_name = {});
-            // Get a sound resource by name. Return an empty resource if the name is invalid.
+            // Get a sound resource by sound name. Return an empty resource if the sound name is invalid.
             basic_sound get_sound(const std::wstring& sound_name);
-            // Get a sound resource by handle. Return an empty resource if the handle is invalid.
+            // Get a sound resource by sound handle. Return an empty resource if the sound handle is invalid.
             basic_sound get_sound(const type::HANDLE_SOUND& sound_handle);
             // Create a new channel and insert it into the map of channels. Return nullptr if the channel name already exists.
             basic_channel* create_channel(const std::wstring& channel_name);

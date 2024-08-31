@@ -84,12 +84,10 @@ namespace basic_chaos_engine {
             return {};   // failed to find time_point: time_point does not exist
         }
         type::HANDLE_SOUND basic_channel::get_sound_handle(unsigned long long time_point, const std::wstring& sound_name) {
-            for (auto& it = chronoqueue_sound.begin(); it != chronoqueue_sound.end(); it++)
-                if (it->start_time == time_point) {
-                    auto& _node_map_sound = it->map_sound;
-                    if (_node_map_sound.find(sound_name) != _node_map_sound.end())
-                        return _node_map_sound.at(sound_name).handle;
-                }
+            for (auto& _slice : chronoqueue_sound)
+                if (_slice.start_time == time_point)
+                    if (_slice.map_sound.find(sound_name) != _slice.map_sound.end())
+                        return _slice.map_sound.at(sound_name).handle;
             return 0;   // failed to find sound: sound_name does not exist
         }
         inline bool basic_channel::set_name(const std::wstring& name) {
