@@ -18,6 +18,7 @@
 #include "basic_sound_player.cpp"
 
 // ChaosEngine
+#include "PhysicsEngine.cpp"
 #include "common.cpp"
 #include "Engine.cpp"
 #include "Window.cpp"
