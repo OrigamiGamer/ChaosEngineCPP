@@ -118,6 +118,7 @@ namespace basic_chaos_engine {
     type::SoundData basic_audio_openal::source_get_sound_data(type::SourceID source_id, int position, int size) {
         ALint sample_offset = this->source_get_playback_position(source_id);
         // type::SoundData data(size*);
+        return {};
     }
     void basic_audio_openal::buffer_get_sound_data(type::BufferID buffer_id, int position, int size) {
 

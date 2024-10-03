@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 
 set(INCLUDE_LIST 
-	. 
-	"chaos_engine" 
-	"chaos_engine/physics_engine" 
+	.
+	"ChaosEngine"
+	"ChaosEngine/PhysicsEngine"
 	"basic_chaos_engine"
 	"basic_chaos_engine/libraries"
 	"basic_chaos_engine/libraries/utils"
