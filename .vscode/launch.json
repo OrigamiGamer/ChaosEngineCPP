@@ -8,6 +8,7 @@
             "name": "(Windows) 启动",
             "type": "cppvsdbg",
             "request": "launch",
+            "preLaunchTask": "CMake: 清理重新生成",
             "program": "${workspaceFolder}/out/build/Debug/debug.exe",
             "args": [],
             "stopAtEntry": false,

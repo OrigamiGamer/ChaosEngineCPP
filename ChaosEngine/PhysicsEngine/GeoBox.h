@@ -7,7 +7,6 @@ namespace ChaosEngine {
         class GeoBox {
         private:
             PhysicalSpace* space;
-            std::vector<LINE> vec_linear_fn;
         public:
             float z_order;
             std::vector<POINT> vec_vertex;
