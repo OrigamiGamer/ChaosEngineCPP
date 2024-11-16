@@ -3,8 +3,6 @@
 #include <chrono>
 #include <vector>
 
-#include "basic_type.h"
-
 namespace ChaosEngine {
 	// Get the current system time(microseconds).
 	inline unsigned long long get_system_time();

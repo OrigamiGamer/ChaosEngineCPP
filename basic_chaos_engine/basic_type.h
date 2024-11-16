@@ -1,8 +1,10 @@
 #pragma once
 
-namespace basic_type {
+namespace basic_type
+{
 	template<typename T = float>
-	struct vec2 {
+	struct vec2
+	{
 		T x, y;
 		bool operator==(vec2& a) const { return x == a.x && y == a.y; }
 		bool operator!=(vec2& a) const { return !(*this == a); }
@@ -16,7 +18,8 @@ namespace basic_type {
 		vec2 operator/=(vec2& a) { x /= a.x; y /= a.y; return *this; }
 	};
 	template<typename T = float>
-	struct vec3 {
+	struct vec3
+	{
 		T x, y, z;
 		bool operator==(vec3& a) const { return x == a.x && y == a.y && z == a.z; }
 		bool operator!=(vec3& a) const { return !(*this == a); }

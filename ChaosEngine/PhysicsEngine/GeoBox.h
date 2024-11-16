@@ -2,9 +2,12 @@
 
 #include "Common_PhysicsEngine.h"
 
-namespace ChaosEngine {
-    namespace PhysicsEngine {
-        class GeoBox {
+namespace ChaosEngine
+{
+    namespace PhysicsEngine
+    {
+        class GeoBox
+        {
         private:
             PhysicalSpace* space;
         public:

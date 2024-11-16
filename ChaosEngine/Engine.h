@@ -1,9 +1,11 @@
 #pragma once
 
-#include "chaos_engine.h"
+#include "ChaosEngine.h"
 
-namespace ChaosEngine {
-	class Engine {
+namespace ChaosEngine
+{
+	class Engine
+	{
 	private:
 		bool running; // default to false
 	public:

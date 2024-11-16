@@ -27,11 +27,11 @@ include_directories(${INCLUDE_LIST})
 link_directories(${LINK_LIST})
 
 
-add_library(engine_shared SHARED "chaos_engine.cpp")
+add_library(engine_shared SHARED "ChaosEngine.cpp")
 set_target_properties(engine_shared PROPERTIES SUFFIX ".dll")
 set_target_properties(engine_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Shared CLEAN_DIRECT_OUTPUT 1)
 
-add_library(engine_static STATIC "chaos_engine.cpp")
+add_library(engine_static STATIC "ChaosEngine.cpp")
 set_target_properties(engine_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Static)
 
-# add_executable(debug "chaos_engine.cpp")
+# add_executable(debug "ChaosEngine.cpp")
