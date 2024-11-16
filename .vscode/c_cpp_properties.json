@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/**"
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/**",
+                "F:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.39.33519/include"
             ],
             "defines": [
                 "_DEBUG",
