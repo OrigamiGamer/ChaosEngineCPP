@@ -24,6 +24,6 @@
 #include "basic_sound_player.h"
 
 /* ChaosEngine */
-#include "Common.h"
+#include "common.h"
 #include "Window.h"
 #include "Engine.h"

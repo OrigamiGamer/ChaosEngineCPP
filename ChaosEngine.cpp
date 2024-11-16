@@ -1,6 +1,6 @@
 #pragma once
 
-#include "chaos_engine.h"
+#include "ChaosEngine.h"
 
 /* source files */
 
@@ -19,6 +19,6 @@
 #include "basic_sound_player.cpp"
 
 /* ChaosEngine */
-#include "Common.cpp"
+#include "common.cpp"
 #include "Engine.cpp"
 #include "Window.cpp"

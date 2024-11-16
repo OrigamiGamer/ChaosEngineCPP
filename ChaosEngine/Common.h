@@ -26,5 +26,3 @@ namespace ChaosEngine {
 	};
 	class Engine;
 }
-
-#include "Common_PhysicsEngine.h"
