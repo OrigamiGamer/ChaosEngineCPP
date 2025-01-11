@@ -9,12 +9,12 @@
             "type": "cppvsdbg",
             "request": "launch",
             "preLaunchTask": "CMake: 清理重新生成",
-            "program": "${workspaceFolder}/out/build/Debug/debug.exe",
+            "program": "${workspaceFolder}/out/build/ChaosEngine_Debug.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "console": "integratedTerminal"
+            "console": "externalTerminal"
         }
     ]
 }

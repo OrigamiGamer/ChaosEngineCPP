@@ -76,7 +76,13 @@
         "stop_token": "cpp",
         "unordered_map": "cpp",
         "filesystem": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "cstdarg": "cpp",
+        "memory_resource": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "numeric": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.default.compilerPath": "cl.exe",
     "C_Cpp.intelliSenseEngineFallback": "enabled"
