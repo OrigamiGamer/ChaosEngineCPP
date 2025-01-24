@@ -82,7 +82,8 @@
         "deque": "cpp",
         "functional": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "text_encoding": "cpp"
     },
     "C_Cpp.default.compilerPath": "cl.exe",
     "C_Cpp.intelliSenseEngineFallback": "enabled"
