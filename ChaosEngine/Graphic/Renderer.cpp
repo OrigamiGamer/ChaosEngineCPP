@@ -3,9 +3,9 @@
 #include "Common.h"
 
 namespace Chaos::Graphic {
-    Renderer::Renderer()
+    Renderer::Renderer(Device::Engine* new_engine)
     {
-        engine = nullptr;
+        this->engine = new_engine;
     }
 
     Renderer::~Renderer()

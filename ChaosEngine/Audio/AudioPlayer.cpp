@@ -3,13 +3,13 @@
 #include "Common.h"
 
 namespace Chaos::Audio {
-    Sound::Sound(Device::Engine* new_engine)
+    AudioPlayer::AudioPlayer(Device::Engine* new_engine)
     {
         this->engine = new_engine;
 
     }
 
-    Sound::~Sound()
+    AudioPlayer::~AudioPlayer()
     {
 
     }

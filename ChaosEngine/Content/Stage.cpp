@@ -2,13 +2,13 @@
 
 #include "Common.h"
 
-namespace Chaos::Device {
-    Window::Window(Device::Engine* new_engine)
+namespace Chaos::Content {
+    Stage::Stage(Device::Engine* new_engine)
     {
         this->engine = new_engine;
     }
 
-    Window::~Window()
+    Stage::~Stage()
     {
 
     }

@@ -18,15 +18,21 @@ namespace Chaos::Device {
     bool Engine::createRenderer(Chaos::ptr<Graphic::Renderer>* out_renderer)
     {
         if (!this->renderer.has_value()) {
-            this->renderer = new Graphic::Renderer();
+            this->renderer = new Graphic::Renderer(this);
+            if (out_renderer != nullptr) out_renderer = &this->renderer;
             return true;
         }
         return false;
     }
 
-    bool Engine::createRenderer()
+    bool Engine::createWindow(Chaos::ptr<Device::Window>* out_window)
     {
-        return this->createRenderer(nullptr);
+        if (!this->window.has_value()) {
+            this->window = new Device::Window(this);
+            if (out_window != nullptr) out_window = &this->window;
+            return true;
+        }
+        return false;
     }
 
     void Engine::release()

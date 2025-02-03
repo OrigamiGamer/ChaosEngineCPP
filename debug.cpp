@@ -6,12 +6,10 @@ using namespace std;
 
 int main()
 {
-    std::cout << "Hello, world!" << std::endl;
-
     Chaos::Device::Engine engine;
-    Chaos::Graphic::Renderer* renderer;
-    // engine.createRenderer(&renderer);
-    engine.createRenderer(nullptr);
+    engine.createRenderer();
 
+
+    std::cout << "Hello, world!" << std::endl;
     return 0;
 }

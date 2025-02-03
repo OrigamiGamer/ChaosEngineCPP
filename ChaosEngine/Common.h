@@ -16,8 +16,11 @@ namespace Chaos {
         T* p;
     public:
         ptr();
+        ~ptr();
 
         bool has_value();
+
+        T* operator->();
 
         void release();
 
@@ -35,12 +38,25 @@ namespace Chaos {
     }
 
     template<typename T>
+    ptr<T>::~ptr()
+    {
+        delete p;
+    }
+
+    template<typename T>
     inline bool ptr<T>::has_value()
     {
         return p != nullptr;
     }
 
-    template <typename T>
+    template<typename T>
+    inline T* ptr<T>::operator->()
+    {
+        if (has_value()) return p;
+
+    }
+
+    template<typename T>
     inline void ptr<T>::release()
     {
         if (has_value()) delete p;
@@ -102,6 +118,7 @@ namespace Chaos {
     public:
         std::wstring nameId;
         std::wstring uniqueId;  // also UID
+        Chaos::ptr<Device::Engine> engine;
 
         Base();
         ~Base();
@@ -124,20 +141,20 @@ namespace Chaos::Device {
         Engine();
         ~Engine();
 
-        // Having not been managing any device about Renderer, the engine will create a new Renderer device bound to itself, 
-        // and return true for success.
-        // 若未拥有任何 Renderer 有关设备，引擎将创建一个新的 Renderer 设备，绑定到引擎自身，并返回 true 。
-        bool createRenderer(Chaos::ptr<Graphic::Renderer>* out_renderer);
-        bool createRenderer();
+        // If the engine is not managing any Renderer device, it will create a new Renderer device bound to the engine itself, output its pointer into parameter, and return true for success.
+        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
+        bool createRenderer(Chaos::ptr<Graphic::Renderer>* out_renderer = nullptr);
+
+        // If the engine is not managing any Window device, it will create a new Window device bound to the engine itself, output its pointer into parameter, and return true for success.
+        // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
+        bool createWindow(Chaos::ptr<Device::Window>* out_window = nullptr);
 
         void release();
     };
 
     class Window : Base {
     public:
-        std::unique_ptr<Device::Engine> engine;
-
-        Window();
+        Window(Device::Engine* new_engine);
         ~Window();
     };
 }
@@ -145,15 +162,13 @@ namespace Chaos::Device {
 namespace Chaos::Graphic {
     class GraphicManager : Base {
     public:
-        GraphicManager();
+        GraphicManager(Device::Engine* new_engine);
         ~GraphicManager();
     };
 
     class Renderer : Base {
     public:
-        std::unique_ptr<Device::Engine> engine;
-
-        Renderer();
+        Renderer(Device::Engine* new_engine);
         ~Renderer();
     };
 }
@@ -161,37 +176,37 @@ namespace Chaos::Graphic {
 namespace Chaos::Audio {
     class AudioManager : Base {
     public:
-        AudioManager();
+        AudioManager(Device::Engine* new_engine);
         ~AudioManager();
     };
 
     class Sound : Resource {
     public:
-        Sound();
+        Sound(Device::Engine* new_engine);
         ~Sound();
     };
 
     class Sample : Resource {
     public:
-        Sample();
+        Sample(Device::Engine* new_engine);
         ~Sample();
     };
 
     class Channel : Resource {
     public:
-        Channel();
+        Channel(Device::Engine* new_engine);
         ~Channel();
     };
 
     class ChannelGroup : Resource {
     public:
-        ChannelGroup();
+        ChannelGroup(Device::Engine* new_engine);
         ~ChannelGroup();
     };
 
     class AudioPlayer : Base {
     public:
-        AudioPlayer();
+        AudioPlayer(Device::Engine* new_engine);
         ~AudioPlayer();
     };
 }
@@ -199,19 +214,19 @@ namespace Chaos::Audio {
 namespace Chaos::Content {
     class Stage : Base {
     public:
-        Stage();
+        Stage(Device::Engine* new_engine);
         ~Stage();
     };
 
     class Scene : Base {
     public:
-        Scene();
+        Scene(Device::Engine* new_engine);
         ~Scene();
     };
 
     class Actor : Base {
     public:
-        Actor();
+        Actor(Device::Engine* new_engine);
         ~Actor();
     };
 }
