@@ -14,6 +14,7 @@ namespace Chaos::Device {
     {
         // !! 任何 设备对象 都必须隶属于特定 引擎对象，所以 设备对象共享 将不可用。(多窗口对象共享 将不可用!) !!
         // 可行措施: 设备对象控制权 交予 用户，而非 引擎对象...
+        // (也许我们不需要 设备对象共享 [?])
 
         // Proactively release devices in a certain order.
         this->renderer.release();
