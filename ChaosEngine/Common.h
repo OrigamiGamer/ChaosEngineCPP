@@ -7,66 +7,103 @@
 #include <memory>
 
 namespace Chaos {
-    template <typename T>
+    // 1st-declarations
+    template<typename T>
+    class shared_ptr;
+
+    template<typename T>
     class ptr;
 
-    template <typename T>
-    class ptr {
+
+
+    // 2nd-declarations
+    template<typename T>
+    class shared_ptr {
     private:
         T* p;
     public:
-        ptr();
-        ~ptr();
+        shared_ptr();
+        ~shared_ptr();
 
         bool has_value();
 
         T* operator->();
 
+        // Refer a new pointer.
+        // 引用一个新指针。
+        shared_ptr<T>& refer(T* new_p);
+
+        friend class ptr<T>;
+    };
+
+    template<typename T>
+    class ptr : public shared_ptr<T> {
+    public:
+        ~ptr();
+
         void release();
 
         // Release and set a new pointer.
-        // 释放旧指针的内存，并设置一个新指针
-        void set(T* new_p);
+        // 释放旧指针内存，并设置一个新指针。
+        ptr<T>& set(T* new_p);
 
         void operator=(T* new_p);
     };
 
+
+
+    // Definitions
     template<typename T>
-    ptr<T>::ptr()
+    shared_ptr<T>::shared_ptr()
     {
         p = nullptr;
     }
 
     template<typename T>
-    ptr<T>::~ptr()
+    shared_ptr<T>::~shared_ptr()
     {
-        delete p;
+
     }
 
     template<typename T>
-    inline bool ptr<T>::has_value()
+    inline bool shared_ptr<T>::has_value()
     {
         return p != nullptr;
     }
 
     template<typename T>
-    inline T* ptr<T>::operator->()
+    inline T* shared_ptr<T>::operator->()
     {
         if (has_value()) return p;
+        return nullptr;
+    }
 
+    template<typename T>
+    shared_ptr<T>& shared_ptr<T>::refer(T* new_p)
+    {
+        this->p = new_p;
+        return *this;
+    }
+
+
+    template<typename T>
+    ptr<T>::~ptr()
+    {
+        this->release();
     }
 
     template<typename T>
     inline void ptr<T>::release()
     {
-        if (has_value()) delete p;
+        if (shared_ptr<T>::has_value()) delete shared_ptr<T>::p;
     }
 
     template<typename T>
-    inline void ptr<T>::set(T* new_p)
+    inline ptr<T>& ptr<T>::set(T* new_p)
     {
-        if (has_value()) release();
-        p = new_p;
+        if (shared_ptr<T>::has_value()) this->release();
+        shared_ptr<T>::p = new_p;
+        return *this;
     }
 
     template<typename T>
@@ -118,13 +155,13 @@ namespace Chaos {
     public:
         std::wstring nameId;
         std::wstring uniqueId;  // also UID
-        Chaos::ptr<Device::Engine> engine;
+        shared_ptr<Device::Engine> engine;  // ~Engine() -> ~Any() -> ~Base() -> Base::~ptr<Engine>() // 此时仍然存在engine对象，所以继续 -> ~Engine() -> ... 形成闭环
 
         Base();
         ~Base();
     };
 
-    class Resource : Base {
+    class Resource : public Base {
     public:
         Resource();
         ~Resource();
@@ -132,7 +169,7 @@ namespace Chaos {
 }
 
 namespace Chaos::Device {
-    class Engine : Base {
+    class Engine : public Base {
     public:
         Chaos::ptr<Graphic::Renderer> renderer;
         Chaos::ptr<Device::Window> window;
@@ -143,16 +180,14 @@ namespace Chaos::Device {
 
         // If the engine is not managing any Renderer device, it will create a new Renderer device bound to the engine itself, output its pointer into parameter, and return true for success.
         // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
-        bool createRenderer(Chaos::ptr<Graphic::Renderer>* out_renderer = nullptr);
+        bool createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
 
         // If the engine is not managing any Window device, it will create a new Window device bound to the engine itself, output its pointer into parameter, and return true for success.
         // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
-        bool createWindow(Chaos::ptr<Device::Window>* out_window = nullptr);
-
-        void release();
+        bool createWindow(Chaos::shared_ptr<Device::Window>* out_window = nullptr);
     };
 
-    class Window : Base {
+    class Window : public Base {
     public:
         Window(Device::Engine* new_engine);
         ~Window();
@@ -160,13 +195,13 @@ namespace Chaos::Device {
 }
 
 namespace Chaos::Graphic {
-    class GraphicManager : Base {
+    class GraphicManager : public Base {
     public:
         GraphicManager(Device::Engine* new_engine);
         ~GraphicManager();
     };
 
-    class Renderer : Base {
+    class Renderer : public Base {
     public:
         Renderer(Device::Engine* new_engine);
         ~Renderer();
@@ -174,37 +209,37 @@ namespace Chaos::Graphic {
 }
 
 namespace Chaos::Audio {
-    class AudioManager : Base {
+    class AudioManager : public Base {
     public:
         AudioManager(Device::Engine* new_engine);
         ~AudioManager();
     };
 
-    class Sound : Resource {
+    class Sound : public Resource {
     public:
         Sound(Device::Engine* new_engine);
         ~Sound();
     };
 
-    class Sample : Resource {
+    class Sample : public Resource {
     public:
         Sample(Device::Engine* new_engine);
         ~Sample();
     };
 
-    class Channel : Resource {
+    class Channel : public Resource {
     public:
         Channel(Device::Engine* new_engine);
         ~Channel();
     };
 
-    class ChannelGroup : Resource {
+    class ChannelGroup : public Resource {
     public:
         ChannelGroup(Device::Engine* new_engine);
         ~ChannelGroup();
     };
 
-    class AudioPlayer : Base {
+    class AudioPlayer : public Base {
     public:
         AudioPlayer(Device::Engine* new_engine);
         ~AudioPlayer();
@@ -212,19 +247,19 @@ namespace Chaos::Audio {
 }
 
 namespace Chaos::Content {
-    class Stage : Base {
+    class Stage : public Base {
     public:
         Stage(Device::Engine* new_engine);
         ~Stage();
     };
 
-    class Scene : Base {
+    class Scene : public Base {
     public:
         Scene(Device::Engine* new_engine);
         ~Scene();
     };
 
-    class Actor : Base {
+    class Actor : public Base {
     public:
         Actor(Device::Engine* new_engine);
         ~Actor();

@@ -5,7 +5,7 @@
 namespace Chaos::Audio {
     Sample::Sample(Device::Engine* new_engine)
     {
-        this->engine = new_engine;
+        this->engine.refer(new_engine);
 
     }
 
