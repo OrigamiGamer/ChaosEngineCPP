@@ -155,7 +155,7 @@ namespace Chaos {
     public:
         std::wstring nameId;
         std::wstring uniqueId;  // also UID
-        shared_ptr<Device::Engine> engine;  // ~Engine() -> ~Any() -> ~Base() -> Base::~ptr<Engine>() // 此时仍然存在engine对象，所以继续 -> ~Engine() -> ... 形成闭环
+        shared_ptr<Device::Engine> engine;
 
         Base();
         ~Base();
