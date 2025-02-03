@@ -3,9 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/**",
-                "F:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.39.33519/include"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -13,9 +11,9 @@
                 "_UNICODE"
             ],
             "cppStandard": "c++11",
-            "intelliSenseMode": "windows-msvc-x64",
+            "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "ms-vscode.cmake-tools",
-            "compilerPath": "D:/Dev/mingw64/bin/g++.exe"
+            "compilerPath": "F:/Dev/Env/mingw64/bin/g++.exe"
         }
     ],
     "version": 4

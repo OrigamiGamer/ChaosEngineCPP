@@ -8,6 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 set(INCLUDE_LIST
     .
+    "ChaosEngine"
+    "ChaosEngine/Device"
+    "ChaosEngine/Graphic"
+    "ChaosEngine/Audio"
+    "ChaosEngine/Content"
 )
 set(LINK_LIST
     .
@@ -23,5 +28,7 @@ link_directories(${LINK_LIST})
 # add_library(engine_static STATIC "ChaosEngine.cpp")
 # set_target_properties(engine_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Static)
 
+link_libraries(D2D1)
+
 add_executable(debug "debug.cpp")
-set_target_properties(debug PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Debug)
+set_target_properties(debug PROPERTIES OUTPUT_NAME "debug" SUFFIX ".exe")
