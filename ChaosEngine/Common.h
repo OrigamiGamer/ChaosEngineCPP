@@ -62,7 +62,7 @@ namespace Chaos {
     template<typename T>
     shared_ptr<T>::~shared_ptr()
     {
-
+        // std::cout << "do_nothing -> " << std::string(typeid(*this).name()) << std::endl;
     }
 
     template<typename T>
@@ -89,7 +89,7 @@ namespace Chaos {
     template<typename T>
     ptr<T>::~ptr()
     {
-        this->release();
+        // this->release();
     }
 
     template<typename T>
@@ -153,12 +153,15 @@ namespace Chaos::Content {
 namespace Chaos {
     class Base {
     public:
-        std::wstring nameId;
-        std::wstring uniqueId;  // also UID
-        shared_ptr<Device::Engine> engine;
+        std::string nameId;
+        std::string uniqueId;  // also UID
+        std::vector<std::string> nameIdHeap;
+        Chaos::shared_ptr<Device::Engine> engine;
 
         Base();
         ~Base();
+
+        void INIT(std::string new_nameId);
     };
 
     class Resource : public Base {
@@ -185,6 +188,14 @@ namespace Chaos::Device {
         // If the engine is not managing any Window device, it will create a new Window device bound to the engine itself, output its pointer into parameter, and return true for success.
         // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
         bool createWindow(Chaos::shared_ptr<Device::Window>* out_window = nullptr);
+
+        // Only create the necessary devices for the engine, and initialize the engine in default configurations.
+        // 仅为引擎创建必需的设备，并以默认配置初始化引擎。
+        void initialize();
+
+        // Proactively release all devices bound to the engine in a specific order.
+        // 以特定顺序，主动释放引擎所拥有的所有设备。
+        void release();
     };
 
     class Window : public Base {

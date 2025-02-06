@@ -6,6 +6,7 @@ namespace Chaos::Device {
     Window::Window(Device::Engine* new_engine)
     {
         this->engine.refer(new_engine);
+        this->INIT("Window");
     }
 
     Window::~Window()
