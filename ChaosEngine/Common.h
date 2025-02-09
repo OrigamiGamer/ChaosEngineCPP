@@ -154,14 +154,17 @@ namespace Chaos {
     class Base {
     public:
         std::string nameId;
+        std::vector<std::string> typeIdHeap;
         std::string uniqueId;  // also UID
-        std::vector<std::string> nameIdHeap;
         Chaos::shared_ptr<Device::Engine> engine;
 
         Base();
         ~Base();
 
         void INIT(std::string new_nameId);
+
+        size_t GET_TYPE_DEPTH();
+        std::string GET_TOP_TYPE();
     };
 
     class Resource : public Base {
@@ -182,12 +185,16 @@ namespace Chaos::Device {
         ~Engine();
 
         // If the engine is not managing any Renderer device, it will create a new Renderer device bound to the engine itself, output its pointer into parameter, and return true for success.
-        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
+        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到引擎自身，输出其指针到参数，并在成功时返回 true 。
         bool createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
 
         // If the engine is not managing any Window device, it will create a new Window device bound to the engine itself, output its pointer into parameter, and return true for success.
-        // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到引擎自身，输出其指针到参数，并返回 true 。
+        // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到引擎自身，输出其指针到参数，并在成功时返回 true 。
         bool createWindow(Chaos::shared_ptr<Device::Window>* out_window = nullptr);
+
+        // If the engine is not managing any Stage device, it will create a new Stage device bound to the engine itself, output its pointer into parameter, and return true for success.
+        // 若未拥有任何 Stage 设备，引擎将创建一个新的 Stage 设备，绑定到引擎自身，输出其指针到参数，并在成功时返回 true 。
+        bool createStage(Chaos::shared_ptr<Content::Stage>* out_stage = nullptr);
 
         // Only create the necessary devices for the engine, and initialize the engine in default configurations.
         // 仅为引擎创建必需的设备，并以默认配置初始化引擎。

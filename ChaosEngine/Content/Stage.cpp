@@ -11,6 +11,6 @@ namespace Chaos::Content {
 
     Stage::~Stage()
     {
-
+        
     }
 }

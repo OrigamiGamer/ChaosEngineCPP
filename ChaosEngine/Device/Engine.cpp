@@ -15,7 +15,7 @@ namespace Chaos::Device {
     {
         // !! 任何 设备对象 都必须隶属于特定 引擎对象，所以 设备对象共享 将不可用。(多窗口对象共享 将不可用!) !!
         // 可行措施: 设备对象控制权 交予 用户，而非 引擎对象...
-        // (至少现在，也许我们不需要 设备对象共享 [?])
+        // ( 也许至少现在，我们并不奢求 共享设备对象 ? )
     }
 
     bool Engine::createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer)
@@ -38,10 +38,20 @@ namespace Chaos::Device {
         return false;
     }
 
+    bool Engine::createStage(Chaos::shared_ptr<Content::Stage>* out_stage)
+    {
+        if (!this->stage.has_value()) {
+            this->stage = new Content::Stage(this);
+            if (out_stage != nullptr) out_stage = &this->stage;
+        }
+        return false;
+    }
+
     void Engine::initialize()
     {
         this->createRenderer();
         this->createWindow();
+        this->createStage();
     }
 
     void Engine::release()

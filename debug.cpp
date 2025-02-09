@@ -7,8 +7,9 @@ using namespace std;
 int main()
 {
     Chaos::Device::Engine engine;
-    engine.createRenderer();
-    engine.createWindow();
+    engine.initialize();
+    std::cout << engine.GET_TOP_TYPE() << std::endl;
+
     engine.release();
 
     std::cout << "Hello, world!" << std::endl;
