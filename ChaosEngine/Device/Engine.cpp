@@ -28,11 +28,13 @@ namespace Chaos::Device {
         return false;
     }
 
-    bool Engine::createWindow(Chaos::shared_ptr<Device::Window>* out_window)
+    bool Engine::createWindow(Device::WindowProperty* new_windowProp, Chaos::shared_ptr<Device::Window>* out_window)
     {
         if (!this->window.has_value()) {
             this->window = new Device::Window(this);
             if (out_window != nullptr) out_window = &this->window;
+            this->window->initialize(new_windowProp);
+            glfwMakeContextCurrent(this->window->_glfwWindow);
             return true;
         }
         return false;
@@ -49,19 +51,23 @@ namespace Chaos::Device {
 
     bool Engine::initialize()
     {
+        if (!glfwInit()) return false;
+        return true;
+    }
+
+    bool Engine::createDefaultDevice()
+    {
         if (!this->createRenderer()) return false;
         if (!this->createWindow()) return false;
         if (!this->createStage()) return false;
-
-        if (!glfwInit()) return false;
-
         return true;
     }
 
     void Engine::release()
     {
-        this->renderer.release();
-        this->window.release();
+        glfwTerminate();
         this->stage.release();
+        this->window.release();
+        this->renderer.release();
     }
 }
