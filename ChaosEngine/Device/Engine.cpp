@@ -65,9 +65,12 @@ namespace Chaos::Device {
 
     void Engine::release()
     {
-        glfwTerminate();
         this->stage.release();
+
         this->window.release();
+        glfwTerminate();
+        
         this->renderer.release();
+        
     }
 }

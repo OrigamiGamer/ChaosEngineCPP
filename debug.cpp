@@ -12,10 +12,11 @@ int main()
     // engine.createDefaultDevice();
 
     engine.createWindow();
-    engine.window->initialize();
 
-
-
+    while (!glfwWindowShouldClose(engine.window->_glfwWindow)) {
+        glfwSwapBuffers(engine.window->_glfwWindow);
+        glfwPollEvents();
+    }
 
 
     engine.release();
