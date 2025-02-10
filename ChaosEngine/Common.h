@@ -6,8 +6,17 @@
 #include <chrono>
 #include <memory>
 
+#include "GLFW/glfw3.h"
+
+
 namespace Chaos {
     // 1st-declarations
+    template<typename T>
+    struct vec2;
+
+    template<typename T>
+    struct vec3;
+
     template<typename T>
     class shared_ptr;
 
@@ -17,6 +26,19 @@ namespace Chaos {
 
 
     // 2nd-declarations
+    template<typename T>
+    struct vec2 {
+        T x;
+        T y;
+    };
+
+    template<typename T>
+    struct vec3 {
+        T x;
+        T y;
+        T z;
+    };
+
     template<typename T>
     class shared_ptr {
     private:
@@ -120,6 +142,7 @@ namespace Chaos {
 // 1st-declarations
 namespace Chaos {
     class Base;
+
     class Resource;
 }
 
@@ -127,26 +150,35 @@ namespace Chaos::Device {
     class Engine;
 
     struct WindowProperty;
+
     class Window;
 }
 
 namespace Chaos::Graphic {
     class GraphicManager;
+
     class Renderer;
 }
 
 namespace Chaos::Audio {
     class AudioManager;
+
     class Sound;
+
     class Sample;
+
     class Channel;
+
     class ChannelGroup;
+
     class AudioPlayer;
 }
 
 namespace Chaos::Content {
     class Stage;
+
     class Scene;
+
     class Actor;
 }
 
@@ -203,9 +235,13 @@ namespace Chaos::Device {
         // 若未拥有任何 Stage 设备，引擎将创建一个新的 Stage 设备，绑定到引擎自身，输出其指针到参数，并在成功时返回 true 。
         bool createStage(Chaos::shared_ptr<Content::Stage>* out_stage = nullptr);
 
-        // Only create the necessary devices for the engine, and initialize the engine in default configurations.
-        // 仅为引擎创建必需的设备，并以默认配置初始化引擎。
-        void initialize();
+        // Initialize the engine in default configurations. Before every action of this engine, this method must be called.
+        // 以默认配置初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
+        bool initialize();
+
+        // Only create the necessary devices for this engine in default configurations.
+        // 仅为该引擎创建必需的设备，并以默认配置初始化它们。
+        bool createDefaultDevice();
 
         // Proactively release all devices bound to the engine in a specific order.
         // 以特定顺序，主动释放引擎所拥有的所有设备。
@@ -213,10 +249,14 @@ namespace Chaos::Device {
     };
 
     struct WindowProperty {
-
+        Chaos::vec2<int> size;
+        Chaos::vec2<int> pos;
+        std::string title = "Window";
     };
 
     class Window : public Base {
+    private:
+        GLFWwindow* _glfwWindow;
     public:
         Window(Device::Engine* new_engine);
         ~Window();

@@ -7,6 +7,7 @@ namespace Chaos::Device {
     {
         this->engine.refer(new_engine);
         this->INIT("Window");
+        this->_glfwWindow = nullptr;
     }
 
     Window::~Window()
@@ -21,7 +22,13 @@ namespace Chaos::Device {
         }
         else {
             // default window property
-            
+            this->_glfwWindow = glfwCreateWindow(
+                new_windowProp->size.x,
+                new_windowProp->size.y,
+                new_windowProp->title.c_str(),
+                nullptr,
+                nullptr
+            );
         }
     }
 }

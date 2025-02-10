@@ -47,11 +47,15 @@ namespace Chaos::Device {
         return false;
     }
 
-    void Engine::initialize()
+    bool Engine::initialize()
     {
-        this->createRenderer();
-        this->createWindow();
-        this->createStage();
+        if (!this->createRenderer()) return false;
+        if (!this->createWindow()) return false;
+        if (!this->createStage()) return false;
+
+        if (!glfwInit()) return false;
+
+        return true;
     }
 
     void Engine::release()
