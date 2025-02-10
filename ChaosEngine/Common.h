@@ -125,6 +125,8 @@ namespace Chaos {
 
 namespace Chaos::Device {
     class Engine;
+
+    struct WindowProperty;
     class Window;
 }
 
@@ -155,16 +157,21 @@ namespace Chaos {
     public:
         std::string nameId;
         std::vector<std::string> typeIdHeap;
-        std::string uniqueId;  // also UID
         Chaos::shared_ptr<Device::Engine> engine;
-
+    public:
         Base();
         ~Base();
 
-        void INIT(std::string new_nameId);
+        void INIT(std::string new_typeId);
 
-        size_t GET_TYPE_DEPTH();
-        std::string GET_TOP_TYPE();
+        void SET_NAME(std::string new_nameId);
+
+        const size_t GET_TYPE_DEPTH();
+
+        const std::string GET_TOP_TYPE();
+
+        // Get the Global Unique Identifier(GUID) of this object.
+        std::string GET_GUID();
     };
 
     class Resource : public Base {
@@ -205,10 +212,18 @@ namespace Chaos::Device {
         void release();
     };
 
+    struct WindowProperty {
+
+    };
+
     class Window : public Base {
     public:
         Window(Device::Engine* new_engine);
         ~Window();
+
+        // Initialize a window object from a window property, else the default window property if parameter is empty.
+        // 通过窗口配置来初始化一个窗口对象。若参数为空，则使用默认窗口配置。
+        void initialize(WindowProperty* new_windowProp = nullptr);
     };
 }
 

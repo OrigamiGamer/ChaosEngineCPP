@@ -13,4 +13,15 @@ namespace Chaos::Device {
     {
 
     }
+
+    void Window::initialize(WindowProperty* new_windowProp)
+    {
+        if (new_windowProp != nullptr) {
+            new_windowProp;
+        }
+        else {
+            // default window property
+            
+        }
+    }
 }
