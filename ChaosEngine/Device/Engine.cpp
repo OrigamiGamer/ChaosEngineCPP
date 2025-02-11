@@ -63,14 +63,30 @@ namespace Chaos::Device {
         return true;
     }
 
+    void Engine::start()
+    {
+        if (this->window.has_value()) {
+            auto& _glfwWindow = this->window->_glfwWindow;
+            while (!glfwWindowShouldClose(_glfwWindow)) {
+                glfwSwapBuffers(_glfwWindow);
+                glfwPollEvents();
+            }
+        }
+    }
+
+    void Engine::stop()
+    {
+        glfwSetWindowShouldClose(this->window->_glfwWindow, true);
+    }
+
     void Engine::release()
     {
         this->stage.release();
 
         this->window.release();
         glfwTerminate();
-        
+
         this->renderer.release();
-        
+
     }
 }

@@ -257,6 +257,10 @@ namespace Chaos::Device {
         // Bind a new Window device to this engine.
         // void bindWindow(Device::Window*);
 
+        void start();
+
+        void stop();
+
         // Proactively release all devices bound to the engine in a specific order.
         // 以特定顺序，主动释放引擎所拥有的所有设备。
         void release();
