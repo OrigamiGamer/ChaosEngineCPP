@@ -44,6 +44,21 @@ namespace Chaos::Device {
             );
             if (!this->_glfwWindow) return false;
         }
+
+        // Window Pos
+        glfwSetWindowPosCallback(
+            this->_glfwWindow,
+            [](GLFWwindow* window, int xpos, int ypos) {
+
+            }
+        );
+
+        // Window Size
+        glfwSetWindowSizeCallback(
+            this->_glfwWindow,
+            _callbackWindowSize // WTF
+        );
+
         return true;
     }
 }

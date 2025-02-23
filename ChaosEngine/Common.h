@@ -276,6 +276,9 @@ namespace Chaos::Device {
     public:
         GLFWwindow* _glfwWindow;
 
+        vec2<int> pos;
+        vec2<int> size;
+
         Window(Device::Engine* new_engine);
         ~Window();
 
@@ -284,6 +287,9 @@ namespace Chaos::Device {
         // 通过窗口配置来初始化一个窗口对象。若参数为空，则使用默认窗口配置。
         // 在成功时，该方法将返回 `true` 。
         bool initialize(WindowProperty* new_windowProp = nullptr);
+
+    private:
+        void _callbackWindowSize(GLFWwindow* window, int width, int height);
     };
 }
 
@@ -298,6 +304,14 @@ namespace Chaos::Graphic {
     public:
         Renderer(Device::Engine* new_engine);
         ~Renderer();
+
+        void drawLine(
+            vec2<float> pos1,
+            vec2<float> pos2,
+            float strokeWidth = 1.0
+        );
+
+        void drawRectangle(vec2<float> pos, vec2<float> size);
     };
 }
 
