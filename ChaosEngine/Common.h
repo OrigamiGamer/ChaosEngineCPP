@@ -141,26 +141,35 @@ namespace Chaos {
 
 // 1st-declarations
 namespace Chaos {
+
     class Base;
 
     class Resource;
+
 }
 
 namespace Chaos::Device {
+
     class Engine;
 
     struct WindowProperty;
 
     class Window;
+
+    class WindowManager;
+
 }
 
 namespace Chaos::Graphic {
+
     class GraphicManager;
 
     class Renderer;
+
 }
 
 namespace Chaos::Audio {
+
     class AudioManager;
 
     class Sound;
@@ -172,19 +181,23 @@ namespace Chaos::Audio {
     class ChannelGroup;
 
     class AudioPlayer;
+
 }
 
 namespace Chaos::Content {
+
     class Stage;
 
     class Scene;
 
     class Actor;
+
 }
 
 
 // 2nd-declarations
 namespace Chaos {
+
     class Base {
     public:
         std::string nameId;
@@ -211,9 +224,11 @@ namespace Chaos {
         Resource();
         ~Resource();
     };
+
 }
 
 namespace Chaos::Device {
+
     class Engine : public Base {
     public:
         Chaos::ptr<Graphic::Renderer> renderer;
@@ -222,6 +237,18 @@ namespace Chaos::Device {
 
         Engine();
         ~Engine();
+
+        // Initialize the engine in default configurations. Before every action of this engine, this method must be called.
+        // 以默认配置初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
+        bool initialize();
+
+        void start();
+
+        void stop();
+
+        // Proactively release all devices bound to the engine in a specific order.
+        // 以特定顺序，主动释放引擎所拥有的所有设备。
+        void release();
 
         // If this engine is not managing any Renderer device, it will create a new Renderer device bound to this engine, 
         // output its pointer into the optional parameter, and return `true` for success.
@@ -246,10 +273,6 @@ namespace Chaos::Device {
         // 否则该方法将不进行任何操作。
         bool createStage(Chaos::shared_ptr<Content::Stage>* out_stage = nullptr);
 
-        // Initialize the engine in default configurations. Before every action of this engine, this method must be called.
-        // 以默认配置初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
-        bool initialize();
-
         // Only create the necessary devices for this engine in default configurations.
         // 仅为该引擎创建必需的设备，并以默认配置初始化它们。
         bool createDefaultDevice();
@@ -257,13 +280,6 @@ namespace Chaos::Device {
         // Bind a new Window device to this engine.
         // void bindWindow(Device::Window*);
 
-        void start();
-
-        void stop();
-
-        // Proactively release all devices bound to the engine in a specific order.
-        // 以特定顺序，主动释放引擎所拥有的所有设备。
-        void release();
     };
 
     struct WindowProperty {
@@ -288,12 +304,44 @@ namespace Chaos::Device {
         // 在成功时，该方法将返回 `true` 。
         bool initialize(WindowProperty* new_windowProp = nullptr);
 
-    private:
-        void _callbackWindowSize(GLFWwindow* window, int width, int height);
     };
+
+    class WindowManager : public Base {
+    public:
+        static std::vector<GLFWwindow*> _s_glfwWindows;
+
+        WindowManager();
+
+        static void _s_onWindowSize(GLFWwindow* window, int width, int height);
+        static void _s_onWindowPos(GLFWwindow* window, int xpos, int ypos);
+        static void _s_onWindowClose(GLFWwindow* window);
+        static void _s_onWindowIconify(GLFWwindow* window, int iconified);
+        static void _s_onWindowMaximize(GLFWwindow* window, int maximized);
+        static void _s_onWindowFocus(GLFWwindow* window, int focused);
+        static void _s_onKey(GLFWwindow* window, int key, int scancode, int action, int mods);
+        static void _s_onChar(GLFWwindow* window, unsigned int codepoint);
+        static void _s_onCharMods(GLFWwindow* window, unsigned int codepoint, int mods);
+        static void _s_onMouseButton(GLFWwindow* window, int button, int action, int mods);
+        static void _s_onCursorPos(GLFWwindow* window, double xpos, double ypos);
+        static void _s_onCursorEnter(GLFWwindow* window, int entered);
+        static void _s_onScroll(GLFWwindow* window, double xoffset, double yoffset);
+        static void _s_onDrop(GLFWwindow* window, int count, const char** paths);
+
+        /*
+            Window 'Window' key event - Key: 90, Scancode: 44, Action: 1, Mods: 0   (Key Down)
+            Window 'Window' character with mods input - Codepoint: 122, Mods: 0
+            Window 'Window' character input - Codepoint: 122                        (Char)
+            Window 'Window' key event - Key: 90, Scancode: 44, Action: 0, Mods: 0   (Key Up)
+        */
+
+        static void s_registerWindow(GLFWwindow* window);
+
+    };
+
 }
 
 namespace Chaos::Graphic {
+
     class GraphicManager : public Base {
     public:
         GraphicManager(Device::Engine* new_engine);
@@ -313,9 +361,11 @@ namespace Chaos::Graphic {
 
         void drawRectangle(vec2<float> pos, vec2<float> size);
     };
+
 }
 
 namespace Chaos::Audio {
+
     class AudioManager : public Base {
     public:
         AudioManager(Device::Engine* new_engine);
@@ -351,9 +401,11 @@ namespace Chaos::Audio {
         AudioPlayer(Device::Engine* new_engine);
         ~AudioPlayer();
     };
+
 }
 
 namespace Chaos::Content {
+
     class Stage : public Base {
     public:
         Stage(Device::Engine* new_engine);
@@ -371,4 +423,5 @@ namespace Chaos::Content {
         Actor(Device::Engine* new_engine);
         ~Actor();
     };
+
 }

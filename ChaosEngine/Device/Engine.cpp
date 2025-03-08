@@ -18,6 +18,39 @@ namespace Chaos::Device {
         // ( 也许至少现在，我们并不奢求 共享设备对象 ? )
     }
 
+    bool Engine::initialize()
+    {
+        if (!glfwInit()) return false;
+        return true;
+    }
+
+    void Engine::start()
+    {
+        if (this->window.has_value()) {
+            auto& _glfwWindow = this->window->_glfwWindow;
+            while (!glfwWindowShouldClose(_glfwWindow)) {
+                glfwSwapBuffers(_glfwWindow);
+                glfwPollEvents();
+            }
+        }
+    }
+
+    void Engine::stop()
+    {
+        glfwSetWindowShouldClose(this->window->_glfwWindow, true);
+    }
+
+    void Engine::release()
+    {
+        this->stage.release();
+
+        this->window.release();
+        glfwTerminate();
+
+        this->renderer.release();
+
+    }
+
     bool Engine::createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer)
     {
         if (!this->renderer.has_value()) {
@@ -49,12 +82,6 @@ namespace Chaos::Device {
         return false;
     }
 
-    bool Engine::initialize()
-    {
-        if (!glfwInit()) return false;
-        return true;
-    }
-
     bool Engine::createDefaultDevice()
     {
         if (!this->createRenderer()) return false;
@@ -63,30 +90,4 @@ namespace Chaos::Device {
         return true;
     }
 
-    void Engine::start()
-    {
-        if (this->window.has_value()) {
-            auto& _glfwWindow = this->window->_glfwWindow;
-            while (!glfwWindowShouldClose(_glfwWindow)) {
-                glfwSwapBuffers(_glfwWindow);
-                glfwPollEvents();
-            }
-        }
-    }
-
-    void Engine::stop()
-    {
-        glfwSetWindowShouldClose(this->window->_glfwWindow, true);
-    }
-
-    void Engine::release()
-    {
-        this->stage.release();
-
-        this->window.release();
-        glfwTerminate();
-
-        this->renderer.release();
-
-    }
 }

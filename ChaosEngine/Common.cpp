@@ -6,6 +6,7 @@
 // Device
 #include "Device/Engine.cpp"
 #include "Device/Window.cpp"
+#include "Device/WindowManager.cpp"
 
 // Graphic
 #include "Graphic/GraphicManager.cpp"
