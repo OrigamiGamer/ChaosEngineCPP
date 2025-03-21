@@ -9,8 +9,8 @@ Chaos::Device::Engine engine;
 int main()
 {
     engine.initialize();
-    // engine.createDefaultDevice();
-    engine.createWindow();
+    engine.createDefaultDevice();
+    // engine.createWindow();
 
     engine.start();
     // engine.stop();

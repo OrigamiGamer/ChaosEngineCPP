@@ -21,6 +21,7 @@ namespace Chaos::Device {
     bool Engine::initialize()
     {
         if (!glfwInit()) return false;
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         return true;
     }
 
