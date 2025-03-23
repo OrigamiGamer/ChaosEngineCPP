@@ -20,25 +20,70 @@ namespace Chaos::Device {
 
     bool Engine::initialize()
     {
+        // initialize GLFW
         if (!glfwInit()) return false;
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+        this->gameRunningState = true;
+
         return true;
     }
 
-    void Engine::start()
+    void Engine::start(EngineStartupProperty* new_engineStartupProp)
     {
-        if (this->window.has_value()) {
-            auto& _glfwWindow = this->window->_glfwWindow;
-            while (!glfwWindowShouldClose(_glfwWindow)) {
-                glfwSwapBuffers(_glfwWindow);
-                glfwPollEvents();
-            }
+        if (new_engineStartupProp) {
+            // user property
+            this->engineStartupProp = *new_engineStartupProp;
         }
+        else {
+            // default property
+            this->engineStartupProp.fps = 60;
+            this->engineStartupProp.onGameInit = nullptr;
+            this->engineStartupProp.onGameExit = []-> bool {return true;};
+        }
+
+        this->lastEngineTime = System::getSystemTime();
+        unsigned long long currentEngineTime = 0;
+
+        //  Game Init
+        if (this->engineStartupProp.onGameInit) this->engineStartupProp.onGameInit();
+
+        // Game Loop
+        while (this->gameRunningState) {
+
+            // Handle Window Message
+            if (this->window.has_value()) {
+                auto& _glfwWindow = this->window->_glfwWindow;
+                if (!glfwWindowShouldClose(_glfwWindow)) {
+                    glfwSwapBuffers(_glfwWindow);
+                    glfwPollEvents();
+                }
+                else {
+                    // Game Exit
+                    if (this->engineStartupProp.onGameExit()) break;
+                }
+            }
+
+            // Game Update
+            engineUpdate();
+
+            // One frame finished
+            currentEngineTime = System::getSystemTime();
+            this->deltaEngineTime = currentEngineTime - lastEngineTime;
+            lastEngineTime = currentEngineTime;
+
+        }
+    }
+
+    void Engine::engineUpdate()
+    {
+        
     }
 
     void Engine::stop()
     {
-        glfwSetWindowShouldClose(this->window->_glfwWindow, true);
+        // glfwSetWindowShouldClose(this->window->_glfwWindow, true);
+        this->gameRunningState = false;
     }
 
     void Engine::release()

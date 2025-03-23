@@ -5,11 +5,12 @@
 
 // Device
 #include "Device/Engine.cpp"
-#include "Device/Window.cpp"
 #include "Device/WindowManager.cpp"
+#include "Device/Window.cpp"
 
 // Graphic
 #include "Graphic/GraphicManager.cpp"
+#include "Graphic/Texture.cpp"
 #include "Graphic/Renderer.cpp"
 
 // Audio

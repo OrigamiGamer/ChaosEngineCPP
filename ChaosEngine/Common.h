@@ -224,6 +224,12 @@ namespace Chaos {
 
 namespace Chaos::Device {
 
+    typedef void (*Callback_GameInit)();
+
+    typedef bool (*Callback_GameExit)();
+
+    struct EngineStartupProperty;
+
     class Engine;
 
     struct WindowProperty;
@@ -237,6 +243,8 @@ namespace Chaos::Device {
 namespace Chaos::Graphic {
 
     class GraphicManager;
+
+    class Texture;
 
     class Renderer;
 
@@ -303,20 +311,36 @@ namespace Chaos {
 
 namespace Chaos::Device {
 
+    struct EngineStartupProperty {
+        unsigned int fps = 60;
+        Callback_GameInit onGameInit = nullptr;
+        Callback_GameExit onGameExit = nullptr;
+    };
+
     class Engine : public Base {
+    private:
+        void engineUpdate();
+
     public:
         Chaos::ptr<Graphic::Renderer> renderer;
         Chaos::ptr<Device::Window> window;
         Chaos::ptr<Content::Stage> stage;
+        EngineStartupProperty engineStartupProp;
+        bool gameRunningState = false;
+        unsigned long long lastEngineTime = 0;
+        unsigned long long deltaEngineTime = 0;
+
 
         Engine();
         ~Engine();
 
-        // Initialize the engine in default configurations. Before every action of this engine, this method must be called.
-        // 以默认配置初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
+        // Initialize this engine. Before every action of this engine, this method must be called.
+        // 初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
         bool initialize();
 
-        void start();
+        // Start this engine from a startup property, or the default property if parameter is nullptr.
+        // 从指定配置启动引擎，若参数为空，则使用默认配置。
+        void start(EngineStartupProperty* new_engineStartupProp = nullptr);
 
         void stop();
 
@@ -366,8 +390,8 @@ namespace Chaos::Device {
     public:
         GLFWwindow* _glfwWindow = nullptr;
 
-        vec2<int> pos;
-        vec2<int> size;
+        vec2<int> pos;  // value updated by callback
+        vec2<int> size; // value updated by callback
 
         Window(Device::Engine* new_engine);
         ~Window();
@@ -382,7 +406,7 @@ namespace Chaos::Device {
 
     class WindowManager : public Base {
     public:
-        static std::vector<GLFWwindow*> _s_glfwWindows;
+        static std::vector<Device::Window*> s_windows;
 
         WindowManager();
 
@@ -408,7 +432,8 @@ namespace Chaos::Device {
             Window 'Window' key event - Key: 90, Scancode: 44, Action: 0, Mods: 0   (Key Up)
         */
 
-        static void s_registerWindow(GLFWwindow* window);
+        static void registerWindow(Device::Window* window);
+        static void registerWindow(Device::Window& window);
 
     };
 
@@ -418,22 +443,41 @@ namespace Chaos::Graphic {
 
     class GraphicManager : public Base {
     public:
+        Chaos::shared_ptr<Graphic::Renderer> renderer;
+
         GraphicManager(Device::Engine* new_engine);
         ~GraphicManager();
+
+    };
+
+    class Texture : public Resource {
+    public:
+        ID2D1Bitmap* bitmap = nullptr;
+
+        Texture();
+        ~Texture();
+
+        vec2<float> getSize();
+
     };
 
     class Renderer : public Base {
     private:
         ID2D1Factory* _d2dFactory = nullptr;
+        IWICImagingFactory* _wicFactory = nullptr;
         IDWriteFactory* _dwriteFactory = nullptr;
         ID2D1HwndRenderTarget* _renderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
     public:
+        std::vector<Texture*> textures;
+
         Renderer(Device::Engine* new_engine);
         ~Renderer();
 
         bool initialize(Device::Window& new_window);
+
+        Graphic::Texture* loadTextureFromFile(std::wstring filename);
 
         void drawLine(
             vec2<float> pos1,

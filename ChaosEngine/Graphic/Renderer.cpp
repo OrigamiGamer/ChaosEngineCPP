@@ -9,6 +9,11 @@ namespace Chaos::Graphic {
         this->INIT("Renderer");
     }
 
+    Renderer::~Renderer()
+    {
+
+    }
+
     bool Renderer::initialize(Device::Window& new_window)
     {
         HWND hwnd = glfwGetWin32Window(new_window._glfwWindow);
@@ -34,8 +39,54 @@ namespace Chaos::Graphic {
         return true;
     }
 
-    Renderer::~Renderer()
+    Graphic::Texture* Renderer::loadTextureFromFile(std::wstring filename)
     {
+        IWICBitmapDecoder* decoder = nullptr;
+        IWICBitmapFrameDecode* frameDecode = nullptr;
+        IWICFormatConverter* converter = nullptr;
 
+        // Load the image file
+        HRESULT hr = _wicFactory->CreateDecoderFromFilename(
+            System::locate(filename).c_str(),
+            NULL,
+            GENERIC_READ,
+            WICDecodeMetadataCacheOnDemand,
+            &decoder
+        );
+        if (FAILED(hr)) return nullptr;
+
+        // Get the first frame of the image
+        hr = decoder->GetFrame(0, &frameDecode);
+        if (FAILED(hr)) return nullptr;;
+
+        // Format convert to 32bppPBGRA
+        hr = _wicFactory->CreateFormatConverter(&converter);
+        if (FAILED(hr)) return nullptr;;
+
+        hr = converter->Initialize(
+            frameDecode,
+            GUID_WICPixelFormat32bppPBGRA,
+            WICBitmapDitherTypeNone,
+            NULL,
+            0.f,
+            WICBitmapPaletteTypeCustom
+        );
+        if (FAILED(hr)) return nullptr;;
+
+        // Create a bitmap from the converted frame
+        this->textures.resize(this->textures.size() + 1);
+        hr = this->_renderTarget->CreateBitmapFromWicBitmap(
+            converter,
+            &this->textures.back()->bitmap
+        );
+        if (FAILED(hr)) return nullptr;
+
+        // Release COM objects
+        System::safeReleaseCOM(converter);
+        System::safeReleaseCOM(frameDecode);
+        System::safeReleaseCOM(decoder);
+
+        return this->textures.back();
     }
+
 }

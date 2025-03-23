@@ -47,7 +47,7 @@ namespace Chaos::Device {
         }
 
         // Register the window created to WindowManager
-        WindowManager::s_registerWindow(this->_glfwWindow);
+        WindowManager::registerWindow(this);
 
 
         // Window Callback Functions:

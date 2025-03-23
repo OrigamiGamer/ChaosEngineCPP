@@ -4,8 +4,8 @@
 
 namespace Chaos::Device {
 
-    std::vector<GLFWwindow*> WindowManager::_s_glfwWindows{};
-    
+    std::vector<Device::Window*> WindowManager::s_windows{};
+
 
 
     WindowManager::WindowManager()
@@ -15,14 +15,28 @@ namespace Chaos::Device {
 
     void WindowManager::_s_onWindowSize(GLFWwindow* window, int width, int height)
     {
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' resized to width: " << width << ", height: " << height << std::endl;
+        for (auto& wnd : WindowManager::s_windows) {
+            if (wnd->_glfwWindow == window) {
+                wnd->size = { width, height };
+                break;
+            }
+        }
+
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' resized to width: " << width << ", height: " << height << std::endl;
     }
 
     void WindowManager::_s_onWindowPos(GLFWwindow* window, int xpos, int ypos)
     {
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' moved to xpos: " << xpos << ", ypos: " << ypos << std::endl;
+        for (auto& wnd : WindowManager::s_windows) {
+            if (wnd->_glfwWindow == window) {
+                wnd->pos = { xpos, ypos };
+                break;
+            }
+        }
+
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' moved to xpos: " << xpos << ", ypos: " << ypos << std::endl;
     }
 
     void WindowManager::_s_onWindowClose(GLFWwindow* window)
@@ -121,9 +135,14 @@ namespace Chaos::Device {
     }
 
 
-    void WindowManager::s_registerWindow(GLFWwindow* window)
+    void WindowManager::registerWindow(Device::Window& window)
     {
-        WindowManager::_s_glfwWindows.push_back(window);
+        WindowManager::s_windows.push_back(&window);
+    }
+
+    void WindowManager::registerWindow(Device::Window* window)
+    {
+        WindowManager::s_windows.push_back(window);
     }
 
 }
