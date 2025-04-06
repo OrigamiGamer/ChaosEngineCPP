@@ -81,9 +81,9 @@ namespace Chaos::Device {
     }
 
     inline void Engine::start(
-        unsigned int new_fps = 60,
-        Callback_GameInit new_onGameInit = nullptr,
-        Callback_GameExit new_onGameExit = nullptr
+        unsigned int new_fps,
+        Callback_GameInit new_onGameInit,
+        Callback_GameExit new_onGameExit
     )
     {
         EngineStartupProperty new_engineStartupProp;

@@ -34,8 +34,14 @@ namespace Chaos::Content {
 
     void Stage::update()
     {
-        for (auto& scene : this->_scenes) {
-            scene->update();
+        if (this->_currentScene.has_value()) this->_currentScene->update();
+
+        if (this->_preparedScene.has_value()) {
+            if (this->_currentScene.has_value() ? this->_currentScene->onExit() : true) {
+                this->_preparedScene->onEnter();
+                this->_currentScene = this->_preparedScene;
+                this->_preparedScene = nullptr;
+            }
         }
     }
 

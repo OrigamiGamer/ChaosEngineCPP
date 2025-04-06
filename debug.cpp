@@ -29,9 +29,30 @@ int main()
     return 0;
 }
 
+class Scene_MainPage : public Content::Scene {
+public:
+    Scene_MainPage() : Scene("MainScene") {}
+
+    void onEnter()
+    {
+
+    }
+
+    bool onExit()
+    {
+        return true;
+    }
+
+    void update()
+    {
+
+    }
+
+} g_scene_mainPage;
+
 void GameInit()
 {
-
+    engine.stage->registerScene(g_scene_mainPage);
 }
 
 bool GameExit()
@@ -39,10 +60,3 @@ bool GameExit()
     return true;
 }
 
-class Scene_MainPage : public Content::Scene {
-public:
-    Scene_MainPage() : Scene("MainScene") {}
-
-
-
-};

@@ -5,7 +5,8 @@
 namespace Chaos::Content {
     Scene::Scene(std::string new_sceneName)
     {
-        this->INIT(new_sceneName);
+        this->INIT("Scene");
+        this->SET_NAME(new_sceneName);
 
     }
 
