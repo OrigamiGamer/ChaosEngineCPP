@@ -17,9 +17,13 @@
 #include "Graphic/D2D/D2D.h"
 
 
+
+// Common
+
+// 1st-declarations
+
 namespace Chaos {
 
-    // 1st-declarations
     template<typename T>
     struct vec2;
 
@@ -51,9 +55,9 @@ namespace Chaos {
     template<typename T>
     class shared_ptr {
     private:
-        T* p;
+        T* p = nullptr;
     public:
-        shared_ptr();
+        shared_ptr(T* new_p = nullptr);
         ~shared_ptr();
 
         bool has_value();
@@ -63,6 +67,12 @@ namespace Chaos {
         // Refer a new pointer.
         // 引用一个新指针。
         shared_ptr<T>& refer(T* new_p);
+
+        shared_ptr<T>& refer(shared_ptr<T>& new_p);
+
+        shared_ptr<T>& operator=(T* new_p);
+
+        shared_ptr<T>& operator=(shared_ptr<T>& new_p);
 
         friend class ptr<T>;
     };
@@ -81,136 +91,30 @@ namespace Chaos {
         void operator=(T* new_p);
     };
 
-
-
-    // Definitions
-    template<typename T>
-    shared_ptr<T>::shared_ptr()
-    {
-        p = nullptr;
-    }
-
-    template<typename T>
-    shared_ptr<T>::~shared_ptr()
-    {
-        // std::cout << "do_nothing -> " << std::string(typeid(*this).name()) << std::endl;
-    }
-
-    template<typename T>
-    inline bool shared_ptr<T>::has_value()
-    {
-        return p != nullptr;
-    }
-
-    template<typename T>
-    inline T* shared_ptr<T>::operator->()
-    {
-        if (has_value()) return p;
-        return nullptr;
-    }
-
-    template<typename T>
-    shared_ptr<T>& shared_ptr<T>::refer(T* new_p)
-    {
-        this->p = new_p;
-        return *this;
-    }
-
-
-    template<typename T>
-    ptr<T>::~ptr()
-    {
-        // this->release();
-    }
-
-    template<typename T>
-    inline void ptr<T>::release()
-    {
-        if (shared_ptr<T>::has_value()) delete shared_ptr<T>::p;
-    }
-
-    template<typename T>
-    inline ptr<T>& ptr<T>::set(T* new_p)
-    {
-        if (shared_ptr<T>::has_value()) this->release();    // better to do nothing ?
-        shared_ptr<T>::p = new_p;
-        return *this;
-    }
-
-    template<typename T>
-    inline void ptr<T>::operator=(T* new_ptr)
-    {
-        this->set(new_ptr);
-    }
 }
-
-
-
-// Common
-
-// 1st-declarations
 
 namespace Chaos::System {
 
+    // Release a COM object pointer safely.
+    // 安全释放 COM 对象指针。
     template<typename T>
     void safeReleaseCOM(T*& pAny);
 
-    template<typename T = IUnknown>
-    void safeReleaseCOM(T*& pAny)
-    {
-        if (pAny != nullptr) {
-            pAny->Release();
-            pAny = nullptr;
-        }
-    }
+    // Get the current system time in microseconds.
+    // 获取当前系统时间，以微秒为单位。
+    unsigned long long getSystemTime();
 
-    inline unsigned long long getSystemTime()
-    {
-        return std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::high_resolution_clock::now().time_since_epoch()
-        ).count();
-    }
+    // Get the path of the current running program.
+    // 获取当前运行程序的路径。
+    std::wstring getProgramPath();
 
-    inline std::wstring getProgramPath()
-    {
-        wchar_t _raw_path[MAX_PATH]; GetModuleFileNameW(NULL, _raw_path, MAX_PATH);
-        return std::wstring(_raw_path);
-    }
+    // Convert its relative path to absolute path.
+    // 转换相对路径为绝对路径。
+    std::wstring locate(std::wstring fileName);
 
-    std::wstring locate(std::wstring fileName)
-    {
-        std::wstring raw = getProgramPath();
-
-        size_t lpos = raw.find_last_of('\\');
-        size_t rpos = raw.find_last_of('e');  //  \folder\test.exe
-        size_t _rpos = raw.size() - 1;
-
-        std::wstring root;
-        if (rpos + 1 == raw.size()) {
-            root = raw.substr(0, lpos + 1);
-        }
-        else {
-            root = raw + L"\\";
-        }
-        return std::wstring(root) + fileName;
-    }
-
-    std::string codepointToUtf8(uint32_t codepoint)
-    {
-        std::wstring wideCharString;
-        wideCharString.push_back(static_cast<wchar_t>(codepoint));
-
-        int utf8Length = WideCharToMultiByte(CP_UTF8, 0, wideCharString.c_str(), -1, NULL, 0, NULL, NULL);
-        if (utf8Length == 0) {
-            return "";
-        }
-
-        std::vector<char> utf8String(utf8Length);
-        WideCharToMultiByte(CP_UTF8, 0, wideCharString.c_str(), -1, utf8String.data(), utf8Length, NULL, NULL);
-        utf8String.pop_back(); // remove char NULL
-
-        return std::string(utf8String.begin(), utf8String.end());
-    }
+    // Convert a Unicode codepoint to UTF-8 string.
+    // 将 Unicode 代码点转换为 UTF-8 字符串。
+    std::string codepointToUtf8(uint32_t codepoint);
 
 }
 
@@ -293,11 +197,16 @@ namespace Chaos {
 
         void SET_NAME(std::string new_nameId);
 
+        // Get the type depth of this object.
+        // 获取对象类型深度。
         const size_t GET_TYPE_DEPTH();
 
+        // Get the type name of this object.
+        // 获取对象顶层类型名称。
         const std::string GET_TOP_TYPE();
 
         // Get the Global Unique Identifier(GUID) of this object.
+        // 获取该对象的全局唯一标识符(GUID)。
         std::string GET_GUID();
     };
 
@@ -341,6 +250,12 @@ namespace Chaos::Device {
         // Start this engine from a startup property, or the default property if parameter is nullptr.
         // 从指定配置启动引擎，若参数为空，则使用默认配置。
         void start(EngineStartupProperty* new_engineStartupProp = nullptr);
+
+        void start(
+            unsigned int new_fps = 60,
+            Callback_GameInit new_onGameInit = nullptr,
+            Callback_GameExit new_onGameExit = nullptr
+        );
 
         void stop();
 
@@ -451,14 +366,20 @@ namespace Chaos::Graphic {
     };
 
     class Texture : public Resource {
-    public:
-        ID2D1Bitmap* bitmap = nullptr;
+    private:
+        ID2D1Bitmap* _bitmap = nullptr;
 
+    public:
         Texture();
         ~Texture();
 
         vec2<float> getSize();
 
+        friend class Renderer;
+    };
+
+    struct RendererTask {
+        int taskType;
     };
 
     class Renderer : public Base {
@@ -533,15 +454,41 @@ namespace Chaos::Audio {
 namespace Chaos::Content {
 
     class Stage : public Base {
+    private:
+        std::vector<Chaos::shared_ptr<Scene>> _scenes;
+        Chaos::shared_ptr<Scene> _currentScene;
+        Chaos::shared_ptr<Scene> _preparedScene;
+
     public:
         Stage(Device::Engine* new_engine);
         ~Stage();
+
+        // Register a new scene to this stage.
+        // 注册一个新场景到该舞台。
+        void registerScene(Scene* new_scene = nullptr);
+        void registerScene(Scene& new_scene);
+        void registerScene(Chaos::shared_ptr<Scene>& new_scene);
+
+        void update();
+
+        bool switchScene(std::string new_sceneName);
+        void switchScene(Scene* new_scene);
+        void switchScene(Scene& new_scene);
+        void switchScene(Chaos::shared_ptr<Scene>& new_scene);
+        
+        friend class Device::Engine;
     };
 
     class Scene : public Base {
     public:
-        Scene(Device::Engine* new_engine);
+        Scene(std::string new_sceneName);
         ~Scene();
+
+        virtual void update();
+
+        virtual void onEnter();
+
+        virtual bool onExit();
     };
 
     class Actor : public Base {

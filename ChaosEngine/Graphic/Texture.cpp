@@ -16,8 +16,8 @@ namespace Chaos::Graphic {
 
     vec2<float> Texture::getSize()
     {
-        if (!this->bitmap) return vec2<float>({ 0, 0 });
-        return vec2<float>({ this->bitmap->GetSize().width, this->bitmap->GetSize().height });
+        if (!this->_bitmap) return vec2<float>({ 0, 0 });
+        return vec2<float>({ this->_bitmap->GetSize().width, this->_bitmap->GetSize().height });
     }
 
 }

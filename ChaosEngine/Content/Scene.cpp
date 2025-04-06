@@ -3,10 +3,9 @@
 #include "Common.h"
 
 namespace Chaos::Content {
-    Scene::Scene(Device::Engine* new_engine)
+    Scene::Scene(std::string new_sceneName)
     {
-        this->engine.refer(new_engine);
-        this->INIT("Scene");
+        this->INIT(new_sceneName);
 
     }
 
@@ -14,4 +13,20 @@ namespace Chaos::Content {
     {
 
     }
+
+    void Scene::update()
+    {
+
+    }
+
+    void Scene::onEnter()
+    {
+
+    }
+
+    bool Scene::onExit()
+    {
+        return true;
+    }
+
 }

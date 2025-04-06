@@ -29,7 +29,7 @@ namespace Chaos {
         return this->typeIdHeap.size();
     }
 
-    const inline std::string Base::GET_TOP_TYPE()
+    const std::string Base::GET_TOP_TYPE()
     {
         return typeIdHeap.at(this->GET_TYPE_DEPTH() - 1);
     }

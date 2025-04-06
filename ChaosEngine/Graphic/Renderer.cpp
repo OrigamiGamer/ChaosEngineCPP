@@ -77,7 +77,7 @@ namespace Chaos::Graphic {
         this->textures.resize(this->textures.size() + 1);
         hr = this->_renderTarget->CreateBitmapFromWicBitmap(
             converter,
-            &this->textures.back()->bitmap
+            &this->textures.back()->_bitmap
         );
         if (FAILED(hr)) return nullptr;
 

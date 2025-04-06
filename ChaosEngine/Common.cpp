@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Pointer.cpp"
+#include "System.cpp"
 #include "Base.cpp"
 #include "Resource.cpp"
 

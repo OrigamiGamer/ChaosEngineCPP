@@ -39,7 +39,7 @@ namespace Chaos::Device {
             // default property
             this->engineStartupProp.fps = 60;
             this->engineStartupProp.onGameInit = nullptr;
-            this->engineStartupProp.onGameExit = []-> bool {return true;};
+            this->engineStartupProp.onGameExit = []()-> bool {return true;};
         }
 
         this->lastEngineTime = System::getSystemTime();
@@ -60,7 +60,12 @@ namespace Chaos::Device {
                 }
                 else {
                     // Game Exit
-                    if (this->engineStartupProp.onGameExit()) break;
+                    if (this->engineStartupProp.onGameExit()) {
+                        // user confirmed
+                        break;
+                    }
+                    // user denied
+                    glfwSetWindowShouldClose(_glfwWindow, false);
                 }
             }
 
@@ -75,9 +80,22 @@ namespace Chaos::Device {
         }
     }
 
+    inline void Engine::start(
+        unsigned int new_fps = 60,
+        Callback_GameInit new_onGameInit = nullptr,
+        Callback_GameExit new_onGameExit = nullptr
+    )
+    {
+        EngineStartupProperty new_engineStartupProp;
+        new_engineStartupProp.fps = new_fps;
+        new_engineStartupProp.onGameInit = new_onGameInit;
+        new_engineStartupProp.onGameExit = new_onGameExit;
+        this->start(&new_engineStartupProp);
+    }
+
     void Engine::engineUpdate()
     {
-        
+        this->stage->update();
     }
 
     void Engine::stop()
