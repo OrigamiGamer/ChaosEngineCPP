@@ -150,6 +150,18 @@ namespace Chaos::Graphic {
 
     class Texture;
 
+    enum RenderTaskType {
+        None,
+        Line,
+        Rectangle,
+    };
+
+    struct RenderTaskArgument;
+
+    struct RenderTaskArgs_Line;
+
+    struct RenderTask;
+
     class Renderer;
 
 }
@@ -243,7 +255,7 @@ namespace Chaos::Device {
         Engine();
         ~Engine();
 
-        // Initialize this engine. Before every action of this engine, this method must be called.
+        // Initialize this engine. This method MUST be called before any action of this engine.
         // 初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
         bool initialize();
 
@@ -378,8 +390,23 @@ namespace Chaos::Graphic {
         friend class Renderer;
     };
 
-    struct RendererTask {
-        int taskType;
+    struct RenderTaskArgument {
+        unsigned int taskType = RenderTaskType::None;
+    };
+
+    struct RenderTask {
+        unsigned int taskType = RenderTaskType::None;
+        RenderTaskArgument taskArgs;
+    };
+
+    // Arguments of task types.
+    // 任务类型的参数。
+
+    struct RenderTaskArgs_Line : public RenderTaskArgument {
+        vec2<float> pos1{};
+        vec2<float> pos2{};
+        float strokeWidth = 1.0;
+        RenderTaskArgs_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth = 1.0);
     };
 
     class Renderer : public Base {
@@ -392,6 +419,7 @@ namespace Chaos::Graphic {
 
     public:
         std::vector<Texture*> textures;
+        std::vector<RenderTask> tasks;
 
         Renderer(Device::Engine* new_engine);
         ~Renderer();
@@ -400,11 +428,12 @@ namespace Chaos::Graphic {
 
         Graphic::Texture* loadTextureFromFile(std::wstring filename);
 
-        void drawLine(
-            vec2<float> pos1,
-            vec2<float> pos2,
-            float strokeWidth = 1.0
-        );
+        void pushTask(RenderTask new_task);
+
+        void popTask(RenderTask* new_task = nullptr);
+
+        void executeAllTasks();
+
 
         void drawRectangle(vec2<float> pos, vec2<float> size);
     };
@@ -475,7 +504,7 @@ namespace Chaos::Content {
         void switchScene(Scene* new_scene);
         void switchScene(Scene& new_scene);
         void switchScene(Chaos::shared_ptr<Scene>& new_scene);
-        
+
         friend class Device::Engine;
     };
 

@@ -3,6 +3,13 @@
 #include "Common.h"
 
 namespace Chaos::Graphic {
+
+    RenderTaskArgs_Line::RenderTaskArgs_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth)
+        : pos1(pos1), pos2(pos2), strokeWidth(strokeWidth)
+    {
+        this->taskType = RenderTaskType::Line;
+    }
+
     Renderer::Renderer(Device::Engine* new_engine)
     {
         this->engine.refer(new_engine);
