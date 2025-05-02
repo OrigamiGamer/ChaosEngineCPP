@@ -6,9 +6,6 @@ namespace Chaos::Device {
     Engine::Engine()
     {
         this->INIT("Engine");
-        this->renderer = nullptr;
-        this->window = nullptr;
-        this->stage = nullptr;
     }
 
     Engine::~Engine()
@@ -95,7 +92,11 @@ namespace Chaos::Device {
 
     void Engine::engineUpdate()
     {
+        this->renderer->beginDraw();
+
         this->stage->update();
+
+        this->renderer->endDraw();
     }
 
     void Engine::stop()
@@ -108,21 +109,11 @@ namespace Chaos::Device {
     {
         this->stage.release();
 
+        this->renderer.release();
+
         this->window.release();
         glfwTerminate();
 
-        this->renderer.release();
-
-    }
-
-    bool Engine::createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer)
-    {
-        if (!this->renderer.has_value()) {
-            this->renderer = new Graphic::Renderer(this);
-            if (out_renderer != nullptr) out_renderer = &this->renderer;
-            return true;
-        }
-        return false;
     }
 
     bool Engine::createWindow(Device::WindowProperty* new_windowProp, Chaos::shared_ptr<Device::Window>* out_window)
@@ -132,6 +123,17 @@ namespace Chaos::Device {
             if (out_window != nullptr) out_window = &this->window;
             this->window->initialize(new_windowProp);
             glfwMakeContextCurrent(this->window->_glfwWindow);
+            return true;
+        }
+        return false;
+    }
+
+    bool Engine::createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer)
+    {
+        if (!this->renderer.has_value()) {
+            this->renderer = new Graphic::Renderer(this);
+            if (this->window.has_value()) this->renderer->initialize(this->window.get());
+            if (out_renderer != nullptr) out_renderer = &this->renderer;
             return true;
         }
         return false;
@@ -148,8 +150,8 @@ namespace Chaos::Device {
 
     bool Engine::createDefaultDevice()
     {
-        if (!this->createRenderer()) return false;
         if (!this->createWindow()) return false;
+        if (!this->createRenderer()) return false;
         if (!this->createStage()) return false;
         return true;
     }

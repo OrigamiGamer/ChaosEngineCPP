@@ -35,16 +35,21 @@ public:
 
     void onEnter()
     {
-        
+        std::cout << "Entering MainScene" << std::endl;
     }
 
     bool onExit()
     {
+        std::cout << "Exiting MainScene" << std::endl;
         return true;
     }
 
     void update()
     {
+        Graphic::RenderTask task;
+        task.type = Graphic::RenderTaskType::Line;
+        task.param = Graphic::RenderTaskParam_Line({ 100,100 }, { 300,300 }, 4.0);
+        ::engine.renderer->pushTask(task);
 
     }
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <chrono>
 #include <memory>
+#include <variant>
 
 // GLFW
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -62,6 +63,8 @@ namespace Chaos {
 
         bool has_value();
 
+        T* get();
+
         T* operator->();
 
         // Refer a new pointer.
@@ -80,6 +83,7 @@ namespace Chaos {
     template<typename T>
     class ptr : public shared_ptr<T> {
     public:
+        ptr(T* new_p = nullptr);
         ~ptr();
 
         void release();
@@ -156,9 +160,12 @@ namespace Chaos::Graphic {
         Rectangle,
     };
 
-    struct RenderTaskArgument;
+    struct RenderTaskParam_Line;
 
-    struct RenderTaskArgs_Line;
+    using RenderTaskParam = std::variant<
+        std::monostate,
+        RenderTaskParam_Line
+    >;
 
     struct RenderTask;
 
@@ -198,16 +205,16 @@ namespace Chaos {
 
     class Base {
     public:
-        std::string nameId;
-        std::vector<std::string> typeIdHeap;
+        std::string name;
+        std::vector<std::string> typeHeap;
         Chaos::shared_ptr<Device::Engine> engine;
     public:
         Base();
         ~Base();
 
-        void INIT(std::string new_typeId);
+        void INIT(std::string new_type);
 
-        void SET_NAME(std::string new_nameId);
+        void SET_NAME(std::string new_name);
 
         // Get the type depth of this object.
         // 获取对象类型深度。
@@ -243,9 +250,9 @@ namespace Chaos::Device {
         void engineUpdate();
 
     public:
-        Chaos::ptr<Graphic::Renderer> renderer;
-        Chaos::ptr<Device::Window> window;
-        Chaos::ptr<Content::Stage> stage;
+        Chaos::ptr<Graphic::Renderer> renderer = nullptr;
+        Chaos::ptr<Device::Window> window = nullptr;
+        Chaos::ptr<Content::Stage> stage = nullptr;
         EngineStartupProperty engineStartupProp;
         bool gameRunningState = false;
         unsigned long long lastEngineTime = 0;
@@ -275,13 +282,6 @@ namespace Chaos::Device {
         // 以特定顺序，主动释放引擎所拥有的所有设备。
         void release();
 
-        // If this engine is not managing any Renderer device, it will create a new Renderer device bound to this engine, 
-        // output its pointer into the optional parameter, and return `true` for success.
-        // Else, this method will do nothing.
-        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到该引擎，输出其指针到参数，并在成功时返回 `true` 。
-        // 否则该方法将不进行任何操作。
-        bool createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
-
         // If this engine is not managing any Window device, it will create a new Window device bound to this engine, 
         // output its pointer into the optional parameter, and return `true` for success.
         // Initialize a window object from a window property, or the default window property if parameter is empty.
@@ -290,6 +290,13 @@ namespace Chaos::Device {
         // 通过窗口配置来初始化一个窗口对象。若参数为空，则使用默认窗口配置。
         // 否则该方法将不进行任何操作。
         bool createWindow(Device::WindowProperty* new_windowProp = nullptr, Chaos::shared_ptr<Device::Window>* out_window = nullptr);
+
+        // If this engine is not managing any Renderer device, it will create a new Renderer device bound to this engine, 
+        // output its pointer into the optional parameter, and return `true` for success.
+        // Else, this method will do nothing.
+        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到该引擎，输出其指针到参数，并在成功时返回 `true` 。
+        // 否则该方法将不进行任何操作。
+        bool createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
 
         // If this engine is not managing any Stage device, it will create a new Stage device bound to this engine, 
         // output its pointer into the optional parameter, and return `true` for success. 
@@ -390,23 +397,21 @@ namespace Chaos::Graphic {
         friend class Renderer;
     };
 
-    struct RenderTaskArgument {
-        unsigned int taskType = RenderTaskType::None;
-    };
-
-    struct RenderTask {
-        unsigned int taskType = RenderTaskType::None;
-        RenderTaskArgument taskArgs;
-    };
-
     // Arguments of task types.
     // 任务类型的参数。
 
-    struct RenderTaskArgs_Line : public RenderTaskArgument {
+    // Line
+    struct RenderTaskParam_Line {
         vec2<float> pos1{};
         vec2<float> pos2{};
         float strokeWidth = 1.0;
-        RenderTaskArgs_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth = 1.0);
+        RenderTaskParam_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth = 1.0);
+    };
+
+    struct RenderTask {
+        unsigned int type = RenderTaskType::None;
+        RenderTaskParam param;
+        RenderTask(unsigned int type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam());
     };
 
     class Renderer : public Base {
@@ -424,16 +429,19 @@ namespace Chaos::Graphic {
         Renderer(Device::Engine* new_engine);
         ~Renderer();
 
+        bool initialize(Device::Window* new_window);
         bool initialize(Device::Window& new_window);
 
         Graphic::Texture* loadTextureFromFile(std::wstring filename);
 
-        void pushTask(RenderTask new_task);
+        void pushTask(RenderTask& new_task);
 
+        // Pop the last task from the task queue if parameter is `nullptr`.
         void popTask(RenderTask* new_task = nullptr);
 
-        void executeAllTasks();
+        void beginDraw();
 
+        void endDraw();
 
         void drawRectangle(vec2<float> pos, vec2<float> size);
     };

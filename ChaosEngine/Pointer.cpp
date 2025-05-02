@@ -25,10 +25,16 @@ namespace Chaos {
     }
 
     template<typename T>
-    inline T* shared_ptr<T>::operator->()
+    inline T* shared_ptr<T>::get()
     {
         if (has_value()) return p;
         return nullptr;
+    }
+
+    template<typename T>
+    inline T* shared_ptr<T>::operator->()
+    {
+        return this->get();
     }
 
     template<typename T>
@@ -58,23 +64,33 @@ namespace Chaos {
     }
 
     // ptr
+    template<typename T>
+    ptr<T>::ptr(T* new_p)
+    {
+        this->set(new_p);
+    }
 
     template<typename T>
     ptr<T>::~ptr()
     {
-        // this->release();
+        std::cout << "[CALL] ptr -> ~ptr()" << std::endl;
+        this->release();
     }
 
     template<typename T>
     inline void ptr<T>::release()
     {
-        if (shared_ptr<T>::has_value()) delete shared_ptr<T>::p;
+        std::cout << "[CALL] ptr -> release() | " << (shared_ptr<T>::has_value() == true ? "has_value" : "nullptr") << std::endl;
+        if (shared_ptr<T>::has_value()) {
+            delete shared_ptr<T>::p;
+            shared_ptr<T>::p = nullptr;
+        };
     }
 
     template<typename T>
     inline ptr<T>& ptr<T>::set(T* new_p)
     {
-        if (shared_ptr<T>::has_value()) this->release();    // better to do nothing ?
+        if (shared_ptr<T>::has_value()) this->release();    // if it's better to do nothing ?
         shared_ptr<T>::p = new_p;
         return *this;
     }
