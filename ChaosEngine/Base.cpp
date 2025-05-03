@@ -21,6 +21,7 @@ namespace Chaos {
 
     inline void Base::SET_NAME(std::string new_nameId)
     {
+        if (new_nameId.empty()) new_nameId = "Unnamed";
         this->name = new_nameId;
     }
 

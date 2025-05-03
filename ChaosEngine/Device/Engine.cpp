@@ -39,13 +39,14 @@ namespace Chaos::Device {
             this->engineStartupProp.onGameExit = []()-> bool {return true;};
         }
 
-        this->lastEngineTime = System::getSystemTime();
-        unsigned long long currentEngineTime = 0;
+        this->lastEngineTime = System::getSystemTime(); // units: microseconds
+        unsigned long long currentEngineTime = 0;   // units: microseconds
 
         //  Game Init
         if (this->engineStartupProp.onGameInit) this->engineStartupProp.onGameInit();
 
         // Game Loop
+        unsigned long long timeSlept = 0;   // units: microseconds
         while (this->gameRunningState) {
 
             // Handle Window Message
@@ -66,8 +67,15 @@ namespace Chaos::Device {
                 }
             }
 
-            // Game Update
-            engineUpdate();
+            // FPS Control (units: microseconds)
+            unsigned long long cycleTime = (1000 * 1000) / this->engineStartupProp.fps;
+            timeSlept += this->deltaEngineTime;
+            if (timeSlept >= cycleTime) {
+                // Game Update
+                engineUpdate();
+                timeSlept -= cycleTime;
+                if (timeSlept < 0) timeSlept = 0;
+            }
 
             // One frame finished
             currentEngineTime = System::getSystemTime();
@@ -92,9 +100,10 @@ namespace Chaos::Device {
 
     void Engine::engineUpdate()
     {
+        if (!this->renderer.has_value()) return;
         this->renderer->beginDraw();
 
-        this->stage->update();
+        if (this->stage.has_value()) this->stage->update();
 
         this->renderer->endDraw();
     }

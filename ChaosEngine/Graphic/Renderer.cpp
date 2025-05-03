@@ -57,7 +57,7 @@ namespace Chaos::Graphic {
 
         // create a solid color brush
         hr = this->_renderTarget->CreateSolidColorBrush(
-            D2D1::ColorF(D2D1::ColorF::LightGreen),
+            D2D1::ColorF(D2D1::ColorF::Red, 1.0f),
             &this->_brush
         );
         if (FAILED(hr)) return false;
@@ -134,7 +134,7 @@ namespace Chaos::Graphic {
     {
         if (this->_renderTarget != nullptr) {
             this->_renderTarget->BeginDraw();
-            this->_renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::DarkGray));
+            this->_renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
         }
 
     }
@@ -142,12 +142,10 @@ namespace Chaos::Graphic {
     void Renderer::endDraw()
     {
         if (this->_renderTarget != nullptr) {
-            this->_renderTarget->EndDraw();
-
             for (auto& task : this->tasks) {
                 switch (task.type) {
 
-                case RenderTaskType::Line:  // Line
+                case RenderTaskTypes::Line:
                     if (const auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
                         this->_renderTarget->DrawLine(
                             { param->pos1.x, param->pos1.y },
@@ -160,6 +158,7 @@ namespace Chaos::Graphic {
                 }
 
             }
+            this->_renderTarget->EndDraw();
         }
         this->tasks.clear();
     }

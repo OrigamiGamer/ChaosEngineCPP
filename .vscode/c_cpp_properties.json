@@ -10,7 +10,7 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "cppStandard": "c++11",
+            "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "ms-vscode.cmake-tools",
             "compilerPath": "F:/Dev/Env/mingw64/bin/g++.exe"

@@ -154,7 +154,7 @@ namespace Chaos::Graphic {
 
     class Texture;
 
-    enum RenderTaskType {
+    enum RenderTaskTypes {
         None,
         Line,
         Rectangle,
@@ -409,9 +409,9 @@ namespace Chaos::Graphic {
     };
 
     struct RenderTask {
-        unsigned int type = RenderTaskType::None;
+        unsigned int type = RenderTaskTypes::None;
         RenderTaskParam param;
-        RenderTask(unsigned int type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam());
+        RenderTask(unsigned int type = RenderTaskTypes::None, RenderTaskParam param = RenderTaskParam());
     };
 
     class Renderer : public Base {

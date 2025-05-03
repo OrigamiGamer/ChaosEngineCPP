@@ -16,10 +16,12 @@ namespace Chaos::Content {
 
     void Stage::registerScene(Scene* new_scene)
     {
-        if (new_scene != nullptr) {
-            new_scene->engine.refer(this->engine);
-            this->_scenes.push_back(new_scene);
+        if (!new_scene) return;
+        for (auto& _scene : this->_scenes) {
+            if (_scene.get()->name == new_scene->name) return;  // scene already registered
         }
+        new_scene->engine.refer(this->engine);
+        this->_scenes.push_back(new_scene);
     }
 
     void Stage::registerScene(Scene& new_scene)
@@ -29,7 +31,7 @@ namespace Chaos::Content {
 
     void Stage::registerScene(Chaos::shared_ptr<Scene>& new_scene)
     {
-        this->registerScene(new_scene.operator->());
+        this->registerScene(new_scene.get());
     }
 
     void Stage::update()
@@ -50,8 +52,9 @@ namespace Chaos::Content {
     inline bool Stage::switchScene(std::string new_sceneName)
     {
         for (auto& _scene : this->_scenes) {
-            if (_scene->GET_TOP_TYPE() == new_sceneName) {
+            if (_scene->name == new_sceneName) {
                 this->_preparedScene = _scene;
+                std::cout << "Stage -> switch to scene: " << new_sceneName.c_str() << std::endl;
                 return true;
             }
         }
@@ -60,7 +63,8 @@ namespace Chaos::Content {
 
     inline void Stage::switchScene(Scene* new_scene)
     {
-        if (new_scene != nullptr) this->_preparedScene = new_scene;
+        if (!new_scene) return;
+        this->switchScene(new_scene->name);
     }
 
     inline void Stage::switchScene(Scene& new_scene)
@@ -70,7 +74,7 @@ namespace Chaos::Content {
 
     inline void Stage::switchScene(Chaos::shared_ptr<Scene>& new_scene)
     {
-        this->switchScene(new_scene.operator->());
+        this->switchScene(new_scene.get());
     }
 
 }
