@@ -73,7 +73,6 @@ void GameInit()
     ::engine.stage->registerScene(g_scene_mainPage);
     ::engine.stage->switchScene("MainScene");
 
-    std::wcout << System::getProgramFilePath() << std::endl << System::getProgramFileDirectory() << std::endl << System::getProgramFileName() << std::endl;
 }
 
 bool GameExit()
