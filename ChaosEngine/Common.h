@@ -123,7 +123,7 @@ namespace Chaos::System {
 
     // Convert its relative path to absolute path.
     // 转换相对路径为绝对路径。
-    std::wstring locate(std::wstring fileName);
+    std::wstring locate(std::wstring filename);
 
     // Convert a Unicode codepoint to UTF-8 string.
     // 将 Unicode 代码点转换为 UTF-8 字符串。
