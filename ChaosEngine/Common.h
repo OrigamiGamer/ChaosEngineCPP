@@ -6,6 +6,7 @@
 #include <chrono>
 #include <memory>
 #include <variant>
+#include <algorithm>
 
 // GLFW
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -110,7 +111,15 @@ namespace Chaos::System {
 
     // Get the path of the current running program.
     // 获取当前运行程序的路径。
-    std::wstring getProgramPath();
+    std::wstring getProgramFilePath();
+
+    // Get the directory of the current running program.
+    // 获取当前运行程序的目录。
+    inline std::wstring getProgramFileDirectory();
+
+    // Get the name of the current running program.
+    // 获取当前运行程序的文件名称。
+    inline std::wstring getProgramFileName();
 
     // Convert its relative path to absolute path.
     // 转换相对路径为绝对路径。
@@ -154,17 +163,19 @@ namespace Chaos::Graphic {
 
     class Texture;
 
-    enum RenderTaskTypes {
+    enum struct RenderTaskType {
         None,
         Line,
-        Rectangle,
+        Texture,
     };
 
     struct RenderTaskParam_Line;
+    struct RenderTaskParam_Texture;
 
     using RenderTaskParam = std::variant<
         std::monostate,
-        RenderTaskParam_Line
+        RenderTaskParam_Line,
+        RenderTaskParam_Texture
     >;
 
     struct RenderTask;
@@ -382,6 +393,9 @@ namespace Chaos::Graphic {
         GraphicManager(Device::Engine* new_engine);
         ~GraphicManager();
 
+        void registerRenderer(Graphic::Renderer* new_renderer);
+        void registerRenderer(Graphic::Renderer& new_renderer);
+
     };
 
     class Texture : public Resource {
@@ -405,13 +419,38 @@ namespace Chaos::Graphic {
         vec2<float> pos1{};
         vec2<float> pos2{};
         float strokeWidth = 1.0;
-        RenderTaskParam_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth = 1.0);
+
+        RenderTaskParam_Line(
+            vec2<float> pos1,
+            vec2<float> pos2,
+            float strokeWidth = 1.0
+        );
+    };
+
+    struct RenderTaskParam_Texture {
+        vec2<float> pos{};
+        vec2<float> size{};
+        Texture* texture = nullptr;
+        float opacity = 1.0;
+        vec2<float> pivot{};
+        float rotation = 0.0;
+
+        // If `size` is empty, it will use the texture's size.
+        // 如果 `size` 为空，则使用纹理大小。
+        RenderTaskParam_Texture(
+            vec2<float> pos,
+            Texture* texture,
+            vec2<float> size = { -1,-1 },
+            vec2<float> pivot = { 0.0,0.0 },
+            float rotation = 0.0
+        );
     };
 
     struct RenderTask {
-        unsigned int type = RenderTaskTypes::None;
+        RenderTaskType type = RenderTaskType::None;
         RenderTaskParam param;
-        RenderTask(unsigned int type = RenderTaskTypes::None, RenderTaskParam param = RenderTaskParam());
+        float order = 0.0;
+        RenderTask(RenderTaskType type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam(), float order = 0.0);
     };
 
     class Renderer : public Base {
@@ -419,11 +458,14 @@ namespace Chaos::Graphic {
         ID2D1Factory* _d2dFactory = nullptr;
         IWICImagingFactory* _wicFactory = nullptr;
         IDWriteFactory* _dwriteFactory = nullptr;
-        ID2D1HwndRenderTarget* _renderTarget = nullptr;
+
+        ID2D1HwndRenderTarget* _renderTarget = nullptr; // change to -> D2D1RenderTarget as Worlds' renderer
+        // ID2D1RenderTarget* _renderTarget = nullptr;
+
         ID2D1SolidColorBrush* _brush = nullptr;
 
     public:
-        std::vector<Texture*> textures;
+        std::vector<Texture> textures;
         std::vector<RenderTask> tasks;
 
         Renderer(Device::Engine* new_engine);
@@ -432,18 +474,17 @@ namespace Chaos::Graphic {
         bool initialize(Device::Window* new_window);
         bool initialize(Device::Window& new_window);
 
-        Graphic::Texture* loadTextureFromFile(std::wstring filename);
+        Texture* loadTextureFromFile(std::wstring filename);
 
         void pushTask(RenderTask& new_task);
 
-        // Pop the last task from the task queue if parameter is `nullptr`.
-        void popTask(RenderTask* new_task = nullptr);
+        // Pop the last task from the task queue.
+        void popTask();
 
         void beginDraw();
 
         void endDraw();
 
-        void drawRectangle(vec2<float> pos, vec2<float> size);
     };
 
 }

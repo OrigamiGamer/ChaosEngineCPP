@@ -20,28 +20,31 @@ namespace Chaos::System {
         ).count();
     }
 
-    inline std::wstring getProgramPath()
+    inline std::wstring getProgramFilePath()
     {
         wchar_t _raw_path[MAX_PATH]; GetModuleFileNameW(NULL, _raw_path, MAX_PATH);
         return std::wstring(_raw_path);
     }
 
-    std::wstring locate(std::wstring fileName)
+    inline std::wstring getProgramFileDirectory()
     {
-        std::wstring raw = getProgramPath();
+        std::wstring programPath = getProgramFilePath();
+        size_t pos_to_path = programPath.find_last_of(L'\\');
+        return programPath.substr(0, pos_to_path);
+    }
 
-        size_t lpos = raw.find_last_of('\\');
-        size_t rpos = raw.find_last_of('e');  //  \folder\test.exe
-        size_t _rpos = raw.size() - 1;
+    inline std::wstring getProgramFileName()
+    {
+        std::wstring programPath = getProgramFilePath();
+        size_t pos_to_path = programPath.find_last_of(L'\\');
+        return programPath.substr(pos_to_path + 1, programPath.size() - pos_to_path - 1);
+    }
 
-        std::wstring root;
-        if (rpos + 1 == raw.size()) {
-            root = raw.substr(0, lpos + 1);
-        }
-        else {
-            root = raw + L"\\";
-        }
-        return std::wstring(root) + fileName;
+    std::wstring locate(std::wstring filename)
+    {
+        if (filename.front() == L'/') filename.erase(0, 1);
+        std::replace(filename.begin(), filename.end(), L'/', L'\\');
+        return getProgramFileDirectory() + L"\\" + filename;
     }
 
     std::string codepointToUtf8(uint32_t codepoint)

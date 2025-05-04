@@ -86,7 +86,8 @@
         "text_encoding": "cpp",
         "semaphore": "cpp",
         "cinttypes": "cpp",
-        "*.rh": "cpp"
+        "*.rh": "cpp",
+        "ranges": "cpp"
     },
     "C_Cpp.default.compilerPath": "cl.exe",
     "C_Cpp.intelliSenseEngineFallback": "enabled"

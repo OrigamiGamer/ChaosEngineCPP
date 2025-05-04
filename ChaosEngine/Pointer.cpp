@@ -47,7 +47,7 @@ namespace Chaos {
     template<typename T>
     shared_ptr<T>& shared_ptr<T>::refer(shared_ptr<T>& new_p)
     {
-        this->p = new_p.operator->();
+        this->p = new_p.get();
         return *this;
     }
 
@@ -64,6 +64,7 @@ namespace Chaos {
     }
 
     // ptr
+
     template<typename T>
     ptr<T>::ptr(T* new_p)
     {

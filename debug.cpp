@@ -9,6 +9,10 @@ using namespace Chaos;
 
 Chaos::Device::Engine engine;
 
+namespace res {
+    Chaos::shared_ptr<Graphic::Texture> tex_logo;
+}
+
 void GameInit();
 bool GameExit();
 
@@ -20,7 +24,7 @@ int main()
     Chaos::Device::EngineStartupProperty engineProp;
     engineProp.onGameInit = GameInit;
     engineProp.onGameExit = GameExit;
-    engineProp.fps = 5;
+    engineProp.fps = 60;
 
     engine.start(&engineProp);
     engine.release();
@@ -48,11 +52,15 @@ public:
     void update()
     {
         Graphic::RenderTask task;
-        task.type = Graphic::RenderTaskTypes::Line;
+        task.type = Graphic::RenderTaskType::Line;
         task.param = Graphic::RenderTaskParam_Line({ 100,100 }, { 300,300 }, 4.0);
+        task.order = 0;
         ::engine.renderer->pushTask(task);
 
-        std::cout << "size of renderer tasks: " << ::engine.renderer->tasks.size() << std::endl;
+        task.type = Graphic::RenderTaskType::Texture;
+        task.param = Graphic::RenderTaskParam_Texture({ 100,100 }, res::tex_logo.get());
+        task.order = -1;
+        ::engine.renderer->pushTask(task);
 
     }
 
@@ -60,8 +68,12 @@ public:
 
 void GameInit()
 {
-    engine.stage->registerScene(g_scene_mainPage);
-    engine.stage->switchScene("MainScene");
+    res::tex_logo = ::engine.renderer->loadTextureFromFile(L"/res/origami_logo.png");
+
+    ::engine.stage->registerScene(g_scene_mainPage);
+    ::engine.stage->switchScene("MainScene");
+
+    std::wcout << System::getProgramFilePath() << std::endl << System::getProgramFileDirectory() << std::endl << System::getProgramFileName() << std::endl;
 }
 
 bool GameExit()

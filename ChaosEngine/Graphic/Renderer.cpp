@@ -10,8 +10,19 @@ namespace Chaos::Graphic {
 
     }
 
-    RenderTask::RenderTask(unsigned int type, RenderTaskParam param)
-        : type(type), param(param)
+    RenderTaskParam_Texture::RenderTaskParam_Texture(
+        vec2<float> pos,
+        Texture* texture,
+        vec2<float> size,
+        vec2<float> pivot,
+        float rotation
+    ) : pos(pos), texture(texture), size(size), pivot(pivot), rotation(rotation)
+    {
+        if (size.x == -1 && size.y == -1) this->size = texture->getSize();
+    }
+
+    RenderTask::RenderTask(RenderTaskType type, RenderTaskParam param, float order)
+        : type(type), param(param), order(order)
     {
 
     }
@@ -34,9 +45,19 @@ namespace Chaos::Graphic {
     bool Renderer::initialize(Device::Window* new_window)
     {
         HWND hwnd = glfwGetWin32Window(new_window->_glfwWindow);
+        HRESULT hr = CoInitialize(NULL);
 
         // create D2D factory
-        HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &this->_d2dFactory);
+        hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &this->_d2dFactory);
+        if (FAILED(hr)) return false;
+
+        // create WIC factory
+        hr = CoCreateInstance(
+            CLSID_WICImagingFactory,
+            NULL,
+            CLSCTX_INPROC_SERVER,
+            IID_PPV_ARGS(&this->_wicFactory)
+        );
         if (FAILED(hr)) return false;
 
         // create HwndRenderTarget
@@ -62,6 +83,7 @@ namespace Chaos::Graphic {
         );
         if (FAILED(hr)) return false;
 
+        CoUninitialize();
         return true;
     }
 
@@ -70,14 +92,16 @@ namespace Chaos::Graphic {
         return this->initialize(&new_window);
     }
 
-    Graphic::Texture* Renderer::loadTextureFromFile(std::wstring filename)
+    Texture* Renderer::loadTextureFromFile(std::wstring filename)
     {
         IWICBitmapDecoder* decoder = nullptr;
         IWICBitmapFrameDecode* frameDecode = nullptr;
         IWICFormatConverter* converter = nullptr;
 
+        std::wstring tempstr = System::locate(filename);
+
         // Load the image file
-        HRESULT hr = _wicFactory->CreateDecoderFromFilename(
+        HRESULT hr = this->_wicFactory->CreateDecoderFromFilename(
             System::locate(filename).c_str(),
             NULL,
             GENERIC_READ,
@@ -91,7 +115,7 @@ namespace Chaos::Graphic {
         if (FAILED(hr)) return nullptr;;
 
         // Format convert to 32bppPBGRA
-        hr = _wicFactory->CreateFormatConverter(&converter);
+        hr = this->_wicFactory->CreateFormatConverter(&converter);
         if (FAILED(hr)) return nullptr;;
 
         hr = converter->Initialize(
@@ -104,30 +128,43 @@ namespace Chaos::Graphic {
         );
         if (FAILED(hr)) return nullptr;;
 
-        // Create a bitmap from the converted frame
+        // Create a d2d bitmap from the converted frame
         this->textures.resize(this->textures.size() + 1);
         hr = this->_renderTarget->CreateBitmapFromWicBitmap(
             converter,
-            &this->textures.back()->_bitmap
+            NULL,
+            &this->textures.back()._bitmap
         );
-        if (FAILED(hr)) return nullptr;
+        if (FAILED(hr)) {
+            this->textures.pop_back();
+            return nullptr;
+        };
 
         // Release COM objects
         System::safeReleaseCOM(converter);
         System::safeReleaseCOM(frameDecode);
         System::safeReleaseCOM(decoder);
 
-        return this->textures.back();
+        return &this->textures.back();
     }
 
     void Renderer::pushTask(RenderTask& new_task)
     {
-        this->tasks.push_back(new_task);
+        // binary insert, sort by order
+        // this->tasks.push_back(new_task);
+        this->tasks.insert(
+            std::lower_bound(
+                this->tasks.begin(),
+                this->tasks.end(),
+                new_task, [](const RenderTask& a, const RenderTask& b) { return a.order < b.order; }
+            ),
+            new_task
+        );
     }
 
-    void Renderer::popTask(RenderTask* new_task)
+    void Renderer::popTask()
     {
-        if (new_task != nullptr) this->tasks.pop_back();
+        this->tasks.pop_back();
     }
 
     void Renderer::beginDraw()
@@ -145,8 +182,8 @@ namespace Chaos::Graphic {
             for (auto& task : this->tasks) {
                 switch (task.type) {
 
-                case RenderTaskTypes::Line:
-                    if (const auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
+                case RenderTaskType::Line:
+                    if (auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
                         this->_renderTarget->DrawLine(
                             { param->pos1.x, param->pos1.y },
                             { param->pos2.x, param->pos2.y },
@@ -155,8 +192,32 @@ namespace Chaos::Graphic {
                         );
                     }
                     break;
-                }
+                case RenderTaskType::Texture:
+                    if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
+                        if (!param->texture) break;
+                        this->_renderTarget->DrawBitmap(
+                            param->texture->_bitmap,
+                            D2D1::RectF(
+                                param->pos.x,
+                                param->pos.y,
+                                param->pos.x + param->size.x,
+                                param->pos.y + param->size.y
+                            ),
+                            param->opacity,
+                            D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                            D2D1::RectF(
+                                param->pivot.x,
+                                param->pivot.y,
+                                param->pivot.x + param->size.x,
+                                param->pivot.y + param->size.y
+                            )
+                        );
+                    }
+                    break;
 
+                default:
+                    break;
+                }
             }
             this->_renderTarget->EndDraw();
         }

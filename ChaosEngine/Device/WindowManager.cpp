@@ -98,6 +98,7 @@ namespace Chaos::Device {
 
     void WindowManager::_s_onMouseButton(GLFWwindow* window, int button, int action, int mods)
     {
+        // KeyStateBuffer
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' mouse button event - Button: " << button << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
@@ -134,15 +135,17 @@ namespace Chaos::Device {
         }
     }
 
-
-    void WindowManager::registerWindow(Device::Window& window)
+    inline void WindowManager::registerWindow(Device::Window* window)
     {
-        WindowManager::s_windows.push_back(&window);
+        if (window) {
+            for (auto& wnd : WindowManager::s_windows) if (wnd == window) return;
+            WindowManager::s_windows.push_back(window);
+        }
     }
 
-    void WindowManager::registerWindow(Device::Window* window)
+    inline void WindowManager::registerWindow(Device::Window& window)
     {
-        WindowManager::s_windows.push_back(window);
+        WindowManager::registerWindow(&window);
     }
 
 }

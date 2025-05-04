@@ -7,7 +7,7 @@
 #include "wincodec.h"
 
 namespace Lib::Graphic::D2D {
-    
-    class Renderer;
-    
+
+    // class Renderer;
+
 }
