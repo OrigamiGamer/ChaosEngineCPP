@@ -78,10 +78,17 @@ void GameInit()
 
     Chaos::shared_ptr<Graphic::Viewport> viewport;
     if (::engine.renderer->createViewport(viewport)) {
+        viewport->pos = { 10, 10 };
         viewport->size = { 500, 500 };
         viewport->viewPos = { 100, 100 };
         viewport->viewSize = { 500, 500 };
     }
+    if (::engine.renderer->createViewport(viewport)) {
+        viewport->pos = { 510, 10 };
+        viewport->size = { 500, 500 };
+        viewport->viewPos = { 200, 200 };
+        viewport->viewSize = { 500, 500 };
+    }   // NEW PROBLEM
 
     ::engine.stage->registerScene(g_scene_mainPage);
     ::engine.stage->switchScene("MainScene");

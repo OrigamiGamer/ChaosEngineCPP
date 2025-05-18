@@ -254,11 +254,11 @@ namespace Chaos::Graphic {
 
         // render viewports
         if (this->_bitmapRenderTarget) {
+            this->_hwndRenderTarget->BeginDraw();
+            this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
             for (auto& viewport : this->viewports) {
                 this->_bitmapRenderTarget->GetBitmap(&viewport->texture._bitmap);
 
-                this->_hwndRenderTarget->BeginDraw();
-                this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
                 this->_hwndRenderTarget->DrawBitmap(
                     viewport->texture._bitmap,
                     D2D1::RectF(
@@ -276,9 +276,9 @@ namespace Chaos::Graphic {
                         viewport->viewPos.y + viewport->viewSize.y
                     )
                 );
-                this->_hwndRenderTarget->EndDraw();
 
             }
+            this->_hwndRenderTarget->EndDraw();
         }
     }
 

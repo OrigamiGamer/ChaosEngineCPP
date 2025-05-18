@@ -3,6 +3,22 @@
 #include "Common.h"
 
 namespace Chaos::Device {
+
+    // Window Property
+
+    WindowProperty::WindowProperty()
+    {
+
+    }
+
+    WindowProperty::WindowProperty(Chaos::vec2<int> size, Chaos::vec2<int> pos, std::string title)
+        : size(size), pos(pos), title(title)
+    {
+
+    }
+
+    // Window
+
     Window::Window(Device::Engine* new_engine)
     {
         this->engine.refer(new_engine);
@@ -37,8 +53,8 @@ namespace Chaos::Device {
         else {
             // Default window property
             this->_glfwWindow = glfwCreateWindow(
-                800,
-                600,
+                1280,
+                720,
                 "Window",
                 nullptr,
                 nullptr

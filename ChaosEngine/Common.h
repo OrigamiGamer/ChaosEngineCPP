@@ -328,9 +328,12 @@ namespace Chaos::Device {
     };
 
     struct WindowProperty {
-        Chaos::vec2<int> size;
-        Chaos::vec2<int> pos;
+        Chaos::vec2<int> size = { 800, 600 };
+        Chaos::vec2<int> pos = { -1, -1 };  // default position: center of screen
         std::string title = "Window";
+    public:
+        WindowProperty();
+        WindowProperty(Chaos::vec2<int> size = { 800, 600 }, Chaos::vec2<int> pos = { -1, -1 }, std::string title = "Window");
     };
 
     class Window : public Base {

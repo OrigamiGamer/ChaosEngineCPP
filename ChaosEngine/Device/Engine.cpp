@@ -101,7 +101,7 @@ namespace Chaos::Device {
     void Engine::engineUpdate()
     {
         if (this->stage.has_value()) this->stage->update();
-        
+
     }
 
     void Engine::stop()
