@@ -204,6 +204,8 @@ namespace Chaos::Content {
 
     class Stage;
 
+    class Viewport;
+
     class Scene;
 
     class Actor;
@@ -453,26 +455,46 @@ namespace Chaos::Graphic {
         RenderTask(RenderTaskType type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam(), float order = 0.0);
     };
 
+    class Viewport : public Base {
+    public:
+        Graphic::Texture texture;
+        Chaos::vec2<float> pos;
+        Chaos::vec2<float> size;
+        Chaos::vec2<float> pivot;
+        float rotation;
+
+        Chaos::vec2<float> viewPos;
+        Chaos::vec2<float> viewSize;
+
+        Viewport(Device::Engine* new_engine);
+        ~Viewport();
+
+    };
+
     class Renderer : public Base {
     private:
         ID2D1Factory* _d2dFactory = nullptr;
         IWICImagingFactory* _wicFactory = nullptr;
         IDWriteFactory* _dwriteFactory = nullptr;
 
-        ID2D1HwndRenderTarget* _renderTarget = nullptr; // change to -> D2D1RenderTarget as Worlds' renderer
-        // ID2D1RenderTarget* _renderTarget = nullptr;
+        ID2D1HwndRenderTarget* _hwndRenderTarget = nullptr;
 
+        ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
     public:
-        std::vector<Texture> textures;
+        std::vector<Texture> loadedTextures;
         std::vector<RenderTask> tasks;
+        std::vector<Chaos::ptr<Graphic::Viewport>> viewports;
 
         Renderer(Device::Engine* new_engine);
         ~Renderer();
 
         bool initialize(Device::Window* new_window);
         bool initialize(Device::Window& new_window);
+
+        bool createViewport(std::string viewportName = "", Chaos::shared_ptr<Graphic::Viewport>* out_viewport = nullptr);
+        bool createViewport(Chaos::shared_ptr<Graphic::Viewport>& out_viewport);
 
         Texture* loadTextureFromFile(std::wstring filename);
 
@@ -485,6 +507,7 @@ namespace Chaos::Graphic {
 
         void endDraw();
 
+        friend class Content::Stage;
     };
 
 }
@@ -541,9 +564,9 @@ namespace Chaos::Content {
         Stage(Device::Engine* new_engine);
         ~Stage();
 
-        // Register a new scene to this stage.
-        // 注册一个新场景到该舞台。
-        void registerScene(Scene* new_scene = nullptr);
+        // Register a new scene to this stage. And the engine bound to the new scene will be rebound.
+        // 注册一个新场景到该舞台，且该场景所属的引擎将被重新绑定。
+        void registerScene(Scene* new_scene);
         void registerScene(Scene& new_scene);
         void registerScene(Chaos::shared_ptr<Scene>& new_scene);
 
@@ -567,6 +590,7 @@ namespace Chaos::Content {
         virtual void onEnter();
 
         virtual bool onExit();
+
     };
 
     class Actor : public Base {

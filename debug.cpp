@@ -52,6 +52,7 @@ public:
     void update()
     {
         Graphic::RenderTask task;
+
         task.type = Graphic::RenderTaskType::Line;
         task.param = Graphic::RenderTaskParam_Line({ 100,100 }, { 300,300 }, 4.0);
         task.order = 0;
@@ -62,6 +63,8 @@ public:
         task.order = -1;
         ::engine.renderer->pushTask(task);
 
+
+
     }
 
 } g_scene_mainPage;
@@ -69,6 +72,16 @@ public:
 void GameInit()
 {
     res::tex_logo = ::engine.renderer->loadTextureFromFile(L"/res/origami_logo.png");
+
+    // viewport 做到 renderer 里了
+    // 接下来要让每个 Scene 都能拥有并访问一个 viewport
+
+    Chaos::shared_ptr<Graphic::Viewport> viewport;
+    if (::engine.renderer->createViewport(viewport)) {
+        viewport->size = { 500, 500 };
+        viewport->viewPos = { 100, 100 };
+        viewport->viewSize = { 500, 500 };
+    }
 
     ::engine.stage->registerScene(g_scene_mainPage);
     ::engine.stage->switchScene("MainScene");

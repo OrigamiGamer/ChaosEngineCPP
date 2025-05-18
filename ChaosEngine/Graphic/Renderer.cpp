@@ -60,25 +60,31 @@ namespace Chaos::Graphic {
         );
         if (FAILED(hr)) return false;
 
-        // create HwndRenderTarget
+        // create RenderTargets
         if (!this->_d2dFactory) return false;
         RECT rect;
         GetClientRect(hwnd, &rect);
+        Chaos::vec2<LONG> size = { rect.right - rect.left, rect.bottom - rect.top };
+
+        // create hwnd render target
         hr = _d2dFactory->CreateHwndRenderTarget(
             D2D1::RenderTargetProperties(
                 D2D1_RENDER_TARGET_TYPE_HARDWARE
             ),
             D2D1::HwndRenderTargetProperties(
                 hwnd,
-                { (UINT)(rect.right - rect.left),(UINT)(rect.bottom - rect.top) }
+                D2D1::SizeU(size.x, size.y)
             ),
-            &this->_renderTarget
+            &this->_hwndRenderTarget
         );
         if (FAILED(hr)) return false;
 
+        // create bitmap render target
+        this->_hwndRenderTarget->CreateCompatibleRenderTarget(&this->_bitmapRenderTarget);
+
         // create a solid color brush
-        hr = this->_renderTarget->CreateSolidColorBrush(
-            D2D1::ColorF(D2D1::ColorF::Red, 1.0f),
+        hr = this->_bitmapRenderTarget->CreateSolidColorBrush(
+            D2D1::ColorF(D2D1::ColorF::LightGreen, 1.0f),
             &this->_brush
         );
         if (FAILED(hr)) return false;
@@ -129,14 +135,14 @@ namespace Chaos::Graphic {
         if (FAILED(hr)) return nullptr;;
 
         // Create a d2d bitmap from the converted frame
-        this->textures.resize(this->textures.size() + 1);
-        hr = this->_renderTarget->CreateBitmapFromWicBitmap(
+        this->loadedTextures.resize(this->loadedTextures.size() + 1);
+        hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
             converter,
             NULL,
-            &this->textures.back()._bitmap
+            &this->loadedTextures.back()._bitmap
         );
         if (FAILED(hr)) {
-            this->textures.pop_back();
+            this->loadedTextures.pop_back();
             return nullptr;
         };
 
@@ -145,18 +151,39 @@ namespace Chaos::Graphic {
         System::safeReleaseCOM(frameDecode);
         System::safeReleaseCOM(decoder);
 
-        return &this->textures.back();
+        return &this->loadedTextures.back();
+    }
+
+    bool Renderer::createViewport(std::string viewportName, Chaos::shared_ptr<Graphic::Viewport>* out_viewport)
+    {
+        // use default name if empty
+        if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
+        // check if viewport already exists
+        for (auto& viewport : this->viewports) if (viewport->name == viewportName) return false;
+
+        // create and initialize a new viewport
+        this->viewports.resize(this->viewports.size() + 1);
+        this->viewports.back().set(new Graphic::Viewport(this->engine.get()));
+        this->viewports.back()->SET_NAME(viewportName);
+
+        // output the viewport created as parameter
+        if (out_viewport) out_viewport->refer(this->viewports.back().get());
+        return true;
+    }
+
+    inline bool Renderer::createViewport(Chaos::shared_ptr<Graphic::Viewport>& out_viewport)
+    {
+        return this->createViewport("", &out_viewport);
     }
 
     void Renderer::pushTask(RenderTask& new_task)
     {
-        // binary insert, sort by order
-        // this->tasks.push_back(new_task);
         this->tasks.insert(
             std::lower_bound(
                 this->tasks.begin(),
                 this->tasks.end(),
-                new_task, [](const RenderTask& a, const RenderTask& b) { return a.order < b.order; }
+                new_task,
+                [](const RenderTask& a, const RenderTask& b) { return a.order < b.order; }
             ),
             new_task
         );
@@ -169,22 +196,23 @@ namespace Chaos::Graphic {
 
     void Renderer::beginDraw()
     {
-        if (this->_renderTarget != nullptr) {
-            this->_renderTarget->BeginDraw();
-            this->_renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+        if (this->_bitmapRenderTarget) {
+            this->_bitmapRenderTarget->BeginDraw();
+            this->_bitmapRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
         }
 
     }
 
     void Renderer::endDraw()
     {
-        if (this->_renderTarget != nullptr) {
+        // rebder world
+        if (this->_bitmapRenderTarget) {
             for (auto& task : this->tasks) {
                 switch (task.type) {
 
                 case RenderTaskType::Line:
                     if (auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
-                        this->_renderTarget->DrawLine(
+                        this->_bitmapRenderTarget->DrawLine(
                             { param->pos1.x, param->pos1.y },
                             { param->pos2.x, param->pos2.y },
                             this->_brush,
@@ -192,10 +220,11 @@ namespace Chaos::Graphic {
                         );
                     }
                     break;
+
                 case RenderTaskType::Texture:
                     if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
                         if (!param->texture) break;
-                        this->_renderTarget->DrawBitmap(
+                        this->_bitmapRenderTarget->DrawBitmap(
                             param->texture->_bitmap,
                             D2D1::RectF(
                                 param->pos.x,
@@ -219,9 +248,38 @@ namespace Chaos::Graphic {
                     break;
                 }
             }
-            this->_renderTarget->EndDraw();
+            this->_bitmapRenderTarget->EndDraw();
         }
         this->tasks.clear();
+
+        // render viewports
+        if (this->_bitmapRenderTarget) {
+            for (auto& viewport : this->viewports) {
+                this->_bitmapRenderTarget->GetBitmap(&viewport->texture._bitmap);
+
+                this->_hwndRenderTarget->BeginDraw();
+                this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+                this->_hwndRenderTarget->DrawBitmap(
+                    viewport->texture._bitmap,
+                    D2D1::RectF(
+                        viewport->pos.x,
+                        viewport->pos.y,
+                        viewport->pos.x + viewport->size.x,
+                        viewport->pos.y + viewport->size.y
+                    ),
+                    1.0f,
+                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                    D2D1::RectF(
+                        viewport->viewPos.x,
+                        viewport->viewPos.y,
+                        viewport->viewPos.x + viewport->viewSize.x,
+                        viewport->viewPos.y + viewport->viewSize.y
+                    )
+                );
+                this->_hwndRenderTarget->EndDraw();
+
+            }
+        }
     }
 
 }

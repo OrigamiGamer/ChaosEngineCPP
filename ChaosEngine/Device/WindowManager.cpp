@@ -105,8 +105,8 @@ namespace Chaos::Device {
 
     void WindowManager::_s_onCursorPos(GLFWwindow* window, double xpos, double ypos)
     {
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' cursor position - Xpos: " << xpos << ", Ypos: " << ypos << std::endl;
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' cursor position - Xpos: " << xpos << ", Ypos: " << ypos << std::endl;
     }
 
     void WindowManager::_s_onCursorEnter(GLFWwindow* window, int entered)

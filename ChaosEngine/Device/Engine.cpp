@@ -100,12 +100,8 @@ namespace Chaos::Device {
 
     void Engine::engineUpdate()
     {
-        if (!this->renderer.has_value()) return;
-        this->renderer->beginDraw();
-
         if (this->stage.has_value()) this->stage->update();
-
-        this->renderer->endDraw();
+        
     }
 
     void Engine::stop()

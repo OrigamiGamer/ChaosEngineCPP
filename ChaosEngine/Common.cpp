@@ -13,6 +13,7 @@
 // Graphic
 #include "Graphic/GraphicManager.cpp"
 #include "Graphic/Texture.cpp"
+#include "Graphic/Viewport.cpp"
 #include "Graphic/Renderer.cpp"
 
 // Audio

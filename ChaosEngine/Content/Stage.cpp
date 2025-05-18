@@ -24,18 +24,21 @@ namespace Chaos::Content {
         this->_scenes.push_back(new_scene);
     }
 
-    void Stage::registerScene(Scene& new_scene)
+    inline void Stage::registerScene(Scene& new_scene)
     {
         this->registerScene(&new_scene);
     }
 
-    void Stage::registerScene(Chaos::shared_ptr<Scene>& new_scene)
+    inline void Stage::registerScene(Chaos::shared_ptr<Scene>& new_scene)
     {
         this->registerScene(new_scene.get());
     }
 
     void Stage::update()
     {
+        if (!this->engine.has_value()) return;
+        if (!this->engine->renderer.has_value()) return;
+        this->engine->renderer->beginDraw();
         // update current scene
         if (this->_currentScene.has_value()) this->_currentScene->update();
         // update prepared scene
@@ -47,6 +50,7 @@ namespace Chaos::Content {
                 this->_preparedScene = nullptr;
             }
         }
+        this->engine->renderer->endDraw();
     }
 
     inline bool Stage::switchScene(std::string new_sceneName)
