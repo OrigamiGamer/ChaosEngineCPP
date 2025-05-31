@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include <chrono>
 #include <memory>
 #include <variant>
@@ -32,9 +33,13 @@ namespace Chaos {
     template<typename T>
     struct vec3;
 
+    // A shared pointer model, possessing a pointer's access but not managing it. (It looks like a observer...)
+    // 共享指针模型，拥有指针的访问权限，但并不负责管理它。（它看起来像个观察者...）
     template<typename T>
     class shared_ptr;
 
+    // A unique pointer model, managing a pointer as the unique owner. (A miser...)
+    // 独占指针模型，指针唯一管理者。（吝啬鬼...）
     template<typename T>
     class ptr;
 
@@ -117,17 +122,40 @@ namespace Chaos::System {
     // 获取当前运行程序的目录。
     inline std::wstring getProgramFileDirectory();
 
-    // Get the name of the current running program.
+    // Get the file name of the current running program.
     // 获取当前运行程序的文件名称。
     inline std::wstring getProgramFileName();
+
+    // Format a file path.
+    // 格式化文件路径。
+    inline std::string formatFilePath(std::string filePath);
+    inline std::wstring formatFilePath(std::wstring filePath);
 
     // Convert its relative path to absolute path.
     // 转换相对路径为绝对路径。
     std::wstring locate(std::wstring filename);
 
+    // Get the directory of a file.
+    // 获取文件的目录。
+    std::string getFileDirectory(std::string filePath);
+    std::wstring getFileDirectory(std::wstring filePath);
+
+    // Get the name of a file.
+    // 获取文件的名称。
+    std::string getFileName(std::string filePath);
+    std::wstring getFileName(std::wstring filePath);
+
     // Convert a Unicode codepoint to UTF-8 string.
     // 将 Unicode 代码点转换为 UTF-8 字符串。
     std::string codepointToUtf8(uint32_t codepoint);
+
+    // Convert a Unicode string to UTF-8 string.
+    // 将 Unicode 字符串转换为 UTF-8 字符串。
+    std::string wstringToString(const std::wstring wstr);
+
+    // Convert a UTF-8 string to Unicode string.
+    // 将 UTF-8 字符串转换为 Unicode 字符串。
+    std::wstring stringToWstring(const std::string str);
 
 }
 
@@ -162,6 +190,8 @@ namespace Chaos::Graphic {
     class GraphicManager;
 
     class Texture;
+
+    class Viewport;
 
     enum struct RenderTaskType {
         None,
@@ -203,8 +233,6 @@ namespace Chaos::Audio {
 namespace Chaos::Content {
 
     class Stage;
-
-    class Viewport;
 
     class Scene;
 
@@ -322,7 +350,7 @@ namespace Chaos::Device {
         // 仅为该引擎创建必需的设备，并以默认配置初始化它们。
         bool createDefaultDevice();
 
-        // Bind a new Window device to this engine.
+        //// Bind a new Window device to this engine.
         // void bindWindow(Device::Window*);
 
     };
@@ -405,7 +433,9 @@ namespace Chaos::Graphic {
 
     class Texture : public Resource {
     private:
-        ID2D1Bitmap* _bitmap = nullptr;
+        ID2D1Bitmap** _bitmap = nullptr;
+
+        Texture(ID2D1Bitmap** new_bitmap);
 
     public:
         Texture();
@@ -440,8 +470,8 @@ namespace Chaos::Graphic {
         vec2<float> pivot{};
         float rotation = 0.0;
 
-        // If `size` is empty, it will use the texture's size.
-        // 如果 `size` 为空，则使用纹理大小。
+        // If `size` is `-1`, it will use the texture's size.
+        // 如果 `size` 为 `-1`，则使用纹理大小。
         RenderTaskParam_Texture(
             vec2<float> pos,
             Texture* texture,
@@ -485,8 +515,9 @@ namespace Chaos::Graphic {
         ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
+        std::map<std::string, Texture> _loadedTextures;
+
     public:
-        std::vector<Texture> loadedTextures;
         std::vector<RenderTask> tasks;
         std::vector<Chaos::ptr<Graphic::Viewport>> viewports;
 
@@ -499,7 +530,8 @@ namespace Chaos::Graphic {
         bool createViewport(std::string viewportName = "", Chaos::shared_ptr<Graphic::Viewport>* out_viewport = nullptr);
         bool createViewport(Chaos::shared_ptr<Graphic::Viewport>& out_viewport);
 
-        Texture* loadTextureFromFile(std::wstring filename);
+        Texture* loadTextureFromImageFile(std::wstring filename, std::string textureName = "");
+        Texture* getLoadedTexture(std::string textureName);
 
         void pushTask(RenderTask& new_task);
 

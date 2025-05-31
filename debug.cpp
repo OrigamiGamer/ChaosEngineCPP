@@ -71,7 +71,7 @@ public:
 
 void GameInit()
 {
-    res::tex_logo = ::engine.renderer->loadTextureFromFile(L"/res/origami_logo.png");
+    res::tex_logo = ::engine.renderer->loadTextureFromImageFile(L"/res/origami_logo.png");
 
     // viewport 做到 renderer 里了
     // 接下来要让每个 Scene 都能拥有并访问一个 viewport

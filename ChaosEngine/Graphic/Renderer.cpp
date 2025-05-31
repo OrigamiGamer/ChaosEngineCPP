@@ -39,7 +39,18 @@ namespace Chaos::Graphic {
 
     Renderer::~Renderer()
     {
+        // release textures
+        for (auto& texture : this->_loadedTextures) {
+            System::safeReleaseCOM(*texture.second._bitmap);
+        }
+        this->_loadedTextures.clear();
 
+        // release D2D devices
+        System::safeReleaseCOM(this->_hwndRenderTarget);
+        System::safeReleaseCOM(this->_bitmapRenderTarget);
+        System::safeReleaseCOM(this->_brush);
+        System::safeReleaseCOM(this->_d2dFactory);
+        System::safeReleaseCOM(this->_wicFactory);
     }
 
     bool Renderer::initialize(Device::Window* new_window)
@@ -98,13 +109,11 @@ namespace Chaos::Graphic {
         return this->initialize(&new_window);
     }
 
-    Texture* Renderer::loadTextureFromFile(std::wstring filename)
+    Texture* Renderer::loadTextureFromImageFile(std::wstring filename, std::string textureName)
     {
         IWICBitmapDecoder* decoder = nullptr;
         IWICBitmapFrameDecode* frameDecode = nullptr;
         IWICFormatConverter* converter = nullptr;
-
-        std::wstring tempstr = System::locate(filename);
 
         // Load the image file
         HRESULT hr = this->_wicFactory->CreateDecoderFromFilename(
@@ -135,14 +144,21 @@ namespace Chaos::Graphic {
         if (FAILED(hr)) return nullptr;;
 
         // Create a d2d bitmap from the converted frame
-        this->loadedTextures.resize(this->loadedTextures.size() + 1);
+        if (textureName == "" || textureName.empty()) textureName = System::wstringToString(System::getFileName(filename));
+
+        auto _it = this->_loadedTextures.find(textureName);
+        if (_it != this->_loadedTextures.end()) return nullptr; // texture already loaded
+        else _it = this->_loadedTextures.insert(std::make_pair(textureName, Texture(new ID2D1Bitmap*))).first;
+        /////////////// bug here, and it sourced from the double-layer pointer design of Texture.
+
         hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
             converter,
             NULL,
-            &this->loadedTextures.back()._bitmap
+            _it->second._bitmap
         );
+
         if (FAILED(hr)) {
-            this->loadedTextures.pop_back();
+            this->_loadedTextures.erase(_it);
             return nullptr;
         };
 
@@ -151,7 +167,13 @@ namespace Chaos::Graphic {
         System::safeReleaseCOM(frameDecode);
         System::safeReleaseCOM(decoder);
 
-        return &this->loadedTextures.back();
+        return &_it->second;
+    }
+
+    Texture* Renderer::getLoadedTexture(std::string textureName)
+    {
+        return this->_loadedTextures.find(textureName) == this->_loadedTextures.end() ?
+            nullptr : &this->_loadedTextures.at(textureName);
     }
 
     bool Renderer::createViewport(std::string viewportName, Chaos::shared_ptr<Graphic::Viewport>* out_viewport)
@@ -225,7 +247,7 @@ namespace Chaos::Graphic {
                     if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
                         if (!param->texture) break;
                         this->_bitmapRenderTarget->DrawBitmap(
-                            param->texture->_bitmap,
+                            *param->texture->_bitmap,
                             D2D1::RectF(
                                 param->pos.x,
                                 param->pos.y,
@@ -257,10 +279,13 @@ namespace Chaos::Graphic {
             this->_hwndRenderTarget->BeginDraw();
             this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
             for (auto& viewport : this->viewports) {
-                this->_bitmapRenderTarget->GetBitmap(&viewport->texture._bitmap);
+                // look the bug here, your texture handles a double-layer pointer.
+                // when dev uses new a Texture, the first is nullptr initially.
+                // so if the second is accessed now, it will must be an error. And the second must be accessed.
+                this->_bitmapRenderTarget->GetBitmap(viewport->texture._bitmap);
 
                 this->_hwndRenderTarget->DrawBitmap(
-                    viewport->texture._bitmap,
+                    *viewport->texture._bitmap,
                     D2D1::RectF(
                         viewport->pos.x,
                         viewport->pos.y,

@@ -38,27 +38,27 @@ namespace Chaos {
     }
 
     template<typename T>
-    shared_ptr<T>& shared_ptr<T>::refer(T* new_p)
+    inline shared_ptr<T>& shared_ptr<T>::refer(T* new_p)
     {
         this->p = new_p;
         return *this;
     }
 
     template<typename T>
-    shared_ptr<T>& shared_ptr<T>::refer(shared_ptr<T>& new_p)
+    inline shared_ptr<T>& shared_ptr<T>::refer(shared_ptr<T>& new_p)
     {
         this->p = new_p.get();
         return *this;
     }
 
     template<typename T>
-    shared_ptr<T>& shared_ptr<T>::operator=(T* new_p)
+    inline shared_ptr<T>& shared_ptr<T>::operator=(T* new_p)
     {
         return this->refer(new_p);
     }
 
     template<typename T>
-    shared_ptr<T>& shared_ptr<T>::operator=(shared_ptr<T>& new_p)
+    inline shared_ptr<T>& shared_ptr<T>::operator=(shared_ptr<T>& new_p)
     {
         return this->refer(new_p);
     }
