@@ -13,6 +13,6 @@
 # About the project
  writing...
 
-# Game Examples
+<!-- # Game Examples
 
-- [NewGame_Demo](https://github.com/OrigamiGamer/NewGame_Demo)
+- [NewGame_Demo](https://github.com/OrigamiGamer/NewGame_Demo) -->
