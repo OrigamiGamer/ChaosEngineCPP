@@ -5,32 +5,14 @@ project(ChaosEngine VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+file(GLOB_RECURSE "SOURCES" "ChaosEngine/*.cpp")
+file(GLOB_RECURSE "HEADERS" "ChaosEngine/*.h")
+file(GLOB_RECURSE "LIBS" "ChaosEngine/Lib/*.lib")
 
-set(INCLUDE_LIST
-    .
-    "ChaosEngine"
-    "ChaosEngine/Device"
-    "ChaosEngine/Graphic"
-    "ChaosEngine/Audio"
-    "ChaosEngine/Content"
-    "ChaosEngine/Lib"
-)
-set(LINK_LIST
-    .
-    "ChaosEngine/Lib"
-)
-include_directories(${INCLUDE_LIST})
-link_directories(${LINK_LIST})
+include_directories(${HEADERS})
+link_libraries(${LIBS})
 
 
-# add_library(engine_shared SHARED "ChaosEngine.cpp")
-# set_target_properties(engine_shared PROPERTIES SUFFIX ".dll")
-# set_target_properties(engine_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Shared CLEAN_DIRECT_OUTPUT 1)
 
-# add_library(engine_static STATIC "ChaosEngine.cpp")
-# set_target_properties(engine_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Static)
-
-link_libraries("D2D1.lib" "libglfw3.a")
-
-add_executable(debug "debug.cpp")
-set_target_properties(debug PROPERTIES OUTPUT_NAME "debug" SUFFIX ".exe")
+# add_executable(debug "Game/GameExample1/main.cpp")
+# set_target_properties(debug PROPERTIES OUTPUT_NAME "debug" SUFFIX ".exe")
