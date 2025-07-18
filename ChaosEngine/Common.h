@@ -12,12 +12,12 @@
 // GLFW
 #define GLFW_EXPOSE_NATIVE_WIN32
 
-#include "GLFW/glfw3.h"
-#include "GLFW/glfw3native.h"
+#include "Lib/GLFW/glfw3.h"
+#include "Lib/GLFW/glfw3native.h"
 
 
 // DirectX
-#include "Graphic/D2D/D2D.h"
+#include "Lib/Graphic/D2D/D2D.h"
 
 
 
@@ -33,18 +33,6 @@ namespace Chaos {
     template<typename T>
     struct vec3;
 
-    // A shared pointer model, possessing a pointer's access but not managing it. (It looks like a observer...)
-    // 共享指针模型，拥有指针的访问权限，但并不负责管理它。（它看起来像个观察者...）
-    template<typename T>
-    class shared_ptr;
-
-    // A unique pointer model, managing a pointer as the unique owner. (A miser...)
-    // 独占指针模型，指针唯一管理者。（吝啬鬼...）
-    template<typename T>
-    class ptr;
-
-
-
     // 2nd-declarations
     template<typename T>
     struct vec2 {
@@ -59,49 +47,9 @@ namespace Chaos {
         T z;
     };
 
-    template<typename T>
-    class shared_ptr {
-    private:
-        T* p = nullptr;
-    public:
-        shared_ptr(T* new_p = nullptr);
-        ~shared_ptr();
-
-        bool has_value();
-
-        T* get();
-
-        T* operator->();
-
-        // Refer a new pointer.
-        // 引用一个新指针。
-        shared_ptr<T>& refer(T* new_p);
-
-        shared_ptr<T>& refer(shared_ptr<T>& new_p);
-
-        shared_ptr<T>& operator=(T* new_p);
-
-        shared_ptr<T>& operator=(shared_ptr<T>& new_p);
-
-        friend class ptr<T>;
-    };
-
-    template<typename T>
-    class ptr : public shared_ptr<T> {
-    public:
-        ptr(T* new_p = nullptr);
-        ~ptr();
-
-        void release();
-
-        // Release and set a new pointer.
-        // 释放旧指针内存，并设置一个新指针。
-        ptr<T>& set(T* new_p);
-
-        void operator=(T* new_p);
-    };
-
 }
+
+
 
 namespace Chaos::System {
 
@@ -159,6 +107,8 @@ namespace Chaos::System {
 
 }
 
+
+
 namespace Chaos {
 
     class Base;
@@ -166,6 +116,8 @@ namespace Chaos {
     class Resource;
 
 }
+
+
 
 namespace Chaos::Device {
 
@@ -184,6 +136,8 @@ namespace Chaos::Device {
     class WindowManager;
 
 }
+
+
 
 namespace Chaos::Graphic {
 
@@ -214,6 +168,8 @@ namespace Chaos::Graphic {
 
 }
 
+
+
 namespace Chaos::Audio {
 
     class AudioManager;
@@ -230,6 +186,8 @@ namespace Chaos::Audio {
 
 }
 
+
+
 namespace Chaos::Content {
 
     class Stage;
@@ -241,7 +199,11 @@ namespace Chaos::Content {
 }
 
 
+
+
+
 // 2nd-declarations
+
 namespace Chaos {
 
     class Base {
@@ -278,13 +240,19 @@ namespace Chaos {
 
 }
 
+
+
 namespace Chaos::Device {
+
+
 
     struct EngineStartupProperty {
         unsigned int fps = 60;
         Callback_GameInit onGameInit = nullptr;
         Callback_GameExit onGameExit = nullptr;
     };
+
+
 
     class Engine : public Base {
     private:
@@ -303,12 +271,8 @@ namespace Chaos::Device {
         Engine();
         ~Engine();
 
-        // Initialize this engine. This method MUST be called before any action of this engine.
-        // 初始化引擎。在该引擎执行任何行为之前，该方法必须被调用。
         bool initialize();
 
-        // Start this engine from a startup property, or the default property if parameter is nullptr.
-        // 从指定配置启动引擎，若参数为空，则使用默认配置。
         void start(EngineStartupProperty* new_engineStartupProp = nullptr);
 
         void start(
@@ -319,41 +283,19 @@ namespace Chaos::Device {
 
         void stop();
 
-        // Proactively release all devices bound to the engine in a specific order.
-        // 以特定顺序，主动释放引擎所拥有的所有设备。
         void release();
 
-        // If this engine is not managing any Window device, it will create a new Window device bound to this engine, 
-        // output its pointer into the optional parameter, and return `true` for success.
-        // Initialize a window object from a window property, or the default window property if parameter is empty.
-        // Else, this method will do nothing.
-        // 若未拥有任何 Window 设备，引擎将创建一个新的 Window 设备，绑定到该引擎，输出其指针到参数，并在成功时返回 `true` 。
-        // 通过窗口配置来初始化一个窗口对象。若参数为空，则使用默认窗口配置。
-        // 否则该方法将不进行任何操作。
         bool createWindow(Device::WindowProperty* new_windowProp = nullptr, Chaos::shared_ptr<Device::Window>* out_window = nullptr);
 
-        // If this engine is not managing any Renderer device, it will create a new Renderer device bound to this engine, 
-        // output its pointer into the optional parameter, and return `true` for success.
-        // Else, this method will do nothing.
-        // 若未拥有任何 Renderer 设备，引擎将创建一个新的 Renderer 设备，绑定到该引擎，输出其指针到参数，并在成功时返回 `true` 。
-        // 否则该方法将不进行任何操作。
         bool createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
 
-        // If this engine is not managing any Stage device, it will create a new Stage device bound to this engine, 
-        // output its pointer into the optional parameter, and return `true` for success. 
-        // Else, this method will do nothing.
-        // 若未拥有任何 Stage 设备，引擎将创建一个新的 Stage 设备，绑定到该引擎，输出其指针到参数，并在成功时返回 `true` 。
-        // 否则该方法将不进行任何操作。
         bool createStage(Chaos::shared_ptr<Content::Stage>* out_stage = nullptr);
 
-        // Only create the necessary devices for this engine in default configurations.
-        // 仅为该引擎创建必需的设备，并以默认配置初始化它们。
         bool createDefaultDevice();
 
-        //// Bind a new Window device to this engine.
-        // void bindWindow(Device::Window*);
-
     };
+
+
 
     struct WindowProperty {
         Chaos::vec2<int> size = { 800, 600 };
@@ -363,6 +305,8 @@ namespace Chaos::Device {
         WindowProperty();
         WindowProperty(Chaos::vec2<int> size = { 800, 600 }, Chaos::vec2<int> pos = { -1, -1 }, std::string title = "Window");
     };
+
+
 
     class Window : public Base {
     public:
@@ -374,13 +318,11 @@ namespace Chaos::Device {
         Window(Device::Engine* new_engine);
         ~Window();
 
-        // Initialize a window object from a window property, or the default window property if parameter is empty. 
-        // This method will return `true` for success.
-        // 通过窗口配置来初始化一个窗口对象。若参数为空，则使用默认窗口配置。
-        // 在成功时，该方法将返回 `true` 。
         bool initialize(WindowProperty* new_windowProp = nullptr);
 
     };
+
+
 
     class WindowManager : public Base {
     public:
@@ -416,6 +358,8 @@ namespace Chaos::Device {
     };
 
 }
+
+
 
 namespace Chaos::Graphic {
 
@@ -470,8 +414,6 @@ namespace Chaos::Graphic {
         vec2<float> pivot{};
         float rotation = 0.0;
 
-        // If `size` is `-1`, it will use the texture's size.
-        // 如果 `size` 为 `-1`，则使用纹理大小。
         RenderTaskParam_Texture(
             vec2<float> pos,
             Texture* texture,
@@ -599,8 +541,6 @@ namespace Chaos::Content {
         Stage(Device::Engine* new_engine);
         ~Stage();
 
-        // Register a new scene to this stage. And the engine bound to the new scene will be rebound.
-        // 注册一个新场景到该舞台，且该场景所属的引擎将被重新绑定。
         void registerScene(Scene* new_scene);
         void registerScene(Scene& new_scene);
         void registerScene(Chaos::shared_ptr<Scene>& new_scene);

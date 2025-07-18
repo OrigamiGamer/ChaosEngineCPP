@@ -10,11 +10,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 set(INCLUDE_LIST
     .
     "ChaosEngine"
-    "ChaosEngine/Device"
-    "ChaosEngine/Graphic"
-    "ChaosEngine/Audio"
-    "ChaosEngine/Content"
-    "ChaosEngine/Lib"
 )
 include_directories(${INCLUDE_LIST})
 
