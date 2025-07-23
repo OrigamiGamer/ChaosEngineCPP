@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "ChaosEngine.h"
 
 namespace Chaos {
     Resource::Resource()

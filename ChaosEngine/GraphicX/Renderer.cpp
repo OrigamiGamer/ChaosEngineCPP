@@ -1,14 +1,18 @@
 #pragma once
 
-#include "Common.h"
+#include "GraphicX/GraphicX.h"
 
 namespace Chaos::Graphic {
+
+
 
     RenderTaskParam_Line::RenderTaskParam_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth)
         : pos1(pos1), pos2(pos2), strokeWidth(strokeWidth)
     {
 
     }
+
+
 
     RenderTaskParam_Texture::RenderTaskParam_Texture(
         vec2<float> pos,
@@ -21,6 +25,8 @@ namespace Chaos::Graphic {
         if (size.x == -1 && size.y == -1) this->size = texture->getSize();
     }
 
+
+
     RenderTask::RenderTask(RenderTaskType type, RenderTaskParam param, float order)
         : type(type), param(param), order(order)
     {
@@ -31,11 +37,15 @@ namespace Chaos::Graphic {
 
     // Renderer
 
-    Renderer::Renderer(Device::Engine* new_engine)
+
+
+    Renderer::Renderer(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("Renderer");
     }
+
+
 
     Renderer::~Renderer()
     {
@@ -53,7 +63,9 @@ namespace Chaos::Graphic {
         System::safeReleaseCOM(this->_wicFactory);
     }
 
-    bool Renderer::initialize(Device::Window* new_window)
+
+
+    bool Renderer::initialize(WindowX::Window* new_window)
     {
         HWND hwnd = glfwGetWin32Window(new_window->_glfwWindow);
         HRESULT hr = CoInitialize(NULL);
@@ -104,10 +116,14 @@ namespace Chaos::Graphic {
         return true;
     }
 
-    inline bool Renderer::initialize(Device::Window& new_window)
+
+
+    inline bool Renderer::initialize(WindowX::Window& new_window)
     {
         return this->initialize(&new_window);
     }
+
+
 
     Texture* Renderer::loadTextureFromImageFile(std::wstring filename, std::string textureName)
     {
@@ -170,13 +186,17 @@ namespace Chaos::Graphic {
         return &_it->second;
     }
 
+
+
     Texture* Renderer::getLoadedTexture(std::string textureName)
     {
         return this->_loadedTextures.find(textureName) == this->_loadedTextures.end() ?
             nullptr : &this->_loadedTextures.at(textureName);
     }
 
-    bool Renderer::createViewport(std::string viewportName, Chaos::shared_ptr<Graphic::Viewport>* out_viewport)
+
+
+    bool Renderer::createViewport(std::string viewportName, std::shared_ptr<Graphic::Viewport>* out_viewport)
     {
         // use default name if empty
         if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
@@ -185,15 +205,17 @@ namespace Chaos::Graphic {
 
         // create and initialize a new viewport
         this->viewports.resize(this->viewports.size() + 1);
-        this->viewports.back().set(new Graphic::Viewport(this->engine.get()));
+        this->viewports.back().reset(new Graphic::Viewport(this->engine));
         this->viewports.back()->SET_NAME(viewportName);
 
         // output the viewport created as parameter
-        if (out_viewport) out_viewport->refer(this->viewports.back().get());
+        if (out_viewport) out_viewport->reset(this->viewports.back().get());
         return true;
     }
 
-    inline bool Renderer::createViewport(Chaos::shared_ptr<Graphic::Viewport>& out_viewport)
+
+
+    inline bool Renderer::createViewport(std::shared_ptr<Graphic::Viewport>& out_viewport)
     {
         return this->createViewport("", &out_viewport);
     }
@@ -227,7 +249,7 @@ namespace Chaos::Graphic {
 
     void Renderer::endDraw()
     {
-        // rebder world
+        // render graphics on every buffer(viewports)
         if (this->_bitmapRenderTarget) {
             for (auto& task : this->tasks) {
                 switch (task.type) {
@@ -241,11 +263,12 @@ namespace Chaos::Graphic {
                             param->strokeWidth
                         );
                     }
-                    break;
 
+                    break;
                 case RenderTaskType::Texture:
                     if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
                         if (!param->texture) break;
+                        if (!param->texture->_bitmap) break;
                         this->_bitmapRenderTarget->DrawBitmap(
                             *param->texture->_bitmap,
                             D2D1::RectF(
@@ -264,9 +287,10 @@ namespace Chaos::Graphic {
                             )
                         );
                     }
-                    break;
 
+                    break;
                 default:
+                    // ...
                     break;
                 }
             }
@@ -280,8 +304,8 @@ namespace Chaos::Graphic {
             this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
             for (auto& viewport : this->viewports) {
                 // look the bug here, your texture handles a double-layer pointer.
-                // when dev uses new a Texture, the first is nullptr initially.
-                // so if the second is accessed now, it will must be an error. And the second must be accessed.
+                // when dev using a new Texture, the first is a nullptr initially.
+                // so if the second is accessed now, it will must be an error. So the second must be accessed.
                 this->_bitmapRenderTarget->GetBitmap(viewport->texture._bitmap);
 
                 this->_hwndRenderTarget->DrawBitmap(

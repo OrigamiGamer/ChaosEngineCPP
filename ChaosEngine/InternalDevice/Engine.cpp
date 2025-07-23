@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Common.h"
+#include "InternalDevice/InternalDevice.h"
 
-namespace Chaos::Device {
+namespace Chaos::InternalDevice {
+
+
+
     Engine::Engine()
     {
         this->INIT("Engine");
+
     }
 
-    Engine::~Engine()
-    {
-        // !! 任何 设备对象 都必须隶属于特定 引擎对象，所以 设备对象共享 将不可用。(多窗口对象共享 将不可用!) !!
-        // 可行措施: 设备对象控制权 交予 用户，而非 引擎对象...
-        // ( 也许至少现在，我们并不奢求 共享设备对象 ? )
-    }
+
 
     bool Engine::initialize()
     {
@@ -25,6 +24,8 @@ namespace Chaos::Device {
 
         return true;
     }
+
+
 
     void Engine::start(EngineStartupProperty* new_engineStartupProp)
     {
@@ -42,23 +43,23 @@ namespace Chaos::Device {
         this->lastEngineTime = System::getSystemTime(); // units: microseconds
         unsigned long long currentEngineTime = 0;   // units: microseconds
 
-        //  Game Init
+        //  game init
         if (this->engineStartupProp.onGameInit) this->engineStartupProp.onGameInit();
 
-        // Game Loop
+        // game loop
         unsigned long long timeSlept = 0;   // units: microseconds
         while (this->gameRunningState) {
 
-            // Handle Window Message
-            if (this->window.has_value()) {
+            // handle window message
+            if (this->window) {
                 auto& _glfwWindow = this->window->_glfwWindow;
                 if (!glfwWindowShouldClose(_glfwWindow)) {
                     glfwSwapBuffers(_glfwWindow);
                     glfwPollEvents();
                 }
                 else {
-                    // Game Exit
-                    if (this->engineStartupProp.onGameExit()) {
+                    // game exit
+                    if (this->engineStartupProp.onGameExit ? this->engineStartupProp.onGameExit() : true) {
                         // user confirmed
                         break;
                     }
@@ -77,7 +78,7 @@ namespace Chaos::Device {
                 if (timeSlept < 0) timeSlept = 0;
             }
 
-            // One frame finished
+            // one frame finished
             currentEngineTime = System::getSystemTime();
             this->deltaEngineTime = currentEngineTime - lastEngineTime;
             lastEngineTime = currentEngineTime;
@@ -85,7 +86,9 @@ namespace Chaos::Device {
         }
     }
 
-    inline void Engine::start(
+
+
+    void Engine::start(
         unsigned int new_fps,
         Callback_GameInit new_onGameInit,
         Callback_GameExit new_onGameExit
@@ -98,11 +101,15 @@ namespace Chaos::Device {
         this->start(&new_engineStartupProp);
     }
 
+
+
     void Engine::engineUpdate()
     {
-        if (this->stage.has_value()) this->stage->update();
+        if (this->stage) this->stage->update();
 
     }
+
+
 
     void Engine::stop()
     {
@@ -110,21 +117,25 @@ namespace Chaos::Device {
         this->gameRunningState = false;
     }
 
+
+
     void Engine::release()
     {
-        this->stage.release();
+        this->stage->release();
 
-        this->renderer.release();
+        this->renderer->release();
 
-        this->window.release();
+        this->window->release();
         glfwTerminate();
 
     }
 
-    bool Engine::createWindow(Device::WindowProperty* new_windowProp, Chaos::shared_ptr<Device::Window>* out_window)
+
+
+    bool Engine::createWindow(WindowX::WindowProperty* new_windowProp, std::shared_ptr<WindowX::Window>* out_window)
     {
-        if (!this->window.has_value()) {
-            this->window = new Device::Window(this);
+        if (!this->window) {
+            this->window.reset(new WindowX::Window(this));
             if (out_window != nullptr) out_window = &this->window;
             this->window->initialize(new_windowProp);
             glfwMakeContextCurrent(this->window->_glfwWindow);
@@ -133,25 +144,31 @@ namespace Chaos::Device {
         return false;
     }
 
-    bool Engine::createRenderer(Chaos::shared_ptr<Graphic::Renderer>* out_renderer)
+
+
+    bool Engine::createRenderer(std::shared_ptr<Graphic::Renderer>* out_renderer)
     {
-        if (!this->renderer.has_value()) {
-            this->renderer = new Graphic::Renderer(this);
-            if (this->window.has_value()) this->renderer->initialize(this->window.get());
+        if (!this->renderer) {
+            this->renderer.reset(new Graphic::Renderer(this));
+            if (this->window) this->renderer->initialize(this->window.get());
             if (out_renderer != nullptr) out_renderer = &this->renderer;
             return true;
         }
         return false;
     }
 
-    bool Engine::createStage(Chaos::shared_ptr<Content::Stage>* out_stage)
+
+
+    bool Engine::createStage(std::shared_ptr<InternalDevice::Stage>* out_stage)
     {
-        if (!this->stage.has_value()) {
-            this->stage = new Content::Stage(this);
+        if (!this->stage) {
+            this->stage.reset(new InternalDevice::Stage(this));
             if (out_stage != nullptr) out_stage = &this->stage;
         }
         return false;
     }
+
+
 
     bool Engine::createDefaultDevice()
     {
@@ -160,5 +177,7 @@ namespace Chaos::Device {
         if (!this->createStage()) return false;
         return true;
     }
+
+
 
 }

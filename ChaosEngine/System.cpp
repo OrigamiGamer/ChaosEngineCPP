@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Common.h"
+#include "ChaosEngine.h"
 
 namespace Chaos::System {
+
+
 
     template<typename T = IUnknown>
     void safeReleaseCOM(T*& pAny)
@@ -13,12 +15,16 @@ namespace Chaos::System {
         }
     }
 
+
+
     inline unsigned long long getSystemTime()
     {
         return std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now().time_since_epoch()
         ).count();
     }
+
+
 
     inline std::wstring getProgramFilePath()
     {
@@ -27,15 +33,21 @@ namespace Chaos::System {
         return std::wstring(_raw_path);
     }
 
+
+
     inline std::wstring getProgramFileDirectory()
     {
         return getFileDirectory(getProgramFilePath());
     }
 
+
+
     inline std::wstring getProgramFileName()
     {
         return getFileName(getProgramFilePath());
     }
+
+
 
     inline std::string formatFilePath(std::string filePath)
     {
@@ -44,12 +56,16 @@ namespace Chaos::System {
         return filePath;
     }
 
+
+
     inline std::wstring formatFilePath(std::wstring filePath)
     {
         if (filePath.front() == L'/') filePath.erase(0, 1);
         std::replace(filePath.begin(), filePath.end(), L'/', L'\\');
         return filePath;
     }
+
+
 
     std::wstring locate(std::wstring filename)
     {
@@ -58,12 +74,16 @@ namespace Chaos::System {
         return getProgramFileDirectory() + L"\\" + filename;
     }
 
+
+
     std::wstring getFileDirectory(std::wstring filePath)
     {
         filePath = formatFilePath(filePath);
         size_t pos_to_path = filePath.find_last_of(L'\\');
         return filePath.substr(0, pos_to_path);
     }
+
+
 
     std::string getFileDirectory(std::string filePath)
     {
@@ -72,6 +92,8 @@ namespace Chaos::System {
         return filePath.substr(0, pos_to_path);
     }
 
+
+
     std::wstring getFileName(std::wstring filePath)
     {
         filePath = formatFilePath(filePath);
@@ -79,12 +101,16 @@ namespace Chaos::System {
         return filePath.substr(pos_to_path + 1, filePath.size() - pos_to_path - 1);
     }
 
+
+
     std::string getFileName(std::string filePath)
     {
         filePath = formatFilePath(filePath);
         size_t pos_to_path = filePath.find_last_of(L'\\');
         return filePath.substr(pos_to_path + 1, filePath.size() - pos_to_path - 1);
     }
+
+
 
     std::string codepointToUtf8(uint32_t codepoint)
     {
@@ -103,6 +129,8 @@ namespace Chaos::System {
         return std::string(utf8String.begin(), utf8String.end());
     }
 
+
+
     inline std::string wstringToString(const std::wstring wstr)
     {
         int targetSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), static_cast<int>(wstr.size()), NULL, 0, NULL, NULL);
@@ -110,6 +138,8 @@ namespace Chaos::System {
         WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), static_cast<int>(wstr.size()), &str[0], targetSize, NULL, NULL);
         return str;
     }
+
+
 
     inline std::wstring stringToWstring(const std::string str)
     {
@@ -119,4 +149,6 @@ namespace Chaos::System {
         return wstr;
     }
 
+
+    
 }

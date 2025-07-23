@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Common.h"
+#include "GraphicX/GraphicX.h"
 
 namespace Chaos::Graphic {
 
-    GraphicManager::GraphicManager(Device::Engine* new_engine)
+    GraphicManager::GraphicManager(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("GraphicManager");
     }
 

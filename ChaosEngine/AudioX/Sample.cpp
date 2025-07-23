@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Common.h"
+#include "AudioX/AudioX.h"
 
 namespace Chaos::Audio {
-    Sample::Sample(Device::Engine* new_engine)
+    Sample::Sample(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("Sample");
 
     }

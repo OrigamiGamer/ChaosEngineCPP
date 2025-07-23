@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Common.h"
+#include "AudioX/AudioX.h"
 
 namespace Chaos::Audio {
-    ChannelGroup::ChannelGroup(Device::Engine* new_engine)
+    ChannelGroup::ChannelGroup(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("ChannelGroup"); 
 
     }

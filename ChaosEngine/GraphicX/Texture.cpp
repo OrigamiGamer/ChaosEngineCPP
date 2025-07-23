@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "GraphicX/GraphicX.h"
 
 namespace Chaos::Graphic {
 

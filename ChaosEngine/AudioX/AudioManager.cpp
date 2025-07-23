@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Common.h"
+#include "AudioX/AudioX.h"
 
 namespace Chaos::Audio {
-    AudioManager::AudioManager(Device::Engine* new_engine)
+    AudioManager::AudioManager(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("AudioManager");
 
     }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Common.h"
+#include "WindowX/WindowX.h"
 
-namespace Chaos::Device {
+namespace Chaos::WindowX {
 
-    std::vector<Device::Window*> WindowManager::s_windows{};
+    std::vector<WindowX::Window*> WindowManager::s_windows{};
 
 
 
@@ -135,7 +135,7 @@ namespace Chaos::Device {
         }
     }
 
-    inline void WindowManager::registerWindow(Device::Window* window)
+    inline void WindowManager::registerWindow(WindowX::Window* window)
     {
         if (window) {
             for (auto& wnd : WindowManager::s_windows) if (wnd == window) return;
@@ -143,7 +143,7 @@ namespace Chaos::Device {
         }
     }
 
-    inline void WindowManager::registerWindow(Device::Window& window)
+    inline void WindowManager::registerWindow(WindowX::Window& window)
     {
         WindowManager::registerWindow(&window);
     }

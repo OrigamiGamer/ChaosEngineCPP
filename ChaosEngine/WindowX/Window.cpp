@@ -1,27 +1,16 @@
 #pragma once
 
-#include "Common.h"
+#include "WindowX/WindowX.h"
 
-namespace Chaos::Device {
+namespace Chaos::WindowX {
 
-    // Window Property
 
-    WindowProperty::WindowProperty()
-    {
-
-    }
-
-    WindowProperty::WindowProperty(Chaos::vec2<int> size, Chaos::vec2<int> pos, std::string title)
-        : size(size), pos(pos), title(title)
-    {
-
-    }
 
     // Window
 
-    Window::Window(Device::Engine* new_engine)
+    Window::Window(InternalDevice::Engine* new_engine)
     {
-        this->engine.refer(new_engine);
+        this->engine = new_engine;
         this->INIT("Window");
         this->_glfwWindow = nullptr;
     }

@@ -1,8 +1,11 @@
 #pragma once
 
-#include "Common.h"
+#include "InternalDevice/InternalDevice.h"
 
-namespace Chaos::Content {
+namespace Chaos::InternalDevice {
+
+
+
     Scene::Scene(std::string new_sceneName)
     {
         this->INIT("Scene");
@@ -10,22 +13,23 @@ namespace Chaos::Content {
 
     }
 
-    Scene::~Scene()
-    {
 
-    }
 
     void Scene::update()
     {
 
     }
 
-    void Scene::onEnter()
+
+
+    void Scene::onEntering()
     {
 
     }
 
-    bool Scene::onExit()
+
+
+    bool Scene::onExiting()
     {
         return true;
     }
