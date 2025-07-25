@@ -28,7 +28,8 @@ namespace Chaos::GraphicX {
 
     public:
         Texture();
-        ~Texture();
+
+        void release();
 
         vec2<float> getSize();
 
@@ -93,9 +94,13 @@ namespace Chaos::GraphicX {
 
 
 
+
+
+
     class Viewport : public Base {
+    private:
+        ID2D1Bitmap* _bitmap = nullptr;
     public:
-        GraphicX::Texture texture;
         Chaos::vec2<float> pos;
         Chaos::vec2<float> size;
         Chaos::vec2<float> pivot;
@@ -105,7 +110,10 @@ namespace Chaos::GraphicX {
         Chaos::vec2<float> viewSize;
 
         Viewport(InternalDevice::Engine* new_engine);
-        ~Viewport();
+
+        void release();
+
+        friend class Renderer;
 
     };
 
@@ -152,7 +160,7 @@ namespace Chaos::GraphicX {
         void endDraw();
 
         friend class InternalDevice::Stage;
-        
+
     };
 
 

@@ -101,7 +101,7 @@ namespace Chaos::WindowX {
 
     void Window::release()
     {
-        if (this->_glfwWindow != nullptr) glfwDestroyWindow(this->_glfwWindow);
+        if (this->_glfwWindow) glfwDestroyWindow(this->_glfwWindow);
     }
 
 

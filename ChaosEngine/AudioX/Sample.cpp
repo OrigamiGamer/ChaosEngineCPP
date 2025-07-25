@@ -2,7 +2,7 @@
 
 #include "AudioX/AudioX.h"
 
-namespace Chaos::Audio {
+namespace Chaos::AudioX {
     Sample::Sample(InternalDevice::Engine* new_engine)
     {
         this->engine = new_engine;

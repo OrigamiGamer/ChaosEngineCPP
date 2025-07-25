@@ -17,6 +17,7 @@ namespace Chaos::InternalDevice {
     class Engine : public Base {
     private:
         void engineUpdate();
+
     public:
         // CAN it support MULTIPLE window devices?
         std::shared_ptr<GraphicX::Renderer> renderer = nullptr;
@@ -61,7 +62,7 @@ namespace Chaos::InternalDevice {
         std::vector<Scene*> _scenes;
         Scene* _currentScene = nullptr;
         Scene* _preparedScene = nullptr;
-
+    public:
         Stage(InternalDevice::Engine* new_engine);
 
         void registerScene(Scene* new_scene);

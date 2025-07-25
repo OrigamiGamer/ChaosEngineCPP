@@ -15,11 +15,12 @@ namespace Chaos::GraphicX {
 
 
 
-    Viewport::~Viewport()
+    void Viewport::release()
     {
+        System::safeReleaseCOM(this->_bitmap);
 
     }
 
 
-    
+
 }

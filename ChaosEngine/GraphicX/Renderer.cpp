@@ -111,7 +111,7 @@ namespace Chaos::GraphicX {
     {
         // release textures
         for (auto& texture : this->_loadedTextures) {
-            System::safeReleaseCOM(*texture.second._bitmap);
+            texture.second.release();
         }
         this->_loadedTextures.clear();
 
@@ -220,6 +220,8 @@ namespace Chaos::GraphicX {
         return this->createViewport("", &out_viewport);
     }
 
+
+
     void Renderer::pushTask(RenderTask& new_task)
     {
         this->tasks.insert(
@@ -233,10 +235,14 @@ namespace Chaos::GraphicX {
         );
     }
 
+
+
     void Renderer::popTask()
     {
         this->tasks.pop_back();
     }
+
+
 
     void Renderer::beginDraw()
     {
@@ -247,9 +253,11 @@ namespace Chaos::GraphicX {
 
     }
 
+
+
     void Renderer::endDraw()
     {
-        // render graphics on every buffer(viewports)
+        // render graphics on world
         if (this->_bitmapRenderTarget) {
             for (auto& task : this->tasks) {
                 switch (task.type) {
@@ -298,7 +306,7 @@ namespace Chaos::GraphicX {
         }
         this->tasks.clear();
 
-        // render viewports
+        // render viewports to world
         if (this->_bitmapRenderTarget) {
             this->_hwndRenderTarget->BeginDraw();
             this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
@@ -306,10 +314,10 @@ namespace Chaos::GraphicX {
                 // look the bug here, your texture handles a double-layer pointer.
                 // when dev using a new Texture, the first is a nullptr initially.
                 // so if the second is accessed now, it will must be an error. So the second must be accessed.
-                this->_bitmapRenderTarget->GetBitmap(viewport->texture._bitmap);
+                this->_bitmapRenderTarget->GetBitmap(&viewport->_bitmap);
 
                 this->_hwndRenderTarget->DrawBitmap(
-                    *viewport->texture._bitmap,
+                    viewport->_bitmap,
                     D2D1::RectF(
                         viewport->pos.x,
                         viewport->pos.y,
@@ -325,10 +333,13 @@ namespace Chaos::GraphicX {
                         viewport->viewPos.y + viewport->viewSize.y
                     )
                 );
+                viewport->release();
 
             }
             this->_hwndRenderTarget->EndDraw();
         }
     }
+
+
 
 }

@@ -6,7 +6,7 @@
 
 
 
-namespace Chaos::Audio {
+namespace Chaos::AudioX {
 
 
 

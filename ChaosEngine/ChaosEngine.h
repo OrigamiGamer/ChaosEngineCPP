@@ -184,7 +184,7 @@ namespace Chaos::GraphicX {
 
 
 
-namespace Chaos::Audio {
+namespace Chaos::AudioX {
 
     class AudioManager;
 
@@ -252,7 +252,6 @@ namespace Chaos {
     class Resource : public Base {
     public:
         Resource();
-        ~Resource();
 
     };
 
