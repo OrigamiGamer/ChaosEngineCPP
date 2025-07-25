@@ -18,16 +18,21 @@ namespace Chaos::WindowX {
 
 
     class Window : public Base {
-    public:
+    private:
         GLFWwindow* _glfwWindow = nullptr;
-
+    public:
         vec2<int> pos;  // value updated by callback
         vec2<int> size; // value updated by callback
 
         Window(InternalDevice::Engine* new_engine);
-        ~Window();
 
         bool initialize(WindowProperty* new_windowProp = nullptr);
+
+        void release();
+
+        friend class WindowX::WindowManager;
+        friend class GraphicX::Renderer;
+        friend class InternalDevice::Engine;
 
     };
 

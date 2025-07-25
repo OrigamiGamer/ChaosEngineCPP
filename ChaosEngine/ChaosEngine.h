@@ -153,7 +153,7 @@ namespace Chaos::InternalDevice {
 
 
 
-namespace Chaos::Graphic {
+namespace Chaos::GraphicX {
 
     class GraphicManager;
 
@@ -263,7 +263,11 @@ namespace Chaos {
 
 
 #include "AudioX/AudioX.h"
+
 #include "WindowX/WindowX.h"
+
 #include "GraphicX/GraphicX.h"
+
 #include "InternalDevice/InternalDevice.h"
+
 #include "GameObject/GameObject.h"

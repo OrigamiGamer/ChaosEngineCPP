@@ -22,7 +22,7 @@ namespace Chaos {
 
     void Base::release()
     {
-
+        std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::release()" << std::endl;
     }
 
 
@@ -30,7 +30,7 @@ namespace Chaos {
     inline void Base::INIT(std::string new_typeId)
     {
         this->typeHeap.push_back(new_typeId);
-        std::cout << "[CALL] " << new_typeId.c_str()<< " -> Base::INIT(...)" << std::endl;
+        std::cout << "[CALL] " << new_typeId.c_str() << " -> Base::INIT(...)" << std::endl;
     }
 
 

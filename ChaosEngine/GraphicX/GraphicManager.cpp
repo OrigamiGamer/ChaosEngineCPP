@@ -2,7 +2,7 @@
 
 #include "GraphicX/GraphicX.h"
 
-namespace Chaos::Graphic {
+namespace Chaos::GraphicX {
 
     GraphicManager::GraphicManager(InternalDevice::Engine* new_engine)
     {

@@ -4,6 +4,8 @@
 
 namespace Chaos::WindowX {
 
+
+
     std::vector<WindowX::Window*> WindowManager::s_windows{};
 
 
@@ -12,6 +14,8 @@ namespace Chaos::WindowX {
     {
 
     }
+
+
 
     void WindowManager::_s_onWindowSize(GLFWwindow* window, int width, int height)
     {
@@ -26,6 +30,8 @@ namespace Chaos::WindowX {
         // std::cout << "Window '" << title << "' resized to width: " << width << ", height: " << height << std::endl;
     }
 
+
+
     void WindowManager::_s_onWindowPos(GLFWwindow* window, int xpos, int ypos)
     {
         for (auto& wnd : WindowManager::s_windows) {
@@ -39,11 +45,15 @@ namespace Chaos::WindowX {
         // std::cout << "Window '" << title << "' moved to xpos: " << xpos << ", ypos: " << ypos << std::endl;
     }
 
+
+
     void WindowManager::_s_onWindowClose(GLFWwindow* window)
     {
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' is about to close." << std::endl;
     }
+
+
 
     void WindowManager::_s_onWindowIconify(GLFWwindow* window, int iconified)
     {
@@ -56,6 +66,8 @@ namespace Chaos::WindowX {
         }
     }
 
+
+
     void WindowManager::_s_onWindowMaximize(GLFWwindow* window, int maximized)
     {
         const char* title = glfwGetWindowTitle(window);
@@ -66,6 +78,8 @@ namespace Chaos::WindowX {
             std::cout << "Window '" << title << "' restored." << std::endl;
         }
     }
+
+
 
     void WindowManager::_s_onWindowFocus(GLFWwindow* window, int focused)
     {
@@ -78,11 +92,15 @@ namespace Chaos::WindowX {
         }
     }
 
+
+
     void WindowManager::_s_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' key event - Key: " << key << ", Scancode: " << scancode << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
+
+
 
     void WindowManager::_s_onChar(GLFWwindow* window, unsigned int codepoint)
     {
@@ -90,11 +108,15 @@ namespace Chaos::WindowX {
         std::cout << "Window '" << title << "' character input - Codepoint: " << codepoint << std::endl;
     }
 
+
+
     void WindowManager::_s_onCharMods(GLFWwindow* window, unsigned int codepoint, int mods)
     {
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' character with mods input - Codepoint: " << codepoint << ", Mods: " << mods << std::endl;
     }
+
+
 
     void WindowManager::_s_onMouseButton(GLFWwindow* window, int button, int action, int mods)
     {
@@ -103,11 +125,15 @@ namespace Chaos::WindowX {
         std::cout << "Window '" << title << "' mouse button event - Button: " << button << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
 
+
+
     void WindowManager::_s_onCursorPos(GLFWwindow* window, double xpos, double ypos)
     {
         // const char* title = glfwGetWindowTitle(window);
         // std::cout << "Window '" << title << "' cursor position - Xpos: " << xpos << ", Ypos: " << ypos << std::endl;
     }
+
+
 
     void WindowManager::_s_onCursorEnter(GLFWwindow* window, int entered)
     {
@@ -120,11 +146,15 @@ namespace Chaos::WindowX {
         }
     }
 
+
+
     void WindowManager::_s_onScroll(GLFWwindow* window, double xoffset, double yoffset)
     {
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' scroll event - Xoffset: " << xoffset << ", Yoffset: " << yoffset << std::endl;
     }
+
+
 
     void WindowManager::_s_onDrop(GLFWwindow* window, int count, const char** paths)
     {
@@ -135,6 +165,8 @@ namespace Chaos::WindowX {
         }
     }
 
+
+
     inline void WindowManager::registerWindow(WindowX::Window* window)
     {
         if (window) {
@@ -143,9 +175,13 @@ namespace Chaos::WindowX {
         }
     }
 
+
+
     inline void WindowManager::registerWindow(WindowX::Window& window)
     {
         WindowManager::registerWindow(&window);
     }
+
+
 
 }

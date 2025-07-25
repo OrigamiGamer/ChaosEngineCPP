@@ -6,8 +6,6 @@ namespace Chaos::WindowX {
 
 
 
-    // Window
-
     Window::Window(InternalDevice::Engine* new_engine)
     {
         this->engine = new_engine;
@@ -15,10 +13,7 @@ namespace Chaos::WindowX {
         this->_glfwWindow = nullptr;
     }
 
-    Window::~Window()
-    {
-        if (this->_glfwWindow != nullptr) glfwDestroyWindow(this->_glfwWindow);
-    }
+
 
     bool Window::initialize(WindowProperty* new_windowProp)
     {
@@ -101,4 +96,14 @@ namespace Chaos::WindowX {
 
         return true;
     }
+
+
+
+    void Window::release()
+    {
+        if (this->_glfwWindow != nullptr) glfwDestroyWindow(this->_glfwWindow);
+    }
+
+
+
 }

@@ -19,7 +19,7 @@ namespace Chaos::InternalDevice {
         void engineUpdate();
     public:
         // CAN it support MULTIPLE window devices?
-        std::shared_ptr<Graphic::Renderer> renderer = nullptr;
+        std::shared_ptr<GraphicX::Renderer> renderer = nullptr;
         std::shared_ptr<WindowX::Window> window = nullptr;
         std::shared_ptr<InternalDevice::Stage> stage = nullptr;
         InternalDevice::EngineStartupProperty engineStartupProp;
@@ -45,7 +45,7 @@ namespace Chaos::InternalDevice {
 
         bool createWindow(WindowX::WindowProperty* new_windowProp = nullptr, std::shared_ptr<WindowX::Window>* out_window = nullptr);
 
-        bool createRenderer(std::shared_ptr<Graphic::Renderer>* out_renderer = nullptr);
+        bool createRenderer(std::shared_ptr<GraphicX::Renderer>* out_renderer = nullptr);
 
         bool createStage(std::shared_ptr<InternalDevice::Stage>* out_stage = nullptr);
 

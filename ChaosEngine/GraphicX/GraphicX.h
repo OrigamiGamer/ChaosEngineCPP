@@ -2,19 +2,19 @@
 
 #include "ChaosEngine.h"
 
-namespace Chaos::Graphic {
+namespace Chaos::GraphicX {
 
 
 
     class GraphicManager : public Base {
     public:
-        Graphic::Renderer* renderer = nullptr;
+        GraphicX::Renderer* renderer = nullptr;
 
         GraphicManager(InternalDevice::Engine* new_engine);
         ~GraphicManager();
 
-        void registerRenderer(Graphic::Renderer* new_renderer);
-        void registerRenderer(Graphic::Renderer& new_renderer);
+        void registerRenderer(GraphicX::Renderer* new_renderer);
+        void registerRenderer(GraphicX::Renderer& new_renderer);
 
     };
 
@@ -95,7 +95,7 @@ namespace Chaos::Graphic {
 
     class Viewport : public Base {
     public:
-        Graphic::Texture texture;
+        GraphicX::Texture texture;
         Chaos::vec2<float> pos;
         Chaos::vec2<float> size;
         Chaos::vec2<float> pivot;
@@ -126,18 +126,20 @@ namespace Chaos::Graphic {
 
     public:
         std::vector<RenderTask> tasks;
-        std::vector<std::shared_ptr<Graphic::Viewport>> viewports;
+        std::vector<std::shared_ptr<GraphicX::Viewport>> viewports;
 
         Renderer(InternalDevice::Engine* new_engine);
-        ~Renderer();
 
         bool initialize(WindowX::Window* new_window);
         bool initialize(WindowX::Window& new_window);
 
-        bool createViewport(std::string viewportName = "", std::shared_ptr<Graphic::Viewport>* out_viewport = nullptr);
-        bool createViewport(std::shared_ptr<Graphic::Viewport>& out_viewport);
+        void release();
+
+        bool createViewport(std::string viewportName = "", std::shared_ptr<GraphicX::Viewport>* out_viewport = nullptr);
+        bool createViewport(std::shared_ptr<GraphicX::Viewport>& out_viewport);
 
         Texture* loadTextureFromImageFile(std::wstring filename, std::string textureName = "");
+
         Texture* getLoadedTexture(std::string textureName);
 
         void pushTask(RenderTask& new_task);

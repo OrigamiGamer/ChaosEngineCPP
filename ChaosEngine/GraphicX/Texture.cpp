@@ -2,7 +2,7 @@
 
 #include "GraphicX/GraphicX.h"
 
-namespace Chaos::Graphic {
+namespace Chaos::GraphicX {
 
     Texture::Texture(ID2D1Bitmap** new_bitmap)
     {

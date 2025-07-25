@@ -29,8 +29,9 @@ namespace Chaos::InternalDevice {
 
     void Engine::start(EngineStartupProperty* new_engineStartupProp)
     {
+        // store startup property of engine
         if (new_engineStartupProp) {
-            // user property
+            // custom property
             this->engineStartupProp = *new_engineStartupProp;
         }
         else {
@@ -68,11 +69,11 @@ namespace Chaos::InternalDevice {
                 }
             }
 
-            // FPS Control (units: microseconds)
+            // FPS control (units: microseconds)
             unsigned long long cycleTime = (1000 * 1000) / this->engineStartupProp.fps;
             timeSlept += this->deltaEngineTime;
             if (timeSlept >= cycleTime) {
-                // Game Update
+                // game update
                 engineUpdate();
                 timeSlept -= cycleTime;
                 if (timeSlept < 0) timeSlept = 0;
@@ -121,10 +122,13 @@ namespace Chaos::InternalDevice {
 
     void Engine::release()
     {
+        // Stage
         this->stage->release();
 
+        // Renderer
         this->renderer->release();
 
+        // Window
         this->window->release();
         glfwTerminate();
 
@@ -146,10 +150,10 @@ namespace Chaos::InternalDevice {
 
 
 
-    bool Engine::createRenderer(std::shared_ptr<Graphic::Renderer>* out_renderer)
+    bool Engine::createRenderer(std::shared_ptr<GraphicX::Renderer>* out_renderer)
     {
         if (!this->renderer) {
-            this->renderer.reset(new Graphic::Renderer(this));
+            this->renderer.reset(new GraphicX::Renderer(this));
             if (this->window) this->renderer->initialize(this->window.get());
             if (out_renderer != nullptr) out_renderer = &this->renderer;
             return true;

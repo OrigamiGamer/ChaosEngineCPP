@@ -2,7 +2,7 @@
 
 #include "GraphicX/GraphicX.h"
 
-namespace Chaos::Graphic {
+namespace Chaos::GraphicX {
 
 
 
@@ -43,24 +43,6 @@ namespace Chaos::Graphic {
     {
         this->engine = new_engine;
         this->INIT("Renderer");
-    }
-
-
-
-    Renderer::~Renderer()
-    {
-        // release textures
-        for (auto& texture : this->_loadedTextures) {
-            System::safeReleaseCOM(*texture.second._bitmap);
-        }
-        this->_loadedTextures.clear();
-
-        // release D2D devices
-        System::safeReleaseCOM(this->_hwndRenderTarget);
-        System::safeReleaseCOM(this->_bitmapRenderTarget);
-        System::safeReleaseCOM(this->_brush);
-        System::safeReleaseCOM(this->_d2dFactory);
-        System::safeReleaseCOM(this->_wicFactory);
     }
 
 
@@ -121,6 +103,24 @@ namespace Chaos::Graphic {
     inline bool Renderer::initialize(WindowX::Window& new_window)
     {
         return this->initialize(&new_window);
+    }
+
+
+
+    void Renderer::release()
+    {
+        // release textures
+        for (auto& texture : this->_loadedTextures) {
+            System::safeReleaseCOM(*texture.second._bitmap);
+        }
+        this->_loadedTextures.clear();
+
+        // release D2D devices
+        System::safeReleaseCOM(this->_hwndRenderTarget);
+        System::safeReleaseCOM(this->_bitmapRenderTarget);
+        System::safeReleaseCOM(this->_brush);
+        System::safeReleaseCOM(this->_d2dFactory);
+        System::safeReleaseCOM(this->_wicFactory);
     }
 
 
@@ -196,7 +196,7 @@ namespace Chaos::Graphic {
 
 
 
-    bool Renderer::createViewport(std::string viewportName, std::shared_ptr<Graphic::Viewport>* out_viewport)
+    bool Renderer::createViewport(std::string viewportName, std::shared_ptr<GraphicX::Viewport>* out_viewport)
     {
         // use default name if empty
         if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
@@ -205,7 +205,7 @@ namespace Chaos::Graphic {
 
         // create and initialize a new viewport
         this->viewports.resize(this->viewports.size() + 1);
-        this->viewports.back().reset(new Graphic::Viewport(this->engine));
+        this->viewports.back().reset(new GraphicX::Viewport(this->engine));
         this->viewports.back()->SET_NAME(viewportName);
 
         // output the viewport created as parameter
@@ -215,7 +215,7 @@ namespace Chaos::Graphic {
 
 
 
-    inline bool Renderer::createViewport(std::shared_ptr<Graphic::Viewport>& out_viewport)
+    inline bool Renderer::createViewport(std::shared_ptr<GraphicX::Viewport>& out_viewport)
     {
         return this->createViewport("", &out_viewport);
     }
