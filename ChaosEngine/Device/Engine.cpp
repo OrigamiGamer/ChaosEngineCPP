@@ -3,6 +3,7 @@
 #include "Common.h"
 
 namespace Chaos::Device {
+    
     Engine::Engine()
     {
         this->INIT("Engine");
@@ -10,9 +11,7 @@ namespace Chaos::Device {
 
     Engine::~Engine()
     {
-        // !! 任何 设备对象 都必须隶属于特定 引擎对象，所以 设备对象共享 将不可用。(多窗口对象共享 将不可用!) !!
-        // 可行措施: 设备对象控制权 交予 用户，而非 引擎对象...
-        // ( 也许至少现在，我们并不奢求 共享设备对象 ? )
+
     }
 
     bool Engine::initialize()

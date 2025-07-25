@@ -50,6 +50,8 @@ namespace Chaos {
     struct vec2 {
         T x;
         T y;
+        vec2();
+        vec2(T x, T y);
     };
 
     template<typename T>
@@ -57,6 +59,8 @@ namespace Chaos {
         T x;
         T y;
         T z;
+        vec3();
+        vec3(T x, T y, T z);
     };
 
     template<typename T>
@@ -431,11 +435,23 @@ namespace Chaos::Graphic {
 
     };
 
+    class Bitmap {
+    private:
+        ID2D1Bitmap* _d2dbitmap = nullptr;
+
+        vec2<float> getSize();
+
+    public:
+        Bitmap();
+        ~Bitmap();
+
+        friend class Texture;
+        friend class Renderer;
+    };
+
     class Texture : public Resource {
     private:
-        ID2D1Bitmap** _bitmap = nullptr;
-
-        Texture(ID2D1Bitmap** new_bitmap);
+        Chaos::shared_ptr<Bitmap> _bitmap;
 
     public:
         Texture();
@@ -489,8 +505,9 @@ namespace Chaos::Graphic {
     };
 
     class Viewport : public Base {
+    private:
+        Graphic::Bitmap _bitmap;
     public:
-        Graphic::Texture texture;
         Chaos::vec2<float> pos;
         Chaos::vec2<float> size;
         Chaos::vec2<float> pivot;
@@ -502,6 +519,7 @@ namespace Chaos::Graphic {
         Viewport(Device::Engine* new_engine);
         ~Viewport();
 
+        friend class Renderer;
     };
 
     class Renderer : public Base {
@@ -515,11 +533,13 @@ namespace Chaos::Graphic {
         ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
+        std::vector<Bitmap> _loadedBitmaps;
         std::map<std::string, Texture> _loadedTextures;
 
     public:
         std::vector<RenderTask> tasks;
-        std::vector<Chaos::ptr<Graphic::Viewport>> viewports;
+        // std::vector<Chaos::ptr<Graphic::Viewport>> viewports;
+        std::vector<Graphic::Viewport> viewports;   // why do i use ptr?
 
         Renderer(Device::Engine* new_engine);
         ~Renderer();

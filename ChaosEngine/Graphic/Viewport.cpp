@@ -13,7 +13,7 @@ namespace Chaos::Graphic {
 
     Viewport::~Viewport()
     {
-
+        std::cout << "[CALL] " << "Viewport -> ~Viewport()" << std::endl;
     }
 
 }

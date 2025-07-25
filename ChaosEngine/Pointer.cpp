@@ -84,7 +84,7 @@ namespace Chaos {
         std::cout << "[CALL] ptr -> release() | " << (shared_ptr<T>::has_value() == true ? "has_value" : "nullptr") << std::endl;
         if (shared_ptr<T>::has_value()) {
             delete shared_ptr<T>::p;
-            shared_ptr<T>::p = nullptr;
+            shared_ptr<T>::p = nullptr;  // ??
         };
     }
 
@@ -97,8 +97,8 @@ namespace Chaos {
     }
 
     template<typename T>
-    inline void ptr<T>::operator=(T* new_ptr)
+    inline void ptr<T>::operator=(T* new_p)
     {
-        this->set(new_ptr);
+        this->set(new_p);
     }
 }

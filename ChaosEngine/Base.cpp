@@ -10,7 +10,7 @@ namespace Chaos {
 
     Base::~Base()
     {
-        std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::~Base()" << std::endl;
+        std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> ~Base()" << std::endl;
     }
 
     inline void Base::INIT(std::string new_typeId)

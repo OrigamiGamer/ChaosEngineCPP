@@ -31,6 +31,3 @@ link_directories(${LINK_LIST})
 # set_target_properties(engine_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_Static)
 
 link_libraries("D2D1.lib" "libglfw3.a")
-
-add_executable(debug "debug.cpp")
-set_target_properties(debug PROPERTIES OUTPUT_NAME "debug" SUFFIX ".exe")

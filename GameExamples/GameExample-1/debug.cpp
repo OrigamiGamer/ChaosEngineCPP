@@ -1,8 +1,7 @@
 // Game Example 1
 
 #include <iostream>
-#include "Common.h"
-#include "Common.cpp"
+#include "ChaosEngine.h"
 
 using namespace std;
 using namespace Chaos;
@@ -65,6 +64,8 @@ public:
 
 
 
+
+
     }
 
 } g_scene_mainPage;
@@ -73,22 +74,22 @@ void GameInit()
 {
     res::tex_logo = ::engine.renderer->loadTextureFromImageFile(L"/res/origami_logo.png");
 
-    // viewport 做到 renderer 里了
-    // 接下来要让每个 Scene 都能拥有并访问一个 viewport
-
     Chaos::shared_ptr<Graphic::Viewport> viewport;
+    Chaos::shared_ptr<Graphic::Viewport> viewport_2;
+
     if (::engine.renderer->createViewport(viewport)) {
         viewport->pos = { 10, 10 };
         viewport->size = { 500, 500 };
         viewport->viewPos = { 100, 100 };
         viewport->viewSize = { 500, 500 };
     }
-    if (::engine.renderer->createViewport(viewport)) {
-        viewport->pos = { 510, 10 };
-        viewport->size = { 500, 500 };
-        viewport->viewPos = { 200, 200 };
-        viewport->viewSize = { 500, 500 };
+    if (::engine.renderer->createViewport(viewport_2)) {
+        viewport_2->pos = { 510, 10 };
+        viewport_2->size = { 500, 500 };
+        viewport_2->viewPos = { 200, 200 };
+        viewport_2->viewSize = { 500, 500 };
     }   // NEW PROBLEM
+
 
     ::engine.stage->registerScene(g_scene_mainPage);
     ::engine.stage->switchScene("MainScene");
@@ -100,3 +101,15 @@ bool GameExit()
     return true;
 }
 
+
+
+
+
+/*
+
+现在有一个GameEngine项目，一个直接引用了engine代码的GameDemo项目，它们现在都没有cmake文件，且GameDemo的项目位置位于engine根目录。
+C++17，两者直接合并编译为exe文件。请给出这俩项目的cmake配置
+
+（以上请问AI）
+
+*/

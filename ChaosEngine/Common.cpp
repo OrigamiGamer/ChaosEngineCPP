@@ -1,30 +1,33 @@
 #pragma once
 
-#include "Pointer.cpp"
-#include "System.cpp"
-#include "Base.cpp"
-#include "Resource.cpp"
+// Base
+#include "ChaosEngine/Structure.cpp"
+#include "ChaosEngine/Pointer.cpp"
+#include "ChaosEngine/System.cpp"
+#include "ChaosEngine/Base.cpp"
+#include "ChaosEngine/Resource.cpp"
 
 // Device
-#include "Device/Engine.cpp"
-#include "Device/WindowManager.cpp"
-#include "Device/Window.cpp"
+#include "ChaosEngine/Device/Engine.cpp"
+#include "ChaosEngine/Device/WindowManager.cpp"
+#include "ChaosEngine/Device/Window.cpp"
 
 // Graphic
-#include "Graphic/GraphicManager.cpp"
-#include "Graphic/Texture.cpp"
-#include "Graphic/Viewport.cpp"
-#include "Graphic/Renderer.cpp"
+#include "ChaosEngine/Graphic/GraphicManager.cpp"
+#include "ChaosEngine/Graphic/Bitmap.cpp"
+#include "ChaosEngine/Graphic/Texture.cpp"
+#include "ChaosEngine/Graphic/Viewport.cpp"
+#include "ChaosEngine/Graphic/Renderer.cpp"
 
 // Audio
-#include "Audio/AudioManager.cpp"
-#include "Audio/Sound.cpp"
-#include "Audio/Sample.cpp"
-#include "Audio/Channel.cpp"
-#include "Audio/ChannelGroup.cpp"
-#include "Audio/AudioPlayer.cpp"
+#include "ChaosEngine/Audio/AudioManager.cpp"
+#include "ChaosEngine/Audio/Sound.cpp"
+#include "ChaosEngine/Audio/Sample.cpp"
+#include "ChaosEngine/Audio/Channel.cpp"
+#include "ChaosEngine/Audio/ChannelGroup.cpp"
+#include "ChaosEngine/Audio/AudioPlayer.cpp"
 
 // Content
-#include "Content/Stage.cpp"
-#include "Content/Scene.cpp"
-#include "Content/Actor.cpp"
+#include "ChaosEngine/Content/Stage.cpp"
+#include "ChaosEngine/Content/Scene.cpp"
+#include "ChaosEngine/Content/Actor.cpp"

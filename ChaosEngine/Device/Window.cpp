@@ -4,6 +4,9 @@
 
 namespace Chaos::Device {
 
+
+
+
     // Window Property
 
     WindowProperty::WindowProperty()
@@ -16,6 +19,9 @@ namespace Chaos::Device {
     {
 
     }
+
+
+
 
     // Window
 
@@ -113,39 +119,3 @@ namespace Chaos::Device {
         return true;
     }
 }
-
-
-
-
-
-// namespace DebugForIdeas {
-
-//     int peekEvent();
-//     int dispatchEvent();
-
-//     void engine_update()
-//     {
-//         int event = peekEvent();
-//         while (event) {
-//             event = peekEvent();
-
-//         }
-
-
-
-//     }
-
-//     void object_update()    // for user to do
-//     {
-//         // just handle single event for one frame
-//         int single_event_per_frame = peekEvent();
-//         switch (single_event_per_frame) {
-//         case 0:
-//         case 1:
-//         default:
-//             break;
-//         }
-//     }
-
-
-// }
