@@ -22,7 +22,7 @@ namespace Chaos {
 
     void Base::release()
     {
-        std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::release()" << std::endl;
+        // std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::release()" << std::endl;
     }
 
 

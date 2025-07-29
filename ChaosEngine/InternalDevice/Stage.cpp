@@ -44,7 +44,7 @@ namespace Chaos::InternalDevice {
         if (this->_preparedScene) {
             this->_preparedScene->update();
             if (this->_currentScene ? this->_currentScene->onExiting() : true) {
-                this->_preparedScene->onEntering();
+                this->_preparedScene->onEntered();
                 this->_currentScene = this->_preparedScene;
                 this->_preparedScene = nullptr;
             }

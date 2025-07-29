@@ -121,6 +121,7 @@ namespace Chaos::GraphicX {
         System::safeReleaseCOM(this->_brush);
         System::safeReleaseCOM(this->_d2dFactory);
         System::safeReleaseCOM(this->_wicFactory);
+        
     }
 
 

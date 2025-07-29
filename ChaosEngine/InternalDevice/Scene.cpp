@@ -22,7 +22,7 @@ namespace Chaos::InternalDevice {
 
 
 
-    void Scene::onEntering()
+    void Scene::onEntered()
     {
 
     }
