@@ -345,7 +345,7 @@ namespace Chaos::GraphicX {
                 this->_bitmapRenderTarget->GetBitmap(&viewport->_bitmap);
                 if (!viewport->_bitmap) break;
 
-                // fix out of range from the world
+                // fix out of range of the world
                 vec2<float> rect_lt = viewport->viewPos;
                 vec2<float> rect_rb = viewport->viewPos + viewport->viewSize;
                 D2D1_SIZE_F _texSize; viewport->_bitmap->GetSize(&_texSize);
