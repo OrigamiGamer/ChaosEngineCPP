@@ -3,15 +3,22 @@
 #include "AudioX/AudioX.h"
 
 namespace Chaos::AudioX {
-    Sound::Sound(InternalDevice::Engine* new_engine)
+
+
+
+    Sound::Sound()
     {
-        this->engine = new_engine;
         this->INIT("Sound");
 
     }
+
+
 
     Sound::~Sound()
     {
 
     }
+
+
+
 }

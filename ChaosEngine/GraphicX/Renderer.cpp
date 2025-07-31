@@ -39,9 +39,8 @@ namespace Chaos::GraphicX {
 
 
 
-    Renderer::Renderer(InternalDevice::Engine* new_engine)
+    Renderer::Renderer()
     {
-        this->engine = new_engine;
         this->INIT("Renderer");
     }
 
@@ -94,7 +93,6 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return false;
 
-        CoUninitialize();
         return true;
     }
 
@@ -115,13 +113,21 @@ namespace Chaos::GraphicX {
         }
         this->_loadedTextures.clear();
 
+        // release viewports
+        for (auto& viewport : this->viewports) {
+            viewport->release();
+            delete viewport;
+        }
+
         // release D2D devices
         System::safeReleaseCOM(this->_hwndRenderTarget);
         System::safeReleaseCOM(this->_bitmapRenderTarget);
         System::safeReleaseCOM(this->_brush);
-        System::safeReleaseCOM(this->_d2dFactory);
         System::safeReleaseCOM(this->_wicFactory);
-        
+        System::safeReleaseCOM(this->_d2dFactory);
+        CoUninitialize();
+
+        std::cout << "[CALL] Renderer -> release()" << std::endl;
     }
 
 
@@ -166,7 +172,6 @@ namespace Chaos::GraphicX {
         auto _it = this->_loadedTextures.find(textureName);
         if (_it != this->_loadedTextures.end()) return nullptr; // texture already loaded
         else _it = this->_loadedTextures.insert(std::make_pair(textureName, Texture(new ID2D1Bitmap*))).first;
-        /////////////// bug here, and it sourced from the double-layer pointer design of Texture.
 
         hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
             converter,
@@ -197,7 +202,7 @@ namespace Chaos::GraphicX {
 
 
 
-    bool Renderer::createViewport(std::string viewportName, std::shared_ptr<GraphicX::Viewport>* out_viewport)
+    bool Renderer::createViewport(std::string viewportName, GraphicX::Viewport** out_viewport)
     {
         // use default name if empty
         if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
@@ -206,17 +211,17 @@ namespace Chaos::GraphicX {
 
         // create and initialize a new viewport
         this->viewports.resize(this->viewports.size() + 1);
-        this->viewports.back().reset(new GraphicX::Viewport(this->engine));
+        this->viewports.back() = new GraphicX::Viewport(this);
         this->viewports.back()->SET_NAME(viewportName);
 
         // output the viewport created as parameter
-        if (out_viewport) out_viewport->reset(this->viewports.back().get());
+        if (out_viewport) *out_viewport = this->viewports.back();
         return true;
     }
 
 
 
-    inline bool Renderer::createViewport(std::shared_ptr<GraphicX::Viewport>& out_viewport)
+    inline bool Renderer::createViewport(GraphicX::Viewport*& out_viewport)
     {
         return this->createViewport("", &out_viewport);
     }
@@ -245,21 +250,13 @@ namespace Chaos::GraphicX {
 
 
 
-    void Renderer::beginDraw()
-    {
-        if (this->_bitmapRenderTarget) {
-            this->_bitmapRenderTarget->BeginDraw();
-            this->_bitmapRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-        }
-
-    }
-
-
-
-    void Renderer::endDraw()
+    void Renderer::render()
     {
         // render graphics on world
         if (this->_bitmapRenderTarget) {
+            this->_bitmapRenderTarget->BeginDraw();
+            this->_bitmapRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+
             for (auto& task : this->tasks) {
                 switch (task.type) {
 
@@ -312,10 +309,8 @@ namespace Chaos::GraphicX {
             this->_hwndRenderTarget->BeginDraw();
             this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
             for (auto& viewport : this->viewports) {
-                // look the bug here, your texture handles a double-layer pointer.
-                // when dev using a new Texture, the first is a nullptr initially.
-                // so if the second is accessed now, it will must be an error. So the second must be accessed.
                 this->_bitmapRenderTarget->GetBitmap(&viewport->_bitmap);
+                if (!viewport->_bitmap) break;
 
                 this->_hwndRenderTarget->DrawBitmap(
                     viewport->_bitmap,

@@ -6,9 +6,8 @@ namespace Chaos::AudioX {
 
 
 
-    AudioManager::AudioManager(InternalDevice::Engine* new_engine)
+    AudioManager::AudioManager()
     {
-        this->engine = new_engine;
         this->INIT("AudioManager");
 
     }

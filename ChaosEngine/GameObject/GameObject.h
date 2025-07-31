@@ -8,8 +8,13 @@ namespace Chaos::GameObject {
 
     class Actor : public Base {
     public:
-        Actor(InternalDevice::Engine* new_engine);
+        InternalDevice::Scene* scene = nullptr;
+
+        Actor();
+
         ~Actor();
+
+        // ...
 
     };
 

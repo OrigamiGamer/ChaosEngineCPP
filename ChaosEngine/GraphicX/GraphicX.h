@@ -8,13 +8,13 @@ namespace Chaos::GraphicX {
 
     class GraphicManager : public Base {
     public:
-        GraphicX::Renderer* renderer = nullptr;
+        // std::vector<GraphicX::Renderer*> renderers;
 
-        GraphicManager(InternalDevice::Engine* new_engine);
+        GraphicManager();
         ~GraphicManager();
 
-        void registerRenderer(GraphicX::Renderer* new_renderer);
-        void registerRenderer(GraphicX::Renderer& new_renderer);
+        // void registerRenderer(GraphicX::Renderer* new_renderer);
+        // void registerRenderer(GraphicX::Renderer& new_renderer);
 
     };
 
@@ -101,6 +101,8 @@ namespace Chaos::GraphicX {
     private:
         ID2D1Bitmap* _bitmap = nullptr;
     public:
+        Renderer* renderer = nullptr;
+
         Chaos::vec2<float> pos;
         Chaos::vec2<float> size;
         Chaos::vec2<float> pivot;
@@ -109,7 +111,7 @@ namespace Chaos::GraphicX {
         Chaos::vec2<float> viewPos;
         Chaos::vec2<float> viewSize;
 
-        Viewport(InternalDevice::Engine* new_engine);
+        Viewport(Renderer* new_renderer);
 
         void release();
 
@@ -119,7 +121,7 @@ namespace Chaos::GraphicX {
 
 
 
-    class Renderer : public Base {
+    class Renderer : public Device {
     private:
         ID2D1Factory* _d2dFactory = nullptr;
         IWICImagingFactory* _wicFactory = nullptr;
@@ -134,30 +136,30 @@ namespace Chaos::GraphicX {
 
     public:
         std::vector<RenderTask> tasks;
-        std::vector<std::shared_ptr<GraphicX::Viewport>> viewports;
+        std::vector<GraphicX::Viewport*> viewports;
 
-        Renderer(InternalDevice::Engine* new_engine);
+        Renderer();
 
         bool initialize(WindowX::Window* new_window);
         bool initialize(WindowX::Window& new_window);
 
         void release();
 
-        bool createViewport(std::string viewportName = "", std::shared_ptr<GraphicX::Viewport>* out_viewport = nullptr);
-        bool createViewport(std::shared_ptr<GraphicX::Viewport>& out_viewport);
+        bool createViewport(std::string viewportName = "", GraphicX::Viewport** out_viewport = nullptr);
+        bool createViewport(GraphicX::Viewport*& out_viewport);
 
         Texture* loadTextureFromImageFile(std::wstring filename, std::string textureName = "");
 
         Texture* getLoadedTexture(std::string textureName);
 
+        // Push a new task into the back of queue.
         void pushTask(RenderTask& new_task);
 
-        // Pop the last task from the task queue.
+        // Pop the back task from the queue.
         void popTask();
 
-        void beginDraw();
-
-        void endDraw();
+    private:
+        void render();
 
         friend class InternalDevice::Stage;
 

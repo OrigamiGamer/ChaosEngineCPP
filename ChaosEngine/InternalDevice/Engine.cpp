@@ -51,23 +51,8 @@ namespace Chaos::InternalDevice {
         unsigned long long timeSlept = 0;   // units: microseconds
         while (this->gameRunningState) {
 
-            // handle window message
-            if (this->window) {
-                auto& _glfwWindow = this->window->_glfwWindow;
-                if (!glfwWindowShouldClose(_glfwWindow)) {
-                    glfwSwapBuffers(_glfwWindow);
-                    glfwPollEvents();
-                }
-                else {
-                    // game exit
-                    if (this->engineStartupProp.onGameExit ? this->engineStartupProp.onGameExit() : true) {
-                        // user confirmed
-                        break;
-                    }
-                    // user denied
-                    glfwSetWindowShouldClose(_glfwWindow, false);
-                }
-            }
+            // window update
+            windowUpdate();
 
             // FPS control (units: microseconds)
             unsigned long long cycleTime = (1000 * 1000) / this->engineStartupProp.fps;
@@ -104,6 +89,13 @@ namespace Chaos::InternalDevice {
 
 
 
+    void Engine::windowUpdate()
+    {
+        if (this->stage) this->stage->updateWindow();
+    }
+
+
+
     void Engine::engineUpdate()
     {
         if (this->stage) this->stage->update();
@@ -124,62 +116,29 @@ namespace Chaos::InternalDevice {
     {
         // Stage
         this->stage->release();
+        glfwTerminate();
 
         // Renderer
         this->renderer->release();
-
-        // Window
-        this->window->release();
-        glfwTerminate();
-
+        
     }
 
 
 
-    bool Engine::createWindow(WindowX::WindowProperty* new_windowProp, std::shared_ptr<WindowX::Window>* out_window)
+    void Engine::registerRenderer(GraphicX::Renderer* new_renderer)
     {
-        if (!this->window) {
-            this->window.reset(new WindowX::Window(this));
-            if (out_window != nullptr) out_window = &this->window;
-            this->window->initialize(new_windowProp);
-            glfwMakeContextCurrent(this->window->_glfwWindow);
-            return true;
-        }
-        return false;
+        if (this->renderer) this->renderer->engine = nullptr;
+        new_renderer->engine = this;
+        this->renderer = new_renderer;
     }
 
 
 
-    bool Engine::createRenderer(std::shared_ptr<GraphicX::Renderer>* out_renderer)
+    void Engine::registerStage(InternalDevice::Stage* new_stage)
     {
-        if (!this->renderer) {
-            this->renderer.reset(new GraphicX::Renderer(this));
-            if (this->window) this->renderer->initialize(this->window.get());
-            if (out_renderer != nullptr) out_renderer = &this->renderer;
-            return true;
-        }
-        return false;
-    }
-
-
-
-    bool Engine::createStage(std::shared_ptr<InternalDevice::Stage>* out_stage)
-    {
-        if (!this->stage) {
-            this->stage.reset(new InternalDevice::Stage(this));
-            if (out_stage != nullptr) out_stage = &this->stage;
-        }
-        return false;
-    }
-
-
-
-    bool Engine::createDefaultDevice()
-    {
-        if (!this->createWindow()) return false;
-        if (!this->createRenderer()) return false;
-        if (!this->createStage()) return false;
-        return true;
+        if (this->stage) this->stage->engine = nullptr;
+        new_stage->engine = this;
+        this->stage = new_stage;
     }
 
 

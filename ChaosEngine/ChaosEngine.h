@@ -117,6 +117,8 @@ namespace Chaos {
 
     class Base;
 
+    class Device;
+
     class Resource;
 
 }
@@ -170,6 +172,7 @@ namespace Chaos::GraphicX {
     struct RenderTaskParam_Line;
     struct RenderTaskParam_Texture;
 
+    // general type
     using RenderTaskParam = std::variant<
         std::monostate,
         RenderTaskParam_Line,
@@ -222,9 +225,9 @@ namespace Chaos {
     public:
         std::string name;
         std::vector<std::string> typeHeap;
-        InternalDevice::Engine* engine = nullptr;
 
         Base();
+
         ~Base();
 
         virtual void release();
@@ -244,6 +247,18 @@ namespace Chaos {
         // Get the Global Unique Identifier(GUID) of this object.
         // 获取该对象的全局唯一标识符(GUID)。
         std::string GET_GUID();
+
+    };
+
+
+
+    class Device : public Base {
+    public:
+        InternalDevice::Engine* engine = nullptr;
+
+        Device();
+
+        ~Device();
 
     };
 

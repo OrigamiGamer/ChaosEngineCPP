@@ -4,9 +4,8 @@
 
 namespace Chaos::GraphicX {
 
-    GraphicManager::GraphicManager(InternalDevice::Engine* new_engine)
+    GraphicManager::GraphicManager()
     {
-        this->engine = new_engine;
         this->INIT("GraphicManager");
     }
 

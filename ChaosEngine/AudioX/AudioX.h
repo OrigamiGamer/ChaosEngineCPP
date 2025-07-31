@@ -12,7 +12,7 @@ namespace Chaos::AudioX {
 
     class AudioManager : public Base {
     public:
-        AudioManager(InternalDevice::Engine* new_engine);
+        AudioManager();
         ~AudioManager();
     };
 
@@ -20,7 +20,7 @@ namespace Chaos::AudioX {
 
     class Sound : public Resource {
     public:
-        Sound(InternalDevice::Engine* new_engine);
+        Sound();
         ~Sound();
     };
 
@@ -28,7 +28,7 @@ namespace Chaos::AudioX {
 
     class Sample : public Resource {
     public:
-        Sample(InternalDevice::Engine* new_engine);
+        Sample();
         ~Sample();
     };
 
@@ -36,7 +36,7 @@ namespace Chaos::AudioX {
 
     class Channel : public Resource {
     public:
-        Channel(InternalDevice::Engine* new_engine);
+        Channel();
         ~Channel();
     };
 
@@ -44,7 +44,7 @@ namespace Chaos::AudioX {
 
     class ChannelGroup : public Resource {
     public:
-        ChannelGroup(InternalDevice::Engine* new_engine);
+        ChannelGroup();
         ~ChannelGroup();
     };
 
@@ -52,7 +52,7 @@ namespace Chaos::AudioX {
 
     class AudioPlayer : public Base {
     public:
-        AudioPlayer(InternalDevice::Engine* new_engine);
+        AudioPlayer();
         ~AudioPlayer();
     };
 

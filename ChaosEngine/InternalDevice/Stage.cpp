@@ -6,10 +6,57 @@ namespace Chaos::InternalDevice {
 
 
 
-    Stage::Stage(InternalDevice::Engine* new_engine)
+    Stage::Stage()
     {
-        this->engine = new_engine;
         this->INIT("Stage");
+    }
+
+
+
+    void Stage::release()
+    {
+        for (auto& scene : this->_scenes) {
+            scene->release();
+        }
+
+        for (auto& window : this->windows) {
+            window->release();
+        }
+
+        std::cout << "[CALL] Stage -> release()" << std::endl;
+
+    }
+
+
+
+    void Stage::registerWindow(WindowX::Window* new_window)
+    {
+        new_window->stage = this;
+        this->windows.push_back(new_window);
+    }
+
+
+
+    void Stage::registerWindow(WindowX::Window& new_window)
+    {
+        this->registerWindow(&new_window);
+    }
+
+
+
+    void Stage::unregisterWindow(std::string windowTitle, std::string windowName)
+    {
+        for (size_t i = 0;i < this->windows.size();i++) {
+            auto& window = windows.at(i);
+
+            if (window->getTitle() == windowTitle) {
+
+                if (windowName != "" && window->name != windowName) continue;
+
+                windows.erase(this->windows.begin() + i);
+                i--;
+            }
+        }
     }
 
 
@@ -20,7 +67,7 @@ namespace Chaos::InternalDevice {
         for (auto& _scene : this->_scenes) {
             if (_scene) if (_scene->name == new_scene->name) return;  // scene already registered
         }
-        new_scene->engine = this->engine;
+        new_scene->stage = this;
         this->_scenes.push_back(new_scene);
     }
 
@@ -33,11 +80,32 @@ namespace Chaos::InternalDevice {
 
 
 
+    void Stage::updateWindow()
+    {
+        for (auto& window : this->windows) {
+            auto& _glfwWindow = window->_glfwWindow;
+
+            // handle window message
+            if (!glfwWindowShouldClose(_glfwWindow)) {
+                glfwSwapBuffers(_glfwWindow);
+                glfwPollEvents();
+            }
+            else {
+                // game exit
+                if (this->engine->engineStartupProp.onGameExit ? this->engine->engineStartupProp.onGameExit() : true) {
+                    // user confirmed
+                    this->engine->stop();
+                }
+                // user denied
+                glfwSetWindowShouldClose(_glfwWindow, false);
+            }
+        }
+    }
+
+
+
     void Stage::update()
     {
-        if (!this->engine) return;
-        if (!this->engine->renderer) return;
-        this->engine->renderer->beginDraw();
         // update current scene
         if (this->_currentScene) this->_currentScene->update();
         // update prepared scene
@@ -49,7 +117,9 @@ namespace Chaos::InternalDevice {
                 this->_preparedScene = nullptr;
             }
         }
-        this->engine->renderer->endDraw();
+        if (!this->engine) return;
+        if (!this->engine->renderer) return;
+        this->engine->renderer->render();
     }
 
 

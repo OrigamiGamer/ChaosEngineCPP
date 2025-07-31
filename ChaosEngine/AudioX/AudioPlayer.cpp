@@ -6,9 +6,8 @@ namespace Chaos::AudioX {
 
 
 
-    AudioPlayer::AudioPlayer(InternalDevice::Engine* new_engine)
+    AudioPlayer::AudioPlayer()
     {
-        this->engine = new_engine;
         this->INIT("AudioPlayer");
     }
 

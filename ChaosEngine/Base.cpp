@@ -15,7 +15,7 @@ namespace Chaos {
 
     Base::~Base()
     {
-        std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::~Base()" << std::endl;
+        // std::cout << "[CALL] " << this->GET_TOP_TYPE().c_str() << " -> Base::~Base()" << std::endl;
     }
 
 
@@ -44,14 +44,16 @@ namespace Chaos {
 
     const inline size_t Base::GET_TYPE_DEPTH()
     {
-        return this->typeHeap.size();
+        return 0;
     }
 
 
 
     const std::string Base::GET_TOP_TYPE()
     {
-        return typeHeap.at(this->GET_TYPE_DEPTH() - 1);
+        size_t _size = this->GET_TYPE_DEPTH();
+        if (_size == 0) return "<EMPTY-TYPE-ERROR>";
+        return typeHeap.at(_size - 1);
     }
 
 

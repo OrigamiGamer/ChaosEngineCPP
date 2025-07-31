@@ -6,7 +6,7 @@
 #include "dwrite.h"
 #include "wincodec.h"
 
-namespace Lib::Graphic::D2D {
+namespace ExternalLibrary::Graphic::D2D {
 
     // class Renderer;
 

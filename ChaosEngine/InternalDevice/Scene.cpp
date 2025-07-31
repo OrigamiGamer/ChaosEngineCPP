@@ -15,6 +15,13 @@ namespace Chaos::InternalDevice {
 
 
 
+    void release()
+    {
+
+    }
+
+
+
     void Scene::update()
     {
 

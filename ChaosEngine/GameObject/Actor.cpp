@@ -6,9 +6,8 @@ namespace Chaos::GameObject {
 
 
 
-    Actor::Actor(InternalDevice::Engine* new_engine)
+    Actor::Actor()
     {
-        this->engine = new_engine;
         this->INIT("Actor");
 
     }
@@ -17,9 +16,9 @@ namespace Chaos::GameObject {
 
     Actor::~Actor()
     {
-        
+
     }
 
 
-    
+
 }

@@ -16,13 +16,14 @@ namespace Chaos::InternalDevice {
 
     class Engine : public Base {
     private:
+        void windowUpdate();
+
         void engineUpdate();
 
     public:
-        // CAN it support MULTIPLE window devices?
-        std::shared_ptr<GraphicX::Renderer> renderer = nullptr;
-        std::shared_ptr<WindowX::Window> window = nullptr;
-        std::shared_ptr<InternalDevice::Stage> stage = nullptr;
+        GraphicX::Renderer* renderer = nullptr;
+        InternalDevice::Stage* stage = nullptr;
+
         InternalDevice::EngineStartupProperty engineStartupProp;
         bool gameRunningState = false;
         unsigned long long lastEngineTime = 0;
@@ -44,26 +45,33 @@ namespace Chaos::InternalDevice {
 
         void release();
 
-        bool createWindow(WindowX::WindowProperty* new_windowProp = nullptr, std::shared_ptr<WindowX::Window>* out_window = nullptr);
+        void registerRenderer(GraphicX::Renderer* new_renderer);
 
-        bool createRenderer(std::shared_ptr<GraphicX::Renderer>* out_renderer = nullptr);
-
-        bool createStage(std::shared_ptr<InternalDevice::Stage>* out_stage = nullptr);
-
-        bool createDefaultDevice();
+        void registerStage(InternalDevice::Stage* new_stage);
 
     };
 
 
 
-    class Stage : public Base {
+    class Stage : public Device {
     private:
-        Chaos::WindowX::Window* _window = nullptr;
         std::vector<Scene*> _scenes;
         Scene* _currentScene = nullptr;
         Scene* _preparedScene = nullptr;
+
+        void updateWindow();
+
     public:
-        Stage(InternalDevice::Engine* new_engine);
+        std::vector<Chaos::WindowX::Window*> windows;
+
+        Stage();
+
+        void release();
+
+        void registerWindow(WindowX::Window* new_window);
+        void registerWindow(WindowX::Window& new_window);
+
+        void unregisterWindow(std::string windowTitle, std::string windowName = "");
 
         void registerScene(Scene* new_scene);
         void registerScene(Scene& new_scene);
@@ -81,6 +89,8 @@ namespace Chaos::InternalDevice {
 
     class Scene : public Base {
     public:
+        Stage* stage = nullptr;
+
         Scene(std::string new_sceneName);
 
         // A callback method of scene, calling while updating.

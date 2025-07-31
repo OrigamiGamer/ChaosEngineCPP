@@ -10,9 +10,6 @@ namespace Chaos::WindowX {
         Chaos::vec2<int> size = { 800, 600 };
         Chaos::vec2<int> pos = { -1, -1 };  // default position: center of screen
         std::string title = "Window";
-    public:
-        WindowProperty();
-        WindowProperty(Chaos::vec2<int> size = { 800, 600 }, Chaos::vec2<int> pos = { -1, -1 }, std::string title = "Window");
     };
 
 
@@ -21,19 +18,25 @@ namespace Chaos::WindowX {
     private:
         GLFWwindow* _glfwWindow = nullptr;
     public:
+        InternalDevice::Stage* stage = nullptr;
+
+        WindowProperty initialProperty;
+
         vec2<int> pos;  // value updated by callback
         vec2<int> size; // value updated by callback
 
-        Window(InternalDevice::Engine* new_engine);
+        Window();
 
         bool initialize(WindowProperty* new_windowProp = nullptr);
 
         void release();
 
+        std::string getTitle();
+
         friend class WindowX::WindowManager;
         friend class GraphicX::Renderer;
+        friend class InternalDevice::Stage;
         friend class InternalDevice::Engine;
-
     };
 
 

@@ -6,11 +6,9 @@ namespace Chaos::WindowX {
 
 
 
-    Window::Window(InternalDevice::Engine* new_engine)
+    Window::Window()
     {
-        this->engine = new_engine;
         this->INIT("Window");
-        this->_glfwWindow = nullptr;
     }
 
 
@@ -33,6 +31,8 @@ namespace Chaos::WindowX {
                 new_windowProp->pos.x,
                 new_windowProp->pos.y
             );
+
+            this->initialProperty = *new_windowProp;
         }
         else {
             // Default window property
@@ -102,6 +102,13 @@ namespace Chaos::WindowX {
     void Window::release()
     {
         if (this->_glfwWindow) glfwDestroyWindow(this->_glfwWindow);
+    }
+
+
+
+    std::string Window::getTitle()
+    {
+        return glfwGetWindowTitle(this->_glfwWindow);
     }
 
 
