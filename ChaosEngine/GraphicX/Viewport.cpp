@@ -6,9 +6,8 @@ namespace Chaos::GraphicX {
 
 
 
-    Viewport::Viewport(Renderer* new_renderer)
+    Viewport::Viewport()
     {
-        this->renderer = new_renderer;
         this->INIT("Viewport");
 
     }

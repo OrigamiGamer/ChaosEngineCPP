@@ -26,7 +26,16 @@ namespace Chaos::System {
 
 
 
-    inline std::wstring getProgramFilePath()
+    inline std::string getProgramFilePath()
+    {
+        char _raw_path[MAX_PATH];
+        GetModuleFileNameA(NULL, _raw_path, MAX_PATH);
+        return std::string(_raw_path);
+    }
+
+
+
+    inline std::wstring getProgramFilePathW()
     {
         wchar_t _raw_path[MAX_PATH];
         GetModuleFileNameW(NULL, _raw_path, MAX_PATH);
@@ -35,30 +44,44 @@ namespace Chaos::System {
 
 
 
-    inline std::wstring getProgramFileDirectory()
+    inline std::string getProgramFileDirectory()
     {
         return getFileDirectory(getProgramFilePath());
     }
 
 
 
-    inline std::wstring getProgramFileName()
+    inline std::wstring getProgramFileDirectoryW()
+    {
+        return getFileDirectoryW(getProgramFilePathW());
+    }
+
+
+
+    inline std::string getProgramFileName()
     {
         return getFileName(getProgramFilePath());
     }
 
 
 
+    inline std::wstring getProgramFileNameW()
+    {
+        return getFileNameW(getProgramFilePathW());
+    }
+
+
+
     inline std::string formatFilePath(std::string filePath)
     {
-        if (filePath.front() == L'/') filePath.erase(0, 1);
-        std::replace(filePath.begin(), filePath.end(), L'/', L'\\');
+        if (filePath.front() == '/') filePath.erase(0, 1);
+        std::replace(filePath.begin(), filePath.end(), '/', '\\');
         return filePath;
     }
 
 
 
-    inline std::wstring formatFilePath(std::wstring filePath)
+    inline std::wstring formatFilePathW(std::wstring filePath)
     {
         if (filePath.front() == L'/') filePath.erase(0, 1);
         std::replace(filePath.begin(), filePath.end(), L'/', L'\\');
@@ -67,18 +90,27 @@ namespace Chaos::System {
 
 
 
-    std::wstring locate(std::wstring filename)
+    std::string locate(std::string filename)
+    {
+        if (filename.front() == '/') filename.erase(0, 1);
+        std::replace(filename.begin(), filename.end(), '/', '\\');
+        return getProgramFileDirectory() + "\\" + filename;
+    }
+
+
+
+    std::wstring locateW(std::wstring filename)
     {
         if (filename.front() == L'/') filename.erase(0, 1);
         std::replace(filename.begin(), filename.end(), L'/', L'\\');
-        return getProgramFileDirectory() + L"\\" + filename;
+        return getProgramFileDirectoryW() + L"\\" + filename;
     }
 
 
 
-    std::wstring getFileDirectory(std::wstring filePath)
+    std::wstring getFileDirectoryW(std::wstring filePath)
     {
-        filePath = formatFilePath(filePath);
+        filePath = formatFilePathW(filePath);
         size_t pos_to_path = filePath.find_last_of(L'\\');
         return filePath.substr(0, pos_to_path);
     }
@@ -88,15 +120,15 @@ namespace Chaos::System {
     std::string getFileDirectory(std::string filePath)
     {
         filePath = formatFilePath(filePath);
-        size_t pos_to_path = filePath.find_last_of(L'\\');
+        size_t pos_to_path = filePath.find_last_of('\\');
         return filePath.substr(0, pos_to_path);
     }
 
 
 
-    std::wstring getFileName(std::wstring filePath)
+    std::wstring getFileNameW(std::wstring filePath)
     {
-        filePath = formatFilePath(filePath);
+        filePath = formatFilePathW(filePath);
         size_t pos_to_path = filePath.find_last_of(L'\\');
         return filePath.substr(pos_to_path + 1, filePath.size() - pos_to_path - 1);
     }

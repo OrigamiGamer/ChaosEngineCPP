@@ -18,11 +18,30 @@ namespace Chaos::GraphicX {
         vec2<float> pos,
         Texture* texture,
         vec2<float> size,
+        vec2<float> texturePos,
+        vec2<float> textureSize,
+        float opacity,
         vec2<float> pivot,
         float rotation
-    ) : pos(pos), texture(texture), size(size), pivot(pivot), rotation(rotation)
+    ) :
+        pos(pos),
+        texture(texture),
+        size(size),
+        texturePos(texturePos),
+        textureSize(textureSize),
+        opacity(opacity),
+        pivot(pivot),
+        rotation(rotation)
     {
-        if (size.x == -1 && size.y == -1) this->size = texture->getSize();
+        if (texture) {
+            auto _texSize = texture->getSize();
+
+            if (size.x == -1) this->size.x = _texSize.x;
+            if (size.y == -1) this->size.y = _texSize.y;
+
+            if (textureSize.x == -1) this->textureSize.x = _texSize.x;
+            if (textureSize.y == -1) this->textureSize.y = _texSize.y;
+        }
     }
 
 
@@ -116,7 +135,6 @@ namespace Chaos::GraphicX {
         // release viewports
         for (auto& viewport : this->viewports) {
             viewport->release();
-            delete viewport;
         }
 
         // release D2D devices
@@ -132,15 +150,16 @@ namespace Chaos::GraphicX {
 
 
 
-    Texture* Renderer::loadTextureFromImageFile(std::wstring filename, std::string textureName)
+    Texture* Renderer::loadTextureFromImageFile(std::string filename, std::string textureName)
     {
         IWICBitmapDecoder* decoder = nullptr;
         IWICBitmapFrameDecode* frameDecode = nullptr;
         IWICFormatConverter* converter = nullptr;
 
+
         // Load the image file
         HRESULT hr = this->_wicFactory->CreateDecoderFromFilename(
-            System::locate(filename).c_str(),
+            System::stringToWstring(System::locate(filename)).c_str(),  // WARNING: string to wstring
             NULL,
             GENERIC_READ,
             WICDecodeMetadataCacheOnDemand,
@@ -148,9 +167,11 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return nullptr;
 
+
         // Get the first frame of the image
         hr = decoder->GetFrame(0, &frameDecode);
         if (FAILED(hr)) return nullptr;;
+
 
         // Format convert to 32bppPBGRA
         hr = this->_wicFactory->CreateFormatConverter(&converter);
@@ -166,30 +187,44 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return nullptr;;
 
+
         // Create a d2d bitmap from the converted frame
-        if (textureName == "" || textureName.empty()) textureName = System::wstringToString(System::getFileName(filename));
+        if (textureName == "" || textureName.empty()) textureName = System::getFileName(filename);
+
+        // initialize texture
+        Texture* _result = nullptr;
 
         auto _it = this->_loadedTextures.find(textureName);
-        if (_it != this->_loadedTextures.end()) return nullptr; // texture already loaded
-        else _it = this->_loadedTextures.insert(std::make_pair(textureName, Texture(new ID2D1Bitmap*))).first;
 
-        hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
-            converter,
-            NULL,
-            _it->second._bitmap
-        );
+        if (_it == this->_loadedTextures.end()) {
+            _it = this->_loadedTextures.insert(std::make_pair(textureName, Texture(new ID2D1Bitmap*))).first;
 
-        if (FAILED(hr)) {
-            this->_loadedTextures.erase(_it);
-            return nullptr;
-        };
+            hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
+                converter,
+                NULL,
+                _it->second._bitmap
+            );
+            if (FAILED(hr)) {
+                this->_loadedTextures.erase(_it);
+                return nullptr; // failed to create d2d-bitmap from wic-bitmap
+            };
 
-        // Release COM objects
+            _it->second.SET_NAME(textureName);
+
+            _result = &_it->second;
+
+            std::cout << "Renderer -> loaded texture -> " << _it->second.name << std::endl;
+        }
+        else {
+            _result = nullptr;  // texture already loaded
+        }
+
+        // release COM objects
         System::safeReleaseCOM(converter);
         System::safeReleaseCOM(frameDecode);
         System::safeReleaseCOM(decoder);
 
-        return &_it->second;
+        return _result;
     }
 
 
@@ -202,28 +237,26 @@ namespace Chaos::GraphicX {
 
 
 
-    bool Renderer::createViewport(std::string viewportName, GraphicX::Viewport** out_viewport)
+    bool Renderer::registerViewport(GraphicX::Viewport* new_viewport, std::string viewportName)
     {
         // use default name if empty
         if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
         // check if viewport already exists
         for (auto& viewport : this->viewports) if (viewport->name == viewportName) return false;
 
-        // create and initialize a new viewport
-        this->viewports.resize(this->viewports.size() + 1);
-        this->viewports.back() = new GraphicX::Viewport(this);
-        this->viewports.back()->SET_NAME(viewportName);
+        // initialize the new viewport and register it into this renderer
+        new_viewport->renderer = this;
+        new_viewport->SET_NAME(viewportName);
+        this->viewports.push_back(new_viewport);
 
-        // output the viewport created as parameter
-        if (out_viewport) *out_viewport = this->viewports.back();
         return true;
     }
 
 
 
-    inline bool Renderer::createViewport(GraphicX::Viewport*& out_viewport)
+    bool Renderer::registerViewport(GraphicX::Viewport& new_viewport, std::string viewportName)
     {
-        return this->createViewport("", &out_viewport);
+        return this->registerViewport(&new_viewport);
     }
 
 
@@ -286,10 +319,10 @@ namespace Chaos::GraphicX {
                             param->opacity,
                             D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
                             D2D1::RectF(
-                                param->pivot.x,
-                                param->pivot.y,
-                                param->pivot.x + param->size.x,
-                                param->pivot.y + param->size.y
+                                param->texturePos.x,
+                                param->texturePos.y,
+                                param->texturePos.x + param->textureSize.x,
+                                param->texturePos.y + param->textureSize.y
                             )
                         );
                     }
@@ -311,6 +344,15 @@ namespace Chaos::GraphicX {
             for (auto& viewport : this->viewports) {
                 this->_bitmapRenderTarget->GetBitmap(&viewport->_bitmap);
                 if (!viewport->_bitmap) break;
+
+                // fix out of range from the world
+                vec2<float> rect_lt = viewport->viewPos;
+                vec2<float> rect_rb = viewport->viewPos + viewport->viewSize;
+                D2D1_SIZE_F _texSize; viewport->_bitmap->GetSize(&_texSize);
+                if (rect_lt.x < 0) viewport->viewPos.x = 0;
+                if (rect_lt.y < 0) viewport->viewPos.y = 0;
+                if (rect_rb.x > _texSize.width) viewport->viewPos.x = _texSize.width - viewport->viewSize.x;
+                if (rect_rb.y > _texSize.height) viewport->viewPos.y = _texSize.height - viewport->viewSize.y;
 
                 this->_hwndRenderTarget->DrawBitmap(
                     viewport->_bitmap,

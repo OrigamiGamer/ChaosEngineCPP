@@ -120,7 +120,7 @@ namespace Chaos::InternalDevice {
 
         // Renderer
         this->renderer->release();
-        
+
     }
 
 

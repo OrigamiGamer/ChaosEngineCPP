@@ -48,12 +48,12 @@ namespace Chaos::GraphicX {
 
         vec2<float> pos1{};
         vec2<float> pos2{};
-        float strokeWidth = 1.0;
+        float strokeWidth = 1.0f;
 
         RenderTaskParam_Line(
             vec2<float> pos1,
             vec2<float> pos2,
-            float strokeWidth = 1.0
+            float strokeWidth = 1.0f
         );
 
     };
@@ -61,21 +61,29 @@ namespace Chaos::GraphicX {
 
 
     // Texture
+    // If the parameter `size` or `textureSize` is the default or any of their components equals `-1`,
+    // they will be set to texture's size.
+    // 如果参数 `size` 或 `textureSize` 为默认值，或它们的任何分量等于 `-1`，它们将被设置为纹理尺寸。
     struct RenderTaskParam_Texture {
 
         vec2<float> pos{};
-        vec2<float> size{};
+        vec2<float> size{ -1,-1 };
+        vec2<float> texturePos{};
+        vec2<float> textureSize{ -1,-1 };
         Texture* texture = nullptr;
-        float opacity = 1.0;
+        float opacity = 1.0f;
         vec2<float> pivot{};
-        float rotation = 0.0;
+        float rotation = 0.0f;
 
         RenderTaskParam_Texture(
             vec2<float> pos,
             Texture* texture,
             vec2<float> size = { -1,-1 },
-            vec2<float> pivot = { 0.0,0.0 },
-            float rotation = 0.0
+            vec2<float> texturePos = { 0.0f,0.0f },
+            vec2<float> textureSize = { -1,-1 },
+            float opacity = 1.0f,
+            vec2<float> pivot = { 0.0f,0.0f },
+            float rotation = 0.0f
         );
 
     };
@@ -86,9 +94,9 @@ namespace Chaos::GraphicX {
 
         RenderTaskType type = RenderTaskType::None;
         RenderTaskParam param;
-        float order = 0.0;
+        float order = 0.0f;
 
-        RenderTask(RenderTaskType type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam(), float order = 0.0);
+        RenderTask(RenderTaskType type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam(), float order = 0.0f);
 
     };
 
@@ -103,15 +111,16 @@ namespace Chaos::GraphicX {
     public:
         Renderer* renderer = nullptr;
 
-        Chaos::vec2<float> pos;
-        Chaos::vec2<float> size;
-        Chaos::vec2<float> pivot;
-        float rotation;
+        Chaos::vec2<float> pos{};
+        Chaos::vec2<float> size{};
+        Chaos::vec2<float> pivot{};
+        float rotation = 0.0f;
+        float opacity = 1.0f;
 
-        Chaos::vec2<float> viewPos;
-        Chaos::vec2<float> viewSize;
+        Chaos::vec2<float> viewPos{};
+        Chaos::vec2<float> viewSize{};
 
-        Viewport(Renderer* new_renderer);
+        Viewport();
 
         void release();
 
@@ -145,10 +154,10 @@ namespace Chaos::GraphicX {
 
         void release();
 
-        bool createViewport(std::string viewportName = "", GraphicX::Viewport** out_viewport = nullptr);
-        bool createViewport(GraphicX::Viewport*& out_viewport);
+        bool registerViewport(GraphicX::Viewport* new_viewport, std::string viewportName = "");
+        bool registerViewport(GraphicX::Viewport& new_viewport, std::string viewportName = "");
 
-        Texture* loadTextureFromImageFile(std::wstring filename, std::string textureName = "");
+        Texture* loadTextureFromImageFile(std::string filename, std::string textureName = "");
 
         Texture* getLoadedTexture(std::string textureName);
 
