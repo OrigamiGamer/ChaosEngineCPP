@@ -17,13 +17,16 @@ namespace Chaos::WindowX {
     class Window : public Base {
     private:
         GLFWwindow* _glfwWindow = nullptr;
+
     public:
         InternalDevice::Stage* stage = nullptr;
 
         WindowProperty initialProperty;
 
-        vec2<int> pos;  // value updated by callback
-        vec2<int> size; // value updated by callback
+        vec2<int> pos;          // updated by callback
+        vec2<int> size;         // updated by callback
+        vec2<double> cursorPos; // updated by callback
+        std::vector<bool> keyStateBuffer;   // virtual-key codes from 0x01 to 0xFE (size: 255)
 
         Window();
 
@@ -32,6 +35,8 @@ namespace Chaos::WindowX {
         void release();
 
         std::string getTitle();
+
+        void setTitle(std::string new_windowTitle);
 
         friend class WindowX::WindowManager;
         friend class GraphicX::Renderer;
@@ -46,6 +51,9 @@ namespace Chaos::WindowX {
         static std::vector<WindowX::Window*> s_windows;
 
         WindowManager();
+
+        static void registerWindow(WindowX::Window* window);
+        static void registerWindow(WindowX::Window& window);
 
         static void _s_onWindowSize(GLFWwindow* window, int width, int height);
         static void _s_onWindowPos(GLFWwindow* window, int xpos, int ypos);
@@ -68,9 +76,6 @@ namespace Chaos::WindowX {
             Window 'Window' character input - Codepoint: 122                        (Char)
             Window 'Window' key event - Key: 90, Scancode: 44, Action: 0, Mods: 0   (Key Up)
         */
-
-        static void registerWindow(WindowX::Window* window);
-        static void registerWindow(WindowX::Window& window);
 
     };
 

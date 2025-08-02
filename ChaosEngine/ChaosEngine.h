@@ -43,7 +43,7 @@ namespace Chaos {
         T x;
         T y;
     public:
-        vec2<T> operator+(vec2<T> other) { return { this->x + other.x, this->y + other.y }; }
+        vec2<T> operator+(vec2<T>& other) { return { this->x + other.x, this->y + other.y }; }
     };
 
     template<typename T>
@@ -51,6 +51,8 @@ namespace Chaos {
         T x;
         T y;
         T z;
+    public:
+        vec3<T> operator+(vec3<T>& other) { return { this->x + other.x, this->y + other.y, this->z + other.z }; }
     };
 
 }

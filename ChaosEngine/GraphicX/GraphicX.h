@@ -102,9 +102,6 @@ namespace Chaos::GraphicX {
 
 
 
-
-
-
     class Viewport : public Base {
     private:
         ID2D1Bitmap* _bitmap = nullptr;

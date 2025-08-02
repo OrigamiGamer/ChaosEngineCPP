@@ -6,7 +6,8 @@ namespace Chaos::WindowX {
 
 
 
-    Window::Window()
+    Window::Window() :
+        keyStateBuffer(349, false)
     {
         this->INIT("Window");
     }
@@ -109,6 +110,13 @@ namespace Chaos::WindowX {
     std::string Window::getTitle()
     {
         return glfwGetWindowTitle(this->_glfwWindow);
+    }
+
+
+
+    void Window::setTitle(std::string new_windowTitle)
+    {
+        glfwSetWindowTitle(this->_glfwWindow, new_windowTitle.c_str());
     }
 
 

@@ -17,6 +17,23 @@ namespace Chaos::WindowX {
 
 
 
+    inline void WindowManager::registerWindow(WindowX::Window* window)
+    {
+        if (window) {
+            for (auto& wnd : WindowManager::s_windows) if (wnd == window) return;   // avoid repetition
+            WindowManager::s_windows.push_back(window);
+        }
+    }
+
+
+
+    inline void WindowManager::registerWindow(WindowX::Window& window)
+    {
+        WindowManager::registerWindow(&window);
+    }
+
+
+
     void WindowManager::_s_onWindowSize(GLFWwindow* window, int width, int height)
     {
         for (auto& wnd : WindowManager::s_windows) {
@@ -96,6 +113,15 @@ namespace Chaos::WindowX {
 
     void WindowManager::_s_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
+        for (auto& wnd : WindowManager::s_windows) {
+            if (wnd->_glfwWindow == window) {
+                wnd->keyStateBuffer.at(key) = static_cast<bool>(action);
+                // 根据GLFW官网 key tokens 重新做enum VirtKey
+                // size: 349 (最大范围到 348, std::vector的索引从 0 开始)
+                break;
+            }
+        }
+
         const char* title = glfwGetWindowTitle(window);
         std::cout << "Window '" << title << "' key event - Key: " << key << ", Scancode: " << scancode << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
@@ -129,6 +155,14 @@ namespace Chaos::WindowX {
 
     void WindowManager::_s_onCursorPos(GLFWwindow* window, double xpos, double ypos)
     {
+        for (auto& wnd : WindowManager::s_windows) {
+            if (wnd->_glfwWindow == window) {
+                wnd->cursorPos.x = xpos;
+                wnd->cursorPos.y = ypos;
+                break;
+            }
+        }
+
         // const char* title = glfwGetWindowTitle(window);
         // std::cout << "Window '" << title << "' cursor position - Xpos: " << xpos << ", Ypos: " << ypos << std::endl;
     }
@@ -163,23 +197,6 @@ namespace Chaos::WindowX {
         for (int i = 0; i < count; i++) {
             std::cout << "Window '" << title << "' path " << i << ": " << paths[i] << std::endl;
         }
-    }
-
-
-
-    inline void WindowManager::registerWindow(WindowX::Window* window)
-    {
-        if (window) {
-            for (auto& wnd : WindowManager::s_windows) if (wnd == window) return;
-            WindowManager::s_windows.push_back(window);
-        }
-    }
-
-
-
-    inline void WindowManager::registerWindow(WindowX::Window& window)
-    {
-        WindowManager::registerWindow(&window);
     }
 
 
