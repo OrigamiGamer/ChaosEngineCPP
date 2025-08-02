@@ -116,7 +116,7 @@ namespace Chaos::WindowX {
         for (auto& wnd : WindowManager::s_windows) {
             if (wnd->_glfwWindow == window) {
                 wnd->keyStateBuffer.at(key) = static_cast<bool>(action);
-                // 根据GLFW官网 key tokens 重新做enum VirtKey
+                // 根据GLFW官网的 key tokens 重新做 enum VirtKey
                 // size: 349 (最大范围到 348, std::vector的索引从 0 开始)
                 break;
             }
