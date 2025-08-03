@@ -121,4 +121,12 @@ namespace Chaos::WindowX {
 
 
 
+    bool Window::getKeyState(int virtualKey)
+    {
+        if(virtualKey >0){}
+        
+    }
+
+
+
 }

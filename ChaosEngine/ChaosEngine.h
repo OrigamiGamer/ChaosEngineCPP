@@ -135,6 +135,8 @@ namespace Chaos {
 
 namespace Chaos::WindowX {
 
+    enum VirtualKey;
+
     struct WindowProperty;
 
     class Window;
