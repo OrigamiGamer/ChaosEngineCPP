@@ -8,7 +8,7 @@ namespace Chaos::GraphicX {
 
     class GraphicManager : public Base {
     public:
-        static std::vector<GraphicX::Renderer*> renderers;
+        static std::vector<GraphicX::Renderer*> s_renderers;
 
         GraphicManager();
 

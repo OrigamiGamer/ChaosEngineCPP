@@ -18,6 +18,8 @@ namespace Chaos::WindowX {
     {
         if (new_windowProp != nullptr) {
             // user's window property
+            this->initialProperty = *new_windowProp;
+
             this->_glfwWindow = glfwCreateWindow(
                 new_windowProp->size.x,
                 new_windowProp->size.y,
@@ -27,13 +29,17 @@ namespace Chaos::WindowX {
             );
             if (!this->_glfwWindow) return false;
 
-            glfwSetWindowPos(
-                this->_glfwWindow,
-                new_windowProp->pos.x,
-                new_windowProp->pos.y
-            );
+            // calculate center pos of window in its monitor
+            if (const GLFWvidmode* _vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())) {
+                if (new_windowProp->pos.x == -1) new_windowProp->pos.x = _vidmode->width / 2 - new_windowProp->size.x / 2;
+                if (new_windowProp->pos.y == -1) new_windowProp->pos.y = _vidmode->height / 2 - new_windowProp->size.y / 2;
 
-            this->initialProperty = *new_windowProp;
+                glfwSetWindowPos(
+                    this->_glfwWindow,
+                    new_windowProp->pos.x,
+                    new_windowProp->pos.y
+                );
+            }
         }
         else {
             // default window property
@@ -98,6 +104,13 @@ namespace Chaos::WindowX {
         glfwSetDropCallback(this->_glfwWindow, WindowManager::_s_onDrop);
 
         return true;
+    }
+
+
+
+    bool Window::initialize(WindowProperty& new_windowProp)
+    {
+        return this->initialize(&new_windowProp);
     }
 
 

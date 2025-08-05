@@ -6,7 +6,7 @@ namespace Chaos::WindowX {
 
 
 
-    std::vector<WindowX::Window*> WindowManager::s_windows{};
+    std::vector<WindowX::Window*> WindowManager::s_windows;
 
 
 

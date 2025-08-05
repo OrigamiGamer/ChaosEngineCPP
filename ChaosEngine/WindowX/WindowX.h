@@ -6,52 +6,6 @@ namespace Chaos::WindowX {
 
 
 
-    struct WindowProperty {
-        Chaos::vec2<int> size = { 800, 600 };
-        Chaos::vec2<int> pos = { -1, -1 };  // default position: center of screen
-        std::string title = "Window";
-    };
-
-
-
-    class Window : public Base {
-    private:
-        GLFWwindow* _glfwWindow = nullptr;
-
-        void _onResized();
-
-    public:
-        InternalDevice::Stage* stage = nullptr;
-
-        WindowProperty initialProperty;
-
-        vec2<int> pos;          // updated by callback
-        vec2<int> size;         // updated by callback
-        vec2<double> cursorPos; // updated by callback
-        std::vector<bool> keyStateBuffer;   // virtual-key codes from 0x01 to 0xFE (size: 255)
-
-        Window();
-
-        bool initialize(WindowProperty* new_windowProp = nullptr);
-
-        void release();
-
-        std::string getTitle();
-
-        void setTitle(std::string new_title);
-
-        void setSize(vec2<int> new_size);
-
-        bool getKeyState(int virtualKey);
-
-        friend class WindowX::WindowManager;
-        friend class GraphicX::Renderer;
-        friend class InternalDevice::Stage;
-        friend class InternalDevice::Engine;
-    };
-
-
-
     class WindowManager : public Base {
     public:
         static std::vector<WindowX::Window*> s_windows;
@@ -83,6 +37,57 @@ namespace Chaos::WindowX {
             Window 'Window' key event - Key: 90, Scancode: 44, Action: 0, Mods: 0   (Key Up)
         */
 
+    };
+
+
+
+    struct WindowProperty {
+        vec2<int> size = { 800, 600 };
+
+        // If the value of a coordinate is -1, the position will be the center of primary monitor in that single coordinate.
+        // 如果一个坐标轴的数值为 -1，那么在该坐标轴上，窗口位置将为初始显示器的中心。
+        vec2<int> pos = { -1, -1 };
+
+        std::string title = "Window";
+    };
+
+
+
+    class Window : public Base {
+    private:
+        GLFWwindow* _glfwWindow = nullptr;
+
+        void _onResized();
+
+    public:
+        InternalDevice::Stage* stage = nullptr;
+
+        WindowProperty initialProperty;
+
+        vec2<int> pos;          // updated by callback
+        vec2<int> size;         // updated by callback
+        vec2<double> cursorPos; // updated by callback
+        std::vector<bool> keyStateBuffer;   // The state buffer of virtual keys. See enum VirtualKey as index of this buffer.
+
+        Window();
+
+        bool initialize(WindowProperty* new_windowProp = nullptr);
+        bool initialize(WindowProperty& new_windowProp);
+
+        void release();
+
+        std::string getTitle();
+
+        void setTitle(std::string new_title);
+
+        void setSize(vec2<int> new_size);
+
+        bool getKeyState(int virtualKey);
+
+        friend class WindowX::WindowManager;
+        friend class GraphicX::Renderer;
+        friend class InternalDevice::Stage;
+        friend class InternalDevice::Engine;
     };
 
 

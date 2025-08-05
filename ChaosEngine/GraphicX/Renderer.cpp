@@ -63,7 +63,7 @@ namespace Chaos::GraphicX {
     Renderer::Renderer()
     {
         this->INIT("Renderer");
-        this->SET_NAME("renderer_" + std::to_string(GraphicManager::renderers.size() + 1));
+        this->SET_NAME("renderer_" + std::to_string(GraphicManager::s_renderers.size() + 1));
     }
 
 

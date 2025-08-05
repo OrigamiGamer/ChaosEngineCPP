@@ -6,6 +6,10 @@ namespace Chaos::GraphicX {
 
 
 
+    std::vector<Renderer*> GraphicManager::s_renderers;
+
+
+
     GraphicManager::GraphicManager()
     {
         this->INIT("GraphicManager");
@@ -15,8 +19,8 @@ namespace Chaos::GraphicX {
 
     void GraphicManager::registerRenderer(GraphicX::Renderer* new_renderer)
     {
-        for (auto& renderer : GraphicManager::renderers) if (renderer->name == new_renderer->name) return;
-        GraphicManager::renderers.push_back(new_renderer);
+        for (auto& renderer : GraphicManager::s_renderers) if (renderer->name == new_renderer->name) return;
+        GraphicManager::s_renderers.push_back(new_renderer);
     }
 
 

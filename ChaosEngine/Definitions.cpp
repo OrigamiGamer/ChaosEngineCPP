@@ -20,6 +20,7 @@
 
 // WindowX
 #include "WindowX/WindowManager.cpp"
+#include "WindowX/WindowProperty.cpp"
 #include "WindowX/Window.cpp"
 
 
