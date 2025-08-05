@@ -3,9 +3,6 @@ Todo:
     - 傅里叶变换频谱分析
 
 - Viewport
-    - based on ID2D1BitmapRenderTarget
-    - make it in Scene
+
 
 - Window
-    - pos param and default pos
-    - resize for ID2D1HwndRenderTarget

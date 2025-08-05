@@ -39,6 +39,7 @@ namespace Chaos::WindowX {
         for (auto& wnd : WindowManager::s_windows) {
             if (wnd->_glfwWindow == window) {
                 wnd->size = { width, height };
+                wnd->_onResized();
                 break;
             }
         }
@@ -122,24 +123,24 @@ namespace Chaos::WindowX {
             }
         }
 
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' key event - Key: " << key << ", Scancode: " << scancode << ", Action: " << action << ", Mods: " << mods << std::endl;
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' key event - Key: " << key << ", Scancode: " << scancode << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
 
 
 
     void WindowManager::_s_onChar(GLFWwindow* window, unsigned int codepoint)
     {
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' character input - Codepoint: " << codepoint << std::endl;
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' character input - Codepoint: " << codepoint << std::endl;
     }
 
 
 
     void WindowManager::_s_onCharMods(GLFWwindow* window, unsigned int codepoint, int mods)
     {
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' character with mods input - Codepoint: " << codepoint << ", Mods: " << mods << std::endl;
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' character with mods input - Codepoint: " << codepoint << ", Mods: " << mods << std::endl;
     }
 
 
@@ -147,8 +148,8 @@ namespace Chaos::WindowX {
     void WindowManager::_s_onMouseButton(GLFWwindow* window, int button, int action, int mods)
     {
         // KeyStateBuffer
-        const char* title = glfwGetWindowTitle(window);
-        std::cout << "Window '" << title << "' mouse button event - Button: " << button << ", Action: " << action << ", Mods: " << mods << std::endl;
+        // const char* title = glfwGetWindowTitle(window);
+        // std::cout << "Window '" << title << "' mouse button ev/ent - Button: " << button << ", Action: " << action << ", Mods: " << mods << std::endl;
     }
 
 

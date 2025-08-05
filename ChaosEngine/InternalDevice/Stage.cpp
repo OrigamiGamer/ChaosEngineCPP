@@ -119,7 +119,7 @@ namespace Chaos::InternalDevice {
         }
         if (!this->engine) return;
         if (!this->engine->renderer) return;
-        this->engine->renderer->render();
+        this->engine->renderer->_render();
     }
 
 

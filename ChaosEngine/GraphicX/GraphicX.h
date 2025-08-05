@@ -8,13 +8,12 @@ namespace Chaos::GraphicX {
 
     class GraphicManager : public Base {
     public:
-        // std::vector<GraphicX::Renderer*> renderers;
+        static std::vector<GraphicX::Renderer*> renderers;
 
         GraphicManager();
-        ~GraphicManager();
 
-        // void registerRenderer(GraphicX::Renderer* new_renderer);
-        // void registerRenderer(GraphicX::Renderer& new_renderer);
+        static void registerRenderer(GraphicX::Renderer* new_renderer);
+        static void registerRenderer(GraphicX::Renderer& new_renderer);
 
     };
 
@@ -28,6 +27,7 @@ namespace Chaos::GraphicX {
 
     public:
         Texture();
+        ~Texture();
 
         void release();
 
@@ -39,13 +39,12 @@ namespace Chaos::GraphicX {
 
 
 
-    // Arguments of task types:
+    // Parameters of task types:
 
 
 
     // Line
     struct RenderTaskParam_Line {
-
         vec2<float> pos1{};
         vec2<float> pos2{};
         float strokeWidth = 1.0f;
@@ -65,7 +64,6 @@ namespace Chaos::GraphicX {
     // they will be set to texture's size.
     // 如果参数 `size` 或 `textureSize` 为默认值，或它们的任何分量等于 `-1`，它们将被设置为纹理尺寸。
     struct RenderTaskParam_Texture {
-
         vec2<float> pos{};
         vec2<float> size{ -1,-1 };
         vec2<float> texturePos{};
@@ -91,13 +89,11 @@ namespace Chaos::GraphicX {
 
 
     struct RenderTask {
-
         RenderTaskType type = RenderTaskType::None;
         RenderTaskParam param;
         float order = 0.0f;
 
         RenderTask(RenderTaskType type = RenderTaskType::None, RenderTaskParam param = RenderTaskParam(), float order = 0.0f);
-
     };
 
 
@@ -105,17 +101,18 @@ namespace Chaos::GraphicX {
     class Viewport : public Base {
     private:
         ID2D1Bitmap* _bitmap = nullptr;
+
     public:
         Renderer* renderer = nullptr;
+
+        Chaos::vec2<float> viewPos{};
+        Chaos::vec2<float> viewSize{};
 
         Chaos::vec2<float> pos{};
         Chaos::vec2<float> size{};
         Chaos::vec2<float> pivot{};
         float rotation = 0.0f;
         float opacity = 1.0f;
-
-        Chaos::vec2<float> viewPos{};
-        Chaos::vec2<float> viewSize{};
 
         Viewport();
 
@@ -138,11 +135,11 @@ namespace Chaos::GraphicX {
         ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
-        std::map<std::string, Texture> _loadedTextures;
+        std::vector<Texture*> _loadedTextures;
 
     public:
         std::vector<RenderTask> tasks;
-        std::vector<GraphicX::Viewport*> viewports;
+        std::map<std::string, GraphicX::Viewport*> viewports;
 
         Renderer();
 
@@ -151,12 +148,23 @@ namespace Chaos::GraphicX {
 
         void release();
 
+        // Load a texture resource from an image file, which can be got by texture name.
+        // 从图像文件加载一个纹理资源，可以通过纹理名称来获取它。
+        // @param filename The path to an image file.
+        // @param new_textureName The name of the texture loaded. If it's empty, it'll be the name of the image file (excluded the path).
+        Texture* loadTextureFromImageFile(std::string filename, std::string new_textureName = "");
+
+        // Get the texture resource loaded by texture name.
+        // 通过纹理名称获取已加载的纹理资源。
+        Texture* getLoadedTexture(std::string textureName);
+
         bool registerViewport(GraphicX::Viewport* new_viewport, std::string viewportName = "");
         bool registerViewport(GraphicX::Viewport& new_viewport, std::string viewportName = "");
 
-        Texture* loadTextureFromImageFile(std::string filename, std::string textureName = "");
+        void SetWorldSize(vec2<float> new_size);
+        void SetWorldSize(float x, float y);
 
-        Texture* getLoadedTexture(std::string textureName);
+        vec2<float> getWorldSize();
 
         // Push a new task into the back of queue.
         void pushTask(RenderTask& new_task);
@@ -165,9 +173,12 @@ namespace Chaos::GraphicX {
         void popTask();
 
     private:
-        void render();
+        void _render();
+
+        void _resizeWindow(vec2<int> new_size);
 
         friend class InternalDevice::Stage;
+        friend class WindowX::Window;
 
     };
 

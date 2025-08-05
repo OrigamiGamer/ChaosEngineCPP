@@ -20,10 +20,17 @@ namespace Chaos::GraphicX {
 
 
 
+    Texture::~Texture()
+    {
+        if (this->_bitmap) delete this->_bitmap;
+    }
+
+
+
     void Texture::release()
     {
         if (this->_bitmap) System::safeReleaseCOM(*this->_bitmap);
-        
+
         std::cout << "[CALL] Texture -> release() -> " << this->name << std::endl;
     }
 
