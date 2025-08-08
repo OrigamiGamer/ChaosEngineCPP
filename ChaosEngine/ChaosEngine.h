@@ -46,6 +46,13 @@ namespace Chaos {
         vec2() {}
         vec2(T x, T y) : x(x), y(y) {}
         vec2<T> operator+(vec2<T>& other) { return { this->x + other.x, this->y + other.y }; }
+        vec2<T> operator-(vec2<T>& other) { return { this->x - other.x, this->y - other.y }; }
+        vec2<T> operator*(vec2<T>& other) { return { this->x * other.x, this->y * other.y }; }
+        vec2<T> operator/(vec2<T>& other) { return { this->x / other.x, this->y / other.y }; }
+        void operator+=(vec2<T>& other) { this.x += other.x; this.y += other.y; }
+        void operator-=(vec2<T>& other) { this.x -= other.x; this.y -= other.y; }
+        void operator*=(vec2<T>& other) { this.x *= other.x; this.y *= other.y; }
+        void operator/=(vec2<T>& other) { this.x /= other.x; this.y /= other.y; }
     };
 
     template<typename T>
@@ -57,7 +64,26 @@ namespace Chaos {
         vec3() {}
         vec3(T x, T y, T z) : x(x), y(y), z(z) {}
         vec3<T> operator+(vec3<T>& other) { return { this->x + other.x, this->y + other.y, this->z + other.z }; }
+        vec3<T> operator-(vec3<T>& other) { return { this->x - other.x, this->y - other.y, this->z - other.z }; }
+        vec3<T> operator*(vec3<T>& other) { return { this->x * other.x, this->y * other.y, this->z * other.z }; }
+        vec3<T> operator/(vec3<T>& other) { return { this->x / other.x, this->y / other.y, this->z / other.z }; }
+        void operator+=(vec3<T>& other) { this.x += other.x; this.y += other.y; this->z += other.z; }
+        void operator-=(vec3<T>& other) { this.x -= other.x; this.y -= other.y; this->z -= other.z; }
+        void operator*=(vec3<T>& other) { this.x *= other.x; this.y *= other.y; this->z *= other.z; }
+        void operator/=(vec3<T>& other) { this.x /= other.x; this.y /= other.y; this->z /= other.z; }
+
     };
+
+    // Force to transform type of vector from "float" to "int".
+    // 强制转换向量类型从 单精度浮点型 到 整数型。
+    inline vec2<int> vecf2i(vec2<float>& vecf);
+    inline vec3<int> vecf2i(vec3<float>& vecf);
+
+    // Force to transform type of vector from "int" to "float".
+    // 强制转换向量类型从 整数型 到 单精度浮点型。
+    inline vec2<float> veci2f(vec2<int>& vecf);
+    inline vec3<float> veci2f(vec3<int>& vecf);
+
 
 }
 

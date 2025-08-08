@@ -60,9 +60,9 @@ namespace Chaos::GraphicX {
 
 
     // Texture
-    // If the parameter `size` or `textureSize` is the default or any of their components equals `-1`,
+    // If the parameter "size" or "textureSize" is the default or any of their components equals "-1",
     // they will be set to texture's size.
-    // 如果参数 `size` 或 `textureSize` 为默认值，或它们的任何分量等于 `-1`，它们将被设置为纹理尺寸。
+    // 如果参数 "size" 或 "textureSize" 为默认值，或它们的任何分量等于 "-1"，它们将被设置为纹理尺寸。
     struct RenderTaskParam_Texture {
         vec2<float> pos{};
         vec2<float> size{ -1,-1 };
