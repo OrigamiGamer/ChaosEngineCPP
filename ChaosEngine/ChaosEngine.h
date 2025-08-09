@@ -15,6 +15,12 @@
 
 
 
+// OpenAL
+
+#include "ExternalLibrary/Audio/OpenAL/OpenAL.h"
+
+
+
 // GLFW
 
 #define GLFW_EXPOSE_NATIVE_WIN32

@@ -5,6 +5,8 @@ project(ChaosEngine VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+
+
 # includes
 
 set(INCLUDE_LIST
@@ -13,11 +15,13 @@ set(INCLUDE_LIST
 )
 include_directories(${INCLUDE_LIST})
 
+
+
 # libraries
 
 set(LINK_LIST
     .
-    "ChaosEngine/Lib"
+    "ChaosEngine/ExternalLibrary"
 )
 link_directories(${LINK_LIST})
 

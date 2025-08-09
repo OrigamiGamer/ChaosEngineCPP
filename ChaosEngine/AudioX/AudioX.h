@@ -20,6 +20,8 @@ namespace Chaos::AudioX {
 
     class Sound : public Resource {
     public:
+        
+
         Sound();
         ~Sound();
     };

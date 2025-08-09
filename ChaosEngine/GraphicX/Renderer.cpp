@@ -332,7 +332,7 @@ namespace Chaos::GraphicX {
                 // fix viewport.viewPos gets out of range of the game world
                 vec2<float> rect_lt = viewport->viewPos;
                 vec2<float> rect_rb = viewport->viewPos + viewport->viewSize;
-                D2D1_SIZE_F _texSize; viewport->_bitmap->GetSize(&_texSize);
+                D2D1_SIZE_F _texSize = viewport->_bitmap->GetSize();
                 if (rect_lt.x < 0) viewport->viewPos.x = 0;
                 if (rect_lt.y < 0) viewport->viewPos.y = 0;
                 if (rect_rb.x > _texSize.width) viewport->viewPos.x = _texSize.width - viewport->viewSize.x;
