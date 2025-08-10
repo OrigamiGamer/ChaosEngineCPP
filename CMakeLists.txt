@@ -25,7 +25,7 @@ set(LINK_LIST
 )
 link_directories(${LINK_LIST})
 
-link_libraries("D2D1.lib" "libglfw3.a")
+link_libraries("D2D1.lib" "libglfw3.a" "OpenAL32.lib" "sndfile.lib")
 
 
 
