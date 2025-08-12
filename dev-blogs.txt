@@ -6,3 +6,8 @@ Todo:
 
 
 - Window
+
+
+
+Comments:
+- 可恶的 OpenAL，它的 buffer 居然不属于 device ，而属于 context 。

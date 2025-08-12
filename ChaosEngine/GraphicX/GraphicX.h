@@ -1,6 +1,16 @@
 #pragma once
 
+
+
 #include "ChaosEngine.h"
+
+
+
+// DirectX
+
+#include "ExternalLibrary/Graphic/D2D/D2D.h"
+
+
 
 namespace Chaos::GraphicX {
 

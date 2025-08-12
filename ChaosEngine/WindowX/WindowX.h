@@ -1,6 +1,19 @@
 #pragma once
 
+
+
 #include "ChaosEngine.h"
+
+
+
+// GLFW
+
+#define GLFW_EXPOSE_NATIVE_WIN32
+
+#include "ExternalLibrary/GLFW/glfw3.h"
+#include "ExternalLibrary/GLFW/glfw3native.h"
+
+
 
 namespace Chaos::WindowX {
 

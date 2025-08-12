@@ -38,6 +38,11 @@ namespace Chaos {
 
 
 
+// OpenAL
+#include "ExternalLibrary/Audio/OpenAL/OpenAL.cpp"
+
+
+
 // Base
 #include "System.cpp"
 #include "Base.cpp"

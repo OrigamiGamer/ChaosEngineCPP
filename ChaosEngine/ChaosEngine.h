@@ -15,27 +15,6 @@
 
 
 
-// OpenAL
-
-#include "ExternalLibrary/Audio/OpenAL/OpenAL.h"
-
-
-
-// GLFW
-
-#define GLFW_EXPOSE_NATIVE_WIN32
-
-#include "ExternalLibrary/GLFW/glfw3.h"
-#include "ExternalLibrary/GLFW/glfw3native.h"
-
-
-
-// DirectX
-
-#include "ExternalLibrary/Graphic/D2D/D2D.h"
-
-
-
 // Common
 
 // ----------------
