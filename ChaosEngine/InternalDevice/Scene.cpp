@@ -43,4 +43,18 @@ namespace Chaos::InternalDevice {
 
 
 
+    void Scene::RegisterActor(GameObject::Actor* new_actor)
+    {
+        if (!new_actor) return;
+
+        for (auto& actor : this->actors) {
+            if (new_actor == actor) return; // the new actor has already been within this scene
+        }
+
+        new_actor->scene = this;
+        this->actors.push_back(new_actor);
+    }
+
+
+
 }

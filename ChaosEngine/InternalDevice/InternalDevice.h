@@ -90,6 +90,7 @@ namespace Chaos::InternalDevice {
     class Scene : public Base {
     public:
         Stage* stage = nullptr;
+        std::vector<GameObject::Actor*> actors;
 
         Scene(std::string new_sceneName);
 
@@ -104,6 +105,8 @@ namespace Chaos::InternalDevice {
         // A callback method of scene, calling while exiting. This action will finish while returned value is "true".
         // 场景退出时的回调函数。当返回值为 "true" 时该行为完成。
         virtual bool onExiting();
+
+        void RegisterActor(GameObject::Actor* new_actor);
 
     };
 

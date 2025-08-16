@@ -297,9 +297,9 @@ namespace Chaos::InternalDevice {
 
     class Engine;
 
-    class Stage;    // based on windows
+    class Stage;
 
-    class Scene;    // the game world
+    class Scene;
 
 }
 
@@ -357,7 +357,7 @@ namespace Chaos::AudioX {
 
 namespace Chaos::GameObject {
 
-    class Actor;    // any placeable actor in scenes on stage
+    class Actor;    // any 'placeable' actor in scenes on stage
 
 }
 

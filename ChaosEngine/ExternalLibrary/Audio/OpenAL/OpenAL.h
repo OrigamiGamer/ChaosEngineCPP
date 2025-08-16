@@ -137,8 +137,15 @@ namespace OpenAL {
         bool pushBuffer(Buffer* new_buffer);
         bool pushBuffer(std::string bufferName);
 
+        bool popBuffer(Buffer* target_buffer);
+        bool popBuffer(std::string bufferName);
+
         // Play, replay, or resume this source.
         bool play();
+
+        bool pause();
+
+        bool stop();
 
         bool setVolume(float new_volume);
 
@@ -146,6 +153,18 @@ namespace OpenAL {
 
         // @param new_time Units: seconds
         bool setTimeOffset(float new_time);
+
+        // Get the volume of this source.
+        // @return Return 0.0f while failed.
+        float getVolume();
+
+        // Get current position offset.
+        // @return Return -1 while failed.
+        int getPositionOffset();
+
+        // Get current time offset. (Units: seconds)
+        // @return Return -1.0f while failed.
+        float getTimeOffset();
 
         friend class AudioEngine;
         friend class Buffer;
