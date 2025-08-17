@@ -139,8 +139,12 @@ namespace Chaos::WindowX {
             if (keyState.pressed) {
                 if (this->stage->_currentScene) {
                     for (auto& hotkey : keyState.hotkeys) {
+                        // override callback
                         this->stage->_currentScene->onHotkeyPressed(hotkey.virtualKey);
                         this->stage->_currentScene->onHotkeyPressed(hotkey.hotkeyName);
+                        // internal callback
+                        this->stage->_currentScene->InternalDevice::Scene::onHotkeyPressed(hotkey.virtualKey);
+                        this->stage->_currentScene->InternalDevice::Scene::onHotkeyPressed(hotkey.hotkeyName);
                     }
                 }
             }
@@ -151,8 +155,12 @@ namespace Chaos::WindowX {
             if (keyState.released) {
                 if (this->stage->_currentScene) {
                     for (auto& hotkey : keyState.hotkeys) {
+                        // override callback
                         this->stage->_currentScene->onHotkeyReleased(hotkey.virtualKey);
                         this->stage->_currentScene->onHotkeyReleased(hotkey.hotkeyName);
+                        // internal callback
+                        this->stage->_currentScene->InternalDevice::Scene::onHotkeyReleased(hotkey.virtualKey);
+                        this->stage->_currentScene->InternalDevice::Scene::onHotkeyReleased(hotkey.hotkeyName);
                     }
                 }
             }

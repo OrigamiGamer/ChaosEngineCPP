@@ -125,6 +125,8 @@ namespace Chaos::InternalDevice {
 
         void RegisterActor(GameObject::Actor* new_actor);
 
+        // void sendMessage(std::string actorName, std::string message);
+
     };
 
 
