@@ -26,8 +26,8 @@ namespace Chaos::InternalDevice {
 
         InternalDevice::EngineStartupProperty engineStartupProp;
         bool gameRunningState = false;
-        unsigned long long lastEngineTime = 0;
-        unsigned long long deltaEngineTime = 0;
+        unsigned long long lastEngineTime = 0;  // units: microseconds
+        unsigned long long deltaEngineTime = 0; // units: microseconds
 
         Engine();
 
@@ -59,7 +59,7 @@ namespace Chaos::InternalDevice {
         Scene* _currentScene = nullptr;
         Scene* _preparedScene = nullptr;
 
-        void updateWindow();
+        void _updateWindow();
 
     public:
         std::vector<Chaos::WindowX::Window*> windows;
@@ -83,6 +83,7 @@ namespace Chaos::InternalDevice {
         void switchScene(Scene& new_scene);
 
         friend class InternalDevice::Engine;
+        friend class WindowX::Window;
     };
 
 
@@ -105,6 +106,22 @@ namespace Chaos::InternalDevice {
         // A callback method of scene, calling while exiting. This action will finish while returned value is "true".
         // 场景退出时的回调函数。当返回值为 "true" 时该行为完成。
         virtual bool onExiting();
+
+        // A callback method of scene, calling while hot-key is pressed.
+        // @param virtualKey The virtual key code of hot-key pressed.
+        virtual void onHotkeyPressed(int virtualKey);
+
+        // A callback method of scene, calling while hot-key is pressed.
+        // @param name The name of hot-key pressed.
+        virtual void onHotkeyPressed(std::string hotkeyName);
+
+        // A callback method of scene, calling while hot-key is released.
+        // @param virtualKey The virtual key code of hot-key released.
+        virtual void onHotkeyReleased(int virtualKey);
+
+        // A callback method of scene, calling while hot-key is released.
+        // @param name The name of hot-key released.
+        virtual void onHotkeyReleased(std::string hotkeyName);
 
         void RegisterActor(GameObject::Actor* new_actor);
 

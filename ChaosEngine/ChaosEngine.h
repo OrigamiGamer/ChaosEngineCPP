@@ -150,8 +150,15 @@ namespace Chaos {
 
 namespace Chaos::WindowX {
 
+    class WindowManager;
+
+    struct WindowProperty;
+
+    class Window;
+
     namespace VirtualKey {
         enum VirtualKey {
+            NONE = 0,
             Space = 32,
             Apostrophe = 39,    /* ' */
             Comma = 44,         /* , */
@@ -274,14 +281,15 @@ namespace Chaos::WindowX {
             R_Super = 347,
             Menu = 348,
         };
+        const int FIRST_VIRTUAL_KEY = VirtualKey::Space;
         const int LAST_VIRTUAL_KEY = VirtualKey::Menu;
     }
 
-    struct WindowProperty;
+    class KeyStateBuffer;
 
-    class Window;
+    struct KeyState;
 
-    class WindowManager;
+    struct Hotkey;
 
 }
 
@@ -357,7 +365,7 @@ namespace Chaos::AudioX {
 
 namespace Chaos::GameObject {
 
-    class Actor;    // any 'placeable' actor in scenes on stage
+    class Actor;    // Any 'placeable' actor in a scene
 
 }
 

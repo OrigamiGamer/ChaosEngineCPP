@@ -80,7 +80,7 @@ namespace Chaos::InternalDevice {
 
 
 
-    void Stage::updateWindow()
+    void Stage::_updateWindow()
     {
         for (auto& window : this->windows) {
             auto& _glfwWindow = window->_glfwWindow;

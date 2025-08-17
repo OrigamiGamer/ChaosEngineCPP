@@ -6,8 +6,7 @@ namespace Chaos::WindowX {
 
 
 
-    Window::Window() :
-        keyStateBuffer(349, false)
+    Window::Window()
     {
         this->INIT("Window");
     }
@@ -130,6 +129,40 @@ namespace Chaos::WindowX {
 
 
 
+    void Window::_onKey(int virtualKey)
+    {
+        if (!this->stage) return;
+
+        auto& keyState = this->keyStateBuffer._keyStates.at(virtualKey);
+        // hot-key is pressed
+        if (keyState._last_pressed != keyState.pressed) {
+            if (keyState.pressed) {
+                if (this->stage->_currentScene) {
+                    for (auto& hotkey : keyState.hotkeys) {
+                        this->stage->_currentScene->onHotkeyPressed(hotkey.virtualKey);
+                        this->stage->_currentScene->onHotkeyPressed(hotkey.hotkeyName);
+                    }
+                }
+            }
+            keyState._last_pressed = keyState.pressed;
+        }
+        // hot-key is released
+        if (keyState._last_released != keyState.released) {
+            if (keyState.released) {
+                if (this->stage->_currentScene) {
+                    for (auto& hotkey : keyState.hotkeys) {
+                        this->stage->_currentScene->onHotkeyReleased(hotkey.virtualKey);
+                        this->stage->_currentScene->onHotkeyReleased(hotkey.hotkeyName);
+                    }
+                }
+            }
+            keyState._last_released = keyState.released;
+        }
+
+    }
+
+
+
     std::string Window::getTitle()
     {
         return glfwGetWindowTitle(this->_glfwWindow);
@@ -151,11 +184,47 @@ namespace Chaos::WindowX {
 
 
 
-    bool Window::getKeyState(int virtualKey)
+    bool Window::registerKeyStateBuffer(KeyStateBuffer* new_keyStateBuffer)
     {
-        if (virtualKey > 0 && virtualKey <= VirtualKey::LAST_VIRTUAL_KEY)
-            return this->keyStateBuffer.at(virtualKey);
-        return false;
+        if (!new_keyStateBuffer) return false;
+
+        for (auto& keyStateBuffer : this->_keyStateBuffers) {
+            if (keyStateBuffer == new_keyStateBuffer) return false; // this state buffer of keys has already existed.
+        }
+
+        new_keyStateBuffer->window = this;
+        this->_keyStateBuffers.push_back(new_keyStateBuffer);
+        return true;
+    }
+
+
+
+    bool Window::unregisterKeyStateBuffer(KeyStateBuffer* new_keyStateBuffer)
+    {
+        if (!new_keyStateBuffer) return false;
+
+        for (auto it = this->_keyStateBuffers.begin();it != this->_keyStateBuffers.end();it++) {
+            if (*it == new_keyStateBuffer) {
+                this->_keyStateBuffers.erase(it);
+                return true;
+            }
+        }
+        return false;   // could NOT find this target
+    }
+
+
+
+    bool Window::unregisterKeyStateBuffer(std::string keyStateBufferName)
+    {
+        if (keyStateBufferName.empty() || keyStateBufferName == "") return false;
+
+        for (auto it = this->_keyStateBuffers.begin();it != this->_keyStateBuffers.end();it++) {
+            if ((*it)->name == keyStateBufferName) {
+                this->_keyStateBuffers.erase(it);
+                return true;
+            }
+        }
+        return false;   // could NOT find this target
     }
 
 

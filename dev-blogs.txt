@@ -2,15 +2,24 @@ Todo:
 - OpenAL
     - 傅里叶变换频谱分析
 
-- Viewport
-
-
-- Window
-
-
 - Debug
     - 将部分方法的失败返回，其"注释"增加日志输出。
 
 
 Comments:
 - 可恶的 OpenAL，它的 buffer 居然不属于 device ，而属于 context 。
+
+
+- 多窗口机制实现建议：
+
+    class Engine {
+        stages;
+    };
+
+    class Stage {
+        windows;
+    };
+
+    class Window {
+        renderer;
+    };

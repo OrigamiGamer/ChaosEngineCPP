@@ -91,7 +91,7 @@ namespace Chaos::InternalDevice {
 
     void Engine::windowUpdate()
     {
-        if (this->stage) this->stage->updateWindow();
+        if (this->stage) this->stage->_updateWindow();
     }
 
 

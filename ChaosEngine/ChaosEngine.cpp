@@ -65,15 +65,17 @@ namespace Chaos {
 #include "WindowX/WindowManager.cpp"
 #include "WindowX/WindowProperty.cpp"
 #include "WindowX/Window.cpp"
+#include "WindowX/KeyStateBuffer.cpp"
+#include "WindowX/Hotkey.cpp"
 
 
 
 // GraphicX
 #include "GraphicX/GraphicManager.cpp"
-#include "GraphicX/Texture.cpp"
-#include "GraphicX/Viewport.cpp"
-#include "GraphicX/RenderTaskParam.cpp"
 #include "GraphicX/Renderer.cpp"
+#include "GraphicX/RenderTaskParam.cpp"
+#include "GraphicX/Viewport.cpp"
+#include "GraphicX/Texture.cpp"
 
 
 

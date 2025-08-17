@@ -54,6 +54,62 @@ namespace Chaos::WindowX {
 
 
 
+    struct Hotkey {
+        int virtualKey;
+        std::string hotkeyName;
+    public:
+        Hotkey(int virtualKey, std::string hotkeyName);
+    };
+
+
+
+    struct KeyState {
+    private:
+        bool _last_pressed = false;
+        bool _last_released = false;
+    public:
+        int virtualKey = VirtualKey::NONE;
+        bool pressed = false;
+        bool released = false;
+        std::vector<Hotkey> hotkeys;
+
+        friend class WindowX::Window;
+    };
+
+
+
+    // The state buffer of virtual keys. See enum VirtualKeyCode as index of this buffer.
+    class KeyStateBuffer : public Resource {
+    private:
+        std::vector<KeyState> _keyStates;
+
+    public:
+        Window* window = nullptr;
+
+        KeyStateBuffer();
+
+        bool getKeyState(int virtualKey);
+
+        bool addHotKey(int virtualKey, std::string name);
+
+        // Remove a hot-key with target virtual key code and name.
+        bool removeHotKey(int virtualKey, std::string name);
+
+        // Clear all hot-keys of target virtual key code.
+        // @param virtualKey The virtual key code of hot-keys to clear.
+        bool clearHotKey(int virtualKey);
+
+        // Clear all hot-keys with target name.
+        // @param name The name of hot-keys to clear.
+        // @return Return the count of hot-keys removed.
+        int clearHotKey(std::string name);
+
+        friend class WindowX::WindowManager;
+        friend class WindowX::Window;
+    };
+
+
+
     struct WindowProperty {
         vec2<int> size = { 800, 600 };
 
@@ -69,18 +125,19 @@ namespace Chaos::WindowX {
     class Window : public Base {
     private:
         GLFWwindow* _glfwWindow = nullptr;
+        std::vector<KeyStateBuffer*> _keyStateBuffers;
 
         void _onResized();
 
+        void _onKey(int virtualKey);
+
     public:
         InternalDevice::Stage* stage = nullptr;
-
         WindowProperty initialProperty;
-
         vec2<int> pos;          // updated by callback
         vec2<int> size;         // updated by callback
         vec2<double> cursorPos; // updated by callback
-        std::vector<bool> keyStateBuffer;   // The state buffer of virtual keys. See enum VirtualKey as index of this buffer.
+        KeyStateBuffer keyStateBuffer;   // The state buffer of virtual keys. See enum VirtualKey as index of this buffer.
 
         Window();
 
@@ -95,7 +152,10 @@ namespace Chaos::WindowX {
 
         void setSize(vec2<int> new_size);
 
-        bool getKeyState(int virtualKey);
+        bool registerKeyStateBuffer(KeyStateBuffer* new_keyStateBuffer);
+
+        bool unregisterKeyStateBuffer(KeyStateBuffer* new_keyStateBuffer);
+        bool unregisterKeyStateBuffer(std::string keyStateBufferName);
 
         friend class WindowX::WindowManager;
         friend class GraphicX::Renderer;

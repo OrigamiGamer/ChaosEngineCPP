@@ -24,7 +24,9 @@ namespace Chaos::InternalDevice {
 
     void Scene::update()
     {
+        for (auto& actor : this->actors) {
 
+        }
     }
 
 
@@ -39,6 +41,34 @@ namespace Chaos::InternalDevice {
     bool Scene::onExiting()
     {
         return true;
+    }
+
+
+
+    void Scene::onHotkeyPressed(int virtualKey)
+    {
+
+    }
+
+
+
+    void Scene::onHotkeyPressed(std::string hotkeyName)
+    {
+
+    }
+
+
+
+    void Scene::onHotkeyReleased(int virtualKey)
+    {
+
+    }
+
+
+
+    void Scene::onHotkeyReleased(std::string hotkeyName)
+    {
+
     }
 
 
