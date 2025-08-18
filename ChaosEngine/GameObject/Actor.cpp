@@ -21,6 +21,13 @@ namespace Chaos::GameObject {
 
 
 
+    void Actor::onMessage(std::string message)
+    {
+
+    }
+
+
+
     bool Actor::AttachToActor(Actor* new_parentActor)
     {
         if (!new_parentActor) return false;

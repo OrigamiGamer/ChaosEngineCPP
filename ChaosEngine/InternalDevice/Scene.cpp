@@ -73,7 +73,7 @@ namespace Chaos::InternalDevice {
 
 
 
-    void Scene::RegisterActor(GameObject::Actor* new_actor)
+    void Scene::registerActor(GameObject::Actor* new_actor)
     {
         if (!new_actor) return;
 
@@ -83,6 +83,31 @@ namespace Chaos::InternalDevice {
 
         new_actor->scene = this;
         this->actors.push_back(new_actor);
+    }
+
+
+
+    bool Scene::sendMessage(std::string actorType, std::string actorName, std::string message)
+    {
+        if (actorType.empty() || actorType == "" || actorName.empty() || actorName == "") return false;
+
+        for (auto& _actor : this->actors) {
+            if (_actor->GET_TOP_TYPE() == actorType && _actor->name == actorName) {
+                _actor->onMessage(message); // NOTICE: the string type of message will be upgraded into Message type
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    bool Scene::sendMessage(GameObject::Actor* actor, std::string message)
+    {
+        if (!actor) return false;
+
+        actor->onMessage(message);  // NOTICE: the string type of message will be upgraded into Message type
+        return true;
     }
 
 

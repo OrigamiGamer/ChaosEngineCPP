@@ -123,9 +123,10 @@ namespace Chaos::InternalDevice {
         // @param name The name of hot-key released.
         virtual void onHotkeyReleased(std::string hotkeyName);
 
-        void RegisterActor(GameObject::Actor* new_actor);
+        void registerActor(GameObject::Actor* new_actor);
 
-        // void sendMessage(std::string actorName, std::string message);
+        bool sendMessage(std::string actorType, std::string actorName, std::string message);
+        bool sendMessage(GameObject::Actor* actor, std::string message);
 
     };
 

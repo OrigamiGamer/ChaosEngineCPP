@@ -18,6 +18,8 @@ namespace Chaos::GameObject {
 
         ~Actor();
 
+        void onMessage(std::string message);
+
         bool AttachToActor(Actor* new_parentActor);
 
         bool AttachToActor(std::string parentActorName);
