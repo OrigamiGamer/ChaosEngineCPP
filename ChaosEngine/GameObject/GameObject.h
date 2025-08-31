@@ -20,11 +20,11 @@ namespace Chaos::GameObject {
 
         void onMessage(std::string message);
 
-        bool AttachToActor(Actor* new_parentActor);
+        bool attachToActor(Actor* new_parentActor);
 
-        bool AttachToActor(std::string parentActorName);
+        bool attachToActor(std::string parentActorName);
 
-        void DetachFromActor();
+        void detachFromActor();
 
         inline Actor* getParentActor();
 

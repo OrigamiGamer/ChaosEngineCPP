@@ -171,10 +171,13 @@ namespace Chaos::GraphicX {
         bool registerViewport(GraphicX::Viewport* new_viewport, std::string viewportName = "");
         bool registerViewport(GraphicX::Viewport& new_viewport, std::string viewportName = "");
 
-        void SetWorldSize(vec2<float> new_size);
-        void SetWorldSize(float x, float y);
+        void SetCanvasSize(vec2<float> new_size);
+        void SetCanvasSize(float x, float y);
 
-        vec2<float> getWorldSize();
+        inline vec2<float> getCanvasSize() const;
+
+        // Get maximum size of the canvas supported by this renderer.
+        inline vec2<float> getMaximumCanvasSize() const;
 
         // Push a new task into the back of queue.
         void pushTask(RenderTask& new_task);

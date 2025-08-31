@@ -28,14 +28,14 @@ namespace Chaos::GameObject {
 
 
 
-    bool Actor::AttachToActor(Actor* new_parentActor)
+    bool Actor::attachToActor(Actor* new_parentActor)
     {
         if (!new_parentActor) return false;
         if (!new_parentActor->scene) return false;
 
         if (new_parentActor->scene != this->scene) return false;  // the new parent and this actor are NOT within the same scene
 
-        if (this->_parentActor) this->DetachFromActor();
+        if (this->_parentActor) this->detachFromActor();
         new_parentActor->_childActors.push_back(this);
         this->_parentActor = new_parentActor;
         return true;
@@ -43,20 +43,20 @@ namespace Chaos::GameObject {
 
 
 
-    bool Actor::AttachToActor(std::string parentActorName)
+    bool Actor::attachToActor(std::string parentActorName)
     {
         if (parentActorName.empty() || parentActorName == "") return false;
         if (!this->scene) return false;
 
         for (auto& actor : this->scene->actors) {
-            if (actor->name == parentActorName) return this->AttachToActor(actor);
+            if (actor->name == parentActorName) return this->attachToActor(actor);
         }
         return false;   // the new parent actor with this name does NOT exist in the scene of this actor
     }
 
 
 
-    void Actor::DetachFromActor()
+    void Actor::detachFromActor()
     {
         for (auto it = this->_parentActor->_childActors.begin();it != this->_parentActor->_childActors.end();it++) {
             // remove this child actor from parent

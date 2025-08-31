@@ -73,6 +73,7 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return false;
 
+        // register this renderer to graphic manager
         GraphicManager::registerRenderer(this);
 
         return true;
@@ -221,7 +222,7 @@ namespace Chaos::GraphicX {
 
 
 
-    void Renderer::SetWorldSize(vec2<float> new_size)
+    void Renderer::SetCanvasSize(vec2<float> new_size)
     {
         System::safeReleaseCOM(this->_bitmapRenderTarget);
         this->_hwndRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(new_size.x, new_size.y), &this->_bitmapRenderTarget);
@@ -229,17 +230,25 @@ namespace Chaos::GraphicX {
 
 
 
-    void Renderer::SetWorldSize(float x, float y)
+    void Renderer::SetCanvasSize(float x, float y)
     {
-        this->SetWorldSize({ x,y });
+        this->SetCanvasSize({ x,y });
     }
 
 
 
-    vec2<float> Renderer::getWorldSize()
+    inline vec2<float> Renderer::getCanvasSize() const
     {
         D2D1_SIZE_F _size = this->_bitmapRenderTarget->GetSize();
         return vec2<float>(_size.width, _size.height);
+    }
+
+
+
+    inline vec2<float> Renderer::getMaximumCanvasSize() const
+    {
+        const auto _max_size = this->_hwndRenderTarget->GetMaximumBitmapSize();
+        return vec2<float>(_max_size, _max_size);
     }
 
 

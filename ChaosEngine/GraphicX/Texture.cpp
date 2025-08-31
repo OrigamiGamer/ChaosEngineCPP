@@ -15,7 +15,7 @@ namespace Chaos::GraphicX {
 
     Texture::Texture()
     {
-
+        
     }
 
 
