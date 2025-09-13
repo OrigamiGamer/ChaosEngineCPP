@@ -1,5 +1,5 @@
 #pragma once
-#include "ChaosEngine.h"
+#include "Class.h"
 
 #define WM_ENGINE_FRAME (WM_USER + 1)
 
