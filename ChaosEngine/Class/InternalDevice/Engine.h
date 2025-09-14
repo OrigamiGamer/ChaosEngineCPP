@@ -17,6 +17,7 @@ namespace Chaos::InternalDevice {
     public:
         GraphicX::Renderer* renderer = nullptr;
         InternalDevice::Stage* stage = nullptr;
+        PhysicX::PhysicsEngine* physicsEngine = nullptr;
 
         InternalDevice::EngineStartupProperty engineStartupProp;
         bool gameRunningState = false;

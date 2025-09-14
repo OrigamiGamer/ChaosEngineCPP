@@ -8,6 +8,13 @@ namespace Chaos::PhysicX {
 
     PhysicsEngine::PhysicsEngine()
     {
+        this->INIT("PhysicsEngine");
+    }
+
+
+
+    void PhysicsEngine::update()
+    {
         
     }
 

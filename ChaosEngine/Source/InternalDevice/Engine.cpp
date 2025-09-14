@@ -98,6 +98,7 @@ namespace Chaos::InternalDevice {
 
     void Engine::engineUpdate()
     {
+        if(this->physicsEngine) this->physicsEngine->update();
         if (this->stage) this->stage->update();
 
     }
@@ -139,6 +140,15 @@ namespace Chaos::InternalDevice {
         if (this->stage) this->stage->engine = nullptr;
         new_stage->engine = this;
         this->stage = new_stage;
+    }
+
+
+
+    void Engine::registerPhysicsEngine(PhysicX::PhysicsEngine* new_physicsEngine)
+    {
+        if (!new_physicsEngine) return;
+        new_physicsEngine->engine = this;
+        this->physicsEngine = new_physicsEngine;
     }
 
 

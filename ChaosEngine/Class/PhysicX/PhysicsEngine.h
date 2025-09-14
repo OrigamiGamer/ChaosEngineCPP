@@ -11,7 +11,7 @@ namespace Chaos::PhysicX {
     class PhysicsEngine : public Device {
     public:
 
-        PhysicsEngine();    
+        PhysicsEngine();
 
         void update();
 

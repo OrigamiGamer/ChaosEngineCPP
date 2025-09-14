@@ -392,4 +392,6 @@ namespace Chaos {
 
 #include "Class/InternalDevice/InternalDevice.h"
 
+#include "Class/PhysicX/PhysicX.h"
+
 #include "Class/GameObject/GameObject.h"

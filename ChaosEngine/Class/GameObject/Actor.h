@@ -15,6 +15,8 @@ namespace Chaos::GameObject {
 
     public:
         InternalDevice::Scene* scene = nullptr;
+        // vec2<float> pos;
+
 
         Actor();
 
