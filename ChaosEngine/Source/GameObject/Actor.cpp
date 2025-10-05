@@ -45,7 +45,7 @@ namespace Chaos::GameObject {
 
     bool Actor::attachToActor(std::string parentActorName)
     {
-        if (parentActorName.empty() || parentActorName == "") return false;
+        if (parentActorName.empty()) return false;
         if (!this->scene) return false;
 
         for (auto& actor : this->scene->actors) {
@@ -83,7 +83,7 @@ namespace Chaos::GameObject {
 
     Actor* Actor::getChildActor(std::string childActorName)
     {
-        if (childActorName.empty() || childActorName == "") return nullptr;
+        if (childActorName.empty()) return nullptr;
 
         for (auto& childActor : this->_childActors) {
             if (childActor->name == childActorName) return childActor;

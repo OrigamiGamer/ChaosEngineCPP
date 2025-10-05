@@ -34,7 +34,7 @@ namespace Chaos::WindowX {
     {
         if (virtualKey < VirtualKey::FIRST_VIRTUAL_KEY || virtualKey > VirtualKey::LAST_VIRTUAL_KEY) return false;
 
-        if (hotkeyName.empty() || hotkeyName == "") return false;
+        if (hotkeyName.empty()) return false;
 
         auto& _hotkeys = this->_keyStates.at(virtualKey).hotkeys;
         for (auto it = _hotkeys.begin();it != _hotkeys.end();it++) {
@@ -51,7 +51,7 @@ namespace Chaos::WindowX {
     {
         if (virtualKey < VirtualKey::FIRST_VIRTUAL_KEY || virtualKey > VirtualKey::LAST_VIRTUAL_KEY) return false;
 
-        if (hotkeyName.empty() || hotkeyName == "") return false;
+        if (hotkeyName.empty()) return false;
 
         auto& _hotkeys = this->_keyStates.at(virtualKey).hotkeys;
         for (auto it = _hotkeys.begin();it != _hotkeys.end();it++) {
@@ -77,7 +77,7 @@ namespace Chaos::WindowX {
 
     int KeyStateBuffer::clearHotKey(std::string hotkeyName)
     {
-        if (hotkeyName.empty() || hotkeyName == "") return 0;
+        if (hotkeyName.empty()) return 0;
 
         int _count = 0;
         for (auto& keyState : this->_keyStates) {

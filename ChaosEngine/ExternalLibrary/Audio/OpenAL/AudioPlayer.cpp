@@ -152,7 +152,7 @@ namespace OpenAL {
 
     bool AudioPlayer::playSource(std::string sourceName)
     {
-        if (sourceName.empty() || sourceName == "") return false;
+        if (sourceName.empty()) return false;
 
         for (auto& source : this->sources)
             if (source->name == sourceName) return source->play();

@@ -224,7 +224,7 @@ namespace Chaos::WindowX {
 
     bool Window::unregisterKeyStateBuffer(std::string keyStateBufferName)
     {
-        if (keyStateBufferName.empty() || keyStateBufferName == "") return false;
+        if (keyStateBufferName.empty()) return false;
 
         for (auto it = this->_keyStateBuffers.begin();it != this->_keyStateBuffers.end();it++) {
             if ((*it)->name == keyStateBufferName) {

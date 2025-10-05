@@ -89,14 +89,15 @@ namespace Chaos::InternalDevice {
 
     bool Scene::dispatchMessage(ActorMessage message)
     {
-        
+        if (message.actorType.empty()) return false;
+
     }
 
 
 
     // bool Scene::sendMessage(std::string actorType, std::string actorName, std::string message)
     // {
-    //     if (actorType.empty() || actorType == "" || actorName.empty() || actorName == "") return false;
+    //     if (actorType.empty() || actorName.empty()) return false;
 
     //     for (auto& _actor : this->actors) {
     //         if (_actor->GET_TOP_TYPE() == actorType && _actor->name == actorName) {

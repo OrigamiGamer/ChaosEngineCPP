@@ -42,7 +42,7 @@ namespace OpenAL {
     {
         if (!this->_makeCurrent()) return false;
 
-        if (bufferName.empty() || bufferName == "") return false;
+        if (bufferName.empty()) return false;
 
         for (auto& buffer : this->_audioPlayer->buffers) {
             if (buffer->name == bufferName) {
@@ -72,7 +72,7 @@ namespace OpenAL {
     {
         if (!this->_makeCurrent()) return false;
 
-        if (bufferName.empty() || bufferName == "") return false;
+        if (bufferName.empty()) return false;
 
         if (this->_sourceID == 0) return false;
         for (auto& buffer : this->_audioPlayer->buffers) {
