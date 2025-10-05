@@ -11,8 +11,10 @@ namespace Chaos::System {
     template<typename T>
     void safeReleaseCOM(T*& pAny);
 
-    // Get the current system time in microseconds.
+    // Get the current system time in microseconds(μs).
+    // Unit Conversion: 1μs = 10^(-3)ms = 10^(-6)s
     // 获取当前系统时间，以微秒为单位。
+    // 单位转换：1微秒 = 10^(-3)毫秒 = 10^(-6)秒
     unsigned long long getSystemTime();
 
     // Get the path of the current running program.

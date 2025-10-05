@@ -16,4 +16,6 @@ namespace Chaos::InternalDevice {
 
 #include "Class/InternalDevice/Stage.h"
 
+#include "Class/InternalDevice/ActorMessage.h"
+
 #include "Class/InternalDevice/Scene.h"

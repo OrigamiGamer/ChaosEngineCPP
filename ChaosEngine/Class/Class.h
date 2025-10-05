@@ -267,6 +267,8 @@ namespace Chaos::InternalDevice {
 
     class Stage;
 
+    struct ActorMessage;
+
     class Scene;
 
 }

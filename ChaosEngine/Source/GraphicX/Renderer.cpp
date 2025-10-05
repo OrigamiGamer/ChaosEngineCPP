@@ -31,9 +31,11 @@ namespace Chaos::GraphicX {
         HWND hwnd = glfwGetWin32Window(new_window->_glfwWindow);
         HRESULT hr = CoInitialize(NULL);
 
+
         // create D2D factory
         hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &this->_d2dFactory);
         if (FAILED(hr)) return false;
+
 
         // create WIC factory
         hr = CoCreateInstance(
@@ -44,11 +46,13 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return false;
 
+
         // create RenderTargets
         if (!this->_d2dFactory) return false;
         RECT rect;
         GetClientRect(hwnd, &rect);
         Chaos::vec2<LONG> size = { rect.right - rect.left, rect.bottom - rect.top };
+
 
         // create hwnd render target
         hr = _d2dFactory->CreateHwndRenderTarget(
@@ -63,8 +67,10 @@ namespace Chaos::GraphicX {
         );
         if (FAILED(hr)) return false;
 
+
         // create bitmap render target
         this->_hwndRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(1000, 1000), &this->_bitmapRenderTarget);
+
 
         // create a solid color brush
         hr = this->_bitmapRenderTarget->CreateSolidColorBrush(
@@ -72,6 +78,7 @@ namespace Chaos::GraphicX {
             &this->_brush
         );
         if (FAILED(hr)) return false;
+
 
         // register this renderer to graphic manager
         GraphicManager::registerRenderer(this);
@@ -97,10 +104,12 @@ namespace Chaos::GraphicX {
         }
         this->_loadedTextures.clear();
 
+
         // release viewports
         for (auto& viewport : this->viewports) {
             viewport.second->release();
         }
+
 
         // release D2D devices
         System::safeReleaseCOM(this->_hwndRenderTarget);
@@ -109,6 +118,7 @@ namespace Chaos::GraphicX {
         System::safeReleaseCOM(this->_wicFactory);
         System::safeReleaseCOM(this->_d2dFactory);
         CoUninitialize();
+
 
         std::cout << "[CALL] Renderer -> release()" << std::endl;
     }
@@ -130,17 +140,14 @@ namespace Chaos::GraphicX {
             WICDecodeMetadataCacheOnDemand,
             &decoder
         );
-        if (FAILED(hr)) return nullptr;
 
 
         // get the first frame of the image
-        hr = decoder->GetFrame(0, &frameDecode);
-        if (FAILED(hr)) return nullptr;;
+        if (SUCCEEDED(hr)) hr = decoder->GetFrame(0, &frameDecode);
 
 
         // format convert to 32bppPBGRA
-        hr = this->_wicFactory->CreateFormatConverter(&converter);
-        if (FAILED(hr)) return nullptr;;
+        if (SUCCEEDED(hr)) hr = this->_wicFactory->CreateFormatConverter(&converter);
 
         hr = converter->Initialize(
             frameDecode,
@@ -150,31 +157,34 @@ namespace Chaos::GraphicX {
             0.f,
             WICBitmapPaletteTypeCustom
         );
-        if (FAILED(hr)) return nullptr;;
 
 
         // create a texture resource from a d2d bitmap
-        if (new_textureName == "" || new_textureName.empty()) new_textureName = System::getFileName(filename);
-
         Texture* _result = nullptr;
-        if (!this->getLoadedTexture(new_textureName)) {
-            this->_loadedTextures.push_back(new Texture(new ID2D1Bitmap*));
-            _result = this->_loadedTextures.back();
-            _result->_bitmap;
+        if (SUCCEEDED(hr)) {
+            if (new_textureName == "" || new_textureName.empty()) new_textureName = System::getFileName(filename);
 
-            // create a d2d bitmap from the converted frame
-            hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
-                converter,
-                NULL,
-                _result->_bitmap
-            );
-            if (FAILED(hr)) {
-                return nullptr; // failed to create d2d-bitmap from wic-bitmap
-            };
+            if (!this->getLoadedTexture(new_textureName)) {
+                this->_loadedTextures.push_back(new Texture(new ID2D1Bitmap*));
+                _result = this->_loadedTextures.back();
+                _result->_bitmap;
 
-            _result->SET_NAME(new_textureName);
+                // create a d2d bitmap from the converted frame
+                hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
+                    converter,
+                    NULL,
+                    _result->_bitmap
+                );
 
-            std::cout << "Renderer -> loaded texture -> " << _result->name << std::endl;
+                if (SUCCEEDED(hr)) {
+                    _result->SET_NAME(new_textureName);
+                    std::cout << "Renderer -> loaded texture -> " << _result->name << std::endl;
+                }
+                else {  // failed to create d2d-bitmap from wic-bitmap
+                    _result = nullptr;
+                    this->_loadedTextures.pop_back();
+                }
+            }
         }
 
 

@@ -10,7 +10,7 @@ namespace Chaos::System {
     void safeReleaseCOM(T*& pAny)
     {
         if (pAny != nullptr) {
-            pAny->Release();
+            pAny->Release();    // decrease the reference count
             pAny = nullptr;
         }
     }

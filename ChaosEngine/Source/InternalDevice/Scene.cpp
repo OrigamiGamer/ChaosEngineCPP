@@ -87,28 +87,36 @@ namespace Chaos::InternalDevice {
 
 
 
-    bool Scene::sendMessage(std::string actorType, std::string actorName, std::string message)
+    bool Scene::dispatchMessage(ActorMessage message)
     {
-        if (actorType.empty() || actorType == "" || actorName.empty() || actorName == "") return false;
-
-        for (auto& _actor : this->actors) {
-            if (_actor->GET_TOP_TYPE() == actorType && _actor->name == actorName) {
-                _actor->onMessage(message); // NOTICE: the string type of message will be upgraded into Message type
-                return true;
-            }
-        }
-        return false;
+        
     }
 
 
 
-    bool Scene::sendMessage(GameObject::Actor* actor, std::string message)
-    {
-        if (!actor) return false;
+    // bool Scene::sendMessage(std::string actorType, std::string actorName, std::string message)
+    // {
+    //     if (actorType.empty() || actorType == "" || actorName.empty() || actorName == "") return false;
 
-        actor->onMessage(message);  // NOTICE: the string type of message will be upgraded into Message type
-        return true;
-    }
+    //     for (auto& _actor : this->actors) {
+    //         if (_actor->GET_TOP_TYPE() == actorType && _actor->name == actorName) {
+
+    //             // _actor->onMessage(message);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+
+
+    // bool Scene::sendMessage(GameObject::Actor* actor, std::string message)
+    // {
+    //     if (!actor) return false;
+
+    //     // actor->onMessage(message);
+    //     return true;
+    // }
 
 
 

@@ -13,6 +13,7 @@ namespace Chaos::InternalDevice {
     public:
         Stage* stage = nullptr;
         std::vector<GameObject::Actor*> actors;
+        std::vector<ActorMessage> actorMessages;
 
         Scene(std::string new_sceneName);
 
@@ -50,8 +51,9 @@ namespace Chaos::InternalDevice {
 
         void registerActor(GameObject::Actor* new_actor);
 
-        bool sendMessage(std::string actorType, std::string actorName, std::string message);
-        bool sendMessage(GameObject::Actor* actor, std::string message);
+        bool dispatchMessage(ActorMessage message);
+        // bool sendMessage(std::string actorType, std::string actorName, std::string message);
+        // bool sendMessage(GameObject::Actor* actor, std::string message);
 
     };
 
