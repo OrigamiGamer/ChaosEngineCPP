@@ -21,7 +21,7 @@ namespace Chaos::GameObject {
 
 
 
-    void Actor::onMessage(std::string* message)
+    void Actor::onMessage(InternalDevice::ActorMessage& message)
     {
 
     }

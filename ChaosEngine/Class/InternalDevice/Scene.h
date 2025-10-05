@@ -51,7 +51,7 @@ namespace Chaos::InternalDevice {
 
         void registerActor(GameObject::Actor* new_actor);
 
-        bool dispatchMessage(ActorMessage message);
+        bool dispatchMessage(ActorMessage& message);
         // bool sendMessage(std::string actorType, std::string actorName, std::string message);
         // bool sendMessage(GameObject::Actor* actor, std::string message);
 

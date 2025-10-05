@@ -10,6 +10,7 @@ namespace Chaos::InternalDevice {
 
     struct ActorMessage {
         std::string actorType, actorName, content;
+        bool isReceived = false;
     };
 
 

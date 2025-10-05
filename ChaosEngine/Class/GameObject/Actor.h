@@ -22,7 +22,7 @@ namespace Chaos::GameObject {
 
         ~Actor();
 
-        void onMessage(std::string* message);
+        virtual void onMessage(InternalDevice::ActorMessage& message);
 
         bool attachToActor(Actor* new_parentActor);
 
