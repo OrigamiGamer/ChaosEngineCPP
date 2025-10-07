@@ -19,10 +19,12 @@ namespace Chaos::GraphicX {
         ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
 
+    private:
         std::vector<Texture*> _loadedTextures;
+        std::vector<RenderTask> _tasks;
+        std::vector<D2D1_MATRIX_3X2_F> _transformMatrixes;
 
     public:
-        std::vector<RenderTask> tasks;
         std::map<std::string, GraphicX::Viewport*> viewports;
 
         Renderer();
@@ -32,10 +34,10 @@ namespace Chaos::GraphicX {
 
         void release();
 
-        // Load a texture resource from an image file, which can be got by texture name.
+        // Load a texture resource from an image file, which can be gotten by a texture name.
         // 从图像文件加载一个纹理资源，可以通过纹理名称来获取它。
         // @param filename The path to an image file.
-        // @param new_textureName The name of the texture loaded. If it's empty, it'll be the name of the image file (excluded the path).
+        // @param new_textureName The name of the texture loaded. If it's empty, it'll be the name of the image file excluding the path.
         Texture* loadTextureFromImageFile(std::string filename, std::string new_textureName = "");
 
         // Get the texture resource loaded by texture name.
@@ -60,6 +62,9 @@ namespace Chaos::GraphicX {
         void popTask();
 
     private:
+        void _pushTransform(vec2<float> pivot, float rotation, vec2<float> scale);
+        void _popTransform();
+
         void _render();
 
         void _resizeWindow(vec2<int> new_size);

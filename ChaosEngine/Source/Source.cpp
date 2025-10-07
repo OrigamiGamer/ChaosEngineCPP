@@ -86,5 +86,10 @@ namespace Chaos {
 
 
 
+// PhysicX
+#include "PhysicX/PhysicsEngine.cpp"
+
+
+
 // GameObject
 #include "GameObject/Actor.cpp"

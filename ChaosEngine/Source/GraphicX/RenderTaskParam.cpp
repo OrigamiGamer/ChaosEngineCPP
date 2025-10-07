@@ -8,8 +8,22 @@ namespace Chaos::GraphicX {
 
     // RenderTaskParam
 
-    RenderTaskParam_Line::RenderTaskParam_Line(vec2<float> pos1, vec2<float> pos2, float strokeWidth)
-        : pos1(pos1), pos2(pos2), strokeWidth(strokeWidth)
+    RenderTaskParam_Line::RenderTaskParam_Line(
+        vec2<float> pos1,
+        vec2<float> pos2,
+        float strokeWidth,
+        float opacity,
+        vec2<float> pivot,
+        float rotation,
+        vec2<float> scale
+    ) :
+        pos1(pos1),
+        pos2(pos2),
+        strokeWidth(strokeWidth),
+        opacity(opacity),
+        pivot(pivot),
+        rotation(rotation),
+        scale(scale)
     {
 
     }
@@ -24,7 +38,8 @@ namespace Chaos::GraphicX {
         vec2<float> textureSize,
         float opacity,
         vec2<float> pivot,
-        float rotation
+        float rotation,
+        vec2<float> scale
     ) :
         pos(pos),
         texture(texture),
@@ -33,7 +48,8 @@ namespace Chaos::GraphicX {
         textureSize(textureSize),
         opacity(opacity),
         pivot(pivot),
-        rotation(rotation)
+        rotation(rotation),
+        scale(scale)
     {
         if (texture) {
             auto _texSize = texture->getSize();

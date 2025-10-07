@@ -15,8 +15,12 @@ namespace Chaos::GameObject {
 
     public:
         InternalDevice::Scene* scene = nullptr;
-        // vec2<float> pos;
-
+        vec2<float> pos = { 0.0f,0.0f };
+        vec2<float> size = { 0.0f,0.0f };
+        vec2<float> pivot = { 0.0f,0.0f };
+        float rotation = 0.0f;
+        vec2<float> scale = { 1.0f,1.0f };
+        float generalScale = 1.0f;
 
         Actor();
 

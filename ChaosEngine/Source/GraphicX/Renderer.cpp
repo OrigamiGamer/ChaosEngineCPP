@@ -265,10 +265,10 @@ namespace Chaos::GraphicX {
 
     void Renderer::pushTask(RenderTask& new_task)
     {
-        this->tasks.insert(
+        this->_tasks.insert(
             std::lower_bound(
-                this->tasks.begin(),
-                this->tasks.end(),
+                this->_tasks.begin(),
+                this->_tasks.end(),
                 new_task,
                 [](const RenderTask& a, const RenderTask& b) { return a.order < b.order; }
             ),
@@ -280,34 +280,64 @@ namespace Chaos::GraphicX {
 
     void Renderer::popTask()
     {
-        this->tasks.pop_back();
+        this->_tasks.pop_back();
+    }
+
+
+
+    void Renderer::_pushTransform(vec2<float> pivot, float rotation, vec2<float> scale)
+    {
+        D2D1_MATRIX_3X2_F _matrix, _matrix_rotation, _matrix_scale;
+        _matrix_rotation = D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(pivot.x, pivot.y));
+        _matrix_scale = D2D1::Matrix3x2F::Scale(scale.x, scale.y, D2D1::Point2F(pivot.x, pivot.y));
+        _matrix = _matrix_rotation * _matrix_scale;
+
+        if (this->_transformMatrixes.size() > 0)
+            _matrix = this->_transformMatrixes.back() * _matrix;    // last * new
+
+        this->_bitmapRenderTarget->SetTransform(_matrix);
+        this->_transformMatrixes.push_back(_matrix);
+    }
+
+
+
+    void Renderer::_popTransform()
+    {
+        this->_transformMatrixes.pop_back();
+        if (this->_transformMatrixes.size() > 0)
+            this->_bitmapRenderTarget->SetTransform(this->_transformMatrixes.back());
+        else
+            this->_bitmapRenderTarget->SetTransform(D2D1::Matrix3x2F());
     }
 
 
 
     void Renderer::_render()
     {
-        // render graphics on game world
+        // render the graphics on game world
         if (this->_bitmapRenderTarget) {
             this->_bitmapRenderTarget->BeginDraw();
             this->_bitmapRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 
-            for (auto& task : this->tasks) {
+            for (auto& task : this->_tasks) {
                 switch (task.type) {
 
                 case RenderTaskType::Line:
                     if (auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
+                        this->_pushTransform(param->pivot, param->rotation, param->scale);
                         this->_bitmapRenderTarget->DrawLine(
                             { param->pos1.x, param->pos1.y },
                             { param->pos2.x, param->pos2.y },
                             this->_brush,
                             param->strokeWidth
                         );
+                        this->_popTransform();
                     }
 
                     break;
                 case RenderTaskType::Texture:
                     if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
+                        this->_pushTransform(param->pivot, param->rotation, param->scale);
                         if (!param->texture) break;
                         if (!param->texture->_bitmap) break;
                         this->_bitmapRenderTarget->DrawBitmap(
@@ -327,6 +357,7 @@ namespace Chaos::GraphicX {
                                 param->texturePos.y + param->textureSize.y
                             )
                         );
+                        this->_popTransform();
                     }
 
                     break;
@@ -337,9 +368,9 @@ namespace Chaos::GraphicX {
             }
             this->_bitmapRenderTarget->EndDraw();
         }
-        this->tasks.clear();
+        this->_tasks.clear();
 
-        // render viewports to game world on window
+        // render the viewports to game world on window
         if (this->_bitmapRenderTarget) {
             this->_hwndRenderTarget->BeginDraw();
             this->_hwndRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
