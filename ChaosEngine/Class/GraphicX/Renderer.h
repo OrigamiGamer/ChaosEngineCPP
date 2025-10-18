@@ -18,6 +18,7 @@ namespace Chaos::GraphicX {
 
         ID2D1BitmapRenderTarget* _bitmapRenderTarget = nullptr;
         ID2D1SolidColorBrush* _brush = nullptr;
+        ID2D1SolidColorBrush* _fillingBrush = nullptr;
 
     private:
         std::vector<Texture*> _loadedTextures;
@@ -54,6 +55,10 @@ namespace Chaos::GraphicX {
 
         // Get maximum size of the canvas supported by this renderer.
         inline vec2<float> getMaximumCanvasSize() const;
+
+        // Set the RGB color of the brush.
+        // @param new_fillingBrushColor Unchange the color of the filling brush by default while any of RGB is "-1".
+        void SetBrushColor(Color new_brushColor, Color new_fillingBrushColor = { -1,-1,-1 });
 
         // Push a new task into the back of queue.
         void pushTask(RenderTask& new_task);

@@ -20,6 +20,8 @@ namespace Chaos::GraphicX {
 
 #include "Class/GraphicX/GraphicManager.h"
 
+#include "Class/GraphicX/Color.h"
+
 #include "Class/GraphicX/Texture.h"
 
 #include "Class/GraphicX/RenderTaskParam.h"

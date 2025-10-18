@@ -72,6 +72,7 @@ namespace Chaos {
 
 // GraphicX
 #include "GraphicX/GraphicManager.cpp"
+#include "GraphicX/Color.cpp"
 #include "GraphicX/Renderer.cpp"
 #include "GraphicX/RenderTaskParam.cpp"
 #include "GraphicX/Viewport.cpp"

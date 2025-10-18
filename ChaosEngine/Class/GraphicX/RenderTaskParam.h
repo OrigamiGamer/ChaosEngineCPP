@@ -13,21 +13,22 @@ namespace Chaos::GraphicX {
 
 
     // Line
+    // @param pivot Use center position gotten from the parameters "pos1" and "pos2" by default while any direction of this parameter is "-1".
     struct RenderTaskParam_Line {
-        vec2<float> pos1{};
-        vec2<float> pos2{};
-        float strokeWidth = 1.0f;
-        float opacity = 1.0f;
-        vec2<float> pivot = { 0.0f,0.0f };
-        float rotation = 0.0f;
-        vec2<float> scale = { 1.0f,1.0f };
+        vec2<float> pos1;
+        vec2<float> pos2;
+        float strokeWidth;
+        float opacity;
+        vec2<float> pivot;
+        float rotation;
+        vec2<float> scale;
 
         RenderTaskParam_Line(
-            vec2<float> pos1,
-            vec2<float> pos2,
+            vec2<float> pos1 = { 0.0f,0.0f },
+            vec2<float> pos2 = { 100.0f,100.0f },
             float strokeWidth = 1.0f,
             float opacity = 1.0f,
-            vec2<float> pivot = { 0.0f,0.0f },
+            vec2<float> pivot = { -1,-1 },
             float rotation = 0.0f,
             vec2<float> scale = { 1.0f,1.0f }
         );
@@ -36,29 +37,86 @@ namespace Chaos::GraphicX {
 
 
 
-    // Texture
-    // If the parameter "size" or "textureSize" is the default or any of their components equals "-1",
-    // they will be set to the texture's size.
-    // 如果参数 "size" 或 "textureSize" 为默认值，或它们的任何分量等于 "-1"，它们将被设置为纹理尺寸。
-    struct RenderTaskParam_Texture {
+    // Rectangle
+    // @param radius Determine that whether this rectangle is rounded or not, and how round it is.
+    // @param pivot Use center position gotten from the parameters "pos" and "size" by default while any direction of this parameter is "-1".
+    struct RenderTaskParam_Rectangle {
         vec2<float> pos{};
-        vec2<float> size{ -1,-1 };
-        vec2<float> texturePos{};
-        vec2<float> textureSize{ -1,-1 };
-        Texture* texture = nullptr;
-        float opacity = 1.0f;
-        vec2<float> pivot = { 0.0f,0.0f };
-        float rotation = 0.0f;
-        vec2<float> scale = { 1.0f,1.0f };
+        vec2<float> size;
+        bool isFilled;
+        float strokeWidth;
+        vec2<float> radius;
+        float opacity;
+        vec2<float> pivot;
+        float rotation;
+        vec2<float> scale;
+
+        RenderTaskParam_Rectangle(
+            vec2<float> pos = { 0.0f,0.0f },
+            vec2<float> size = { 100.0f,100.0f },
+            bool isFilled = false,
+            float strokeWidth = 1.0f,
+            vec2<float> radius = { 0.0f,0.0f },
+            float opacity = 1.0f,
+            vec2<float> pivot = { -1,-1 },
+            float rotation = 0.0f,
+            vec2<float> scale = { 1.0f,1.0f }
+        );
+    };
+
+
+
+    // Ellipse
+    // @param pos The center position of this ellipse.
+    // @param radius The radius of this ellipse.
+    // @param pivot Use center position gotten from the parameter "pos" by default while any direction of this parameter is "-1".
+    struct RenderTaskParam_Ellipse {
+        vec2<float> pos{};
+        vec2<float> radius;
+        bool isFilled;
+        float strokeWidth;
+        float opacity;
+        vec2<float> pivot;
+        float rotation;
+        vec2<float> scale;
+
+        RenderTaskParam_Ellipse(
+            vec2<float> pos = { 0.0f,0.0f },
+            vec2<float> radius = { 100.0f,100.0f },
+            bool isFilled = false,
+            float strokeWidth = 1.0f,
+            float opacity = 1.0f,
+            vec2<float> pivot = { -1,-1 },
+            float rotation = 0.0f,
+            vec2<float> scale = { 1.0f,1.0f }
+        );
+    };
+
+
+
+    // Texture
+    // @param size Use texture's size by default while any direction of this parameter is "-1".
+    // @param textureSize Use texture's size by default while any direction of this parameter is "-1".
+    // @param pivot Use center position gotten from the parameters "pos" and "size" by default while any direction of this parameter is "-1".
+    struct RenderTaskParam_Texture {
+        vec2<float> pos;
+        vec2<float> size;
+        vec2<float> texturePos;
+        vec2<float> textureSize;
+        Texture* texture;
+        float opacity;
+        vec2<float> pivot;
+        float rotation;
+        vec2<float> scale;
 
         RenderTaskParam_Texture(
-            vec2<float> pos,
-            Texture* texture,
+            vec2<float> pos = { 0.0f,0.0f },
+            Texture* texture = nullptr,
             vec2<float> size = { -1,-1 },
             vec2<float> texturePos = { 0.0f,0.0f },
             vec2<float> textureSize = { -1,-1 },
             float opacity = 1.0f,
-            vec2<float> pivot = { 0.0f,0.0f },
+            vec2<float> pivot = { -1,-1 },
             float rotation = 0.0f,
             vec2<float> scale = { 1.0f,1.0f }
         );

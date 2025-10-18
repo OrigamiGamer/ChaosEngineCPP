@@ -279,6 +279,8 @@ namespace Chaos::GraphicX {
 
     class GraphicManager;
 
+    struct Color;
+
     class Texture;
 
     class Viewport;
@@ -286,16 +288,21 @@ namespace Chaos::GraphicX {
     enum struct RenderTaskType {
         None,
         Line,
+        Rectangle,
+        Ellipse,
         Texture,
     };
 
     struct RenderTaskParam_Line;
+    struct RenderTaskParam_Rectangle;
+    struct RenderTaskParam_Ellipse;
     struct RenderTaskParam_Texture;
 
-    // general type
     using RenderTaskParam = std::variant<
         std::monostate,
         RenderTaskParam_Line,
+        RenderTaskParam_Rectangle,
+        RenderTaskParam_Ellipse,
         RenderTaskParam_Texture
     >;
 

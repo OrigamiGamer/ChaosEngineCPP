@@ -72,13 +72,18 @@ namespace Chaos::GraphicX {
         this->_hwndRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(1000, 1000), &this->_bitmapRenderTarget);
 
 
-        // create a solid color brush
+        // create two solid color brushs
         hr = this->_bitmapRenderTarget->CreateSolidColorBrush(
-            D2D1::ColorF(D2D1::ColorF::LightGreen, 1.0f),
+            D2D1::ColorF(D2D1::ColorF::LightPink, 1.0f),
             &this->_brush
         );
         if (FAILED(hr)) return false;
 
+        hr = this->_bitmapRenderTarget->CreateSolidColorBrush(
+            D2D1::ColorF(D2D1::ColorF::LightPink, 1.0f),
+            &this->_fillingBrush
+        );
+        if (FAILED(hr)) return false;
 
         // register this renderer to graphic manager
         GraphicManager::registerRenderer(this);
@@ -160,28 +165,28 @@ namespace Chaos::GraphicX {
 
 
         // create a texture resource from a d2d bitmap
-        Texture* _result = nullptr;
+        Texture* _resultTexture = nullptr;
         if (SUCCEEDED(hr)) {
             if (new_textureName == "" || new_textureName.empty()) new_textureName = System::getFileName(filename);
 
             if (!this->getLoadedTexture(new_textureName)) {
                 this->_loadedTextures.push_back(new Texture(new ID2D1Bitmap*));
-                _result = this->_loadedTextures.back();
-                _result->_bitmap;
+                _resultTexture = this->_loadedTextures.back();
+                _resultTexture->_bitmap;
 
                 // create a d2d bitmap from the converted frame
                 hr = this->_bitmapRenderTarget->CreateBitmapFromWicBitmap(
                     converter,
                     NULL,
-                    _result->_bitmap
+                    _resultTexture->_bitmap
                 );
 
                 if (SUCCEEDED(hr)) {
-                    _result->SET_NAME(new_textureName);
-                    std::cout << "Renderer -> loaded texture -> " << _result->name << std::endl;
+                    _resultTexture->SET_NAME(new_textureName);
+                    std::cout << "Renderer -> loaded texture -> " << _resultTexture->name << std::endl;
                 }
                 else {  // failed to create d2d-bitmap from wic-bitmap
-                    _result = nullptr;
+                    _resultTexture = nullptr;
                     this->_loadedTextures.pop_back();
                 }
             }
@@ -193,7 +198,7 @@ namespace Chaos::GraphicX {
         System::safeReleaseCOM(frameDecode);
         System::safeReleaseCOM(decoder);
 
-        return _result; // nullptr: the texture had already been loaded
+        return _resultTexture; // nullptr: the texture had already been loaded
     }
 
 
@@ -263,6 +268,16 @@ namespace Chaos::GraphicX {
 
 
 
+    void Renderer::SetBrushColor(Color new_brushColor, Color new_fillingBrushColor)
+    {
+        this->_brush->SetColor(D2D1::ColorF(new_brushColor.r, new_brushColor.g, new_brushColor.b));
+
+        if (new_fillingBrushColor.r != -1 && new_fillingBrushColor.g != -1 && new_fillingBrushColor.b != -1)
+            this->_fillingBrush->SetColor(D2D1::ColorF(new_fillingBrushColor.r, new_fillingBrushColor.g, new_fillingBrushColor.b));
+    }
+
+
+
     void Renderer::pushTask(RenderTask& new_task)
     {
         this->_tasks.insert(
@@ -325,12 +340,99 @@ namespace Chaos::GraphicX {
                 case RenderTaskType::Line:
                     if (auto* param = std::get_if<RenderTaskParam_Line>(&task.param)) {
                         this->_pushTransform(param->pivot, param->rotation, param->scale);
+
                         this->_bitmapRenderTarget->DrawLine(
                             { param->pos1.x, param->pos1.y },
                             { param->pos2.x, param->pos2.y },
                             this->_brush,
-                            param->strokeWidth
+                            param->strokeWidth,
+                            nullptr
                         );
+
+                        this->_popTransform();
+                    }
+
+                    break;
+                case RenderTaskType::Rectangle:
+                    if (auto* param = std::get_if<RenderTaskParam_Rectangle>(&task.param)) {
+                        this->_pushTransform(param->pivot, param->rotation, param->scale);
+
+                        D2D1_RECT_F _rect = D2D1::RectF(
+                            param->pos.x,
+                            param->pos.y,
+                            param->pos.x + param->size.x,
+                            param->pos.y + param->size.y
+                        );
+
+                        if (param->radius.x == 0 && param->radius.y == 0) {
+                            // rectangle
+                            this->_bitmapRenderTarget->DrawRectangle(
+                                _rect,
+                                this->_brush,
+                                param->strokeWidth,
+                                nullptr
+                            );
+                            // fill
+                            if (param->isFilled) {
+                                this->_bitmapRenderTarget->FillRectangle(
+                                    _rect,
+                                    this->_fillingBrush
+                                );
+                            }
+                        }
+                        else {
+                            // rounded rectangle
+                            D2D1_ROUNDED_RECT _roundedRect = D2D1::RoundedRect(
+                                _rect,
+                                param->radius.x,
+                                param->radius.y
+                            );
+                            this->_bitmapRenderTarget->DrawRoundedRectangle(
+                                _roundedRect,
+                                this->_brush,
+                                param->strokeWidth,
+                                nullptr
+                            );
+                            // fill
+                            if (param->isFilled) {
+                                this->_bitmapRenderTarget->FillRoundedRectangle(
+                                    _roundedRect,
+                                    this->_fillingBrush
+                                );
+                            }
+                        }
+
+                        this->_popTransform();
+                    }
+
+                    break;
+                case RenderTaskType::Ellipse:
+                    if (auto* param = std::get_if<RenderTaskParam_Ellipse>(&task.param)) {
+                        this->_pushTransform(param->pivot, param->rotation, param->scale);
+
+                        // ellipse
+                        D2D1_ELLIPSE _ellipse = D2D1::Ellipse(
+                            D2D1::Point2F(
+                                param->pos.x,
+                                param->pos.y
+                            ),
+                            param->radius.x,
+                            param->radius.y
+                        );
+                        this->_bitmapRenderTarget->DrawEllipse(
+                            _ellipse,
+                            this->_brush,
+                            param->strokeWidth,
+                            nullptr
+                        );
+                        // fill
+                        if (param->isFilled) {
+                            this->_bitmapRenderTarget->FillEllipse(
+                                _ellipse,
+                                this->_fillingBrush
+                            );
+                        }
+
                         this->_popTransform();
                     }
 
@@ -338,6 +440,7 @@ namespace Chaos::GraphicX {
                 case RenderTaskType::Texture:
                     if (auto* param = std::get_if<RenderTaskParam_Texture>(&task.param)) {
                         this->_pushTransform(param->pivot, param->rotation, param->scale);
+
                         if (!param->texture) break;
                         if (!param->texture->_bitmap) break;
                         this->_bitmapRenderTarget->DrawBitmap(
@@ -357,12 +460,14 @@ namespace Chaos::GraphicX {
                                 param->texturePos.y + param->textureSize.y
                             )
                         );
+
                         this->_popTransform();
                     }
 
                     break;
                 default:
                     // ...
+
                     break;
                 }
             }
