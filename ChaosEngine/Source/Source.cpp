@@ -43,6 +43,11 @@ namespace Chaos {
 
 
 
+// Log
+#include "Log/OutputStream.cpp"
+#include "Log/Logger.cpp"
+
+
 // Base
 #include "System.cpp"
 #include "Base.cpp"

@@ -8,12 +8,12 @@ namespace Chaos::GraphicX {
 
 
 
-    // Parameters of task types:
+    // Parameters of tasks:
 
 
 
     // Line
-    // @param pivot Use center position gotten from the parameters "pos1" and "pos2" by default while any direction of this parameter is "-1".
+    // @param pivot If length on any direction of the vector is "-1", it will be the center position related to "pos1" and "pos2" by default.
     struct RenderTaskParam_Line {
         vec2<float> pos1;
         vec2<float> pos2;
@@ -39,9 +39,9 @@ namespace Chaos::GraphicX {
 
     // Rectangle
     // @param radius Determine that whether this rectangle is rounded or not, and how round it is.
-    // @param pivot Use center position gotten from the parameters "pos" and "size" by default while any direction of this parameter is "-1".
+    // @param pivot If length on any direction of the vector is "-1", it will be the center position related to "pos" and "size" by default.
     struct RenderTaskParam_Rectangle {
-        vec2<float> pos{};
+        vec2<float> pos;
         vec2<float> size;
         bool isFilled;
         float strokeWidth;
@@ -69,9 +69,9 @@ namespace Chaos::GraphicX {
     // Ellipse
     // @param pos The center position of this ellipse.
     // @param radius The radius of this ellipse.
-    // @param pivot Use center position gotten from the parameter "pos" by default while any direction of this parameter is "-1".
+    // @param pivot If length on any direction of the vector is "-1", it will be the center position related to "pos" by default.
     struct RenderTaskParam_Ellipse {
-        vec2<float> pos{};
+        vec2<float> pos;
         vec2<float> radius;
         bool isFilled;
         float strokeWidth;
@@ -97,7 +97,7 @@ namespace Chaos::GraphicX {
     // Texture
     // @param size Use texture's size by default while any direction of this parameter is "-1".
     // @param textureSize Use texture's size by default while any direction of this parameter is "-1".
-    // @param pivot Use center position gotten from the parameters "pos" and "size" by default while any direction of this parameter is "-1".
+    // @param pivot If length on any direction of the vector is "-1", it will be the center position related to "pos" and "size" by default.
     struct RenderTaskParam_Texture {
         vec2<float> pos;
         vec2<float> size;

@@ -78,6 +78,16 @@ namespace Chaos {
 
 
 
+namespace Chaos::Log {
+
+    class OutputStream;
+
+    class Logger;
+
+}
+
+
+
 namespace Chaos {
 
     class Base;
@@ -392,6 +402,8 @@ namespace Chaos {
 }
 
 
+
+#include "Class/Log/Log.h"
 
 #include "Class/AudioX/AudioX.h"
 
