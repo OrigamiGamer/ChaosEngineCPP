@@ -25,9 +25,9 @@ namespace Chaos {
 
     template<typename T>
     struct vec2 {
-        T x;
-        T y;
-    public:
+        T x{};
+        T y{};
+
         vec2() {}
         vec2(T x, T y) : x(x), y(y) {}
         vec2<T> operator+(vec2<T>& other) const { return { this->x + other.x, this->y + other.y }; }
@@ -45,7 +45,7 @@ namespace Chaos {
         T x;
         T y;
         T z;
-    public:
+
         vec3() {}
         vec3(T x, T y, T z) : x(x), y(y), z(z) {}
         vec3<T> operator+(vec3<T>& other) const { return { this->x + other.x, this->y + other.y, this->z + other.z }; }
@@ -80,9 +80,22 @@ namespace Chaos {
 
 namespace Chaos::Log {
 
+    enum TypeColor {
+        Black = 0,
+        Red = 1,
+        Green = 2,
+        Yellow = 3,
+        Blue = 4,
+        Purple = 5,
+        Cyan = 6,
+        White = 7
+    };
+
     class OutputStream;
 
     class Logger;
+
+    class LoggerManager;
 
 }
 
@@ -350,8 +363,8 @@ namespace Chaos {
 
     class Base {
     public:
-        std::string name;
-        std::vector<std::string> typeHeap;
+        std::string nameId;
+        std::vector<std::string> typeIdList;
 
         Base();
 
@@ -359,9 +372,9 @@ namespace Chaos {
 
         virtual void release();
 
-        void INIT(std::string new_type);
+        void INIT(std::string new_typeId);
 
-        void SET_NAME(std::string new_name);
+        void SET_NAME(std::string new_nameId);
 
         // Get the depth of the type of this object
         // 获取该对象类型的深度。

@@ -49,7 +49,7 @@ namespace Chaos::GameObject {
         if (!this->scene) return false;
 
         for (auto& actor : this->scene->actors) {
-            if (actor->name == parentActorName) return this->attachToActor(actor);
+            if (actor->nameId == parentActorName) return this->attachToActor(actor);
         }
         return false;   // the new parent actor with this name does NOT exist in the scene of this actor
     }
@@ -86,7 +86,7 @@ namespace Chaos::GameObject {
         if (childActorName.empty()) return nullptr;
 
         for (auto& childActor : this->_childActors) {
-            if (childActor->name == childActorName) return childActor;
+            if (childActor->nameId == childActorName) return childActor;
         }
         return nullptr; // could NOT find the child actor with this name attached to this actor
     }

@@ -197,7 +197,7 @@ namespace Chaos::WindowX {
         if (!new_keyStateBuffer) return false;
 
         for (auto& keyStateBuffer : this->_keyStateBuffers) {
-            if (keyStateBuffer == new_keyStateBuffer) return false; // this state buffer of keys has already existed.
+            if (keyStateBuffer == new_keyStateBuffer) return false; // This state buffer of keys has already existed.
         }
 
         new_keyStateBuffer->window = this;
@@ -217,7 +217,7 @@ namespace Chaos::WindowX {
                 return true;
             }
         }
-        return false;   // could NOT find this target
+        return false;   // can NOT find this target
     }
 
 
@@ -227,12 +227,12 @@ namespace Chaos::WindowX {
         if (keyStateBufferName.empty()) return false;
 
         for (auto it = this->_keyStateBuffers.begin();it != this->_keyStateBuffers.end();it++) {
-            if ((*it)->name == keyStateBufferName) {
+            if ((*it)->nameId == keyStateBufferName) {
                 this->_keyStateBuffers.erase(it);
                 return true;
             }
         }
-        return false;   // could NOT find this target
+        return false;   // can NOT find this target
     }
 
 

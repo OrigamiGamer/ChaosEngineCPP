@@ -31,14 +31,16 @@ namespace Chaos::GraphicX {
     {
         if (this->_bitmap) System::safeReleaseCOM(*this->_bitmap);
 
-        std::cout << "[CALL] Texture -> release() -> " << this->name << std::endl;
+        std::cout << "[CALL] Texture -> release() -> " << this->nameId << std::endl;
     }
 
 
 
     vec2<float> Texture::getSize()
     {
-        if (!this->_bitmap && !*this->_bitmap) return vec2<float>({ 0, 0 });
+        if (!this->_bitmap) return vec2<float>({ 0, 0 });
+        if (!*this->_bitmap) return vec2<float>({ 0, 0 });
+
         auto& __bitmap = *this->_bitmap;
         return vec2<float>({ __bitmap->GetSize().width, __bitmap->GetSize().height });
     }

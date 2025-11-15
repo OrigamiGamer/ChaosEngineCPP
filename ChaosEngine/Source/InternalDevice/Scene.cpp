@@ -94,7 +94,7 @@ namespace Chaos::InternalDevice {
         this->actorMessages.push_back(message);
 
         for (auto& actor : this->actors) {
-            if (actor->GET_TOP_TYPE() == message.actorType && actor->name == message.actorName) {
+            if (actor->GET_TOP_TYPE() == message.actorType && actor->nameId == message.actorName) {
                 actor->onMessage(this->actorMessages.back());
                 message.isReceived = true;
                 return true;

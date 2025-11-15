@@ -8,16 +8,21 @@ namespace Chaos::Log {
 
 
 
-    class Logger {
+    class  Logger {
     private:
         std::vector<Log::OutputStream> _outputs;
+        std::map<std::string, Log::TypeColor> _typeMap;
 
     public:
         bool enabled = true;
 
         Logger();
 
-        void print(Log::OutputStream& new_output);
+        bool addType(std::string new_typeName, Log::TypeColor new_typeColor);
+
+        bool removeType(std::string typeName);
+
+        inline void print(Log::OutputStream& new_output);
 
         friend class Log::OutputStream;
     };

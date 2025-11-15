@@ -29,7 +29,7 @@ namespace Chaos {
 
     inline void Base::INIT(std::string new_typeId)
     {
-        this->typeHeap.push_back(new_typeId);
+        this->typeIdList.push_back(new_typeId);
 
         std::cout << "[CALL] " << new_typeId.c_str() << " -> Base::INIT(...)" << std::endl;
     }
@@ -38,7 +38,7 @@ namespace Chaos {
 
     inline void Base::SET_NAME(std::string new_nameId)
     {
-        this->name = new_nameId.empty() ? "Unnamed" : new_nameId;
+        this->nameId = new_nameId.empty() ? "Unnamed" : new_nameId;
     }
 
 
@@ -54,7 +54,7 @@ namespace Chaos {
     {
         size_t _size = this->GET_TYPE_DEPTH();
         if (_size == 0) return "<EMPTY-TYPE-ERROR>";
-        return typeHeap.at(_size - 1);
+        return typeIdList.at(_size - 1);
     }
 
 

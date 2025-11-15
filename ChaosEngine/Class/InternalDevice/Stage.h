@@ -13,6 +13,7 @@ namespace Chaos::InternalDevice {
         std::vector<Scene*> _scenes;
         Scene* _currentScene = nullptr;
         Scene* _preparedScene = nullptr;
+        Log::Logger _logger;
 
         void _updateWindow();
 

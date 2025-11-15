@@ -1,4 +1,4 @@
-#pragma once
+#include "Class/Class.h"
 
 
 
@@ -44,58 +44,60 @@ namespace Chaos {
 
 
 // Log
-#include "Log/OutputStream.cpp"
-#include "Log/Logger.cpp"
+#include "Source/Log/OutputStream.cpp"
+#include "Source/Log/Logger.cpp"
+#include "Source/Log/LoggerManager.cpp"
+
 
 
 // Base
-#include "System.cpp"
-#include "Base.cpp"
-#include "Device.cpp"
-#include "Resource.cpp"
+#include "Source/System.cpp"
+#include "Source/Base.cpp"
+#include "Source/Device.cpp"
+#include "Source/Resource.cpp"
 
 
 
 // AudioX
-#include "AudioX/AudioManager.cpp"
-#include "AudioX/Sound.cpp"
-#include "AudioX/Sample.cpp"
-#include "AudioX/Channel.cpp"
-#include "AudioX/ChannelGroup.cpp"
-#include "AudioX/AudioPlayer.cpp"
+#include "Source/AudioX/AudioManager.cpp"
+#include "Source/AudioX/Sound.cpp"
+#include "Source/AudioX/Sample.cpp"
+#include "Source/AudioX/Channel.cpp"
+#include "Source/AudioX/ChannelGroup.cpp"
+#include "Source/AudioX/AudioPlayer.cpp"
 
 
 
 // WindowX
-#include "WindowX/WindowManager.cpp"
-#include "WindowX/WindowProperty.cpp"
-#include "WindowX/Window.cpp"
-#include "WindowX/KeyStateBuffer.cpp"
-#include "WindowX/Hotkey.cpp"
+#include "Source/WindowX/WindowManager.cpp"
+#include "Source/WindowX/WindowProperty.cpp"
+#include "Source/WindowX/Window.cpp"
+#include "Source/WindowX/KeyStateBuffer.cpp"
+#include "Source/WindowX/Hotkey.cpp"
 
 
 
 // GraphicX
-#include "GraphicX/GraphicManager.cpp"
-#include "GraphicX/Color.cpp"
-#include "GraphicX/Renderer.cpp"
-#include "GraphicX/RenderTaskParam.cpp"
-#include "GraphicX/Viewport.cpp"
-#include "GraphicX/Texture.cpp"
+#include "Source/GraphicX/GraphicManager.cpp"
+#include "Source/GraphicX/Color.cpp"
+#include "Source/GraphicX/Renderer.cpp"
+#include "Source/GraphicX/RenderTaskParam.cpp"
+#include "Source/GraphicX/Viewport.cpp"
+#include "Source/GraphicX/Texture.cpp"
 
 
 
 // InternalDevice
-#include "InternalDevice/Engine.cpp"
-#include "InternalDevice/Stage.cpp"
-#include "InternalDevice/Scene.cpp"
+#include "Source/InternalDevice/Engine.cpp"
+#include "Source/InternalDevice/Stage.cpp"
+#include "Source/InternalDevice/Scene.cpp"
 
 
 
 // PhysicX
-#include "PhysicX/PhysicsEngine.cpp"
+#include "Source/PhysicX/PhysicsEngine.cpp"
 
 
 
 // GameObject
-#include "GameObject/Actor.cpp"
+#include "Source/GameObject/Actor.cpp"

@@ -6,8 +6,9 @@
 			"label": "CMake: 清理重新生成",
 			"command": "cleanRebuild",
 			"targets": [
-				"ALL_BUILD"
+				"ChaosEngine"
 			],
+			"preset": "__defaultBuildPreset__",
 			"group": "build",
 			"problemMatcher": [],
 			"detail": "CMake 模板 清理重新生成 任务"

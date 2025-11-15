@@ -154,7 +154,7 @@ namespace Chaos::GraphicX {
         // format convert to 32bppPBGRA
         if (SUCCEEDED(hr)) hr = this->_wicFactory->CreateFormatConverter(&converter);
 
-        hr = converter->Initialize(
+        if (SUCCEEDED(hr)) hr = converter->Initialize(
             frameDecode,
             GUID_WICPixelFormat32bppPBGRA,
             WICBitmapDitherTypeNone,
@@ -183,7 +183,7 @@ namespace Chaos::GraphicX {
 
                 if (SUCCEEDED(hr)) {
                     _resultTexture->SET_NAME(new_textureName);
-                    std::cout << "Renderer -> loaded texture -> " << _resultTexture->name << std::endl;
+                    std::cout << "Renderer -> loaded texture -> " << _resultTexture->nameId << std::endl;
                 }
                 else {  // failed to create d2d-bitmap from wic-bitmap
                     _resultTexture = nullptr;
@@ -206,7 +206,7 @@ namespace Chaos::GraphicX {
     Texture* Renderer::getLoadedTexture(std::string textureName)
     {
         for (auto& texture : this->_loadedTextures)
-            if (texture->name == textureName)
+            if (texture->nameId == textureName)
                 return texture;
         return nullptr;
     }
@@ -218,7 +218,7 @@ namespace Chaos::GraphicX {
         // use default name if empty
         if (viewportName == "") viewportName = "Viewport " + std::to_string(this->viewports.size() + 1);
         // check if viewport already exists
-        for (auto& viewport : this->viewports) if (viewport.second->name == viewportName) return false;
+        for (auto& viewport : this->viewports) if (viewport.second->nameId == viewportName) return false;
 
         // initialize the new viewport and register it into this renderer
         new_viewport->renderer = this;

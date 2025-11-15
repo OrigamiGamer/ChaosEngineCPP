@@ -6,22 +6,16 @@ namespace Chaos::Log {
 
 
 
-    OutputStream::OutputStream()
+    OutputStream::OutputStream(std::string typeName)
+        :
+        typeName(typeName)
     {
 
     }
 
 
 
-    OutputStream* OutputStream::push(std::string content)
-    {
-        this->_content.append(content);
-        return this;
-    }
-
-
-
-    OutputStream* OutputStream::push(const char* content)
+    inline OutputStream* OutputStream::push(std::string content)
     {
         this->_content.append(content);
         return this;
@@ -29,7 +23,15 @@ namespace Chaos::Log {
 
 
 
-    OutputStream* OutputStream::push(float content)
+    inline OutputStream* OutputStream::push(const char* content)
+    {
+        this->_content.append(content);
+        return this;
+    }
+
+
+
+    inline OutputStream* OutputStream::push(float content)
     {
         this->_content.append(std::to_string(content));
         return this;
@@ -37,7 +39,7 @@ namespace Chaos::Log {
 
 
 
-    OutputStream* OutputStream::push(double content)
+    inline OutputStream* OutputStream::push(double content)
     {
         this->_content.append(std::to_string(content));
         return this;
@@ -45,7 +47,7 @@ namespace Chaos::Log {
 
 
 
-    OutputStream* OutputStream::push(int content)
+    inline OutputStream* OutputStream::push(int content)
     {
         this->_content.append(std::to_string(content));
         return this;
@@ -53,7 +55,7 @@ namespace Chaos::Log {
 
 
 
-    OutputStream* OutputStream::push(long content)
+    inline OutputStream* OutputStream::push(long content)
     {
         this->_content.append(std::to_string(content));
         return this;
@@ -61,7 +63,7 @@ namespace Chaos::Log {
 
 
 
-    void OutputStream::clear()
+    inline void OutputStream::clear()
     {
         this->_content.clear();
     }

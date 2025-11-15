@@ -51,7 +51,7 @@ namespace Chaos::InternalDevice {
 
             if (window->getTitle() == windowTitle) {
 
-                if (windowName != "" && window->name != windowName) continue;
+                if (windowName != "" && window->nameId != windowName) continue;
 
                 windows.erase(this->windows.begin() + i);
                 i--;
@@ -65,7 +65,7 @@ namespace Chaos::InternalDevice {
     {
         if (!new_scene) return;
         for (auto& _scene : this->_scenes) {
-            if (_scene) if (_scene->name == new_scene->name) return;  // scene already registered
+            if (_scene) if (_scene->nameId == new_scene->nameId) return;  // scene already registered
         }
         new_scene->stage = this;
         this->_scenes.push_back(new_scene);
@@ -127,9 +127,12 @@ namespace Chaos::InternalDevice {
     inline bool Stage::switchScene(std::string new_sceneName)
     {
         for (auto& _scene : this->_scenes) {
-            if (_scene->name == new_sceneName) {
+            if (_scene->nameId == new_sceneName) {
                 this->_preparedScene = _scene;
-                std::cout << "Stage -> switch to scene: " << new_sceneName.c_str() << std::endl;
+                Log::OutputStream _out("WARN");
+                _out.push("Stage -> switch to scene: ")->push(new_sceneName);
+                this->_logger.print(_out);
+                // std::cout << "Stage -> switch to scene: " << new_sceneName.c_str() << std::endl;
                 return true;
             }
         }
@@ -141,7 +144,7 @@ namespace Chaos::InternalDevice {
     inline void Stage::switchScene(Scene* new_scene)
     {
         if (!new_scene) return;
-        this->switchScene(new_scene->name);
+        this->switchScene(new_scene->nameId);
     }
 
 

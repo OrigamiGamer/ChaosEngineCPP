@@ -12,6 +12,7 @@ namespace Chaos::WindowX {
     private:
         GLFWwindow* _glfwWindow = nullptr;
         std::vector<KeyStateBuffer*> _keyStateBuffers;
+        Log::Logger _logger;
 
         void _onResized();
 

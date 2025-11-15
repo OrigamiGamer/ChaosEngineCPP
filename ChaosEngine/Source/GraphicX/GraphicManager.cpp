@@ -19,7 +19,7 @@ namespace Chaos::GraphicX {
 
     void GraphicManager::registerRenderer(GraphicX::Renderer* new_renderer)
     {
-        for (auto& renderer : GraphicManager::s_renderers) if (renderer->name == new_renderer->name) return;
+        for (auto& renderer : GraphicManager::s_renderers) if (renderer->nameId == new_renderer->nameId) return;
         GraphicManager::s_renderers.push_back(new_renderer);
     }
 

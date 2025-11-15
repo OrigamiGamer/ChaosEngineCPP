@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Class/WindowX/WindowX.h"
+#include "Class/WindowX/WindowManager.h"
 
 namespace Chaos::WindowX {
 

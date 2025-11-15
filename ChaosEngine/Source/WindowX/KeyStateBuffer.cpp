@@ -14,7 +14,7 @@ namespace Chaos::WindowX {
         this->INIT("KeyStateBuffer");
 
         // initialize virtual key list of this state buffer of keys
-        for (size_t virtKey = VirtualKey::FIRST_VIRTUAL_KEY;virtKey < this->_keyStates.size();virtKey++) {
+        for (int virtKey = VirtualKey::FIRST_VIRTUAL_KEY;virtKey < this->_keyStates.size();virtKey++) {
             this->_keyStates.at(virtKey).virtualKey = virtKey;
         }
     }

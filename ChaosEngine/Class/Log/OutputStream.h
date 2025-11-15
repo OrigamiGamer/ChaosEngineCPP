@@ -13,16 +13,18 @@ namespace Chaos::Log {
         std::string _content;
 
     public:
-        OutputStream();
+        std::string typeName;
 
-        OutputStream* push(std::string content);
-        OutputStream* push(const char* content);
-        OutputStream* push(float content);
-        OutputStream* push(double content);
-        OutputStream* push(int content);
-        OutputStream* push(long content);
+        OutputStream(std::string typeName = "INFO");
 
-        void clear();
+        inline OutputStream* push(std::string content);
+        inline OutputStream* push(const char* content);
+        inline OutputStream* push(float content);
+        inline OutputStream* push(double content);
+        inline OutputStream* push(int content);
+        inline OutputStream* push(long content);
+
+        inline void clear();
 
         friend class Log::Logger;
     };
