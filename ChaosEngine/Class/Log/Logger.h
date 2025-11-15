@@ -8,10 +8,10 @@ namespace Chaos::Log {
 
 
 
-    class  Logger {
+    class Logger {
     private:
         std::vector<Log::OutputStream> _outputs;
-        std::map<std::string, Log::TypeColor> _typeMap;
+        std::map<std::string, Log::TypeColor> _typeMap; // Default Types: white [INFO], yellow [WARN], red [ERROR]
 
     public:
         bool enabled = true;

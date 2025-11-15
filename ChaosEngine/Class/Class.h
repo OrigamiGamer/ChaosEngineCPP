@@ -345,6 +345,14 @@ namespace Chaos::PhysicX {
 
 
 
+namespace Chaos::Component {
+
+    class Timer;
+
+}
+
+
+
 namespace Chaos::GameObject {
 
     class Actor;    // Any 'placeable' actor in a scene
@@ -427,5 +435,7 @@ namespace Chaos {
 #include "Class/InternalDevice/InternalDevice.h"
 
 #include "Class/PhysicX/PhysicX.h"
+
+#include "Class/Component/Component.h"
 
 #include "Class/GameObject/GameObject.h"

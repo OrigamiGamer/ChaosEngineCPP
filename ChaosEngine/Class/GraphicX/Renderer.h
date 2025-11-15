@@ -25,6 +25,8 @@ namespace Chaos::GraphicX {
         std::vector<RenderTask> _tasks;
         std::vector<D2D1_MATRIX_3X2_F> _transformMatrixes;
 
+        Log::Logger _logger;
+
     public:
         std::map<std::string, GraphicX::Viewport*> viewports;
 

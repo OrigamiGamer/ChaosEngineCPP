@@ -99,5 +99,10 @@ namespace Chaos {
 
 
 
+// Component
+#include "Source/Component/Timer.cpp"
+
+
+
 // GameObject
 #include "Source/GameObject/Actor.cpp"

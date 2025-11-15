@@ -23,7 +23,9 @@ namespace Chaos::InternalDevice {
             window->release();
         }
 
-        std::cout << "[CALL] Stage -> release()" << std::endl;
+        Log::OutputStream _out("INFO");
+        _out.push("Stage -> release()");
+        this->_logger.print(_out);
 
     }
 

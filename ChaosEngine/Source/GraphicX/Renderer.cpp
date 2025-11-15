@@ -88,6 +88,10 @@ namespace Chaos::GraphicX {
         // register this renderer to graphic manager
         GraphicManager::registerRenderer(this);
 
+        // initialize renderer property
+        _hwndRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+        _bitmapRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+
         return true;
     }
 
@@ -125,7 +129,10 @@ namespace Chaos::GraphicX {
         CoUninitialize();
 
 
-        std::cout << "[CALL] Renderer -> release()" << std::endl;
+        Log::OutputStream _out("INFO");
+        _out.push("Renderer -> release()");
+        this->_logger.print(_out);
+
     }
 
 
