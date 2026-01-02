@@ -345,17 +345,19 @@ namespace Chaos::Physics {
 
 
 
-namespace Chaos::Component {
+namespace Chaos::GameObject {
 
-    class Timer;
+    class Actor;    // Any 'placeable' actor in a scene
 
 }
 
 
 
-namespace Chaos::GameObject {
+namespace Chaos::GameObject::GUI {
 
-    class Actor;    // Any 'placeable' actor in a scene
+    class Component;
+
+    class Timer;
 
 }
 
@@ -436,6 +438,6 @@ namespace Chaos {
 
 #include "Class/Physics/Physics.h"
 
-#include "Class/Component/Component.h"
-
 #include "Class/GameObject/GameObject.h"
+
+#include "Class/GameObject/GUI/GUI.h"

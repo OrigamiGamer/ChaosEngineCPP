@@ -50,7 +50,7 @@ namespace Chaos {
 
 
 
-// Base
+// Basis
 #include "Source/System.cpp"
 #include "Source/Base.cpp"
 #include "Source/Device.cpp"
@@ -94,13 +94,14 @@ namespace Chaos {
 
 
 
-// Physic
+// Physics
 #include "Source/Physics/PhysicsEngine.cpp"
 
 
 
-// Component
-#include "Source/Component/Timer.cpp"
+// GUIComponent
+#include "Source/GameObject/GUI/Component.cpp"
+#include "Source/GameObject/GUI/Timer.cpp"
 
 
 

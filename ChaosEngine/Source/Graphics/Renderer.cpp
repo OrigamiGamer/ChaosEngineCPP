@@ -22,6 +22,9 @@ namespace Chaos::Graphics {
     {
         this->INIT("Renderer");
         this->SET_NAME("renderer_" + std::to_string(GraphicManager::s_renderers.size() + 1));
+
+        this->_logger.addType("SUCCESS", Log::TypeColor::Green);
+
     }
 
 
@@ -190,7 +193,12 @@ namespace Chaos::Graphics {
 
                 if (SUCCEEDED(hr)) {
                     _resultTexture->SET_NAME(new_textureName);
-                    std::cout << "Renderer -> loaded texture -> " << _resultTexture->nameId << std::endl;
+
+                    Log::OutputStream _out;
+                    _out.typeName = "OK";
+                    _out.push("Renderer -> loaded texture -> ");
+                    _out.push(_resultTexture->nameId);
+                    this->_logger.print(_out);
                 }
                 else {  // failed to create d2d-bitmap from wic-bitmap
                     _resultTexture = nullptr;
