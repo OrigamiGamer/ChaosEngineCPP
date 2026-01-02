@@ -38,7 +38,21 @@ namespace Chaos::Log {
 
     void Logger::print(Log::OutputStream& new_output)
     {
-        Log::TypeColor _typeColor = this->_typeMap.at(new_output.typeName);
+        Log::TypeColor _typeColor(Log::TypeColor::White);
+
+        auto _it = this->_typeMap.find(new_output.typeName);
+        if (_it != this->_typeMap.end()) {
+            _typeColor = _it->second;
+        }
+        else {
+            Log::OutputStream _out;
+            _out.typeName = "WARN";
+            _out.push("Unknown log type -> \"");
+            _out.push(new_output.typeName);
+            _out.push("\"");
+            this->print(_out);
+        }
+
         this->_outputs.push_back(new_output);
         if (enabled) {
             std::cout

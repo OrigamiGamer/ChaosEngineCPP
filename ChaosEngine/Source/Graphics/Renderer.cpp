@@ -195,9 +195,10 @@ namespace Chaos::Graphics {
                     _resultTexture->SET_NAME(new_textureName);
 
                     Log::OutputStream _out;
-                    _out.typeName = "OK";
-                    _out.push("Renderer -> loaded texture -> ");
+                    _out.typeName = "SUCCESS";
+                    _out.push("Renderer -> loaded texture -> \"");
                     _out.push(_resultTexture->nameId);
+                    _out.push("\"");
                     this->_logger.print(_out);
                 }
                 else {  // failed to create d2d-bitmap from wic-bitmap

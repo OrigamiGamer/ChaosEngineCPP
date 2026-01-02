@@ -131,10 +131,11 @@ namespace Chaos::InternalDevice {
         for (auto& _scene : this->_scenes) {
             if (_scene->nameId == new_sceneName) {
                 this->_preparedScene = _scene;
+
                 Log::OutputStream _out("WARN");
-                _out.push("Stage -> switch to scene: ")->push(new_sceneName);
+                _out.push("Stage -> entered scene -> \"")->push(new_sceneName)->push("\"");
                 this->_logger.print(_out);
-                // std::cout << "Stage -> switch to scene: " << new_sceneName.c_str() << std::endl;
+
                 return true;
             }
         }
