@@ -225,7 +225,7 @@ struct TIsContiguousContainer<TInlineComponentArray<T, NumElements>>
  *                                        This is not called for components loaded from a level.
  * - AActor::PreRegisterAllComponents: For statically placed actors and spawned actors that have native root components, this gets called now.
  *                                     For blueprint actors without a native root component, these registration functions get called later during construction.
- * - UActorComponent::RegisterComponent: All components are registered in editor and at runtime, this creates their physical/visual representation.
+ * - UActorComponent::RegisterComponent: All components are registered in editor and at runtime, this creates their Physical/visual representation.
  *                                       These calls may be distributed over multiple frames, but are always after PreRegisterAllComponents.
  *                                       This may also get called later on after an UnregisterComponent call removes it from the world.
  * - AActor::PostRegisterAllComponents: Called for all actors both in the editor and in gameplay, this is the last function that is called in all cases.
@@ -569,7 +569,7 @@ protected:
 	UPROPERTY()
 	uint8 bAllowReceiveTickEventOnDedicatedServer:1;
 
-	/** Flag indicating we have checked initial simulating physics state to sync networked proxies to the server. */
+	/** Flag indicating we have checked initial simulating Physics state to sync networked proxies to the server. */
 	uint8 bNetCheckedInitialPhysicsState : 1;
 
 	/**
@@ -644,7 +644,7 @@ private:
 
 protected:
 		
-	/** Whether to use use the async physics tick with this actor. */
+	/** Whether to use use the async Physics tick with this actor. */
 	UPROPERTY(EditAnywhere, Category=Physics)
 	uint8 bAsyncPhysicsTickEnabled : 1;
 	
@@ -872,24 +872,24 @@ public:
 	float NetPriority;
 
 private:
-	/** Which mode to replicate physics through for this actor. Only relevant if the actor replicates movement and has a component that simulate physics.*/
+	/** Which mode to replicate Physics through for this actor. Only relevant if the actor replicates movement and has a component that simulate Physics.*/
 	UPROPERTY(EditDefaultsOnly, Category = Replication)
 	EPhysicsReplicationMode PhysicsReplicationMode;
 	
 public:
-	/** Set the physics replication mode of this body, via EPhysicsReplicationMode */
+	/** Set the Physics replication mode of this body, via EPhysicsReplicationMode */
 	UFUNCTION(BlueprintCallable, Category = Replication)
 	ENGINE_API void SetPhysicsReplicationMode(const EPhysicsReplicationMode ReplicationMode);
 
-	/** Get the physics replication mode of this body, via EPhysicsReplicationMode */
+	/** Get the Physics replication mode of this body, via EPhysicsReplicationMode */
 	UFUNCTION(BlueprintCallable, Category = Replication)
 	ENGINE_API EPhysicsReplicationMode GetPhysicsReplicationMode();
 
-	/** Register this actors root components physics object as a focal particle in Physics Repliocation LOD */
+	/** Register this actors root components Physics object as a focal particle in Physics Repliocation LOD */
 	UFUNCTION(BlueprintCallable, Category = Replication)
 	ENGINE_API void RegisterAsFocalPointInPhysicsReplicationLOD() const;
 
-	/** Unregister this actors root components physics object from being a focal particle in Physics Repliocation LOD */
+	/** Unregister this actors root components Physics object from being a focal particle in Physics Repliocation LOD */
 	UFUNCTION(BlueprintCallable, Category = Replication)
 	ENGINE_API void UnregisterAsFocalPointInPhysicsReplicationLOD() const;
 
@@ -1361,9 +1361,9 @@ public:
 	FActorEndTouchOverSignature OnInputTouchLeave;
 
 	/** 
-	 *	Called when this Actor hits (or is hit by) something solid. This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
+	 *	Called when this Actor hits (or is hit by) something solid. This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or Physics simulation.
 	 *	For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
-	 *	@note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
+	 *	@note For collisions during Physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
 	 */
 	UPROPERTY(BlueprintAssignable, Category="Collision")
 	FActorHitSignature OnActorHit;
@@ -1562,9 +1562,9 @@ public:
 	 * @param NewLocation	The new location to move the Actor to.
 	 * @param bSweep		Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *						Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport		Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *						If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *						If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport		Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *						If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *						If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *						If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                      Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *                      Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1604,7 +1604,7 @@ public:
 	UFUNCTION(BlueprintGetter)
 	USceneComponent* K2_GetRootComponent() const;
 
-	/** Returns velocity (in cm/s (Unreal Units/second) of the rootcomponent if it is either using physics or has an associated MovementComponent */
+	/** Returns velocity (in cm/s (Unreal Units/second) of the rootcomponent if it is either using Physics or has an associated MovementComponent */
 	UFUNCTION(BlueprintCallable, Category="Transformation")
 	ENGINE_API virtual FVector GetVelocity() const;
 
@@ -1614,9 +1614,9 @@ public:
 	 * @param NewLocation	The new location to teleport the Actor to.
 	 * @param bSweep		Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *						Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param Teleport		How we teleport the physics state (if physics collision is enabled for this object).
-	 *						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param Teleport		How we teleport the Physics state (if Physics collision is enabled for this object).
+	 *						If equal to ETeleportType::TeleportPhysics, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *						If equal to ETeleportType::None, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *						If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                      Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *                      Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1629,9 +1629,9 @@ public:
 	 * Set the Actor's rotation instantly to the specified rotation.
 	 * 
 	 * @param	NewRotation	The new rotation for the Actor.
-	 * @param	bTeleportPhysics Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *			If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *			If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param	bTeleportPhysics Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *			If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *			If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *          Setting the rotation without teleporting will not update the rotation of simulated child/attached components.
 	 * @return	Whether the rotation was successfully set.
@@ -1643,9 +1643,9 @@ public:
 	 * Set the Actor's rotation instantly to the specified rotation.
 	 *
 	 * @param	NewRotation	The new rotation for the Actor.
-	 * @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
-	 *						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param	Teleport	How we teleport the Physics state (if Physics collision is enabled for this object).
+	 *						If equal to ETeleportType::TeleportPhysics, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *						If equal to ETeleportType::None, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *                      Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                      Setting the rotation without teleporting will not update the rotation of simulated child/attached components.
 	 * @return	Whether the rotation was successfully set.
@@ -1660,9 +1660,9 @@ public:
 	 * @param NewRotation		The new rotation for the Actor.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *                          Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1679,9 +1679,9 @@ public:
 	 * @param NewRotation		The new rotation for the Actor.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param Teleport			How we teleport the physics state (if physics collision is enabled for this object).
-	 *							If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param Teleport			How we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If equal to ETeleportType::TeleportPhysics, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If equal to ETeleportType::None, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1733,9 +1733,9 @@ public:
 	 * @param DeltaLocation		The change in location.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1750,9 +1750,9 @@ public:
 	 * 
 	 * @param DeltaRotation		The change in rotation.
 	 * @param bSweep			Whether to sweep to the target rotation (not currently supported for rotation).
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the rotation without teleporting will not update the rotation of simulated child/attached components.
@@ -1778,9 +1778,9 @@ public:
 	 * @param NewTransform		The new transform.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the transform without teleporting will not update the transform of simulated child/attached components.
@@ -1794,9 +1794,9 @@ public:
 	 * @param DelatLocation		The change in location in local space.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1810,9 +1810,9 @@ public:
 	 * @param DeltaRotation		The change in rotation in local space.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the rotation without teleporting will not update the rotation of simulated child/attached components.
@@ -1827,9 +1827,9 @@ public:
 	 * @param NewTransform		The change in transform in local space.
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                          Setting the transform without teleporting will not update the transform of simulated child/attached components.
@@ -1843,9 +1843,9 @@ public:
 	 * @param NewRelativeLocation	New relative location of the actor's root component
 	 * @param bSweep				Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *								Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport				Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *								If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *								If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport				Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *								If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *								If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *								If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                              Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *                              Setting the location without teleporting will not update the location of simulated child/attached components.
@@ -1859,9 +1859,9 @@ public:
 	 * @param NewRelativeRotation	New relative rotation of the actor's root component
 	 * @param bSweep				Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *								Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport				Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *								If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *								If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport				Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *								If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *								If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *								If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                              Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated.
 	 *                              Setting the rotation without teleporting will not update the rotation of simulated child/attached components.
@@ -1876,9 +1876,9 @@ public:
 	 * @param NewRelativeTransform		New relative transform of the actor's root component
 	 * @param bSweep			Whether we sweep to the destination location, triggering overlaps along the way and stopping short of the target if blocked by something.
 	 *							Only the root component is swept and checked for blocking collision, child components move without sweeping. If collision is off, this has no effect.
-	 * @param bTeleport			Whether we teleport the physics state (if physics collision is enabled for this object).
-	 *							If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	 *							If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @param bTeleport			Whether we teleport the Physics state (if Physics collision is enabled for this object).
+	 *							If true, Physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *							If false, Physics velocity is updated based on the change in position (affecting ragdoll parts).
 	 *							If CCD is on and not teleporting, this will affect objects along the entire swept volume.
 	 *                          Note that when teleporting, any child/attached components will be teleported too, maintaining their current offset even if they are being simulated. 
 	 *                          Setting the transform without teleporting will not update the transform of simulated child/attached components.
@@ -1989,7 +1989,7 @@ public:
 	 * @param LocationRule				How to handle translation when attaching.
 	 * @param RotationRule				How to handle rotation when attaching.
 	 * @param ScaleRule					How to handle scale when attaching.
-	 * @param bWeldSimulatedBodies		Whether to weld together simulated physics bodies. This transfers the shapes in the welded object into the parent (if simulated), which can result in permanent changes that persist even after subsequently detaching.
+	 * @param bWeldSimulatedBodies		Whether to weld together simulated Physics bodies. This transfers the shapes in the welded object into the parent (if simulated), which can result in permanent changes that persist even after subsequently detaching.
 	 * @return							Whether the attachment was successful or not
 	 */
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Attach Actor To Component", ScriptName = "AttachToComponent", bWeldSimulatedBodies = true), Category = "Transformation")
@@ -2025,7 +2025,7 @@ public:
 	 * @param LocationRule				How to handle translation when attaching.
 	 * @param RotationRule				How to handle rotation when attaching.
 	 * @param ScaleRule					How to handle scale when attaching.
-	 * @param bWeldSimulatedBodies		Whether to weld together simulated physics bodies.This transfers the shapes in the welded object into the parent (if simulated), which can result in permanent changes that persist even after subsequently detaching.
+	 * @param bWeldSimulatedBodies		Whether to weld together simulated Physics bodies.This transfers the shapes in the welded object into the parent (if simulated), which can result in permanent changes that persist even after subsequently detaching.
 	 * @return							Whether the attachment was successful or not
 	 */
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Attach Actor To Actor", ScriptName = "AttachToActor", bWeldSimulatedBodies=true), Category = "Transformation")
@@ -2169,7 +2169,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "Tick"))
 	ENGINE_API void ReceiveTick(float DeltaSeconds);
 
-	/** Event called every physics tick if bAsyncPhysicsTickEnabled is true */
+	/** Event called every Physics tick if bAsyncPhysicsTickEnabled is true */
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Async Physics Tick"))
 	ENGINE_API void ReceiveAsyncPhysicsTick(float DeltaSeconds, float SimSeconds);
 
@@ -2271,23 +2271,23 @@ public:
 
 	/** 
 	 * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
-	 * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
+	 * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or Physics simulation.
 	 * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
 	 *
-	 * @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
+	 * @note For collisions during Physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
 	 * @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
 	 * will be adjusted to indicate force from the other object against this object.
 	 */
 	ENGINE_API virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit);
 	/** 
 	 * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
-	 * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
+	 * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or Physics simulation.
 	 * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
 	 *
-	 * @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
+	 * @note For collisions during Physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
 	 * @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
 	 * will be adjusted to indicate force from the other object against this object.
-	 * @note NormalImpulse will be filled in for physics-simulating bodies, but will be zero for swept-component blocking collisions.
+	 * @note NormalImpulse will be filled in for Physics-simulating bodies, but will be zero for swept-component blocking collisions.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "Hit"), Category="Collision")
 	ENGINE_API void ReceiveHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit);
@@ -2905,10 +2905,10 @@ public:
 	ENGINE_API virtual void TickActor( float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction );
 
 	/**
-	 * Override this function to implement custom logic to be executed every physics step.
+	 * Override this function to implement custom logic to be executed every Physics step.
 	 * bAsyncPhysicsTick must be set to true.
 	 *	
-	 * @param DeltaTime - The physics step delta time
+	 * @param DeltaTime - The Physics step delta time
 	 * @param SimTime - This is the total sim time since the sim began.
 	 */
 	virtual void AsyncPhysicsTickActor(float DeltaTime, float SimTime) { ReceiveAsyncPhysicsTick(DeltaTime, SimTime); }
@@ -2948,16 +2948,16 @@ public:
 	UFUNCTION()
 	ENGINE_API virtual void OnRep_ReplicatedMovement();
 
-	/** Update location and rotation from ReplicatedMovement. Not called for simulated physics! */
+	/** Update location and rotation from ReplicatedMovement. Not called for simulated Physics! */
 	ENGINE_API virtual void PostNetReceiveLocationAndRotation();
 
-	/** Update velocity - typically from ReplicatedMovement, not called for simulated physics! */
+	/** Update velocity - typically from ReplicatedMovement, not called for simulated Physics! */
 	ENGINE_API virtual void PostNetReceiveVelocity(const FVector& NewVelocity);
 
-	/** Update and smooth simulated physic state, replaces PostNetReceiveLocation() and PostNetReceiveVelocity() */
+	/** Update and smooth simulated Physic state, replaces PostNetReceiveLocation() and PostNetReceiveVelocity() */
 	ENGINE_API virtual void PostNetReceivePhysicState();
 
-	/** Set the current state as a faked networked physics state for physics replication
+	/** Set the current state as a faked networked Physics state for Physics replication
 	* Limited for use with actors using EPhysicsReplicationMode::PredictiveInterpolation only.
 	* @param bShouldSleep  Should the replication force the object to sleep */
 	void SetFakeNetPhysicsState(bool bShouldSleep);
@@ -3029,7 +3029,7 @@ public:
 	/** See if the root component has Mobility of EComponentMobility::Movable */
 	ENGINE_API bool IsRootComponentMovable() const;
 
-	/** Get the physics volume that is currently applied to this Actor (there can only ever be one) */
+	/** Get the Physics volume that is currently applied to this Actor (there can only ever be one) */
 	ENGINE_API virtual APhysicsVolume* GetPhysicsVolume() const;
 
 	//~=============================================================================

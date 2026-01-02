@@ -3,7 +3,7 @@
 
 namespace ChaosEngine {
 
-    namespace PhysicX {
+    namespace Physic {
         // 6.67e-11
         const double GRAVITY = 6.67e-11;    // notice transition between realistic(meter) and virtual(piexl) unit
 
@@ -13,7 +13,7 @@ namespace ChaosEngine {
         inline double GetDirection(Model::ObjectModel*& obj_self, Model::ObjectModel*& obj_reference);
         inline Type::FORCE ComputeGravity(Model::ObjectModel*& obj, Model::ObjectModel*& obj_apply);
 
-        void PhysicXUpdate(std::vector<Model::ObjectModel*>& objs, long double deltaTime);
+        void PhysicUpdate(std::vector<Model::ObjectModel*>& objs, long double deltaTime);
     }
 
 }

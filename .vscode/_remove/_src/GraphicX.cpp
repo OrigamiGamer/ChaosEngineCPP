@@ -3,15 +3,15 @@
 
 namespace ChaosEngine {
 
-    // Basic Interfaces of Graphics
-    namespace GraphicX {
+    // Basic Interfaces of Graphicss
+    namespace Graphics {
         Type::COLOR base_color = { D2D1::ColorF::LightPink, 1 };
         std::vector<Type::COLOR> vec_color;
         ID2D1SolidColorBrush* pBrush = nullptr;
         float _strokeWidth = 1;
 
         // Initialize
-        HRESULT InitializeGraphicX() {
+        HRESULT InitializeGraphics() {
             HRESULT hr = S_OK;
 
             D2D1_BRUSH_PROPERTIES brush_properties = D2D1_BRUSH_PROPERTIES();
@@ -28,7 +28,7 @@ namespace ChaosEngine {
         }
 
         // Release
-        inline void ReleaseGraphicX() {
+        inline void ReleaseGraphics() {
             SafeRelease(&pBrush);
         }
 
@@ -78,7 +78,7 @@ namespace ChaosEngine {
 
         // Draw a texture.
         inline void DrawTexture(Type::Texture*& pTexture, D2D_RECT_F rect, FLOAT opacity = 1.0F) {
-            const auto mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;  // As a setting of GraphicX
+            const auto mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;  // As a setting of Graphics
             if (pTexture->pD2DBitmap)
                 DirectX::pHwndRenderTarget->DrawBitmap(pTexture->pD2DBitmap, rect, opacity, mode);
         }

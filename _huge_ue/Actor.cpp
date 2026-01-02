@@ -2274,7 +2274,7 @@ bool AActor::CheckStillInWorld()
 		{
 			UE_LOG(LogActor, Warning, TEXT("%s is outside the world bounds!"), *GetName());
 			OutsideWorldBounds();
-			// not safe to use physics or collision at this point
+			// not safe to use Physics or collision at this point
 			SetActorEnableCollision(false);
 			DisableComponentsSimulatePhysics();
 			return false;
@@ -2681,7 +2681,7 @@ void AActor::OnRep_AttachmentReplication()
 				const bool bAlreadyAttached = (AttachParentComponent == RootComponent->GetAttachParent() && AttachmentReplication.AttachSocket == RootComponent->GetAttachSocketName() && AttachParentComponent->GetAttachChildren().Contains(RootComponent));
 				if (bAlreadyAttached)
 				{
-					// Note, this doesn't match AttachToComponent, but we're assuming it's safe to skip physics (see comment above).
+					// Note, this doesn't match AttachToComponent, but we're assuming it's safe to skip Physics (see comment above).
 					RootComponent->UpdateComponentToWorld(EUpdateTransformFlags::SkipPhysicsUpdate, ETeleportType::None);
 				}
 				else
@@ -3402,7 +3402,7 @@ float AActor::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
 			ReceiveRadialDamage(ActualDamage, DamageTypeCDO, RadialDamageEvent->Origin, Hit, EventInstigator, DamageCauser);
 			OnTakeRadialDamage.Broadcast(this, ActualDamage, DamageTypeCDO, RadialDamageEvent->Origin, Hit, EventInstigator, DamageCauser);
 
-			// add any desired physics impulses to our components
+			// add any desired Physics impulses to our components
 			for (int HitIdx = 0; HitIdx < RadialDamageEvent->ComponentHits.Num(); ++HitIdx)
 			{
 				FHitResult const& CompHit = RadialDamageEvent->ComponentHits[HitIdx];
@@ -3545,7 +3545,7 @@ void AActor::DisplayDebug(UCanvas* Canvas, const FDebugDisplayInfo& DebugDisplay
 
 	DisplayDebugManager.DrawString(FString::Printf(TEXT("Location: %s Rotation: %s"), *GetActorLocation().ToCompactString(), *GetActorRotation().ToCompactString()));
 
-	if( DebugDisplay.IsDisplayOn(TEXT("physics")) )
+	if( DebugDisplay.IsDisplayOn(TEXT("Physics")) )
 	{
 		DisplayDebugManager.DrawString(FString::Printf(TEXT("Velocity: %s Speed: %f Speed2D: %f"), *GetVelocity().ToCompactString(), GetVelocity().Size(), GetVelocity().Size2D()));
 	}
@@ -6010,7 +6010,7 @@ void AActor::IncrementalPreUnregisterComponents()
 		return;
 	}
 
-	// Unregister all tick functions before pre-unregistering components as this will start asynchronous tasks (like destruction of the physics state)
+	// Unregister all tick functions before pre-unregistering components as this will start asynchronous tasks (like destruction of the Physics state)
 	RegisterAllActorTickFunctions(false, true); 
 
 	for (UActorComponent* Component : Components)

@@ -15,9 +15,9 @@ namespace Chaos::InternalDevice {
         void engineUpdate();
 
     public:
-        GraphicX::Renderer* renderer = nullptr;
+        Graphics::Renderer* renderer = nullptr;
         InternalDevice::Stage* stage = nullptr;
-        PhysicX::PhysicsEngine* physicsEngine = nullptr;
+        Physics::PhysicsEngine* physicsEngine = nullptr;
 
         InternalDevice::EngineStartupProperty engineStartupProp;
         bool gameRunningState = false;
@@ -40,11 +40,11 @@ namespace Chaos::InternalDevice {
 
         void release();
 
-        void registerRenderer(GraphicX::Renderer* new_renderer);
+        void registerRenderer(Graphics::Renderer* new_renderer);
 
         void registerStage(InternalDevice::Stage* new_stage);
 
-        void registerPhysicsEngine(PhysicX::PhysicsEngine* new_physicsEngine);
+        void registerPhysicsEngine(Physics::PhysicsEngine* new_PhysicsEngine);
 
     };
 

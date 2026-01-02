@@ -3,7 +3,7 @@
 
 namespace ChaosEngine {
 
-    namespace PhysicX {
+    namespace Physic {
         // Get the center position of object
         inline Type::POS GetCenterPos(Type::POS& obj_pos, Type::SIZE& obj_size) {
             return { (obj_pos.x + obj_size.width) / 2, (obj_pos.y + obj_size.height) / 2 };
@@ -33,12 +33,12 @@ namespace ChaosEngine {
              return { GRAVITY * ((obj->mass * obj_apply->mass) / (dist * dist)), di, Type::FORCE_TYPE_GRAVITY };
         }
 
-        void PhysicXUpdate(std::vector<Model::ObjectModel*>& objs, long double deltaTime) {
+        void PhysicUpdate(std::vector<Model::ObjectModel*>& objs, long double deltaTime) {
 
             // foreach all objects
             for (int i = 0; i < objs.size(); i++) {
                 Model::ObjectModel*& obj = objs[i];
-                if (obj->use_physics) {
+                if (obj->use_Physics) {
                     Type::STD_VEC_FORCE_LIST& vec_force = obj->vec_force;
 
                     // clear forces

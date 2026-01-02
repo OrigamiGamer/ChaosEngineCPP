@@ -20,8 +20,8 @@ namespace ChaosEngine {
                     pCurScene->SceneModel::Update();    // Update the logic in model at first,
                     pCurScene->Update();    // then update the logic of scene.
 
-                    // Update PhysicX
-                    PhysicX::PhysicXUpdate(pCurScene->vec_pObject, EngineX::deltaTime);
+                    // Update Physic
+                    Physic::PhysicUpdate(pCurScene->vec_pObject, EngineX::deltaTime);
                 }
             }
             else if (pCurScene->OnSceneExiting()) { // User confirms closing the current scene.

@@ -9,7 +9,7 @@
 #include <dwrite.h>
 
 namespace basic_chaos_engine {
-	namespace basic_graphic_d2d {
+	namespace basic_Graphics_d2d {
 		extern ID2D1Factory* d2d_factory;
 		extern ID2D1HwndRenderTarget* d2d_target; // d2d_hwnd_render_target
 

@@ -45,7 +45,7 @@ namespace Chaos::WindowX {
         bool unregisterKeyStateBuffer(std::string keyStateBufferName);
 
         friend class WindowX::WindowManager;
-        friend class GraphicX::Renderer;
+        friend class Graphics::Renderer;
         friend class InternalDevice::Stage;
         friend class InternalDevice::Engine;
     };

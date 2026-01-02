@@ -1,4 +1,4 @@
-# `Chaos::GraphicX::Renderer`
+# `Chaos::Graphic::Renderer`
 
 `Renderer` is a graphical device which can draw some graphics on the canvas.
 

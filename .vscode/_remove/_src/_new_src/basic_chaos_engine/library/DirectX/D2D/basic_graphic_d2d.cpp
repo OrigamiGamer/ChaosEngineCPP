@@ -1,9 +1,9 @@
 #pragma once
 
-#include "basic_graphic_d2d.h"
+#include "basic_Graphics_d2d.h"
 
 namespace basic_chaos_engine {
-	namespace basic_graphic_d2d {
+	namespace basic_Graphics_d2d {
 		ID2D1Factory* d2d_factory = nullptr;
 		ID2D1HwndRenderTarget* d2d_target = nullptr;
 

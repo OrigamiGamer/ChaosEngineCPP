@@ -58,13 +58,13 @@ namespace Chaos {
 
 
 
-// AudioX
-#include "Source/AudioX/AudioManager.cpp"
-#include "Source/AudioX/Sound.cpp"
-#include "Source/AudioX/Sample.cpp"
-#include "Source/AudioX/Channel.cpp"
-#include "Source/AudioX/ChannelGroup.cpp"
-#include "Source/AudioX/AudioPlayer.cpp"
+// Audio
+#include "Source/Audio/AudioManager.cpp"
+#include "Source/Audio/Sound.cpp"
+#include "Source/Audio/Sample.cpp"
+#include "Source/Audio/Channel.cpp"
+#include "Source/Audio/ChannelGroup.cpp"
+#include "Source/Audio/AudioPlayer.cpp"
 
 
 
@@ -77,13 +77,13 @@ namespace Chaos {
 
 
 
-// GraphicX
-#include "Source/GraphicX/GraphicManager.cpp"
-#include "Source/GraphicX/Color.cpp"
-#include "Source/GraphicX/Renderer.cpp"
-#include "Source/GraphicX/RenderTaskParam.cpp"
-#include "Source/GraphicX/Viewport.cpp"
-#include "Source/GraphicX/Texture.cpp"
+// Graphics
+#include "Source/Graphics/GraphicManager.cpp"
+#include "Source/Graphics/Color.cpp"
+#include "Source/Graphics/Renderer.cpp"
+#include "Source/Graphics/RenderTaskParam.cpp"
+#include "Source/Graphics/Viewport.cpp"
+#include "Source/Graphics/Texture.cpp"
 
 
 
@@ -94,8 +94,8 @@ namespace Chaos {
 
 
 
-// PhysicX
-#include "Source/PhysicX/PhysicsEngine.cpp"
+// Physic
+#include "Source/Physics/PhysicsEngine.cpp"
 
 
 

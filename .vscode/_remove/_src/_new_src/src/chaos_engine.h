@@ -8,8 +8,8 @@
 // basic_chaos_engine
 #include "basic_window_win.h"
 #include "basic_window.h"
-#include "basic_graphic.h"
-#include "basic_graphic_d2d.h"
+#include "basic_Graphics.h"
+#include "basic_Graphics_d2d.h"
 // ChaosEngine
 #include "common.h"
 #include "Window.h"

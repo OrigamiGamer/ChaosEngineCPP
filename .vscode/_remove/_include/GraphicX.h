@@ -3,15 +3,15 @@
 
 namespace ChaosEngine {
 
-    namespace GraphicX {
+    namespace Graphics {
 
         extern Type::COLOR base_color;
         extern std::vector<Type::COLOR> vec_color;
         extern ID2D1SolidColorBrush* pBrush;
         extern float _strokeWidth;
 
-        HRESULT InitializeGraphicX();
-        inline void ReleaseGraphicX();
+        HRESULT InitializeGraphics();
+        inline void ReleaseGraphics();
 
         inline void SetBrushBaseColor(Type::COLOR new_base_color);
         inline void SetStrokeWidth(FLOAT new_strokeWidth);

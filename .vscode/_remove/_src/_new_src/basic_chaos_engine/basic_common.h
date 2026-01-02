@@ -38,7 +38,7 @@ namespace basic_chaos_engine {
 		struct INITIAL_WINDOW_PROPERTY;
 	}
 
-	namespace basic_graphic {
+	namespace basic_Graphics {
 #ifdef _D2D
 		typedef D2D1_COLOR_F COLOR;
 #endif

@@ -36,8 +36,8 @@
 #include "Type.h"
 #include "ResList.h"
 
-#include "GraphicX.h"
-#include "PhysicX.h"
+#include "Graphics.h"
+#include "Physic.h"
 #include "Stage.h"
 
 #include "WindowX.h"
@@ -47,8 +47,8 @@
 // Source Codes
 #include "ResList.cpp"
 
-#include "GraphicX.cpp"
-#include "PhysicX.cpp"
+#include "Graphics.cpp"
+#include "Physic.cpp"
 #include "Stage.cpp"
 
 #include "WindowX.cpp"

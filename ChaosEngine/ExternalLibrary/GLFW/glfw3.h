@@ -720,16 +720,16 @@ extern "C" {
  *
  *  GLFW could not find support for the requested API on the system.
  *
- *  @analysis The installed graphics driver does not support the requested
+ *  @analysis The installed Graphicss driver does not support the requested
  *  API, or does not support it via the chosen context creation API.
  *  Below are a few examples.
  *
  *  @par
- *  Some pre-installed Windows graphics drivers do not support OpenGL.  AMD only
+ *  Some pre-installed Windows Graphicss drivers do not support OpenGL.  AMD only
  *  supports OpenGL ES via EGL, while Nvidia and Intel only support it via
  *  a WGL or GLX extension.  macOS does not provide OpenGL ES at all.  The Mesa
  *  EGL, OpenGL and OpenGL ES libraries do not interface with the Nvidia binary
- *  driver.  Older graphics drivers do not support Vulkan.
+ *  driver.  Older Graphicss drivers do not support Vulkan.
  */
 #define GLFW_API_UNAVAILABLE        0x00010006
 /*! @brief The requested OpenGL or OpenGL ES version is not available.
@@ -1114,9 +1114,9 @@ extern "C" {
  */
 #define GLFW_COCOA_FRAME_NAME         0x00023002
 /*! @brief macOS specific
- *  [window hint](@ref GLFW_COCOA_GRAPHICS_SWITCHING_hint).
+ *  [window hint](@ref GLFW_COCOA_GraphicsS_SWITCHING_hint).
  */
-#define GLFW_COCOA_GRAPHICS_SWITCHING 0x00023003
+#define GLFW_COCOA_GraphicsS_SWITCHING 0x00023003
 /*! @brief X11 specific
  *  [window hint](@ref GLFW_X11_CLASS_NAME_hint).
  */
@@ -2656,7 +2656,7 @@ GLFWAPI void glfwGetMonitorPos(GLFWmonitor* monitor, int* xpos, int* ypos);
  */
 GLFWAPI void glfwGetMonitorWorkarea(GLFWmonitor* monitor, int* xpos, int* ypos, int* width, int* height);
 
-/*! @brief Returns the physical size of the monitor.
+/*! @brief Returns the Physical size of the monitor.
  *
  *  This function returns the size, in millimetres, of the display area of the
  *  specified monitor.
@@ -2678,7 +2678,7 @@ GLFWAPI void glfwGetMonitorWorkarea(GLFWmonitor* monitor, int* xpos, int* ypos, 
  *
  *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED.
  *
- *  @remark @win32 On Windows 8 and earlier the physical size is calculated from
+ *  @remark @win32 On Windows 8 and earlier the Physical size is calculated from
  *  the current resolution and system DPI instead of querying the monitor EDID data.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -2703,7 +2703,7 @@ GLFWAPI void glfwGetMonitorPhysicalSize(GLFWmonitor* monitor, int* widthMM, int*
  *
  *  The content scale may depend on both the monitor resolution and pixel
  *  density and on user settings.  It may be very different from the raw DPI
- *  calculated from the physical size and current resolution.
+ *  calculated from the Physical size and current resolution.
  *
  *  @param[in] monitor The monitor to query.
  *  @param[out] xscale Where to store the x-axis content scale, or `NULL`.
@@ -3192,7 +3192,7 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  template for this, which can be found as `CMake/Info.plist.in` in the source
  *  tree.
  *
- *  [hidpi-guide]: https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html
+ *  [hidpi-guide]: https://developer.apple.com/library/mac/documentation/GraphicssAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html
  *
  *  @remark @macos When activating frame autosaving with
  *  [GLFW_COCOA_FRAME_NAME](@ref GLFW_COCOA_FRAME_NAME_hint), the specified
@@ -4838,7 +4838,7 @@ GLFWAPI const char* glfwGetKeyName(int key, int scancode);
  *
  *  This function returns the platform-specific scancode of the specified key.
  *
- *  If the specified [key token](@ref keys) corresponds to a physical key not
+ *  If the specified [key token](@ref keys) corresponds to a Physical key not
  *  supported on the current platform then this method will return `-1`.
  *  Calling this function with anything other than a key token will return `-1`
  *  and generate a @ref GLFW_INVALID_ENUM error.
@@ -4872,7 +4872,7 @@ GLFWAPI int glfwGetKeyScancode(int key);
  *  `GLFW_PRESS` the first time you call it for a key that was pressed, even if
  *  that key has already been released.
  *
- *  The key functions deal with physical keys, with [key tokens](@ref keys)
+ *  The key functions deal with Physical keys, with [key tokens](@ref keys)
  *  named after their use on the standard US keyboard layout.  If you want to
  *  input text, use the Unicode character callback instead.
  *
@@ -5152,7 +5152,7 @@ GLFWAPI void glfwSetCursor(GLFWwindow* window, GLFWcursor* cursor);
  *  This function sets the key callback of the specified window, which is called
  *  when a key is pressed, repeated or released.
  *
- *  The key functions deal with physical keys, with layout independent
+ *  The key functions deal with Physical keys, with layout independent
  *  [key tokens](@ref keys) named after their values in the standard US keyboard
  *  layout.  If you want to input text, use the
  *  [character callback](@ref glfwSetCharCallback) instead.
@@ -5205,8 +5205,8 @@ GLFWAPI GLFWkeyfun glfwSetKeyCallback(GLFWwindow* window, GLFWkeyfun callback);
  *  The character callback is intended for Unicode text input.  As it deals with
  *  characters, it is keyboard layout dependent, whereas the
  *  [key callback](@ref glfwSetKeyCallback) is not.  Characters do not map 1:1
- *  to physical keys, as a key may produce zero, one or more characters.  If you
- *  want to know whether a specific physical key was pressed or released, see
+ *  to Physical keys, as a key may produce zero, one or more characters.  If you
+ *  want to know whether a specific Physical key was pressed or released, see
  *  the key callback instead.
  *
  *  The character callback behaves as system text input normally does and will
@@ -5250,9 +5250,9 @@ GLFWAPI GLFWcharfun glfwSetCharCallback(GLFWwindow* window, GLFWcharfun callback
  *  Unicode character input.  For regular Unicode text input, see the
  *  [character callback](@ref glfwSetCharCallback).  Like the character
  *  callback, the character with modifiers callback deals with characters and is
- *  keyboard layout dependent.  Characters do not map 1:1 to physical keys, as
+ *  keyboard layout dependent.  Characters do not map 1:1 to Physical keys, as
  *  a key may produce zero, one or more characters.  If you want to know whether
- *  a specific physical key was pressed or released, see the
+ *  a specific Physical key was pressed or released, see the
  *  [key callback](@ref glfwSetKeyCallback) instead.
  *
  *  @param[in] window The window whose callback to set.
@@ -6298,7 +6298,7 @@ GLFWAPI GLFWglproc glfwGetProcAddress(const char* procname);
  *  surface creation or even instance creation is possible.  Call @ref
  *  glfwGetRequiredInstanceExtensions to check whether the extensions necessary for Vulkan
  *  surface creation are available and @ref glfwGetPhysicalDevicePresentationSupport to
- *  check whether a queue family of a physical device supports image presentation.
+ *  check whether a queue family of a Physical device supports image presentation.
  *
  *  @return `GLFW_TRUE` if Vulkan is minimally available, or `GLFW_FALSE`
  *  otherwise.
@@ -6405,7 +6405,7 @@ GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance, const char* p
 /*! @brief Returns whether the specified queue family can present images.
  *
  *  This function returns whether the specified queue family of the specified
- *  physical device supports presentation to the platform GLFW was built for.
+ *  Physical device supports presentation to the platform GLFW was built for.
  *
  *  If Vulkan or the required window surface creation instance extensions are
  *  not available on the machine, or if the specified instance was not created
@@ -6415,8 +6415,8 @@ GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance, const char* p
  *  glfwGetRequiredInstanceExtensions to check what instance extensions are
  *  required.
  *
- *  @param[in] instance The instance that the physical device belongs to.
- *  @param[in] device The physical device that the queue family belongs to.
+ *  @param[in] instance The instance that the Physical device belongs to.
+ *  @param[in] device The Physical device that the queue family belongs to.
  *  @param[in] queuefamily The index of the queue family to query.
  *  @return `GLFW_TRUE` if the queue family supports presentation, or
  *  `GLFW_FALSE` otherwise.

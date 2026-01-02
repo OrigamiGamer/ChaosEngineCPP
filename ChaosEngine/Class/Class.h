@@ -113,7 +113,7 @@ namespace Chaos {
 
 
 
-namespace Chaos::AudioX {
+namespace Chaos::Audio {
 
     class AudioManager;
 
@@ -298,7 +298,7 @@ namespace Chaos::InternalDevice {
 
 
 
-namespace Chaos::GraphicX {
+namespace Chaos::Graphics {
 
     class GraphicManager;
 
@@ -337,7 +337,7 @@ namespace Chaos::GraphicX {
 
 
 
-namespace Chaos::PhysicX {
+namespace Chaos::Physics {
 
     class PhysicsEngine;
 
@@ -426,15 +426,15 @@ namespace Chaos {
 
 #include "Class/Log/Log.h"
 
-#include "Class/AudioX/AudioX.h"
+#include "Class/Audio/Audio.h"
 
 #include "Class/WindowX/WindowX.h"
 
-#include "Class/GraphicX/GraphicX.h"
+#include "Class/Graphics/Graphics.h"
 
 #include "Class/InternalDevice/InternalDevice.h"
 
-#include "Class/PhysicX/PhysicX.h"
+#include "Class/Physics/Physics.h"
 
 #include "Class/Component/Component.h"
 

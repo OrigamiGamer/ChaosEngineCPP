@@ -126,7 +126,7 @@ namespace Chaos::InternalDevice {
 
 
 
-    void Engine::registerRenderer(GraphicX::Renderer* new_renderer)
+    void Engine::registerRenderer(Graphics::Renderer* new_renderer)
     {
         if (this->renderer) this->renderer->engine = nullptr;
         new_renderer->engine = this;
@@ -144,7 +144,7 @@ namespace Chaos::InternalDevice {
 
 
 
-    void Engine::registerPhysicsEngine(PhysicX::PhysicsEngine* new_physicsEngine)
+    void Engine::registerPhysicsEngine(Physics::PhysicsEngine* new_physicsEngine)
     {
         if (!new_physicsEngine) return;
         new_physicsEngine->engine = this;
