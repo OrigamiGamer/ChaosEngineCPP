@@ -333,6 +333,8 @@ namespace Chaos::Graphics {
 
     class Renderer;
 
+    class Canvas;
+
 }
 
 

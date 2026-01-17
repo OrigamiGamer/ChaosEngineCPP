@@ -22,13 +22,14 @@ namespace Chaos::Graphics {
 
     private:
         std::vector<Texture*> _loadedTextures;
+        // std::vector<Canvas> _canvases;
         std::vector<RenderTask> _tasks;
         std::vector<D2D1_MATRIX_3X2_F> _transformMatrixes;
 
         Log::Logger _logger;
 
     public:
-        std::map<std::string, Graphics::Viewport*> viewports;
+        std::map<std::string, Graphics::Viewport*> viewports;   // std::vector?
 
         Renderer();
 
@@ -49,6 +50,8 @@ namespace Chaos::Graphics {
 
         bool registerViewport(Graphics::Viewport* new_viewport, std::string viewportName = "");
         bool registerViewport(Graphics::Viewport& new_viewport, std::string viewportName = "");
+
+        // Graphics::Canvas* createCanvas(std::string new_canvasName = "");
 
         void SetCanvasSize(vec2<float> new_size);
         void SetCanvasSize(float x, float y);
@@ -78,7 +81,7 @@ namespace Chaos::Graphics {
 
         friend class InternalDevice::Stage;
         friend class WindowX::Window;
-
+        friend class Graphics::Canvas;
     };
 
 

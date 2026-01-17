@@ -80,10 +80,11 @@ namespace Chaos {
 // Graphics
 #include "Source/Graphics/GraphicManager.cpp"
 #include "Source/Graphics/Color.cpp"
-#include "Source/Graphics/Renderer.cpp"
-#include "Source/Graphics/RenderTaskParam.cpp"
-#include "Source/Graphics/Viewport.cpp"
 #include "Source/Graphics/Texture.cpp"
+#include "Source/Graphics/Viewport.cpp"
+#include "Source/Graphics/RenderTaskParam.cpp"
+#include "Source/Graphics/Renderer.cpp"
+#include "Source/Graphics/Canvas.cpp"
 
 
 

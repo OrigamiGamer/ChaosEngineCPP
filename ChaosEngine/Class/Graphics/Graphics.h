@@ -24,10 +24,12 @@ namespace Chaos::Graphics {
 
 #include "Class/Graphics/Texture.h"
 
+#include "Class/Graphics/Viewport.h"
+
 #include "Class/Graphics/RenderTaskParam.h"
 
 #include "Class/Graphics/RenderTask.h"
 
 #include "Class/Graphics/Renderer.h"
 
-#include "Class/Graphics/Viewport.h"
+#include "Class/Graphics/Canvas.h"

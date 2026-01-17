@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Class/Graphics/Graphics.h"
+#include "Class/Graphics/Renderer.h"
 
 namespace Chaos::Graphics {
 
@@ -93,7 +93,7 @@ namespace Chaos::Graphics {
 
         // initialize renderer property
         _hwndRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
-        _bitmapRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED); // WTF, so how to disable the antialias mode?
+        _bitmapRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED); // WTF, it's useless, so how to disable the antialias mode?
 
         return true;
     }
@@ -121,6 +121,12 @@ namespace Chaos::Graphics {
         for (auto& viewport : this->viewports) {
             viewport.second->release();
         }
+
+
+        // // release canvases
+        // for (auto& canvas : this->_canvases) {
+        //     canvas.release();
+        // }
 
 
         // release D2D devices
@@ -250,6 +256,23 @@ namespace Chaos::Graphics {
     {
         return this->registerViewport(&new_viewport);
     }
+
+
+
+    // Graphics::Canvas* Renderer::createCanvas(std::string new_canvasName)
+    // {
+    //     // use default name if empty
+    //     if (new_canvasName == "") new_canvasName = "Canvas " + std::to_string(this->_canvases.size() + 1);
+    //     // check if canvas already exists
+    //     for (auto& canvas : this->_canvases) if (canvas.nameId == new_canvasName) return nullptr;
+
+    //     // create canvas
+    //     this->_canvases.resize(this->_canvases.size() + 1);
+    //     auto& _canvas = this->_canvases.back();
+    //     _canvas.SET_NAME(new_canvasName);
+    //     // &_canvas._hwndRenderTarget
+
+    // }
 
 
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Class/Graphics/Graphics.h"
+#include "Class/Graphics/Viewport.h"
 
 namespace Chaos::Graphics {
 
