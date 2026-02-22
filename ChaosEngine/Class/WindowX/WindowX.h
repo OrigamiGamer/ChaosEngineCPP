@@ -30,6 +30,6 @@ namespace Chaos::WindowX {
 
 #include "Class/WindowX/HotKey.h"
 
-#include "Class/WindowX/WindowProperty.h"
+#include "Class/WindowX/WindowStartupProperty.h"
 
 #include "Class/WindowX/Window.h"

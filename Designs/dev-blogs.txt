@@ -24,6 +24,14 @@ Comments:
         renderer;
     };
 
+
+
 Some Words:
 
 基于 Actor 的组件，要实现逻辑层交互，需另外计算变换后的渲染坐标，并以该坐标为交互所用的逻辑坐标。
+
+
+
+From Direct2D Docs:
+
+CreateSharedBitmap

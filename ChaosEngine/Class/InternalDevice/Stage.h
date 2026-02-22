@@ -29,11 +29,13 @@ namespace Chaos::InternalDevice {
         void registerWindow(WindowX::Window& new_window);
 
         void unregisterWindow(std::string windowTitle, std::string windowName = "");
-
-        void registerScene(Scene* new_scene);
-        void registerScene(Scene& new_scene);
+        void unregisterWindow(WindowX::Window& new_window);
+        void unregisterWindow(WindowX::Window* new_window);
 
         void update();
+        
+        void registerScene(Scene* new_scene);
+        void registerScene(Scene& new_scene);
 
         bool switchScene(std::string new_sceneName);
         void switchScene(Scene* new_scene);

@@ -41,30 +41,32 @@ namespace Chaos::InternalDevice {
             this->engineStartupProp.onGameExit = []()-> bool {return true;};
         }
 
-        this->lastEngineTime = System::getSystemTime(); // units: microseconds
-        unsigned long long currentEngineTime = 0;   // units: microseconds
 
-        //  game init
+        // uniform chrono units: microseconds
+        this->lastEngineTime = System::getSystemTime();
+        unsigned long long currentEngineTime = 0;
+
+        // Game Init
         if (this->engineStartupProp.onGameInit) this->engineStartupProp.onGameInit();
 
-        // game loop
-        unsigned long long timeSlept = 0;   // units: microseconds
+        // Game Loop
+        unsigned long long timeSlept = 0;
         while (this->gameRunningState) {
 
-            // window update
+            // update window
             windowUpdate();
 
-            // FPS control (units: microseconds)
+            // FPS Limit
             unsigned long long cycleTime = (1000 * 1000) / this->engineStartupProp.fps;
             timeSlept += this->deltaEngineTime;
             if (timeSlept >= cycleTime) {
-                // game update
+                // update engine
                 engineUpdate();
                 timeSlept -= cycleTime;
                 if (timeSlept < 0) timeSlept = 0;
             }
 
-            // one frame finished
+            // while one frame finished
             currentEngineTime = System::getSystemTime();
             this->deltaEngineTime = currentEngineTime - lastEngineTime;
             lastEngineTime = currentEngineTime;
@@ -98,7 +100,7 @@ namespace Chaos::InternalDevice {
 
     void Engine::engineUpdate()
     {
-        if(this->physicsEngine) this->physicsEngine->update();
+        if (this->physicsEngine) this->physicsEngine->update();
         if (this->stage) this->stage->update();
 
     }

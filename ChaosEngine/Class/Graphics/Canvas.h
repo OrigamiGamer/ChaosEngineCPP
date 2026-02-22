@@ -10,7 +10,7 @@ namespace Chaos::Graphics {
 
     class Canvas : public Base {
     private:
-        ID2D1HwndRenderTarget* _hwndRenderTarget = nullptr;
+        ID2D1HwndRenderTarget* _hwndRenderTarget = nullptr; 
 
     public:
         Canvas();

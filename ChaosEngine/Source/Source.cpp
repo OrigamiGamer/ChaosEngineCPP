@@ -50,7 +50,7 @@ namespace Chaos {
 
 
 
-// Basis
+// Base
 #include "Source/System.cpp"
 #include "Source/Base.cpp"
 #include "Source/Device.cpp"
@@ -70,7 +70,7 @@ namespace Chaos {
 
 // WindowX
 #include "Source/WindowX/WindowManager.cpp"
-#include "Source/WindowX/WindowProperty.cpp"
+#include "Source/WindowX/WindowStartupProperty.cpp"
 #include "Source/WindowX/Window.cpp"
 #include "Source/WindowX/KeyStateBuffer.cpp"
 #include "Source/WindowX/Hotkey.cpp"
@@ -100,7 +100,7 @@ namespace Chaos {
 
 
 
-// GUIComponent
+// GUI
 #include "Source/GameObject/GUI/Component.cpp"
 #include "Source/GameObject/GUI/Timer.cpp"
 

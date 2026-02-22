@@ -48,17 +48,32 @@ namespace Chaos::InternalDevice {
 
     void Stage::unregisterWindow(std::string windowTitle, std::string windowName)
     {
-        for (size_t i = 0;i < this->windows.size();i++) {
+        for (size_t i = 0; i < this->windows.size(); i++) {
             auto& window = windows.at(i);
 
-            if (window->getTitle() == windowTitle) {
+            if (window->getTitle() != windowTitle) continue;
+            if (windowName == "" || window->nameId != windowName) continue;
 
-                if (windowName != "" && window->nameId != windowName) continue;
-
-                windows.erase(this->windows.begin() + i);
-                i--;
-            }
+            windows.erase(this->windows.begin() + i);
+            i--;
         }
+    }
+
+
+
+    void Stage::unregisterWindow(WindowX::Window* new_window)
+    {
+        for (size_t i = 0; i < this->windows.size(); i++) {
+            if (this->windows.at(i) == new_window)
+                this->windows.erase(this->windows.begin() + i);
+        }
+    }
+
+
+
+    void Stage::unregisterWindow(WindowX::Window& new_window)
+    {
+        this->unregisterWindow(&new_window);
     }
 
 
@@ -87,19 +102,31 @@ namespace Chaos::InternalDevice {
         for (auto& window : this->windows) {
             auto& _glfwWindow = window->_glfwWindow;
 
-            // handle window message
-            if (!glfwWindowShouldClose(_glfwWindow)) {
-                glfwSwapBuffers(_glfwWindow);
-                glfwPollEvents();
+            // Window Close
+            if (glfwWindowShouldClose(_glfwWindow)) {
+                // request to close window
+                if (window->startupProperty.onWindowClose ? window->startupProperty.onWindowClose() : true) {
+                    // user accpeted
+                    window->release();
+                    unregisterWindow(window);
+                }
+                else {
+                    // user rejected
+                    glfwSetWindowShouldClose(_glfwWindow, false);
+                }
             }
             else {
-                // game exit
-                if (this->engine->engineStartupProp.onGameExit ? this->engine->engineStartupProp.onGameExit() : true) {
-                    // user confirmed
-                    this->engine->stop();
-                }
-                // user denied
-                glfwSetWindowShouldClose(_glfwWindow, false);
+                // Window Update
+                glfwSwapBuffers(_glfwWindow);                              // optional [?]
+                glfwPollEvents();   // handle window messages
+            }
+        }
+
+        if (this->windows.empty()) {
+            // Game Exit
+            if (this->engine->engineStartupProp.onGameExit ? this->engine->engineStartupProp.onGameExit() : true) {
+                // user accpeted
+                this->engine->stop();
             }
         }
     }

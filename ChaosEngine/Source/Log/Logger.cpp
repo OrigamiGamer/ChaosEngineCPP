@@ -17,7 +17,7 @@ namespace Chaos::Log {
 
     bool Logger::addType(std::string new_typeName, Log::TypeColor new_typeColor)
     {
-        if (this->_typeMap.find(new_typeName) != this->_typeMap.end()) return false;    // typeName has been existed
+        if (this->_typeMap.find(new_typeName) != this->_typeMap.end()) return false;    // the type name has already existed
 
         this->_typeMap.insert_or_assign(new_typeName, new_typeColor);
         return true;
@@ -38,7 +38,7 @@ namespace Chaos::Log {
 
     void Logger::print(Log::OutputStream& new_output)
     {
-        Log::TypeColor _typeColor(Log::TypeColor::White);
+        Log::TypeColor _typeColor(Log::TypeColor::White);  // default log type color
 
         auto _it = this->_typeMap.find(new_output.typeName);
         if (_it != this->_typeMap.end()) {

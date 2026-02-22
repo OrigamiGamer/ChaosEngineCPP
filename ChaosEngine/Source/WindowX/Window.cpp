@@ -13,11 +13,11 @@ namespace Chaos::WindowX {
 
 
 
-    bool Window::initialize(WindowProperty* new_windowProp)
+    bool Window::initialize(WindowStartupProperty* new_windowProp)
     {
         if (new_windowProp != nullptr) {
             // user's window property
-            this->initialProperty = *new_windowProp;
+            this->startupProperty = *new_windowProp;
 
             this->_glfwWindow = glfwCreateWindow(
                 new_windowProp->size.x,
@@ -107,7 +107,7 @@ namespace Chaos::WindowX {
 
 
 
-    bool Window::initialize(WindowProperty& new_windowProp)
+    inline bool Window::initialize(WindowStartupProperty& new_windowProp)
     {
         return this->initialize(&new_windowProp);
     }

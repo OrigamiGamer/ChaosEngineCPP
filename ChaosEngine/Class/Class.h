@@ -135,11 +135,16 @@ namespace Chaos::WindowX {
 
     class WindowManager;
 
-    struct WindowProperty;
+    typedef bool (*Callback_WindowClose)(); // Return 'true' to close the window.
+
+    struct WindowStartupProperty;
 
     class Window;
 
+
+
     namespace VirtualKey {
+
         enum VirtualKey {
             NONE = 0,
             Space = 32,
@@ -266,7 +271,10 @@ namespace Chaos::WindowX {
         };
         const int FIRST_VIRTUAL_KEY = VirtualKey::Space;
         const int LAST_VIRTUAL_KEY = VirtualKey::Menu;
+
     }
+
+
 
     class KeyStateBuffer;
 
@@ -282,7 +290,7 @@ namespace Chaos::InternalDevice {
 
     typedef void (*Callback_GameInit)();
 
-    typedef bool (*Callback_GameExit)();
+    typedef bool (*Callback_GameExit)();    // Return 'true' to exit the game.
 
     struct EngineStartupProperty;
 

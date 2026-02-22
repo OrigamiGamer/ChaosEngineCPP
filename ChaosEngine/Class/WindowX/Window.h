@@ -20,7 +20,7 @@ namespace Chaos::WindowX {
 
     public:
         InternalDevice::Stage* stage = nullptr;
-        WindowProperty initialProperty;
+        WindowStartupProperty startupProperty;
         vec2<int> pos;          // updated by callback
         vec2<int> size;         // updated by callback
         vec2<double> cursorPos; // updated by callback
@@ -28,8 +28,8 @@ namespace Chaos::WindowX {
 
         Window();
 
-        bool initialize(WindowProperty* new_windowProp = nullptr);
-        bool initialize(WindowProperty& new_windowProp);
+        bool initialize(WindowStartupProperty* new_windowProp = nullptr);
+        inline bool initialize(WindowStartupProperty& new_windowProp);
 
         void release();
 

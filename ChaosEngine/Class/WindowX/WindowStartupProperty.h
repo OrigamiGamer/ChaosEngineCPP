@@ -8,7 +8,7 @@ namespace Chaos::WindowX {
 
 
 
-    struct WindowProperty {
+    struct WindowStartupProperty {
         vec2<int> size = { 800, 600 };
 
         // If the value of a coordinate is -1, the position will be the center of primary monitor in that single coordinate.
@@ -16,6 +16,8 @@ namespace Chaos::WindowX {
         vec2<int> pos = { -1, -1 };
 
         std::string title = "Window";
+
+        Callback_WindowClose onWindowClose = nullptr;
     };
 
 

@@ -36,7 +36,13 @@ namespace Chaos::Graphics {
 
 
         // create D2D factory
-        hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &this->_d2dFactory);
+        D2D1_FACTORY_OPTIONS options;
+#ifdef CHAOS_DEBUG
+        options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
+#else
+        options.debugLevel = D2D1_DEBUG_LEVEL_NONE;
+#endif
+        hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, options, &this->_d2dFactory);
         if (FAILED(hr)) return false;
 
 
