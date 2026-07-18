@@ -2,14 +2,26 @@
     "version": 8,
     "configurePresets": [
         {
-            "name": "GCC",
+            "name": "gcc-debug",
             "displayName": "GCC 15.1.0 x86_64-w64-mingw32",
+            "description": "GCC Debug with compile_commands for clangd",
             "generator": "MinGW Makefiles",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_C_COMPILER": "gcc.exe",
+                "CMAKE_CXX_COMPILER": "g++.exe",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "gcc-debug",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "gcc-debug"
         }
     ]
 }

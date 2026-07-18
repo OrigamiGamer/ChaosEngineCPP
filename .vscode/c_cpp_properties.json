@@ -12,8 +12,7 @@
             ],
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "compilerPath": "F:/Dev/Env/mingw64/bin/g++.exe"
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

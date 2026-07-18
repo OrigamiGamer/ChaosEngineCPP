@@ -89,6 +89,5 @@
         "*.rh": "cpp",
         "ranges": "cpp"
     },
-    "C_Cpp.default.compilerPath": "cl.exe",
-    "C_Cpp.intelliSenseEngineFallback": "enabled"
+    "C_Cpp.default.compilerPath": "g++.exe"
 }

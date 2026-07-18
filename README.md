@@ -1,18 +1,8 @@
-# Words from the author
-### 2024.11.17
- The first version that was created in E language has been left behind because of a serious problem of that language.
- Then I had tried reconstructing in some other languages, but finally I chose C++ to finish this project for its powerful capabilities.
+# 定义
+`ChaosEngine`，又名为`“混沌引擎”`，将是一个支持多渲染、音频引擎，且将侧重于GUI功能设计的2D游戏引擎，主要运行在Windows平台上。*未来将有可能支持跨平台(划掉)*
 
- This engine only used DirectX for graphics rendering, so the games made by it can only run on Windows.
-
- The new version of ChaosEngine for C++ is growing up gradually...
-
-### 2025.1.1
- In the past few months of 2024, I had attempted to make a 3D game engine based on vulkan api, but today, the beginning of 2025, after reading the details of the vulkan api, I realized how complex it is for me, so I had decided to return to the ideas of making a 2D game engine, which might focus on something simple but useful, such as GUI libraries...
-
-# About the project
- writing...
-
-<!-- # Game Examples
-
-- [NewGame_Demo](https://github.com/OrigamiGamer/NewGame_Demo) -->
+# 开发日志
+### 正在进行不知道第多少次的项目重写计划...
+### 本次重写将重点对项目结构的设计进行优化，以确保今后不再重写...pwp
+### 详细请关注`Desgin Docs`位置下的设计草稿~
+### ——(2026.7.19)
