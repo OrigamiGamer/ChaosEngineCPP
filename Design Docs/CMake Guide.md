@@ -1,0 +1,21 @@
+# CMake if() 常用关键字：
+
+## 关键字
+STREQUAL
+STRNOTEQUAL
+EQUAL
+LESS / GREATER
+IN_LIST
+DEFINED
+EXISTS
+TARGET
+AND / OR
+NOT
+MATCHES
+VERSION_LESS / VERSION_GREATER
+
+## 示例
+if(CHAOS_DRIVER_AUDIO STREQUAL "OpenAL")          # 字符串相等
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 20)            # C++ 标准版本
+if(WIN32 AND NOT MINGW)                            # 组合条件
+if(DEFINED CHAOS_DRIVER_GRAPHICS)                  # 变量已定义

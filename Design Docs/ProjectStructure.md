@@ -6,22 +6,25 @@
 ChaosEngineCPP/
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── ProjectStructure.md
 │
 ├── ChaosEngine/
-│   ├── Include/                         → PUBLIC
-│   ├── Source/                          → PRIVATE
-│   ├── Drivers/
+│   ├── Engine/                         → 引擎代码
+│   │   ├── Include/                    →   PUBLIC
+│   │   └── Source/                     →   PRIVATE
+│   ├── Drivers/                        → 后端实现 (PRIVATE)
 │   │   ├── Graphics/
 │   │   │   ├── D2D/
 │   │   │   └── Other/
 │   │   └── Audio/
 │   │       ├── OpenAL/
 │   │       └── Other/
-│   └── Dependences/
+│   └── Dependences/                    → 第三方依赖
 │       ├── Lib/
 │       ├── Bin/
 │       └── Include/
+│
+├── Design Docs/
+│   └── ProjectStructure.md
 │
 ├── .gitignore
 ├── LICENSE.txt
@@ -33,12 +36,12 @@ ChaosEngineCPP/
 ```
 ┌────────────────────────────────┐
 │  ③ Engine Core                 │  Engine 核心逻辑
-│  Source/Chaos/                  │  只依赖接口，不碰后端 API
+│  Engine/Source/Chaos/           │  只依赖接口，不碰后端 API
 └────────────┬───────────────────┘
              │  调用 IRenderer* / IAudioEngine*
 ┌────────────▼───────────────────┐
 │  ② Abstraction Layer           │  纯虚接口 + 公共类型
-│  Include/Chaos/                 │  PUBILC，对外可见
+│  Engine/Include/Chaos/          │  PUBLIC，对外可见
 └────────────┬───────────────────┘
              │  实现 I* 接口
 ┌────────────▼───────────────────┐
@@ -47,17 +50,17 @@ ChaosEngineCPP/
 └────────────────────────────────┘
 ```
 
-| 层                  | 目录             | CMake 可见性 | 内容                                      |
-| ------------------- | ---------------- | ------------ | ----------------------------------------- |
-| ③ Engine Core       | `Source/Chaos/`  | PRIVATE      | 引擎核心实现，不包含任何驱动头文件        |
-| ② Abstraction Layer | `Include/Chaos/` | PUBLIC       | 纯虚接口 + 公共类型，唯一对外暴露的头文件 |
-| ① Drivers           | `Drivers/`       | PRIVATE      | 各子系统底层 API 封装，具体实现           |
+| 层 | 目录 | CMake 可见性 | 内容 |
+|----|------|-------------|------|
+| ③ Engine Core | `Engine/Source/` | PRIVATE | 引擎核心实现，不包含任何驱动头文件 |
+| ② Abstraction Layer | `Engine/Include/` | PUBLIC | 纯虚接口 + 公共类型，唯一对外暴露的头文件 |
+| ① Drivers | `Drivers/` | PRIVATE | 各子系统底层 API 封装，具体实现 |
 
 ## 设计原则
 
 ### 1. 接口隔离
 
-- `Include/Chaos/Graphics/IRenderer.h` 等为纯虚接口，不包含平台相关类型
+- `Engine/Include/Chaos/Graphics/IRenderer.h` 等为纯虚接口，不包含平台相关类型
 - Drivers 中的头文件（如 `D2DRenderer.h`）通过 `PRIVATE` 保护，外部代码不可见
 - Drivers 内部实现包含 `<d2d1.h>`、`<windows.h>` 等平台头文件，绝不泄露到上层
 
@@ -102,44 +105,44 @@ Dependences/
 
 ## CMake 可见性策略
 
-| 目录                   | 可见性    | 效果                                               |
-| ---------------------- | --------- | -------------------------------------------------- |
-| `Include/Chaos/`       | `PUBLIC`  | 链接 ChaosEngine 的目标可以 `#include <Chaos/...>` |
-| `Source/Chaos/`        | `PRIVATE` | 只有引擎内部能看到                                 |
-| `Drivers/*/Include/`   | `PRIVATE` | 只有对应 Driver 的源文件能看到                     |
-| `Dependences/Include/` | `PRIVATE` | 引擎内部使用，不对外泄露                           |
+| 目录 | 可见性 | 效果 |
+|------|--------|------|
+| `Engine/Include/Chaos/` | `PUBLIC` | 链接 ChaosEngine 的目标可以 `#include <Chaos/...>` |
+| `Engine/Source/Chaos/` | `PRIVATE` | 只有引擎内部能看到 |
+| `Drivers/*/Include/` | `PRIVATE` | 只有对应 Driver 的源文件能看到 |
+| `Dependences/Include/` | `PRIVATE` | 引擎内部使用，不对外泄露 |
 
 ## 命名规范
 
-| 内容       | 规则                  | 示例                                   |
-| ---------- | --------------------- | -------------------------------------- |
-| 接口类     | `I` 前缀 + PascalCase | `IRenderer`, `IViewport`, `ITexture`   |
-| 引擎核心类 | PascalCase            | `GraphicsServer`, `RenderTask`, `Base` |
-| Driver 类  | 后端名 + 接口名       | `D2DRenderer`, `D2DViewport`           |
-| 命名空间   | `chaos`               | `namespace chaos { }`                  |
-| 文件名     | 与类名一致            | `IRenderer.h`, `D2DRenderer.cpp`       |
+| 内容 | 规则 | 示例 |
+|------|------|------|
+| 接口类 | `I` 前缀 + PascalCase | `IRenderer`, `IViewport`, `ITexture` |
+| 引擎核心类 | PascalCase | `GraphicsServer`, `RenderTask`, `Base` |
+| Driver 类 | 后端名 + 接口名 | `D2DRenderer`, `D2DViewport` |
+| 命名空间 | `chaos` | `namespace chaos { }` |
+| 文件名 | 与类名一致 | `IRenderer.h`, `D2DRenderer.cpp` |
 
 ## 接口设计
 
 ### Graphics
 
-| 接口             | 关键方法                                                                              |
-| ---------------- | ------------------------------------------------------------------------------------- |
-| `IRenderer`      | `BeginDraw`, `EndDraw`, `Clear`, `DrawLine`, `DrawRect`, `DrawEllipse`, `DrawTexture` |
-| `IViewport`      | `GetRect`, `SetRect`, `GetSize`                                                       |
-| `ITexture`       | `GetSize`, `GetDPI`                                                                   |
-| `GraphicsServer` | 单例，工厂方法 `CreateRenderer`，命令队列                                             |
+| 接口 | 关键方法 |
+|------|---------|
+| `IRenderer` | `BeginDraw`, `EndDraw`, `Clear`, `DrawLine`, `DrawRect`, `DrawEllipse`, `DrawTexture` |
+| `IViewport` | `GetRect`, `SetRect`, `GetSize` |
+| `ITexture` | `GetSize`, `GetDPI` |
+| `GraphicsServer` | 单例，工厂方法 `CreateRenderer`，命令队列 |
 
 ### Audio
 
-| 接口           | 关键方法                                          |
-| -------------- | ------------------------------------------------- |
+| 接口 | 关键方法 |
+|------|---------|
 | `IAudioEngine` | `Play`, `Stop`, `Pause`, `SetVolume`, `LoadSound` |
 
 ### Platform
 
-| 接口      | 关键方法                                         |
-| --------- | ------------------------------------------------ |
+| 接口 | 关键方法 |
+|------|---------|
 | `IWindow` | `GetHandle`, `GetSize`, `PollEvents`, `SetTitle` |
 
 ## 未来扩展
