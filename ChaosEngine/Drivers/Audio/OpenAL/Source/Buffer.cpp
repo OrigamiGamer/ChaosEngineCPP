@@ -1,9 +1,8 @@
 #pragma once
 
-#include "Dependences/Static/audio/OpenAL/OpenAL.h"
+#include "Drivers/Audio/OpenAL/Include/Buffer.h"
 
-
-namespace OpenAL {
+namespace chaos::drivers::audio::openal {
 
 
 

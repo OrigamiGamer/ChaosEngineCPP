@@ -1,17 +1,19 @@
 #pragma once
 
-#include "Dependences/Static/audio/OpenAL/OpenAL.h"
+#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
 
+#include "Drivers/Audio/OpenAL/Include/Source.h"
+#include "Drivers/Audio/OpenAL/Include/AudioEngine.h"
+#include "Dependences/Include/al/al.h"
+#include "Dependences/Include/sndfile/sndfile.h"
 
-namespace OpenAL {
-
+namespace chaos::drivers::audio::openal {
 
 
     AudioPlayer::AudioPlayer()
     {
 
     }
-
 
 
     inline bool AudioPlayer::_makeCurrent()
@@ -21,7 +23,6 @@ namespace OpenAL {
 
         return true;
     }
-
 
 
     bool AudioPlayer::_initialize()
@@ -35,7 +36,6 @@ namespace OpenAL {
 
         return true;
     }
-
 
 
     bool AudioPlayer::_release()
@@ -63,7 +63,6 @@ namespace OpenAL {
         alcMakeContextCurrent(nullptr);
         return true;
     }
-
 
 
     Buffer* AudioPlayer::loadAudioFile(std::string filename, std::string in_bufferName)
@@ -109,7 +108,6 @@ namespace OpenAL {
     }
 
 
-
     Source* AudioPlayer::createSource(std::string in_sourceName)
     {
         if (!this->_makeCurrent()) return nullptr;
@@ -137,7 +135,6 @@ namespace OpenAL {
     }
 
 
-
     bool AudioPlayer::playSource(Source* source)
     {
         if (!source) return false;  // the source is nullptr
@@ -148,7 +145,6 @@ namespace OpenAL {
     }
 
 
-
     bool AudioPlayer::playSource(std::string sourceName)
     {
         if (sourceName.empty()) return false;
@@ -157,7 +153,6 @@ namespace OpenAL {
             if (source->name == sourceName) return source->play();
         return false;   // could NOT find source with this name
     }
-
 
 
 }

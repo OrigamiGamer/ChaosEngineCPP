@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Dependences/Static/audio/OpenAL/OpenAL.h"
+#include "Drivers/Audio/OpenAL/Include/Source.h"
 
+#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
+#include "Dependences/Include/al/alc.h"
 
-namespace OpenAL {
-
+namespace chaos::drivers::audio::openal {
 
 
     Source::Source()
     {
 
     }
-
 
 
     inline bool Source::_makeCurrent()
@@ -21,7 +21,6 @@ namespace OpenAL {
         alcMakeContextCurrent(this->_audioPlayer->_context);
         return true;
     }
-
 
 
     bool Source::pushBuffer(Buffer* in_buffer)
@@ -34,7 +33,6 @@ namespace OpenAL {
         alSourceQueueBuffers(this->_sourceID, 1, &in_buffer->_bufferID);
         return true;
     }
-
 
 
     bool Source::pushBuffer(std::string bufferName)
@@ -53,7 +51,6 @@ namespace OpenAL {
     }
 
 
-
     bool Source::popBuffer(Buffer* target_buffer)
     {
         if (!this->_makeCurrent()) return false;
@@ -64,7 +61,6 @@ namespace OpenAL {
         alSourceUnqueueBuffers(this->_sourceID, 1, &target_buffer->_bufferID);
         return true;
     }
-
 
 
     bool Source::popBuffer(std::string bufferName)
@@ -84,7 +80,6 @@ namespace OpenAL {
     }
 
 
-
     bool Source::play()
     {
         if (!this->_makeCurrent()) return false;
@@ -93,7 +88,6 @@ namespace OpenAL {
         alSourcePlay(this->_sourceID);
         return true;
     }
-
 
 
     bool Source::pause()
@@ -106,7 +100,6 @@ namespace OpenAL {
     }
 
 
-
     bool Source::stop()
     {
         if (!this->_makeCurrent()) return false;
@@ -115,7 +108,6 @@ namespace OpenAL {
         alSourceStop(this->_sourceID);
         return true;
     }
-
 
 
     bool Source::setVolume(float in_volume)
@@ -132,7 +124,6 @@ namespace OpenAL {
     }
 
 
-
     bool Source::setPositionOffset(int in_position)
     {
         if (!this->_makeCurrent()) return false;
@@ -145,7 +136,6 @@ namespace OpenAL {
         alSourcei(this->_sourceID, AL_SAMPLE_OFFSET, in_position);
         return true;
     }
-
 
 
     bool Source::setTimeOffset(float in_time)
@@ -162,7 +152,6 @@ namespace OpenAL {
     }
 
 
-
     float Source::getVolume()
     {
         if (!this->_makeCurrent()) return 0.0f;
@@ -172,7 +161,6 @@ namespace OpenAL {
         alGetSourcef(this->_sourceID, AL_GAIN, &_volume);
         return _volume;
     }
-
 
 
     int Source::getPositionOffset()
@@ -186,7 +174,6 @@ namespace OpenAL {
     }
 
 
-
     float Source::getTimeOffset()
     {
         if (!this->_makeCurrent()) return -1.0f;
@@ -196,7 +183,6 @@ namespace OpenAL {
         alGetSourcef(this->_sourceID, AL_SEC_OFFSET, &_time);
         return _time;
     }
-
 
 
 }

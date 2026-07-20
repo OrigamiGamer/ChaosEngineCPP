@@ -17,17 +17,21 @@ option(CHAOS_DRIVER_GRAPHICS "Graphics driver" "D2D")
 
 ###### ChaosEngine ######
 
-# compile
+# target
 add_library(ChaosEngine STATIC)
 set_target_properties(ChaosEngine PROPERTIES OUTPUT_NAME "ChaosEngine")
 
-# includes
+# include directories
 target_include_directories(ChaosEngine
-    PUBLIC ChaosEngine/Engine/Include
-    PRIVATE ChaosEngine/Engine/Source
+    PUBLIC
+    ChaosEngine/Engine/Include
+    PRIVATE
+    ChaosEngine
+    ChaosEngine/Engine/Source
+    ChaosEngine/Dependences/Include
 )
 
-# sources
+# source directories
 target_sources(ChaosEngine PRIVATE
     ChaosEngine/Engine/Source/Core/Base.cpp
 )
@@ -41,11 +45,15 @@ link_directories(ChaosEngine/Dependences/Lib)
 
 # OpenAL
 if(CHAOS_DRIVER_AUDIO STREQUAL "OpenAL")
+
     target_include_directories(ChaosEngine PRIVATE
         ChaosEngine/Drivers/Audio/OpenAL/Include
     )
     target_sources(ChaosEngine PRIVATE
+        ChaosEngine/Drivers/Audio/OpenAL/Source/Buffer.cpp
         ChaosEngine/Drivers/Audio/OpenAL/Source/Source.cpp
+        ChaosEngine/Drivers/Audio/OpenAL/Source/AudioEngine.cpp
+        ChaosEngine/Drivers/Audio/OpenAL/Source/AudioPlayer.cpp
     )
     target_link_libraries(ChaosEngine PRIVATE
         OpenAL32.lib

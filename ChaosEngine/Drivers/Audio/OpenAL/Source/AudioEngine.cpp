@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Dependences/Static/audio/OpenAL/OpenAL.h"
+#include "Drivers/Audio/OpenAL/Include/AudioEngine.h"
 
+#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
+#include "Dependences/Include/al/al.h"
 
-namespace OpenAL {
-
+namespace chaos::drivers::audio::openal {
 
 
     AudioEngine::AudioEngine()
@@ -13,12 +14,10 @@ namespace OpenAL {
     }
 
 
-
     int AudioEngine::getLastError()
     {
         return alGetError();
     }
-
 
 
     bool AudioEngine::initialize()
@@ -30,7 +29,6 @@ namespace OpenAL {
 
         return true;
     }
-
 
 
     bool AudioEngine::release()
@@ -46,7 +44,6 @@ namespace OpenAL {
 
         return alcCloseDevice(this->_device);
     }
-
 
 
     AudioPlayer* AudioEngine::createAudioPlayer(std::string in_playerName)
@@ -72,7 +69,6 @@ namespace OpenAL {
 
         return _in_player;
     }
-
 
 
 }
