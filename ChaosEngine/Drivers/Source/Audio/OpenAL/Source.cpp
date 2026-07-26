@@ -5,7 +5,7 @@
 #include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
 #include "Dependences/Include/al/alc.h"
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
 
     Source::Source()

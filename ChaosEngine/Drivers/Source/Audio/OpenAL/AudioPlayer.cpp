@@ -1,13 +1,12 @@
-#pragma once
-
 #include "Drivers/Include/Audio/OpenAL/AudioPlayer.h"
 
 #include "Drivers/Include/Audio/OpenAL/Source.h"
 #include "Drivers/Include/Audio/OpenAL/AudioEngine.h"
 #include "Dependences/Include/al/al.h"
+#include "Dependences/Include/al/alc.h"
 #include "Dependences/Include/sndfile/sndfile.h"
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
 
     AudioPlayer::AudioPlayer()
@@ -65,7 +64,7 @@ namespace chaos::drivers::audio::openal {
     }
 
 
-    Buffer* AudioPlayer::loadAudioFile(std::string filename, std::string in_bufferName)
+    IBuffer* AudioPlayer::loadAudioFile(std::string filename, std::string bufferName)
     {
         if (!this->_makeCurrent()) return nullptr;
 
@@ -87,9 +86,9 @@ namespace chaos::drivers::audio::openal {
         size_t in_size = this->buffers.size() + 1;
 
         // set default name if target name is empty
-        if (in_bufferName == "") in_bufferName = "Buffer " + std::to_string(in_size);
+        if (bufferName == "") bufferName = "Buffer " + std::to_string(in_size);
         else for (auto& buffer : this->buffers) {
-            if (buffer->name == in_bufferName) return nullptr; // the buffer with this name has already existed
+            if (buffer->name == bufferName) return nullptr; // the buffer with this name has already existed
         }
 
         // allocate memory
@@ -102,22 +101,22 @@ namespace chaos::drivers::audio::openal {
         alBufferData(_new_buffer->_bufferID, format, buf.data(), static_cast<ALsizei>(size * sizeof(short)), info.samplerate);
         alBufferf(_new_buffer->_bufferID, AL_GAIN, 0.1);
         _new_buffer->_audioPlayer = this;
-        _new_buffer->name = in_bufferName;
+        _new_buffer->name = bufferName;
 
         return _new_buffer;
     }
 
 
-    Source* AudioPlayer::createSource(std::string in_sourceName)
+    ISource* AudioPlayer::createSource(std::string sourceName)
     {
         if (!this->_makeCurrent()) return nullptr;
 
         size_t in_size = this->sources.size() + 1;
 
         // set default name if target name is empty
-        if (in_sourceName == "") in_sourceName = "Source " + std::to_string(in_size);
+        if (sourceName == "") sourceName = "Source " + std::to_string(in_size);
         else for (auto& source : this->sources) {
-            if (source->name == in_sourceName) return nullptr; // the source with this name has already existed.
+            if (source->name == sourceName) return nullptr; // the source with this name has already existed.
         }
 
         // allocate memory
@@ -127,7 +126,7 @@ namespace chaos::drivers::audio::openal {
         // generate and initialize source
         alGenSources(1, &_new_source->_sourceID);
         _new_source->_audioPlayer = this;
-        _new_source->name = in_sourceName;
+        _new_source->name = sourceName;
 
         _new_source->setVolume(0.5);
 
@@ -135,7 +134,7 @@ namespace chaos::drivers::audio::openal {
     }
 
 
-    bool AudioPlayer::playSource(Source* source)
+    bool AudioPlayer::playSource(ISource* source)
     {
         if (!source) return false;  // the source is nullptr
 

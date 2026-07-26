@@ -5,7 +5,7 @@
 #include <dwrite.h>
 #include <wincodec.h>
 
-namespace chaos::drivers::graphics::d2d {
+namespace chaos::graphics::d2d {
 
     // class Renderer;
 

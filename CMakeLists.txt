@@ -21,17 +21,13 @@ option(CHAOS_DRIVER_PLATFORM "Platform driver" "Win32")
 
 ###### ChaosEngine ######
 
-# target
+# target information
 add_library(ChaosEngine STATIC)
 set_target_properties(ChaosEngine PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
 # include directories
 target_include_directories(ChaosEngine
-    PUBLIC
-    ChaosEngine/Engine/Include
-    PRIVATE
-    ChaosEngine/Drivers/Include
-    ChaosEngine/Dependences/Include
+    PUBLIC ChaosEngine
 )
 
 # source directories

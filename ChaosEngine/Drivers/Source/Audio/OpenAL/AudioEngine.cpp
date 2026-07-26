@@ -1,22 +1,15 @@
-#pragma once
+#include "Drivers/Include/Audio/OpenAL/AudioEngine.h"
 
-#include "Drivers/Audio/OpenAL/Include/AudioEngine.h"
-
-#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
+#include "Drivers/Include/Audio/OpenAL/AudioPlayer.h"
 #include "Dependences/Include/al/al.h"
+#include "Dependences/Include/al/alc.h"
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
 
     AudioEngine::AudioEngine()
     {
 
-    }
-
-
-    int AudioEngine::getLastError()
-    {
-        return alGetError();
     }
 
 
@@ -46,16 +39,16 @@ namespace chaos::drivers::audio::openal {
     }
 
 
-    AudioPlayer* AudioEngine::createAudioPlayer(std::string in_playerName)
+    IAudioPlayer* AudioEngine::createAudioPlayer(std::string playerName)
     {
         if (!this->_device) return nullptr;
 
         size_t in_size = this->audioPlayers.size() + 1;
 
         // set default name if target name is empty
-        if (in_playerName == "") in_playerName = "AudioPlayer " + std::to_string(in_size);
+        if (playerName == "") playerName = "AudioPlayer " + std::to_string(in_size);
         else for (auto& _player : this->audioPlayers) {
-            if (_player->name == in_playerName) return nullptr;    // the audio player with this name has already existed
+            if (_player->name == playerName) return nullptr;    // the audio player with this name has already existed
         }
 
         // allocate memory
@@ -64,7 +57,7 @@ namespace chaos::drivers::audio::openal {
 
         // create and initialize audio player
         _in_player->_audioEngine = this;
-        _in_player->name = in_playerName;
+        _in_player->name = playerName;
         if (!_in_player->_initialize()) return nullptr;
 
         return _in_player;

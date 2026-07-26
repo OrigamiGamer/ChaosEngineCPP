@@ -1,19 +1,21 @@
 #pragma once
 
-#include "Dependences/Include/al/alc.h"
+#include "Engine/Include/Audio/IAudioPlayer.h"
 
 #include <string>
 #include <vector>
 
-namespace chaos::drivers::audio::openal {
+class ALCcontext;
+
+namespace chaos::audio::openal {
     class Buffer;
     class Source;
     class AudioEngine;
 }
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
-    class AudioPlayer {
+    class AudioPlayer final : public chaos::audio::IAudioPlayer {
     private:
         AudioEngine* _audioEngine = nullptr;
         ALCcontext* _context = nullptr;
@@ -36,12 +38,12 @@ namespace chaos::drivers::audio::openal {
          * @param filename 指向音频文件的路径。
          * @param bufferName 缓冲区名称。（可选）
          */
-        Buffer* loadAudioFile(std::string filename, std::string bufferName = "");
+        IBuffer* loadAudioFile(std::string filename, std::string bufferName = "") override;
 
-        Source* createSource(std::string in_sourceName = "");
+        ISource* createSource(std::string sourceName = "") override;
 
-        bool playSource(Source* source);
-        bool playSource(std::string sourceName);
+        bool playSource(ISource* source) override;
+        bool playSource(std::string sourceName) override;
 
         friend class AudioEngine;
         friend class Buffer;

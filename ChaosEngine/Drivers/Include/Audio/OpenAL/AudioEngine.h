@@ -1,17 +1,19 @@
 #pragma once
 
-#include "Dependences/Include/al/alc.h"
+#include "Engine/Include/Audio/IAudioEngine.h"
 
 #include <vector>
 #include <string>
 
-namespace chaos::drivers::audio::openal {
+struct ALCdevice;
+
+namespace chaos::audio::openal {
     class AudioPlayer;
 }
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
-    class AudioEngine {
+    class AudioEngine final : public chaos::audio::IAudioEngine {
     private:
         ALCdevice* _device = nullptr;
 
@@ -20,13 +22,11 @@ namespace chaos::drivers::audio::openal {
 
         AudioEngine();
 
-        int getLastError();
+        bool initialize() override;
 
-        bool initialize();
+        bool release() override;
 
-        bool release();
-
-        AudioPlayer* createAudioPlayer(std::string in_playerName = "");
+        IAudioPlayer* createAudioPlayer(std::string playerName = "") override;
 
         friend class Buffer;
         friend class AudioPlayer;

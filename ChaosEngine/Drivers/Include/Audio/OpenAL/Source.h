@@ -5,11 +5,11 @@
 
 #include <string>
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
     class AudioPlayer;
 }
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
     class Source {
     private:

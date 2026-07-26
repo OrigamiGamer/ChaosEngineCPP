@@ -11,7 +11,7 @@
 #include "Dependences/Include/al/al.h"
 #include "Dependences/Include/al/alc.h"
 
-namespace chaos::drivers::audio::openal {
+namespace chaos::audio::openal {
 
     class Source;
 

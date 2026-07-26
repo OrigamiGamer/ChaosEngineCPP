@@ -2,6 +2,6 @@
 
 #include <Windows.h>
 
-namespace chaos::drivers::platform::win32 {
+namespace chaos::platform::win32 {
 
 }
