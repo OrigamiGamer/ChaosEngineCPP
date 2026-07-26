@@ -9,9 +9,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 ###### Driver Options ######
 
+### Supported Drivers:
+# Audio: OpenAL | ...
+# Graphics: D2D | ...
+# Platform: Win32 | ...
 option(CHAOS_DRIVER_AUDIO "Audio driver" "OpenAL")
-option(CHAOS_DRIVER_PLATFORM "Platform driver" "Win32")
 option(CHAOS_DRIVER_GRAPHICS "Graphics driver" "D2D")
+option(CHAOS_DRIVER_PLATFORM "Platform driver" "Win32")
 
 
 
@@ -19,15 +23,14 @@ option(CHAOS_DRIVER_GRAPHICS "Graphics driver" "D2D")
 
 # target
 add_library(ChaosEngine STATIC)
-set_target_properties(ChaosEngine PROPERTIES OUTPUT_NAME "ChaosEngine")
+set_target_properties(ChaosEngine PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
 # include directories
 target_include_directories(ChaosEngine
     PUBLIC
     ChaosEngine/Engine/Include
     PRIVATE
-    ChaosEngine
-    ChaosEngine/Engine/Source
+    ChaosEngine/Drivers/Include
     ChaosEngine/Dependences/Include
 )
 
@@ -45,15 +48,11 @@ link_directories(ChaosEngine/Dependences/Lib)
 
 # OpenAL
 if(CHAOS_DRIVER_AUDIO STREQUAL "OpenAL")
-
-    target_include_directories(ChaosEngine PRIVATE
-        ChaosEngine/Drivers/Audio/OpenAL/Include
-    )
     target_sources(ChaosEngine PRIVATE
-        ChaosEngine/Drivers/Audio/OpenAL/Source/Buffer.cpp
-        ChaosEngine/Drivers/Audio/OpenAL/Source/Source.cpp
-        ChaosEngine/Drivers/Audio/OpenAL/Source/AudioEngine.cpp
-        ChaosEngine/Drivers/Audio/OpenAL/Source/AudioPlayer.cpp
+        ChaosEngine/Drivers/Source/Audio/OpenAL/Buffer.cpp
+        ChaosEngine/Drivers/Source/Audio/OpenAL/Source.cpp
+        ChaosEngine/Drivers/Source/Audio/OpenAL/AudioEngine.cpp
+        ChaosEngine/Drivers/Source/Audio/OpenAL/AudioPlayer.cpp
     )
     target_link_libraries(ChaosEngine PRIVATE
         OpenAL32.lib
@@ -65,20 +64,14 @@ endif()
 
 ###### Graphics ######
 
-# Win32
-if(CHAOS_DRIVER_PLATFORM STREQUAL "Win32")
-    # D2D
-    if(CHAOS_DRIVER_GRAPHICS STREQUAL "D2D")
-        target_include_directories(ChaosEngine PRIVATE
-            ChaosEngine/Drivers/Graphics/D2D/Include
-        )
-        target_sources(ChaosEngine PRIVATE
-            # ChaosEngine/Drivers/Graphics/D2D/Source/D2D.cpp
-        )
-        target_link_libraries(ChaosEngine PRIVATE
-            D2D1.lib
-        )
-    endif()
+# D2D
+if(CHAOS_DRIVER_GRAPHICS STREQUAL "D2D")
+    target_sources(ChaosEngine PRIVATE
+        ChaosEngine/Drivers/Source/Graphics/D2D/D2D.cpp
+    )
+    target_link_libraries(ChaosEngine PRIVATE
+        D2D1.lib
+    )
 endif()
 
 
@@ -87,24 +80,10 @@ endif()
 
 # Win32
 if(CHAOS_DRIVER_PLATFORM STREQUAL "Win32")
-    target_include_directories(ChaosEngine PRIVATE
-        ChaosEngine/Drivers/Platform/Win32/Include
-    )
     target_sources(ChaosEngine PRIVATE
-        # ChaosEngine/Drivers/Platform/Source/Win32.cpp
+        ChaosEngine/Drivers/Source/Platform/Win32/Win32.cpp
     )
     target_link_libraries(ChaosEngine PRIVATE
         glfw3.lib
     )
 endif()
-
-
-
-
-
-# link_libraries(
-#     "D2D1.lib"
-#     "glfw3.lib"
-#     "OpenAL32.lib"
-#     "sndfile.lib"
-# )

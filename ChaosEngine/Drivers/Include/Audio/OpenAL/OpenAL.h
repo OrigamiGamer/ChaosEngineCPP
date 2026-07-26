@@ -14,7 +14,7 @@
 namespace chaos::drivers::audio::openal {
 
     class Source;
-    
+
     class AudioPlayer;
 
     class Buffer;

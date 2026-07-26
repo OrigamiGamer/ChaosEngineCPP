@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
+#include "Drivers/Include/Audio/OpenAL/AudioPlayer.h"
 
-#include "Drivers/Audio/OpenAL/Include/Source.h"
-#include "Drivers/Audio/OpenAL/Include/AudioEngine.h"
+#include "Drivers/Include/Audio/OpenAL/Source.h"
+#include "Drivers/Include/Audio/OpenAL/AudioEngine.h"
 #include "Dependences/Include/al/al.h"
 #include "Dependences/Include/sndfile/sndfile.h"
 

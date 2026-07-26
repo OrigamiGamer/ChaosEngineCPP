@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Dependences/Include/al/al.h"
-#include "Drivers/Audio/OpenAL/Include/Buffer.h"
+#include "Buffer.h"
 
 #include <string>
 
