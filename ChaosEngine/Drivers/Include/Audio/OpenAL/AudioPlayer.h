@@ -2,7 +2,8 @@
 
 #include "Engine/Include/Audio/IAudioPlayer.h"
 
-#include <string>
+#include "Engine/Include/Core/String.h"
+
 #include <vector>
 
 class ALCcontext;
@@ -15,7 +16,7 @@ namespace chaos::audio::openal {
 
 namespace chaos::audio::openal {
 
-    class AudioPlayer final : public chaos::audio::IAudioPlayer {
+    class AudioPlayer final : public audio::IAudioPlayer {
     private:
         AudioEngine* _audioEngine = nullptr;
         ALCcontext* _context = nullptr;
@@ -27,7 +28,6 @@ namespace chaos::audio::openal {
         bool _release();
 
     public:
-        std::string name;
         std::vector<Buffer*> buffers;
         std::vector<Source*> sources;
 
@@ -38,12 +38,12 @@ namespace chaos::audio::openal {
          * @param filename 指向音频文件的路径。
          * @param bufferName 缓冲区名称。（可选）
          */
-        IBuffer* loadAudioFile(std::string filename, std::string bufferName = "") override;
+        IBuffer* loadAudioFile(core::String filename, core::String bufferName = "");
 
-        ISource* createSource(std::string sourceName = "") override;
+        ISource* createSource(core::String sourceName = "");
 
-        bool playSource(ISource* source) override;
-        bool playSource(std::string sourceName) override;
+        bool playSource(ISource* source);
+        bool playSource(core::String sourceName);
 
         friend class AudioEngine;
         friend class Buffer;

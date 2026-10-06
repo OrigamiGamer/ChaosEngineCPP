@@ -3,7 +3,8 @@
 #include "Dependences/Include/al/al.h"
 #include "Buffer.h"
 
-#include <string>
+#include "Engine/Include/Core/String.h"
+#include "Engine/Include/Audio/ISource.h"
 
 namespace chaos::audio::openal {
     class AudioPlayer;
@@ -11,7 +12,7 @@ namespace chaos::audio::openal {
 
 namespace chaos::audio::openal {
 
-    class Source {
+    class Source : public audio::ISource {
     private:
         AudioPlayer* _audioPlayer = nullptr;
         ALuint _sourceID = 0;
@@ -19,15 +20,14 @@ namespace chaos::audio::openal {
         inline bool _makeCurrent();
 
     public:
-        std::string name;
 
         Source();
 
         bool pushBuffer(Buffer* in_buffer);
-        bool pushBuffer(std::string bufferName);
+        bool pushBuffer(core::String bufferName);
 
         bool popBuffer(Buffer* target_buffer);
-        bool popBuffer(std::string bufferName);
+        bool popBuffer(core::String bufferName);
 
         // Play, replay, or resume this source.
         bool play();

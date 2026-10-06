@@ -39,7 +39,7 @@ namespace chaos::audio::openal {
     }
 
 
-    IAudioPlayer* AudioEngine::createAudioPlayer(std::string playerName)
+    IAudioPlayer* AudioEngine::createAudioPlayer(core::String playerName)
     {
         if (!this->_device) return nullptr;
 

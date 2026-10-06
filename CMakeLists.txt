@@ -33,6 +33,7 @@ target_include_directories(ChaosEngine
 # source directories
 target_sources(ChaosEngine PRIVATE
     ChaosEngine/Engine/Source/Core/Base.cpp
+    ChaosEngine/Engine/Source/Core/String.cpp
 )
 
 # link directories

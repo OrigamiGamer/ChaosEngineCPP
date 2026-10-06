@@ -2,8 +2,9 @@
 
 #include "Engine/Include/Audio/IAudioEngine.h"
 
+#include "Engine/Include/Core/String.h"
+
 #include <vector>
-#include <string>
 
 struct ALCdevice;
 
@@ -26,7 +27,7 @@ namespace chaos::audio::openal {
 
         bool release() override;
 
-        IAudioPlayer* createAudioPlayer(std::string playerName = "") override;
+        IAudioPlayer* createAudioPlayer(core::String playerName = "") override;
 
         friend class Buffer;
         friend class AudioPlayer;

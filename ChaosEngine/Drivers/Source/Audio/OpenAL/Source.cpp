@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Drivers/Audio/OpenAL/Include/Source.h"
+#include "Drivers/Include/Audio/OpenAL/Source.h"
 
-#include "Drivers/Audio/OpenAL/Include/AudioPlayer.h"
+#include "Drivers/Include/Audio/OpenAL/AudioPlayer.h"
 #include "Dependences/Include/al/alc.h"
 
 namespace chaos::audio::openal {
@@ -35,7 +35,7 @@ namespace chaos::audio::openal {
     }
 
 
-    bool Source::pushBuffer(std::string bufferName)
+    bool Source::pushBuffer(core::String bufferName)
     {
         if (!this->_makeCurrent()) return false;
 
@@ -63,7 +63,7 @@ namespace chaos::audio::openal {
     }
 
 
-    bool Source::popBuffer(std::string bufferName)
+    bool Source::popBuffer(core::String bufferName)
     {
         if (!this->_makeCurrent()) return false;
 

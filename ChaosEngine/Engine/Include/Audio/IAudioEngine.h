@@ -1,9 +1,11 @@
 #pragma once
 
-#include <string>
+#include "Engine/Include/Core/String.h"
 
 namespace chaos::audio {
+
     class IAudioPlayer;
+
 }
 
 namespace chaos::audio {
@@ -17,7 +19,7 @@ namespace chaos::audio {
 
         virtual bool release() = 0;
 
-        virtual IAudioPlayer* createAudioPlayer(std::string playerName = "") = 0;
+        virtual IAudioPlayer* createAudioPlayer(core::String playerName = "") = 0;
     };
 
 }

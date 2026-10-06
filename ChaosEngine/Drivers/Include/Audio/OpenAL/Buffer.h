@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Dependences/Include/al/al.h"
+#include "Engine/Include/Audio/IBuffer.h"
 
 #include <string>
 
@@ -10,13 +11,12 @@ namespace chaos::audio::openal {
 
 namespace chaos::audio::openal {
 
-    class Buffer {
+    class Buffer : public IBuffer {
     private:
         AudioPlayer* _audioPlayer = nullptr;
         ALuint _bufferID = 0;
 
     public:
-        std::string name;
 
         Buffer();
 

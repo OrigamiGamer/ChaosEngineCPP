@@ -64,7 +64,7 @@ namespace chaos::audio::openal {
     }
 
 
-    IBuffer* AudioPlayer::loadAudioFile(std::string filename, std::string bufferName)
+    IBuffer* AudioPlayer::loadAudioFile(core::String filename, core::String bufferName)
     {
         if (!this->_makeCurrent()) return nullptr;
 
@@ -107,7 +107,7 @@ namespace chaos::audio::openal {
     }
 
 
-    ISource* AudioPlayer::createSource(std::string sourceName)
+    ISource* AudioPlayer::createSource(core::String sourceName)
     {
         if (!this->_makeCurrent()) return nullptr;
 
@@ -144,7 +144,7 @@ namespace chaos::audio::openal {
     }
 
 
-    bool AudioPlayer::playSource(std::string sourceName)
+    bool AudioPlayer::playSource(core::String sourceName)
     {
         if (sourceName.empty()) return false;
 
