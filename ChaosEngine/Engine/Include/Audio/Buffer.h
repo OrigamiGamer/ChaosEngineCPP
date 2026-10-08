@@ -4,9 +4,13 @@
 
 namespace chaos::audio {
 
-    class ISource : public core::Base {
+    class Buffer : public core::Base {
     public:
-        ISource();
+
+        Buffer();
+
+        ~Buffer() = default;
+
     };
 
 }

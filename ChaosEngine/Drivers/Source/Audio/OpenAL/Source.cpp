@@ -1,9 +1,7 @@
-#pragma once
-
 #include "Drivers/Include/Audio/OpenAL/Source.h"
 
-#include "Drivers/Include/Audio/OpenAL/AudioPlayer.h"
-#include "Dependences/Include/al/alc.h"
+#include "Drivers/Include/Audio/OpenAL/Buffer.h"
+#include "Drivers/Include/Audio/OpenAL/Context.h"
 
 namespace chaos::audio::openal {
 
@@ -14,174 +12,262 @@ namespace chaos::audio::openal {
     }
 
 
-    inline bool Source::_makeCurrent()
+    Source::~Source()
     {
-        if (!this->_audioPlayer) return false;
-        if (!this->_audioPlayer->_context) return false;
-        alcMakeContextCurrent(this->_audioPlayer->_context);
+        this->destroy();
+    }
+
+
+    bool Source::_makeCurrent() const
+    {
+        if (!this->_context) return false;
+
+        return this->_context->makeCurrent();
+    }
+
+
+    bool Source::destroy()
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alDeleteSources(1, &this->_source);
+        this->_source = 0;
         return true;
     }
 
 
-    bool Source::pushBuffer(Buffer* in_buffer)
+    bool Source::isValid() const
     {
-        if (!this->_makeCurrent()) return false;
-
-        if (this->_sourceID == 0) return false;
-        if (!in_buffer) return false;
-        if (in_buffer->_bufferID == 0) return false;
-        alSourceQueueBuffers(this->_sourceID, 1, &in_buffer->_bufferID);
-        return true;
-    }
-
-
-    bool Source::pushBuffer(core::String bufferName)
-    {
-        if (!this->_makeCurrent()) return false;
-
-        if (bufferName.empty()) return false;
-
-        for (auto& buffer : this->_audioPlayer->buffers) {
-            if (buffer->name == bufferName) {
-                alSourceQueueBuffers(this->_sourceID, 1, &buffer->_bufferID);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    bool Source::popBuffer(Buffer* target_buffer)
-    {
-        if (!this->_makeCurrent()) return false;
-
-        if (this->_sourceID == 0) return false;
-        if (!target_buffer) return false;
-        if (target_buffer->_bufferID == 0) return false;
-        alSourceUnqueueBuffers(this->_sourceID, 1, &target_buffer->_bufferID);
-        return true;
-    }
-
-
-    bool Source::popBuffer(core::String bufferName)
-    {
-        if (!this->_makeCurrent()) return false;
-
-        if (bufferName.empty()) return false;
-
-        if (this->_sourceID == 0) return false;
-        for (auto& buffer : this->_audioPlayer->buffers) {
-            if (buffer->name == bufferName) {
-                alSourceUnqueueBuffers(this->_sourceID, 1, &buffer->_bufferID);
-                return true;
-            }
-        }
-        return false;
+        return this->_source != 0;
     }
 
 
     bool Source::play()
     {
+        if (!this->_source) return false;
         if (!this->_makeCurrent()) return false;
 
-        if (this->_sourceID == 0) return false;
-        alSourcePlay(this->_sourceID);
+        alSourcePlay(this->_source);
         return true;
     }
 
 
     bool Source::pause()
     {
+        if (!this->_source) return false;
         if (!this->_makeCurrent()) return false;
 
-        if (this->_sourceID == 0) return false;
-        alSourcePause(this->_sourceID);
+        alSourcePause(this->_source);
         return true;
     }
 
 
     bool Source::stop()
     {
+        if (!this->_source) return false;
         if (!this->_makeCurrent()) return false;
 
-        if (this->_sourceID == 0) return false;
-        alSourceStop(this->_sourceID);
+        alSourceStop(this->_source);
         return true;
     }
 
 
-    bool Source::setVolume(float in_volume)
+    bool Source::rewind()
     {
+        if (!this->_source) return false;
         if (!this->_makeCurrent()) return false;
 
-        // correct volume
-        if (in_volume < 0) in_volume = 0.0f;
-        if (in_volume > 1) in_volume = 1.0f;
-
-        if (this->_sourceID == 0) return false;
-        alSourcef(this->_sourceID, AL_GAIN, in_volume);
+        alSourceRewind(this->_source);
         return true;
     }
 
 
-    bool Source::setPositionOffset(int in_position)
+    ALenum Source::state() const
     {
+        if (!this->_source) return 0;
+        if (!this->_makeCurrent()) return 0;
+
+        ALint value = 0;
+        alGetSourcei(this->_source, AL_SOURCE_STATE, &value);
+        return value;
+    }
+
+
+    bool Source::queueBuffers(const ALuint* bufferIds, ALsizei count)
+    {
+        if (!this->_source) return false;
+        if (!bufferIds) return false;
+        if (count <= 0) return false;
         if (!this->_makeCurrent()) return false;
 
-        // correct offset
-        if (in_position < 0) in_position = 0;
-        // if(in_offset > what) in_offset = what;
-
-        if (this->_sourceID == 0) return false;
-        alSourcei(this->_sourceID, AL_SAMPLE_OFFSET, in_position);
+        alSourceQueueBuffers(this->_source, count, bufferIds);
         return true;
     }
 
 
-    bool Source::setTimeOffset(float in_time)
+    bool Source::unqueueBuffers(ALuint* bufferIds, ALsizei count)
     {
+        if (!this->_source) return false;
+        if (!bufferIds) return false;
+        if (count <= 0) return false;
         if (!this->_makeCurrent()) return false;
 
-        // correct offset
-        if (in_time < 0) in_time = 0;
-        // if(in_offset > what) in_offset = what;
-
-        if (this->_sourceID == 0) return false;
-        alSourcef(this->_sourceID, AL_SEC_OFFSET, in_time);
+        alSourceUnqueueBuffers(this->_source, count, bufferIds);
         return true;
     }
 
 
-    float Source::getVolume()
+    ALint Source::queuedBufferCount() const
     {
+        if (!this->_source) return 0;
+        if (!this->_makeCurrent()) return 0;
+
+        ALint value = 0;
+        alGetSourcei(this->_source, AL_BUFFERS_QUEUED, &value);
+        return value;
+    }
+
+
+    ALint Source::processedBufferCount() const
+    {
+        if (!this->_source) return 0;
+        if (!this->_makeCurrent()) return 0;
+
+        ALint value = 0;
+        alGetSourcei(this->_source, AL_BUFFERS_PROCESSED, &value);
+        return value;
+    }
+
+
+    bool Source::setBuffer(const Buffer& buffer)
+    {
+        if (!this->_source) return false;
+        if (!buffer.handle()) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcei(this->_source, AL_BUFFER, static_cast<ALint>(buffer.handle()));
+        return true;
+    }
+
+
+    bool Source::detachBuffer()
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcei(this->_source, AL_BUFFER, 0);
+        return true;
+    }
+
+
+    bool Source::setGain(ALfloat gain)
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcef(this->_source, AL_GAIN, gain);
+        return true;
+    }
+
+
+    ALfloat Source::getGain() const
+    {
+        if (!this->_source) return 0.0f;
         if (!this->_makeCurrent()) return 0.0f;
 
-        if (this->_sourceID == 0) return 0.0f;
-        ALfloat _volume = 0.0f;
-        alGetSourcef(this->_sourceID, AL_GAIN, &_volume);
-        return _volume;
+        ALfloat value = 0.0f;
+        alGetSourcef(this->_source, AL_GAIN, &value);
+        return value;
     }
 
 
-    int Source::getPositionOffset()
+    bool Source::setPitch(ALfloat pitch)
     {
-        if (!this->_makeCurrent()) return -1;
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
 
-        if (this->_sourceID == 0) return -1;
-        ALint _pos = -1;
-        alGetSourcei(this->_sourceID, AL_SAMPLE_OFFSET, &_pos);
-        return _pos;
+        alSourcef(this->_source, AL_PITCH, pitch);
+        return true;
     }
 
 
-    float Source::getTimeOffset()
+    ALfloat Source::getPitch() const
     {
+        if (!this->_source) return 0.0f;
+        if (!this->_makeCurrent()) return 0.0f;
+
+        ALfloat value = 0.0f;
+        alGetSourcef(this->_source, AL_PITCH, &value);
+        return value;
+    }
+
+
+    bool Source::setLooping(ALboolean looping)
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcei(this->_source, AL_LOOPING, looping);
+        return true;
+    }
+
+
+    bool Source::setTimeOffset(ALfloat seconds)
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcef(this->_source, AL_SEC_OFFSET, seconds);
+        return true;
+    }
+
+
+    ALfloat Source::getTimeOffset() const
+    {
+        if (!this->_source) return -1.0f;
         if (!this->_makeCurrent()) return -1.0f;
 
-        if (this->_sourceID == 0);
-        ALfloat _time = -1.0f;
-        alGetSourcef(this->_sourceID, AL_SEC_OFFSET, &_time);
-        return _time;
+        ALfloat value = -1.0f;
+        alGetSourcef(this->_source, AL_SEC_OFFSET, &value);
+        return value;
+    }
+
+
+    bool Source::setSampleOffset(ALint samples)
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSourcei(this->_source, AL_SAMPLE_OFFSET, samples);
+        return true;
+    }
+
+
+    ALint Source::getSampleOffset() const
+    {
+        if (!this->_source) return -1;
+        if (!this->_makeCurrent()) return -1;
+
+        ALint value = -1;
+        alGetSourcei(this->_source, AL_SAMPLE_OFFSET, &value);
+        return value;
+    }
+
+
+    bool Source::setPosition(ALfloat x, ALfloat y, ALfloat z)
+    {
+        if (!this->_source) return false;
+        if (!this->_makeCurrent()) return false;
+
+        alSource3f(this->_source, AL_POSITION, x, y, z);
+        return true;
+    }
+
+
+    ALuint Source::handle() const
+    {
+        return this->_source;
     }
 
 

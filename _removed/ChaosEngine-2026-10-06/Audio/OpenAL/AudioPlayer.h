@@ -11,14 +11,14 @@ class ALCcontext;
 namespace chaos::audio::openal {
     class Buffer;
     class Source;
-    class AudioEngine;
+    class Device;
 }
 
 namespace chaos::audio::openal {
 
-    class AudioPlayer final : public audio::IAudioPlayer {
+    class AudioPlayer final : public audio::AudioPlayer {
     private:
-        AudioEngine* _audioEngine = nullptr;
+        Device* _audioEngine = nullptr;
         ALCcontext* _context = nullptr;
 
         inline bool _makeCurrent();
@@ -45,7 +45,7 @@ namespace chaos::audio::openal {
         bool playSource(ISource* source);
         bool playSource(core::String sourceName);
 
-        friend class AudioEngine;
+        friend class Device;
         friend class Buffer;
         friend class Source;
     };

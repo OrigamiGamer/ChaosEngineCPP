@@ -19,6 +19,6 @@ namespace chaos::audio::openal {
 
     class Buffer;
 
-    class AudioEngine;
+    class Device;
 
 }

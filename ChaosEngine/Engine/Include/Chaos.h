@@ -2,19 +2,19 @@
 
 namespace chaos {
 
-    namespace audio {
-
-        class IBuffer;
-        class ISource;
-        class IAudioEngine;
-        class IAudioPlayer;
-
-    }
-
     namespace core {
 
         class String;
         class Base;
+
+    }
+
+    namespace audio {
+
+        class Buffer;
+        class Source;
+        class AudioEngine;
+        class AudioPlayer;
 
     }
 

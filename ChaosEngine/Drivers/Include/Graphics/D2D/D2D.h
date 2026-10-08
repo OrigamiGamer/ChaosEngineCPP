@@ -7,6 +7,4 @@
 
 namespace chaos::graphics::d2d {
 
-    // class Renderer;
-
 }

@@ -14,7 +14,7 @@ namespace chaos::audio::openal {
 
 namespace chaos::audio::openal {
 
-    class AudioEngine final : public chaos::audio::IAudioEngine {
+    class AudioEngine {
     private:
         ALCdevice* _device = nullptr;
 
@@ -23,11 +23,11 @@ namespace chaos::audio::openal {
 
         AudioEngine();
 
-        bool initialize() override;
+        bool initialize();
 
-        bool release() override;
+        bool release();
 
-        IAudioPlayer* createAudioPlayer(core::String playerName = "") override;
+        IAudioPlayer* createAudioPlayer(core::String playerName = "");
 
         friend class Buffer;
         friend class AudioPlayer;
