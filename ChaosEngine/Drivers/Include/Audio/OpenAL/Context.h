@@ -3,6 +3,7 @@
 #include "Dependences/Include/al/alc.h"
 
 #include <vector>
+#include <memory>
 
 namespace chaos::audio::openal {
     class Device;
@@ -22,14 +23,9 @@ namespace chaos::audio::openal {
     class Context {
     private:
         ALCcontext* _context = nullptr;            // 底层上下文句柄
-        std::vector<Buffer*> _buffers;             // 工厂持有的缓冲区
-        std::vector<Source*> _sources;             // 工厂持有的播放源
-        std::vector<Listener*> _listeners;         // 工厂持有的听者
-
-        /**
-         * @brief 构造空上下文，由工厂调用。
-         */
-        Context();
+        std::vector<std::unique_ptr<Buffer>> _buffers;             // 工厂持有的缓冲区
+        std::vector<std::unique_ptr<Source>> _sources;             // 工厂持有的播放源
+        std::vector<std::unique_ptr<Listener>> _listeners;         // 工厂持有的听者
 
         /**
          * @brief 创建上下文。（由 `Device` 工厂调用）
@@ -42,6 +38,11 @@ namespace chaos::audio::openal {
         friend class Device;
 
     public:
+        /**
+         * @brief 构造空上下文，由工厂调用。
+         */
+        Context();
+
         /**
          * @brief 析构时自动销毁上下文并级联释放子对象。
          */
@@ -118,12 +119,6 @@ namespace chaos::audio::openal {
          * @brief 继续本上下文的处理。
          */
         void process();
-
-        /**
-         * @brief 获取底层 `ALCcontext` 句柄。
-         * @return 上下文句柄，未创建时为 `nullptr`。
-         */
-        ALCcontext* handle() const;
     };
 
 }

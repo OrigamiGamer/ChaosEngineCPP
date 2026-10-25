@@ -27,8 +27,14 @@ target_include_directories(ChaosEngine
 
 # source directories
 target_sources(ChaosEngine PRIVATE
+    # Core
     ChaosEngine/Engine/Source/Core/Base.cpp
     ChaosEngine/Engine/Source/Core/String.cpp
+    ChaosEngine/Engine/Source/Core/Handle.cpp
+    ChaosEngine/Engine/Source/Core/HandleMap.cpp
+    # Audio
+    ChaosEngine/Engine/Source/Audio/AudioEngine.cpp
+    ChaosEngine/Engine/Source/Audio/Buffer.cpp
 )
 
 

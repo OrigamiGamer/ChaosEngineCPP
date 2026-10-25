@@ -2,6 +2,8 @@
 
 #include "Dependences/Include/al/al.h"
 
+#include <memory>
+
 namespace chaos::audio::openal {
     class Context;
 }
@@ -18,29 +20,33 @@ namespace chaos::audio::openal {
     private:
         Context* _context = nullptr;    // 所属上下文
 
+        friend class Context;
+
+    public:
+
         /**
          * @brief 构造听者并绑定所属上下文，由工厂调用。
          * @param context 听者所属的上下文。
          */
         explicit Listener(Context& context);
+        explicit Listener(Context* context);
 
         /**
          * @brief 析构不释放任何资源。
          */
         ~Listener() = default;
 
-        friend class Context;
-
-    public:
         /**
          * @brief 拷贝构造已删除，禁止拷贝。
          */
         Listener(const Listener&) = delete;
+        Listener(const Listener*) = delete;
 
         /**
          * @brief 拷贝赋值已删除，禁止拷贝。
          */
         Listener& operator=(const Listener&) = delete;
+        Listener& operator=(const Listener*) = delete;
 
         /**
          * @brief 设置听者增益。

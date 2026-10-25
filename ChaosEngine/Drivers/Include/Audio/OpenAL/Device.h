@@ -21,6 +21,14 @@ namespace chaos::audio::openal {
         ALCdevice* _device = nullptr;            // 底层设备句柄
         std::vector<Context*> _contexts;         // 工厂持有的上下文
 
+        /**
+         * @brief 获取底层 `ALCdevice` 句柄。
+         * @return 设备句柄，未打开时为 `nullptr`。
+         */
+        ALCdevice* handle() const;
+
+        friend class Context;
+
     public:
         /**
          * @brief 构造空设备，不打开任何设备。
@@ -77,12 +85,6 @@ namespace chaos::audio::openal {
          * @return 上下文指针（由本设备持有），设备未打开或创建失败返回 `nullptr`。
          */
         Context* createContext(const ALCint* attributes = nullptr);
-
-        /**
-         * @brief 获取底层 `ALCdevice` 句柄。
-         * @return 设备句柄，未打开时为 `nullptr`。
-         */
-        ALCdevice* handle() const;
     };
 
 }

@@ -14,260 +14,260 @@ namespace chaos::audio::openal {
 
     Source::~Source()
     {
-        this->destroy();
+        destroy();
     }
 
 
-    bool Source::_makeCurrent() const
+    bool Source::makeCurrent() const
     {
-        if (!this->_context) return false;
+        if (!_context) return false;
 
-        return this->_context->makeCurrent();
+        return _context->makeCurrent();
+    }
+
+
+    ALuint Source::handle() const
+    {
+        return _source;
     }
 
 
     bool Source::destroy()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alDeleteSources(1, &this->_source);
-        this->_source = 0;
+        alDeleteSources(1, &_source);
+        _source = 0;
         return true;
     }
 
 
     bool Source::isValid() const
     {
-        return this->_source != 0;
+        return _source != 0;
     }
 
 
     bool Source::play()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcePlay(this->_source);
+        alSourcePlay(_source);
         return true;
     }
 
 
     bool Source::pause()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcePause(this->_source);
+        alSourcePause(_source);
         return true;
     }
 
 
     bool Source::stop()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourceStop(this->_source);
+        alSourceStop(_source);
         return true;
     }
 
 
     bool Source::rewind()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourceRewind(this->_source);
+        alSourceRewind(_source);
         return true;
     }
 
 
     ALenum Source::state() const
     {
-        if (!this->_source) return 0;
-        if (!this->_makeCurrent()) return 0;
+        if (!_source) return 0;
+        if (!makeCurrent()) return 0;
 
         ALint value = 0;
-        alGetSourcei(this->_source, AL_SOURCE_STATE, &value);
+        alGetSourcei(_source, AL_SOURCE_STATE, &value);
         return value;
     }
 
 
     bool Source::queueBuffers(const ALuint* bufferIds, ALsizei count)
     {
-        if (!this->_source) return false;
+        if (!_source) return false;
         if (!bufferIds) return false;
         if (count <= 0) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!makeCurrent()) return false;
 
-        alSourceQueueBuffers(this->_source, count, bufferIds);
+        alSourceQueueBuffers(_source, count, bufferIds);
         return true;
     }
 
 
     bool Source::unqueueBuffers(ALuint* bufferIds, ALsizei count)
     {
-        if (!this->_source) return false;
+        if (!_source) return false;
         if (!bufferIds) return false;
         if (count <= 0) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!makeCurrent()) return false;
 
-        alSourceUnqueueBuffers(this->_source, count, bufferIds);
+        alSourceUnqueueBuffers(_source, count, bufferIds);
         return true;
     }
 
 
     ALint Source::queuedBufferCount() const
     {
-        if (!this->_source) return 0;
-        if (!this->_makeCurrent()) return 0;
+        if (!_source) return 0;
+        if (!makeCurrent()) return 0;
 
         ALint value = 0;
-        alGetSourcei(this->_source, AL_BUFFERS_QUEUED, &value);
+        alGetSourcei(_source, AL_BUFFERS_QUEUED, &value);
         return value;
     }
 
 
     ALint Source::processedBufferCount() const
     {
-        if (!this->_source) return 0;
-        if (!this->_makeCurrent()) return 0;
+        if (!_source) return 0;
+        if (!makeCurrent()) return 0;
 
         ALint value = 0;
-        alGetSourcei(this->_source, AL_BUFFERS_PROCESSED, &value);
+        alGetSourcei(_source, AL_BUFFERS_PROCESSED, &value);
         return value;
     }
 
 
     bool Source::setBuffer(const Buffer& buffer)
     {
-        if (!this->_source) return false;
+        if (!_source) return false;
         if (!buffer.handle()) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcei(this->_source, AL_BUFFER, static_cast<ALint>(buffer.handle()));
+        alSourcei(_source, AL_BUFFER, static_cast<ALint>(buffer.handle()));
         return true;
     }
 
 
     bool Source::detachBuffer()
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcei(this->_source, AL_BUFFER, 0);
+        alSourcei(_source, AL_BUFFER, 0);
         return true;
     }
 
 
     bool Source::setGain(ALfloat gain)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcef(this->_source, AL_GAIN, gain);
+        alSourcef(_source, AL_GAIN, gain);
         return true;
     }
 
 
     ALfloat Source::getGain() const
     {
-        if (!this->_source) return 0.0f;
-        if (!this->_makeCurrent()) return 0.0f;
+        if (!_source) return 0.0f;
+        if (!makeCurrent()) return 0.0f;
 
         ALfloat value = 0.0f;
-        alGetSourcef(this->_source, AL_GAIN, &value);
+        alGetSourcef(_source, AL_GAIN, &value);
         return value;
     }
 
 
     bool Source::setPitch(ALfloat pitch)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcef(this->_source, AL_PITCH, pitch);
+        alSourcef(_source, AL_PITCH, pitch);
         return true;
     }
 
 
     ALfloat Source::getPitch() const
     {
-        if (!this->_source) return 0.0f;
-        if (!this->_makeCurrent()) return 0.0f;
+        if (!_source) return 0.0f;
+        if (!makeCurrent()) return 0.0f;
 
         ALfloat value = 0.0f;
-        alGetSourcef(this->_source, AL_PITCH, &value);
+        alGetSourcef(_source, AL_PITCH, &value);
         return value;
     }
 
 
     bool Source::setLooping(ALboolean looping)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcei(this->_source, AL_LOOPING, looping);
+        alSourcei(_source, AL_LOOPING, looping);
         return true;
     }
 
 
     bool Source::setTimeOffset(ALfloat seconds)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcef(this->_source, AL_SEC_OFFSET, seconds);
+        alSourcef(_source, AL_SEC_OFFSET, seconds);
         return true;
     }
 
 
     ALfloat Source::getTimeOffset() const
     {
-        if (!this->_source) return -1.0f;
-        if (!this->_makeCurrent()) return -1.0f;
+        if (!_source) return -1.0f;
+        if (!makeCurrent()) return -1.0f;
 
         ALfloat value = -1.0f;
-        alGetSourcef(this->_source, AL_SEC_OFFSET, &value);
+        alGetSourcef(_source, AL_SEC_OFFSET, &value);
         return value;
     }
 
 
     bool Source::setSampleOffset(ALint samples)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSourcei(this->_source, AL_SAMPLE_OFFSET, samples);
+        alSourcei(_source, AL_SAMPLE_OFFSET, samples);
         return true;
     }
 
 
     ALint Source::getSampleOffset() const
     {
-        if (!this->_source) return -1;
-        if (!this->_makeCurrent()) return -1;
+        if (!_source) return -1;
+        if (!makeCurrent()) return -1;
 
         ALint value = -1;
-        alGetSourcei(this->_source, AL_SAMPLE_OFFSET, &value);
+        alGetSourcei(_source, AL_SAMPLE_OFFSET, &value);
         return value;
     }
 
 
     bool Source::setPosition(ALfloat x, ALfloat y, ALfloat z)
     {
-        if (!this->_source) return false;
-        if (!this->_makeCurrent()) return false;
+        if (!_source) return false;
+        if (!makeCurrent()) return false;
 
-        alSource3f(this->_source, AL_POSITION, x, y, z);
+        alSource3f(_source, AL_POSITION, x, y, z);
         return true;
-    }
-
-
-    ALuint Source::handle() const
-    {
-        return this->_source;
     }
 
 

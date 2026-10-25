@@ -6,9 +6,11 @@ namespace chaos::core {
 
     class Base {
     public:
-        core::String name;    // 对象名称
+        core::String name = "Unknown";    // 对象名称
 
         Base();
+
+        void setName(core::String name);
 
     };
 

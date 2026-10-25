@@ -13,8 +13,7 @@ namespace chaos::core {
         std::string _str;
 
     public:
-
-        static constexpr size_t npos = std::string::npos;   // 字符串最大长度
+        static constexpr size_t INDEX_NONE = std::string::npos;
 
 
         // 构造
@@ -98,13 +97,13 @@ namespace chaos::core {
         String& insert(size_t pos, const String& str);
 
         /** @brief 在指定位置删除子串。 */
-        String& erase(size_t pos, size_t count = npos);
+        String& erase(size_t pos, size_t count = INDEX_NONE);
 
         /** @brief 替换子串。 */
         String& replace(size_t pos, size_t count, const String& str);
 
         /** @brief 返回子串。 */
-        String substr(size_t pos = 0, size_t count = npos) const;
+        String substr(size_t pos = 0, size_t count = INDEX_NONE) const;
 
         /** @brief 清空字符串。 */
         void clear();
@@ -119,7 +118,7 @@ namespace chaos::core {
         size_t find(const char* str, size_t pos = 0) const;
 
         /** @brief 查找最后一次出现的位置。 */
-        size_t rfind(const String& str, size_t pos = npos) const;
+        size_t rfind(const String& str, size_t pos = INDEX_NONE) const;
 
         /** @brief 检查字符串是否以指定前缀开头。 */
         bool starts_with(const String& str) const;

@@ -2,6 +2,8 @@
 
 #include "Dependences/Include/al/al.h"
 
+#include <memory>
+
 namespace chaos::audio::openal {
     class Context;
     class Buffer;
@@ -23,6 +25,21 @@ namespace chaos::audio::openal {
         ALuint _source = 0;             // 底层源对象句柄
 
         /**
+         * @brief 将所属上下文设为当前上下文。
+         * @return 设置成功返回 `true`。
+         */
+        bool makeCurrent() const;
+
+        /**
+         * @brief 获取底层 `ALuint` 句柄。
+         * @return 源对象句柄，未生成时为 `0`。
+         */
+        ALuint handle() const;
+
+        friend class Context;
+
+    public:
+        /**
          * @brief 构造空源对象，由工厂调用。
          */
         Source();
@@ -32,15 +49,6 @@ namespace chaos::audio::openal {
          */
         ~Source();
 
-        /**
-         * @brief 将所属上下文设为当前上下文。
-         * @return 设置成功返回 `true`。
-         */
-        bool _makeCurrent() const;
-
-        friend class Context;
-
-    public:
         /**
          * @brief 拷贝构造已删除，禁止拷贝。
          */
@@ -201,12 +209,6 @@ namespace chaos::audio::openal {
          * @return 设置成功返回 `true`。
          */
         bool setPosition(ALfloat x, ALfloat y, ALfloat z);
-
-        /**
-         * @brief 获取底层 `ALuint` 句柄。
-         * @return 源对象句柄，未生成时为 `0`。
-         */
-        ALuint handle() const;
     };
 
 }

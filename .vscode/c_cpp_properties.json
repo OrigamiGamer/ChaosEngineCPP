@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/ChaosEngine/**"
+                "${workspaceFolder}/ChaosEngine"
             ],
             "defines": [
                 "_DEBUG",

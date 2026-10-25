@@ -16,22 +16,17 @@ namespace chaos::audio {
 
     bool AudioEngine::initialize()
     {
-        // complete usage process
-        openal::Device device;
-        openal::Context* context = device.createContext();
-        openal::Buffer* buffer = context->createBuffer();
-
-
+        return true;
     }
 
     bool AudioEngine::release()
     {
-
+        return true;
     }
 
     AudioPlayer* AudioEngine::createAudioPlayer(core::String playerName)
     {
-
+        return nullptr;
     }
 
 }

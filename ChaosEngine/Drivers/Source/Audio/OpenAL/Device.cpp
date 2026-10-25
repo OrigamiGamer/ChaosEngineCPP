@@ -13,7 +13,7 @@ namespace chaos::audio::openal {
 
     Device::~Device()
     {
-        this->close();
+        close();
     }
 
 
@@ -24,13 +24,19 @@ namespace chaos::audio::openal {
     }
 
 
+    ALCdevice* Device::handle() const
+    {
+        return _device;
+    }
+
+
     Device& Device::operator=(Device&& other) noexcept
     {
         if (this != &other)
         {
-            this->close();
-            this->_device = other._device;
-            this->_contexts = std::move(other._contexts);
+            close();
+            _device = other._device;
+            _contexts = std::move(other._contexts);
             other._device = nullptr;
         }
         return *this;
@@ -39,10 +45,10 @@ namespace chaos::audio::openal {
 
     bool Device::open(const char* deviceName)
     {
-        if (this->_device) return false;
+        if (_device) return false;
 
-        this->_device = alcOpenDevice(deviceName);
-        if (!this->_device) return false;
+        _device = alcOpenDevice(deviceName);
+        if (!_device) return false;
 
         return true;
     }
@@ -50,26 +56,26 @@ namespace chaos::audio::openal {
 
     bool Device::close()
     {
-        if (!this->_device) return false;
+        if (!_device) return false;
 
-        for (auto* context : this->_contexts) delete context;
-        this->_contexts.clear();
+        for (auto* context : _contexts) delete context;
+        _contexts.clear();
 
-        if (!alcCloseDevice(this->_device)) return false;
-        this->_device = nullptr;
+        if (!alcCloseDevice(_device)) return false;
+        _device = nullptr;
         return true;
     }
 
 
     bool Device::isOpen() const
     {
-        return this->_device != nullptr;
+        return _device != nullptr;
     }
 
 
     Context* Device::createContext(const ALCint* attributes)
     {
-        if (!this->_device) return nullptr;
+        if (!_device) return nullptr;
 
         Context* context = new Context();
         if (!context->create(*this, attributes))
@@ -78,14 +84,8 @@ namespace chaos::audio::openal {
             return nullptr;
         }
 
-        this->_contexts.push_back(context);
+        _contexts.push_back(context);
         return context;
-    }
-
-
-    ALCdevice* Device::handle() const
-    {
-        return this->_device;
     }
 
 

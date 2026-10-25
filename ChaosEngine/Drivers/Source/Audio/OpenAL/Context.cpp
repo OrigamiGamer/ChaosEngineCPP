@@ -6,6 +6,9 @@
 #include "Drivers/Include/Audio/OpenAL/Device.h"
 #include "Dependences/Include/al/al.h"
 
+#include <vector>
+#include <memory>
+
 namespace chaos::audio::openal {
 
 
@@ -17,21 +20,21 @@ namespace chaos::audio::openal {
 
     Context::~Context()
     {
-        this->destroy();
+        destroy();
     }
 
 
     Context::Context(Context&& other) noexcept
         : _context(other._context),
-          _buffers(std::move(other._buffers)),
-          _sources(std::move(other._sources)),
-          _listeners(std::move(other._listeners))
+        _buffers(std::move(other._buffers)),
+        _sources(std::move(other._sources)),
+        _listeners(std::move(other._listeners))
     {
         other._context = nullptr;
 
-        for (auto* buffer : this->_buffers) buffer->_context = this;
-        for (auto* source : this->_sources) source->_context = this;
-        for (auto* listener : this->_listeners) listener->_context = this;
+        for (auto& buffer : _buffers) buffer->_context = this;
+        for (auto& source : _sources) source->_context = this;
+        for (auto& listener : _listeners) listener->_context = this;
     }
 
 
@@ -39,18 +42,18 @@ namespace chaos::audio::openal {
     {
         if (this != &other)
         {
-            this->destroy();
+            destroy();
 
-            this->_context = other._context;
-            this->_buffers = std::move(other._buffers);
-            this->_sources = std::move(other._sources);
-            this->_listeners = std::move(other._listeners);
+            _context = other._context;
+            _buffers = std::move(other._buffers);
+            _sources = std::move(other._sources);
+            _listeners = std::move(other._listeners);
 
             other._context = nullptr;
 
-            for (auto* buffer : this->_buffers) buffer->_context = this;
-            for (auto* source : this->_sources) source->_context = this;
-            for (auto* listener : this->_listeners) listener->_context = this;
+            for (auto& buffer : _buffers) buffer->_context = this;
+            for (auto& source : _sources) source->_context = this;
+            for (auto& listener : _listeners) listener->_context = this;
         }
         return *this;
     }
@@ -58,11 +61,11 @@ namespace chaos::audio::openal {
 
     bool Context::create(Device& device, const ALCint* attributes)
     {
-        if (this->_context) return false;
+        if (_context) return false;
         if (!device.handle()) return false;
 
-        this->_context = alcCreateContext(device.handle(), attributes);
-        if (!this->_context) return false;
+        _context = alcCreateContext(device.handle(), attributes);
+        if (!_context) return false;
 
         return true;
     }
@@ -70,88 +73,83 @@ namespace chaos::audio::openal {
 
     Buffer* Context::createBuffer()
     {
-        if (!this->_context) return nullptr;
-        if (!this->makeCurrent()) return nullptr;
+        if (!_context) return nullptr;
+        if (!makeCurrent()) return nullptr;
 
-        Buffer* buffer = new Buffer();
+        _buffers.push_back(std::make_unique<Buffer>());
+        auto& buffer = _buffers.back();
         buffer->_context = this;
         alGenBuffers(1, &buffer->_buffer);
         if (!buffer->_buffer)
         {
-            delete buffer;
+            _buffers.pop_back();
             return nullptr;
         }
 
-        this->_buffers.push_back(buffer);
-        return buffer;
+        return buffer.get();    // TODO: 返回值改用 Handle<Buffer> 类型。
     }
 
 
     Source* Context::createSource()
     {
-        if (!this->_context) return nullptr;
-        if (!this->makeCurrent()) return nullptr;
+        if (!_context) return nullptr;
+        if (!makeCurrent()) return nullptr;
 
-        Source* source = new Source();
+        _sources.push_back(std::make_unique<Source>());   // problems
+        auto& source = _sources.back();
         source->_context = this;
         alGenSources(1, &source->_source);
-        if (!source->_source)
+        if (!source->handle())
         {
-            delete source;
+            _sources.pop_back();
             return nullptr;
         }
 
-        this->_sources.push_back(source);
-        return source;
+        return source.get();    // TODO: 返回值改用 Handle<Source> 类型。
     }
 
 
     Listener* Context::createListener()
     {
-        if (!this->_context) return nullptr;
+        if (!_context) return nullptr;
 
-        Listener* listener = new Listener(*this);
+        _listeners.push_back(std::make_unique<Listener>(this));
+        auto& listener = _listeners.back();
 
-        this->_listeners.push_back(listener);
-        return listener;
+        return listener.get();  // TODO: 返回值改用 Handle<Listener> 类型。
     }
 
 
     bool Context::destroy()
     {
-        if (!this->_context) return false;
+        if (!_context) return false;
 
-        this->makeCurrent();
+        makeCurrent();
 
-        for (auto* listener : this->_listeners) delete listener;
-        this->_listeners.clear();
+        _listeners.clear();
+        _sources.clear();
+        _buffers.clear();
 
-        for (auto* source : this->_sources) delete source;
-        this->_sources.clear();
-
-        for (auto* buffer : this->_buffers) delete buffer;
-        this->_buffers.clear();
-
-        if (alcGetCurrentContext() == this->_context)
+        if (alcGetCurrentContext() == _context)
             alcMakeContextCurrent(nullptr);
 
-        alcDestroyContext(this->_context);
-        this->_context = nullptr;
+        alcDestroyContext(_context);
+        _context = nullptr;
         return true;
     }
 
 
     bool Context::isValid() const
     {
-        return this->_context != nullptr;
+        return _context != nullptr;
     }
 
 
     bool Context::makeCurrent()
     {
-        if (!this->_context) return false;
+        if (!_context) return false;
 
-        return alcMakeContextCurrent(this->_context) == ALC_TRUE;
+        return alcMakeContextCurrent(_context) == ALC_TRUE;
     }
 
 
@@ -163,23 +161,17 @@ namespace chaos::audio::openal {
 
     void Context::suspend()
     {
-        if (!this->_context) return;
+        if (!_context) return;
 
-        alcSuspendContext(this->_context);
+        alcSuspendContext(_context);
     }
 
 
     void Context::process()
     {
-        if (!this->_context) return;
+        if (!_context) return;
 
-        alcProcessContext(this->_context);
-    }
-
-
-    ALCcontext* Context::handle() const
-    {
-        return this->_context;
+        alcProcessContext(_context);
     }
 
 
